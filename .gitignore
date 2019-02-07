@@ -168,3 +168,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/ruby,rails,macos,windows
+# Ignore master key for decrypting credentials and more.
+/config/master.key
