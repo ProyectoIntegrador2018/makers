@@ -2,7 +2,7 @@
 name: Task
 about: Crea un reporte sobre una tarea técnica.
 title: ''
-labels: task
+labels: todo
 assignees: ''
 
 ---

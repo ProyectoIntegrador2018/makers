@@ -1,7 +1,7 @@
 ---
 name: User story
 about: Describe una historia de usuario.
-title: ''
+title: SXX As a user...
 labels: user story
 assignees: ''
 
