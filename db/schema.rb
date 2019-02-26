@@ -10,10 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_20_213030) do
+ActiveRecord::Schema.define(version: 2019_02_25_234709) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "lab_spaces", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "hours"
+    t.string "location"
+    t.string "contact_email"
+    t.string "contact_phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "lab_id"
+    t.index ["lab_id"], name: "index_lab_spaces_on_lab_id"
+  end
 
   create_table "labs", force: :cascade do |t|
     t.string "name"
@@ -23,4 +36,5 @@ ActiveRecord::Schema.define(version: 2019_02_20_213030) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "lab_spaces", "labs"
 end
