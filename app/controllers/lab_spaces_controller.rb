@@ -2,28 +2,28 @@ class LabSpacesController < ApplicationController
   before_action :set_parent_lab
   before_action :set_lab_space, only: [:show, :edit, :update, :destroy]
 
-  # GET /lab_spaces
-  # GET /lab_spaces.json
+  # GET /lab/1/lab_spaces
+  # GET /lab/1/lab_spaces.json
   def index
     # @lab_spaces defined in before actions
   end
 
-  # GET /lab_spaces/1
-  # GET /lab_spaces/1.json
+  # GET /lab/1/lab_spaces/1
+  # GET /lab/1/lab_spaces/1.json
   def show
   end
 
-  # GET /lab_spaces/new
+  # GET /lab/1/lab_spaces/new
   def new
     @lab_space = @lab_spaces.new
   end
 
-  # GET /lab_spaces/1/edit
+  # GET /lab/1/lab_spaces/1/edit
   def edit
   end
 
-  # POST /lab_spaces
-  # POST /lab_spaces.json
+  # POST /lab/1/lab_spaces
+  # POST /lab/1/lab_spaces.json
   def create
     @lab_space = @lab_spaces.new(lab_space_params)
 
@@ -38,8 +38,8 @@ class LabSpacesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /lab_spaces/1
-  # PATCH/PUT /lab_spaces/1.json
+  # PATCH/PUT /lab/1/lab_spaces/1
+  # PATCH/PUT /lab/1/lab_spaces/1.json
   def update
     respond_to do |format|
       if @lab_space.update(lab_space_params)
@@ -52,8 +52,8 @@ class LabSpacesController < ApplicationController
     end
   end
 
-  # DELETE /lab_spaces/1
-  # DELETE /lab_spaces/1.json
+  # DELETE /lab/1/lab_spaces/1
+  # DELETE /lab/1/lab_spaces/1.json
   def destroy
     @lab_space.destroy
     respond_to do |format|
