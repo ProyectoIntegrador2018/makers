@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_26_065238) do
+ActiveRecord::Schema.define(version: 2019_02_26_072038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,15 @@ ActiveRecord::Schema.define(version: 2019_02_26_065238) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "equipment_capabilities", force: :cascade do |t|
+    t.bigint "capability_id", null: false
+    t.bigint "equipment_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["capability_id"], name: "index_equipment_capabilities_on_capability_id"
+    t.index ["equipment_id"], name: "index_equipment_capabilities_on_equipment_id"
+  end
+
   create_table "equipment_materials", force: :cascade do |t|
     t.bigint "material_id", null: false
     t.bigint "equipment_id", null: false
@@ -44,6 +53,8 @@ ActiveRecord::Schema.define(version: 2019_02_26_065238) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "equipment_capabilities", "capabilities"
+  add_foreign_key "equipment_capabilities", "equipment"
   add_foreign_key "equipment_materials", "equipment"
   add_foreign_key "equipment_materials", "materials"
 end
