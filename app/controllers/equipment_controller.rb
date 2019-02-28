@@ -43,7 +43,7 @@ class EquipmentController < ApplicationController
   # PATCH/PUT /equipment/1.json
   def update
     respond_to do |format|
-      if @equipment.update(equipment_params) && update_materials && update_capabilities
+      if @equipment.update(equipment_params) && update_relations("materials") && update_relations("capabilities")
         format.html { redirect_to @equipment, notice: 'Equipment was successfully updated.' }
         format.json { render :show, status: :ok, location: @equipment }
       else
@@ -81,15 +81,20 @@ class EquipmentController < ApplicationController
     params.require(:equipment).permit(:capabilities)
   end
 
-  def update_materials
-    @equipment.materials.clear
+  def update_relations(type)
+    collection = @equipment.try(type)
+    @equipment.try(type).clear
+    @equipment.destroy_unused(collection)
     save_materials
+    #save_capabilities
   end
 
-  def update_capabilities
-    @equipment.capabilities.clear
-    save_capabilities
-  end
+  # def update_capabilities
+  #   capabilities = @equipment.capabilities
+  #   @equipment.capabilities.clear
+  #   @equipment.destroy_unused()
+  #   save_capabilities
+  # end
 
   def save_materials
     if materials_params[:materials]
