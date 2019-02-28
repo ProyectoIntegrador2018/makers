@@ -43,7 +43,7 @@ class EquipmentController < ApplicationController
   # PATCH/PUT /equipment/1.json
   def update
     respond_to do |format|
-      if @equipment.update(equipment_params)
+      if @equipment.update(equipment_params) && update_materials && update_capabilities
         format.html { redirect_to @equipment, notice: 'Equipment was successfully updated.' }
         format.json { render :show, status: :ok, location: @equipment }
       else
@@ -81,14 +81,24 @@ class EquipmentController < ApplicationController
     params.require(:equipment).permit(:capabilities)
   end
 
+  def update_materials
+    @equipment.materials.clear
+    save_materials
+  end
+
+  def update_capabilities
+    @equipment.capabilities.clear
+    save_capabilities
+  end
+
   def save_materials
     if materials_params[:materials]
       materials_params[:materials].split(',').each do |material_name|
         unless material_name.empty?
           material = Material.find_or_create_by(name: material_name)
-          equipment_material = EquipmentMaterial.find_or_create_by(
-              material: material,
-              equipment: @equipment
+          EquipmentMaterial.find_or_create_by(
+            material: material,
+            equipment: @equipment
             )
         end
       end
@@ -101,10 +111,10 @@ class EquipmentController < ApplicationController
       capabilities_params[:capabilities].split(',').each do |capability_name|
         unless capability_name.empty?
           capability = Capability.find_or_create_by(name: capability_name)
-          equipment_capability = EquipmentCapability.find_or_create_by(
+          EquipmentCapability.find_or_create_by(
             capability: capability,
             equipment: @equipment
-          )
+            )
         end
       end
     end
