@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Lab Spaces</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Hours</th>
+      <th>Location</th>
+      <th>Contact email</th>
+      <th>Contact phone</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @lab_spaces.each do |lab_space| %>
+      <tr>
+        <td><%= lab_space.name %></td>
+        <td><%= lab_space.description %></td>
+        <td><%= lab_space.hours %></td>
+        <td><%= lab_space.location %></td>
+        <td><%= lab_space.contact_email %></td>
+        <td><%= lab_space.contact_phone %></td>
+        <td><%= link_to 'Show', [lab_space.lab, lab_space] %></td>
+        <td><%= link_to 'Edit', edit_lab_lab_space_path(lab_space.lab, lab_space) %></td>
+        <td><%= link_to 'Destroy', [lab_space.lab, lab_space], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Lab Space', new_lab_lab_space_path %>

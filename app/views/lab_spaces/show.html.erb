@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @lab_space.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @lab_space.description %>
+</p>
+
+<p>
+  <strong>Hours:</strong>
+  <%= @lab_space.hours %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @lab_space.location %>
+</p>
+
+<p>
+  <strong>Contact email:</strong>
+  <%= @lab_space.contact_email %>
+</p>
+
+<p>
+  <strong>Contact phone:</strong>
+  <%= @lab_space.contact_phone %>
+</p>
+
+<%= link_to 'Edit', edit_lab_lab_space_path(@lab_space.lab, @lab_space) %> |
+<%= link_to 'Back', lab_lab_spaces_path(@lab_space.lab) %>

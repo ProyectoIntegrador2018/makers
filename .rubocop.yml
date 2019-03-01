@@ -3,3 +3,7 @@ Style/FrozenStringLiteralComment:
 
 Style/EmptyMethod:
   Enabled: false
+
+Style/SymbolArray:
+  Enabled: true
+  EnforcedStyle: brackets
