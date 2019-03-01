@@ -1,13 +1,7 @@
 class Material < ApplicationRecord
   has_many :equipment_materials
   has_many :equipment, through: :equipment_materials
+  scope :orphaned, -> { left_outer_joins(:equipment_materials).where(equipment_materials: {id: nil}) }
 
   validates :name, presence: true
-
-  def destroy_unused_material
-    material = Material.find_by(self.material)
-    if material
-      material.destroy
-    end
-  end
 end
