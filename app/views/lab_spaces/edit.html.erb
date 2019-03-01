@@ -1,0 +1,6 @@
+<h1>Editing Lab Space</h1>
+
+<%= render 'form', lab_space: @lab_space %>
+
+<%= link_to 'Show', [@lab_space.lab, @lab_space] %> |
+<%= link_to 'Back', lab_lab_spaces_path(@lab_space.lab) %>
