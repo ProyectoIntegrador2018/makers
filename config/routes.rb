@@ -5,6 +5,8 @@ Rails.application.routes.draw do
       resources :equipment
     end
   end
+
+  resources :equipment, only: [:index]
   
   root 'home#landing'
 end

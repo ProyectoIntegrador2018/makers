@@ -6,4 +6,21 @@ class Equipment < ApplicationRecord
   belongs_to :lab_space
 
   validates :name, :description, :lab_space, presence: true
+
+  def self.search(name)
+    if name.present?
+      where('equipment.name ILIKE ?', "%#{name}%")
+    else
+      Equipment.all
+    end
+  end
+
+  def self.search_by(relation, query)
+    if query.present?
+      names = query.split(/[,\s]+/)
+      joins(relation).where(relation => {name: names}).distinct
+    else
+      Equipment.all
+    end
+  end
 end

@@ -2,6 +2,8 @@
 
 <h1>Equipment</h1>
 
+<%= render partial: 'shared/search' %>
+
 <table>
   <thead>
     <tr>
@@ -28,4 +30,6 @@
 
 <br>
 
-<%= link_to 'New Equipment', new_lab_lab_space_equipment_path %>
+<% if @lab_space %>
+  <%= link_to 'New Equipment', new_lab_lab_space_equipment_path %>
+<% end %>

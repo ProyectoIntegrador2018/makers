@@ -5,6 +5,9 @@ class EquipmentController < ApplicationController
   # GET /lab/1/lab_spaces/1/equipment
   # GET /equipment.json
   def index
+    @equipment = @equipment.search(params[:equipment_query])
+    @equipment = @equipment.search_by(:materials, params[:materials_query])
+    @equipment = @equipment.search_by(:capabilities, params[:capabilities_query])
   end
 
   # GET /lab/1/lab_spaces/1/equipment/1
@@ -66,8 +69,12 @@ class EquipmentController < ApplicationController
   private
 
   def set_parent_lab_space
-    @lab_space = LabSpace.find(params[:lab_space_id])
-    @equipment = @lab_space.equipment
+    if params[:lab_space_id]
+      @lab_space = LabSpace.find(params[:lab_space_id])
+      @equipment = @lab_space.equipment
+    else
+      @equipment = Equipment.all
+    end
   end
 
   def set_equipment
