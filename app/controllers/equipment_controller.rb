@@ -71,7 +71,7 @@ class EquipmentController < ApplicationController
   end
 
   def set_equipment
-    @equipment = Equipment.find(params[:id])
+     @equipment = @equipment.find(params[:id])
   end
 
   def equipment_params
