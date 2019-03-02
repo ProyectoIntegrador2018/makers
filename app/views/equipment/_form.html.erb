@@ -1,4 +1,4 @@
-<%= form_with(model: equipment, local: true) do |form| %>
+<%= form_with(model: [equipment.lab_space.lab, equipment.lab_space, equipment], local: true) do |form| %>
   <% if equipment.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(equipment.errors.count, "error") %> prohibited this equipment from being saved:</h2>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_26_072038) do
+ActiveRecord::Schema.define(version: 2019_03_02_024338) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(version: 2019_02_26_072038) do
     t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "lab_space_id"
+    t.index ["lab_space_id"], name: "index_equipment_on_lab_space_id"
   end
 
   create_table "equipment_capabilities", force: :cascade do |t|
@@ -74,6 +76,7 @@ ActiveRecord::Schema.define(version: 2019_02_26_072038) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "equipment", "lab_spaces"
   add_foreign_key "equipment_capabilities", "capabilities"
   add_foreign_key "equipment_capabilities", "equipment"
   add_foreign_key "equipment_materials", "equipment"

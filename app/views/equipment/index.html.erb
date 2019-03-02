@@ -18,9 +18,9 @@
         <td><%= equipment.name %></td>
         <td><%= equipment.description %></td>
         <td><%= equipment.image %></td>
-        <td><%= link_to 'Show', equipment %></td>
-        <td><%= link_to 'Edit', edit_equipment_path(equipment) %></td>
-        <td><%= link_to 'Destroy', equipment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', [equipment.lab_space.lab, equipment.lab_space, equipment] %></td>
+        <td><%= link_to 'Edit', edit_lab_lab_space_equipment_path(equipment.lab_space.lab, equipment.lab_space, equipment) %></td>
+        <td><%= link_to 'Destroy', [equipment.lab_space.lab, equipment.lab_space, equipment], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Equipment', new_equipment_path %>
+<%= link_to 'New Equipment', new_lab_lab_space_equipment_path %>

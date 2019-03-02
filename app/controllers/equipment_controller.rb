@@ -1,37 +1,37 @@
 class EquipmentController < ApplicationController
+  before_action :set_parent_lab_space
   before_action :set_equipment, only: [:show, :edit, :update, :destroy]
 
-  # GET /equipment
+  # GET /lab/1/lab_spaces/1/equipment
   # GET /equipment.json
   def index
-    @equipment = Equipment.all
   end
 
-  # GET /equipment/1
-  # GET /equipment/1.json
+  # GET /lab/1/lab_spaces/1/equipment/1
+  # GET /lab/1/lab_spaces/1/equipment/1.json
   def show
   end
 
-  # GET /equipment/new
+  # GET /lab/1/lab_spaces/1/equipment/new
   def new
-    @equipment = Equipment.new
+    @equipment = @equipment.new
     @materials = Material.new
     @capabilities = Capability.new
   end
 
-  # GET /equipment/1/edit
+  # GET /lab/1/lab_spaces/1/equipment/1/edit
   def edit
   end
 
-  # POST /equipment
-  # POST /equipment.json
+  # POST /lab/1/lab_spaces/1/equipment
+  # POST /lab/1/lab_spaces/1/equipment.json
   def create
-    @equipment = Equipment.new(equipment_params)
+    @equipment = @equipment.new(equipment_params)
 
     respond_to do |format|
       if @equipment.save && save_relations('materials') && save_relations('capabilities')
-        format.html { redirect_to @equipment, notice: 'Equipment was successfully created.' }
-        format.json { render :show, status: :created, location: @equipment }
+        format.html { redirect_to [@lab_space.lab, @lab_space, @equipment], notice: 'Equipment was successfully created.' }
+        format.json { render :show, status: :created, location: [@lab_space.lab, @lab_space, @equipment] }
       else
         format.html { render :new }
         format.json { render json: @equipment.errors, status: :unprocessable_entity }
@@ -39,13 +39,13 @@ class EquipmentController < ApplicationController
     end
   end
 
-  # PATCH/PUT /equipment/1
-  # PATCH/PUT /equipment/1.json
+  # PATCH/PUT /lab/1/lab_spaces/1/equipment/1
+  # PATCH/PUT /lab/1/lab_spaces/1/equipment/1.json
   def update
     respond_to do |format|
       if @equipment.update(equipment_params) && update_relations('materials') && update_relations('capabilities')
-        format.html { redirect_to @equipment, notice: 'Equipment was successfully updated.' }
-        format.json { render :show, status: :ok, location: @equipment }
+        format.html { redirect_to [@lab_space.lab, @lab_space, @equipment], notice: 'Equipment was successfully updated.' }
+        format.json { render :show, status: :ok, location: [@lab_space.lab, @lab_space, @equipment] }
       else
         format.html { render :edit }
         format.json { render json: @equipment.errors, status: :unprocessable_entity }
@@ -53,17 +53,22 @@ class EquipmentController < ApplicationController
     end
   end
 
-  # DELETE /equipment/1
-  # DELETE /equipment/1.json
+  # DELETE /lab/1/lab_spaces/1/equipment/1
+  # DELETE /lab/1/lab_spaces/1/equipment/1.json
   def destroy
     @equipment.destroy
     respond_to do |format|
-      format.html { redirect_to equipment_index_url, notice: 'Equipment was successfully destroyed.' }
+      format.html { redirect_to lab_lab_space_equipment_index_path, notice: 'Equipment was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
+
+  def set_parent_lab_space
+    @lab_space = LabSpace.find(params[:lab_space_id])
+    @equipment = @lab_space.equipment
+  end
 
   def set_equipment
     @equipment = Equipment.find(params[:id])
