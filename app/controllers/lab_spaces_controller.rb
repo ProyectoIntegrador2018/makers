@@ -74,6 +74,6 @@ class LabSpacesController < ApplicationController
   end
 
   def lab_space_params
-    params.require(:lab_space).permit(:name, :description, :hours, :location, :contact_email, :contact_phone)
+    params.require(:lab_space).permit(:name, :description, :hours, :location, :contact_email, :contact_phone, :image)
   end
 end
