@@ -45,7 +45,7 @@ You should ask for access to this tools if you don't have it already:
 * [Github repo](https://github.com/ProyectoIntegrador2018/makers)
 * [Backlog](https://github.com/ProyectoIntegrador2018/makers/projects)
 * [Heroku](https://makers-program.herokuapp.com/)
-* [Documentation](TBD)
+* [Documentation](https://docs.google.com/document/d/1MTUu5JPWgH455gUSFCFkVM21DHFJDTyRqzR_gudM-UE/)
 
 ## Development
 
