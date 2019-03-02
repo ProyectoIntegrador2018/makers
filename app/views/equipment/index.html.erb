@@ -19,7 +19,7 @@
       <tr>
         <td><%= equipment.name %></td>
         <td><%= equipment.description %></td>
-        <td><%= equipment.image %></td>
+        <td><%= image_tag equipment.image_url %></td>
         <td><%= link_to 'Show', [equipment.lab_space.lab, equipment.lab_space, equipment] %></td>
         <td><%= link_to 'Edit', edit_lab_lab_space_equipment_path(equipment.lab_space.lab, equipment.lab_space, equipment) %></td>
         <td><%= link_to 'Destroy', [equipment.lab_space.lab, equipment.lab_space, equipment], method: :delete, data: { confirm: 'Are you sure?' } %></td>
