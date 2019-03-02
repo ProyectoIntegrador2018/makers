@@ -5,5 +5,5 @@ class Equipment < ApplicationRecord
   has_many :capabilities, through: :equipment_capabilities
   belongs_to :lab_space
 
-  validates :name, :description, presence: true
+  validates :name, :description, :lab_space, presence: true
 end
