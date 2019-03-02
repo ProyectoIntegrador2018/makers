@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @equipment.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @equipment.description %>
+</p>
+
+<p>
+  <strong>Image:</strong>
+  <%= @equipment.image %>
+</p>
+
+<%= link_to 'Edit', edit_lab_lab_space_equipment_path(@equipment) %> |
+<%= link_to 'Back', lab_lab_space_equipment_index_path %>
