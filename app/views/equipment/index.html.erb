@@ -2,6 +2,13 @@
 
 <h1>Equipment</h1>
 
+<%= form_tag(equipment_index_path, method: :get) do %>
+  Equipment <%= text_field_tag :equipment_query, params[:equipment_query] %>
+  Materials <%= text_field_tag :materials_query, params[:materials_query] %>
+  Capabilities <%= text_field_tag :capabilities_query, params[:capabilities_query] %>
+  <%= submit_tag 'Search', name: nil %>
+<% end %>
+
 <table>
   <thead>
     <tr>
@@ -28,4 +35,6 @@
 
 <br>
 
-<%= link_to 'New Equipment', new_lab_lab_space_equipment_path %>
+<% if @lab_space %>
+  <%= link_to 'New Equipment', new_lab_lab_space_equipment_path %>
+<% end %>
