@@ -1,5 +1,41 @@
-<h1>Home</h1>
-
-<h1>Home</h1>
-
-<%= render partial: 'shared/search' %>
+<div class="container tac">
+	<a href="#" class="logo">
+		<%= image_tag "logo.svg", alt: "Makers Program" %>
+		<p class="tecbrand">@Tec de Monterrey</p>
+	</a>
+	<h2 class="tagline">&iquest;Qu&eacute; quieres crear hoy?</h2>
+	<div class="QueryBuilder">
+		<div class="row no-gutters">
+			<div class="col">
+				<p class="stmt">Quiero</p>
+			</div>
+			<div class="col">
+				<input type="text" name="capacidades" placeholder="capacidades" id="query-capacidades" class="fuzzy-input">
+			</div>
+			<div class="col">
+				<p class="stmt">usando</p>
+			</div>
+			<div class="col">
+				<input type="text" name="materiales" placeholder="materiales" id="query-materiales" class="fuzzy-input">
+			</div>
+			<div class="col">
+				<a href="#" class="highlight large btn" role="button">Buscar</a>
+			</div>
+		</div>
+	</div>
+	<section class="queryOptionsContainer">
+		<div class="pill white">acero</div>
+		<div class="pill white">madera</div>
+		<div class="pill white">pl&aacute;stico</div>
+		<div class="pill white">acero</div>
+		<div class="pill white">madera</div>
+		<div class="pill white">pl&aacute;stico</div>
+		<div class="pill white">acero</div>
+		<div class="pill white">madera</div>
+		<div class="pill white">pl&aacute;stico</div>
+	</section>
+	<footer class="homeFooter">
+		<p>o consulta el <a href="#"><strong class="bold">cat&aacute;logo de equipos</strong></a></p>
+	</footer>
+	<% #render partial: 'shared/search' %>
+</div>
