@@ -35,7 +35,7 @@ $primary: #191A45;
 $highlight: #445BFC;
 $light-blue: #F2F4F8;
 $gray1: #8E8E9D;
-$gray2: #ACACAB;
+$gray2: #ACACBC;
 $text: $gray2;
 $colors: (
 	black: #000,
@@ -78,10 +78,10 @@ a {
 	color: $highlight;
 }
 strong {
-	font-weight: 600;
+	font-weight: 600; // semibold
 }
 strong.bold {
-	font-weight: 700;
+	font-weight: 700; // bold
 }
 /* Fonts */
 
@@ -98,13 +98,21 @@ strong.bold {
 p {
 	color: $text;
 }
-h1, h2, h3, h4, h5, h6{
+h1, h2, h3, h4, h5, h6 {
 	color: $primary;
 	margin: 0;
+	font-weight: 600;
+}
+h1 {
+	font-size: 2.625rem;
 }
 .fz12{font-size: 1.2rem;}
 .fz18{font-size: 1.8rem;}
 .fz20{font-size: 2rem;}
+.semibold {
+	font-weight: 600;
+}
+.hidden {display: none !important;}
 
 
 
@@ -171,6 +179,10 @@ h1, h2, h3, h4, h5, h6{
 			margin-left: 5px;
 		}
 	}
+	&.small {
+		font-size: 14px;
+		padding: 3px 15px;
+	}
 
 }
 
@@ -199,4 +211,55 @@ h1, h2, h3, h4, h5, h6{
 		background: linear-gradient(to bottom, #4e69fd 0%,#465df1 100%);
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4e69fd', endColorstr='#465df1',GradientType=0 );
 	}
+	&.small {
+		font-size: .8rem;
+	}
+	&.lp {
+		padding: 8px 10px;
+	}
+	&.border {
+		color: $primary;
+		border: 1px solid $primary;
+		&:hover {
+			color: $primary !important;
+		}
+		&.hl {
+			color: $highlight;
+			border-color: $highlight;
+			&:hover {
+				color: $highlight !important;
+			}
+		}
+	}
+}
+
+
+/* Header
+----------------------------- */
+
+.standard.header {
+	margin-bottom: 30px;
+	.logo {
+		width: 170px;
+		display: block;
+	}
+	.trigger.hamburger {
+		width: 30px;
+		display: block;
+	}
+	.mainNav {
+		.navList {
+			display: none;
+		}
+	}
+}
+
+.txtinput {
+	background: transparent;
+	border: 0 none;
+	border-bottom: 1px solid #BCBCBC;
+	display: block;
+	padding: 10px;
+	font-size: 1.45rem;
+	width: 100%;
 }

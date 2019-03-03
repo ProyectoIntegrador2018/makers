@@ -12,6 +12,27 @@
   </head>
 
   <body class="<%= @bodyClass %>">
-    <%= yield %>
+    <div class="container pt-5 pb-5">
+      <header class="standard header">
+        <div class="row">
+          <div class="col">
+            <a href="#" class="logo">
+              <%= image_tag "logo.svg", alt: "Makers program" %>
+            </a>
+          </div>
+          <div class="col d-flex justify-content-end">
+            <nav class="mainNav">
+              <a href="#" class="trigger hamburger">
+                <%= image_tag "icons/menu.svg", alt: "Show main menu" %>
+              </a>
+              <ul class="navList">
+                <li><a href="#">Some link</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </header>
+      <%= yield %>
+    </div>
   </body>
 </html>
