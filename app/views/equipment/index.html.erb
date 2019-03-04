@@ -11,7 +11,8 @@
 				</div>
 				<section class="filter">
 					<p class="title">Material</p>
-					<select name="materiales" id="select-material">
+					<select multiple name="materiales" id="select-material">
+            <option value="">Materiales</option>
 						<option value="1">Material 1</option>
 						<option value="1">Material 1</option>
 						<option value="2">Material 2</option>
@@ -22,7 +23,7 @@
 						<option value="7">Material 7</option>
 					</select>
 					<div class="filterContainer">
-						<ul class="inline filterlist">
+						<ul class="inline filterlist hidden">
 							<li><div class="pill border xsmall with-cross">aluminio</div></li>
 							<li><div class="pill border xsmall with-cross">pl&aacute;stico</div></li>
 							<li><div class="pill border xsmall with-cross">madera</div></li>
@@ -31,7 +32,8 @@
 				</section>
 				<section class="filter">
 					<p class="title">Capacidad</p>
-					<select name="" id="select-capacidad">
+					<select multiple name="capacidades" id="select-capacidad">
+            <option value="">Capacidades</option>
 						<option value="1">Capacidad 1</option>
 						<option value="2">Capacidad 2</option>
 						<option value="3">Capacidad 3</option>
@@ -43,7 +45,7 @@
 						<option value="9">Capacidad 9</option>
 					</select>
 					<div class="filterContainer">
-						<ul class="inline filterlist">
+						<ul class="inline filterlist hidden">
 							<li><div class="pill border xsmall with-cross">aluminio</div></li>
 							<li><div class="pill border xsmall with-cross">pl&aacute;stico</div></li>
 							<li><div class="pill border xsmall with-cross">madera</div></li>
@@ -101,6 +103,9 @@
 </div>
 <% content_for :scripts do %>
 	<%# javascript_include_tag "selectize.min" %>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.default.min.css"> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
 	<script>
 		$('#select-material').selectize({
 			sortField: 'text'
