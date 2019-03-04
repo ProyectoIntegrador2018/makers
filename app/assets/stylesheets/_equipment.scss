@@ -25,6 +25,15 @@ hr {
 				font-weight: 700;
 			}
 		}
+		.filterContainer {
+			margin-top: 10px;
+			.filterlist .pill {
+				margin: 5px 0;
+			}
+		}
+		.selectize-input {
+			box-shadow: none;
+		}
 	}
 }
 .resultsContainer {

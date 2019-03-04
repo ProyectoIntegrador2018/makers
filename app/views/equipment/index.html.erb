@@ -4,10 +4,10 @@
 	<div class="row">
 		<div class="col-3">
 			<div class="sidebar">
-				<h3>Refinar b&uacute;squeda:</h3>
+				<h3>Refinar b&uacute;squeda</h3>
 				<hr>
 				<div>
-					<label><input type="checkbox" name="showtags" id="showtags"> mostrar tags</label>
+					<label><input type="checkbox" name="showtags" id="showtags"> <small>mostrar tags</small></label>
 				</div>
 				<section class="filter">
 					<p class="title">Material</p>
@@ -21,6 +21,13 @@
 						<option value="6">Material 6</option>
 						<option value="7">Material 7</option>
 					</select>
+					<div class="filterContainer">
+						<ul class="inline filterlist">
+							<li><div class="pill border xsmall with-cross">aluminio</div></li>
+							<li><div class="pill border xsmall with-cross">pl&aacute;stico</div></li>
+							<li><div class="pill border xsmall with-cross">madera</div></li>
+						</ul>
+					</div>
 				</section>
 				<section class="filter">
 					<p class="title">Capacidad</p>
@@ -35,6 +42,13 @@
 						<option value="8">Capacidad 8</option>
 						<option value="9">Capacidad 9</option>
 					</select>
+					<div class="filterContainer">
+						<ul class="inline filterlist">
+							<li><div class="pill border xsmall with-cross">aluminio</div></li>
+							<li><div class="pill border xsmall with-cross">pl&aacute;stico</div></li>
+							<li><div class="pill border xsmall with-cross">madera</div></li>
+						</ul>
+					</div>
 				</section>
 			</div>
 		</div>
@@ -45,9 +59,9 @@
 				<p id="notice"><%= notice %></p>
 
 				<div class="resultsContainer">
-					<% (1..10).each do |i| %>
+					<% @equipment.each do |equipment| %>
 					<article class="SearchResult">
-						<h2 class="title mb-3">Impresora 3D <a href="#" class="ml-5 btn highlight small lp" style="padding: 8px 15px">Reservar</a></h2>
+						<h2 class="title mb-3"><%= link_to equipment.name, [equipment.lab_space.lab, equipment.lab_space, equipment] %> <a href="#" class="ml-5 btn highlight small lp" style="padding: 8px 15px">Reservar</a></h2>
 						<table class="detailsTable">
 							<tbody>
 								<tr>
@@ -68,7 +82,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<p class="desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus nam eligendi doloremque, sed beatae consequatur! Tempore atque, perspiciatis magni nulla.</p>
+						<p class="desc"><%= equipment.Description %></p>
 						<ul class="inline taglist">
 							<li><div class="pill gray small">aluminio</div></li>
 							<li><div class="pill gray small">pl&aacute;stico</div></li>
@@ -81,31 +95,6 @@
 		</div>
 	</div>
 	<%# render partial: 'shared/search' %>
-
-	<table>
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Description</th>
-				<th>Image</th>
-				<th colspan="3"></th>
-			</tr>
-		</thead>
-
-		<tbody>
-			<% @equipment.each do |equipment| %>
-				<tr>
-					<td><%= equipment.name %></td>
-					<td><%= equipment.description %></td>
-					<td><%= image_tag equipment.image_url %></td>
-					<td><%= link_to 'Show', [equipment.lab_space.lab, equipment.lab_space, equipment] %></td>
-					<td><%= link_to 'Edit', edit_lab_lab_space_equipment_path(equipment.lab_space.lab, equipment.lab_space, equipment) %></td>
-					<td><%= link_to 'Destroy', [equipment.lab_space.lab, equipment.lab_space, equipment], method: :delete, data: { confirm: 'Are you sure?' } %></td>
-				</tr>
-			<% end %>
-		</tbody>
-	</table>
-
 </div>
 <% content_for :scripts do %>
 	<%= javascript_include_tag "selectize.min" %>
