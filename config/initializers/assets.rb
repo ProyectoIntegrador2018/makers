@@ -2,8 +2,8 @@
 
 # Version of your assets, change this if you want to expire all your assets.
 Rails.application.config.assets.version = '1.0'
-Rails.application.config.assets.precompile += %w( selectize.css )
-Rails.application.config.assets.precompile += %w( selectize.min.js )
+# Rails.application.config.assets.precompile += %w( selectize.css )
+# Rails.application.config.assets.precompile += %w( selectize.min.js )
 
 
 # Add additional assets to the asset load path.

@@ -1,7 +1,7 @@
 <div class="LabDetail">
 	<%= link_to '&larr; Regresar a los resultados'.html_safe, labs_path %>
 
-	<p class="m-0 mt-5" class="entitytag"><strong><small>laboratorio</small></strong></p>
+	<p class="m-0 mt-5 entitytag"><strong><small>laboratorio</small></strong></p>
 	<h1 class="mt-0"><%= @lab.name %></h1>
 	<p id="notice"><%= notice %></p>
 	<section class="Overview">
@@ -75,7 +75,7 @@
 	</section>
 	<section class="Equipos">
 		<h2>Equipo</h2>
-		<div class="EquipoGrid">
+		<div class="EquipoGrid hidden">
 			<div class="row">
 				<div class="col-4">
 					<div class="EquipoCard">
@@ -112,7 +112,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="EquipoForm" style="display: none; margin-top: 0">
+		<div class="EquipoForm" style="margin-top: 0">
 			<div class="d-flex justify-content-end">
 				<button class="btn highlight medium">Guardar</button>
 			</div>
@@ -133,10 +133,10 @@
 						</div>
 						<div class="row">
 							<div class="col">
-								<input type="text" placeholder="Capacidades" name="capacidades" id="capacidades" class="txtinput">
+								<input type="text" placeholder="Capacidades" name="capacidades" id="select-capacidad" class="txtinput">
 							</div>
 							<div class="col">
-								<input type="text" placeholder="Materiales" name="materiales" id="materiales" class="txtinput">
+								<input type="text" placeholder="Materiales" name="materiales" id="select-material" class="txtinput">
 							</div>
 						</div>
 					</div>
@@ -144,6 +144,41 @@
 				<div class="row">
 					<div class="col">
 						<h3><strong class="bold">Horarios</strong></h3>
+						<ul class="scheduleList mt-3">
+							<li class="scheduleList-listitem"><i class="ico calendar"></i> Todos los <strong>lunes, jueves</strong> de <strong>2 PM a 5 PM</strong> <a href="#" title="Eliminar horario" class="deleteBtn">&times;</a></li>
+
+							<li class="NewSchedule">
+								<p>Todos los
+									<select name="day" id="day">
+										<option value="0">Diario</option>
+										<option value="1">Lunes</option>
+										<option value="1">Martes</option>
+										<option value="1">Mi&eacute;rcoles</option>
+										<option value="1">Jueves</option>
+										<option value="1">Viernes</option>
+										<option value="1">S&aacute;bado</option>
+										<option value="1">Domingo</option>
+									</select>
+								</p>
+								<p class="pl10">de
+									<select name="start_hour" id="start_hour">
+										<% (6..22).each do |i| %>
+											<option value="<%= i %>:00"><%= i %>:00</option>
+											<option value="<%= i %>:30"><%= i %>:30</option>
+										<% end %>
+									</select>
+									&nbsp; a &nbsp;
+									<select name="end_hour" id="end_hour">
+										<% (6..22).each do |i| %>
+											<option value="<%= i %>:00"><%= i %>:00</option>
+											<option value="<%= i %>:30"><%= i %>:30</option>
+										<% end %>
+									</select>
+									<a href="#" class="btn highlight small ml-5">Guardar</a>
+								</p>
+								<a href="#" class="cancelBtn"><small>Cancelar</small></a>
+							</li>
+						</ul>
 						<a href="#" class="tac formcta"><span class="plusico">+</span> Agregar horario</a>
 					</div>
 					<div class="col offset-1">
@@ -155,6 +190,10 @@
 		</div>
 	</section>
 </div>
+<%# stylesheet_link_tag "selectize" %>
+<%# stylesheet_link_tag "selectize.default" %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.default.min.css">
 <% content_for(:scripts) do %>
 	<script>
 		$('.uploadPhoto').click(function() {
@@ -166,4 +205,23 @@
 			});
 		});
 	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
+	<%# javascript_include_tag "selectize.min" %>
+	<script>
+		let capabilities = []; // <%# @capabilities %>
+		let materials = []; // <%# @capabilities %>
+		for (var i = 0; i < 10; i++) {
+			capabilities.push({text: `Capability ${(i+1+"").padStart(2, '0')}`, value: i});
+			materials.push({text: `Material ${(i+1+"").padStart(2, '0')}`, value: i});
+		}
+		$('#select-material').selectize({
+			sortField: 'text',
+			options: materials
+		});
+		$('#select-capacidad').selectize({
+			sortField: 'text',
+			options: capabilities
+		});
+	</script>
+
 <% end %>

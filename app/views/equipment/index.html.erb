@@ -1,5 +1,5 @@
-<%= stylesheet_link_tag "selectize" %>
-<%= stylesheet_link_tag "selectize.default" %>
+<%# stylesheet_link_tag "selectize" %>
+<%# stylesheet_link_tag "selectize.default" %>
 <div class="Resultados">
 	<div class="row">
 		<div class="col-3">
@@ -97,7 +97,7 @@
 	<%# render partial: 'shared/search' %>
 </div>
 <% content_for :scripts do %>
-	<%= javascript_include_tag "selectize.min" %>
+	<%# javascript_include_tag "selectize.min" %>
 	<script>
 		$('#select-material').selectize({
 			sortField: 'text'
