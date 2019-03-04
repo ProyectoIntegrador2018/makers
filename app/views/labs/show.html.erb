@@ -106,11 +106,64 @@
 					</div>
 				</div>
 				<div class="col-4">
-					<div class="EquipoCard" style="border: 2px dashed #ACACBC">
+					<div class="EquipoCard" id="addEquip" style="border: 2px dashed #ACACBC">
 						<p class="name tac" style="margin-top: 50px; margin-left: -10px; color: #8E8E9D">+ Agregar un equipo</p>
 					</div>
 				</div>
 			</div>
 		</div>
+		<div class="EquipoForm" style="display: none; margin-top: 0">
+			<div class="d-flex justify-content-end">
+				<button class="btn highlight medium">Guardar</button>
+			</div>
+			<form action="#">
+				<div class="row firstrow">
+					<div class="col-5">
+						<div class="uploadPhoto">
+							<p class="text"><span class="large">+</span> <br> Agrega una imagen</p>
+						</div>
+						<input type="file" name="img" id="imginput" class="hidden">
+					</div>
+					<div class="col-7">
+						<div>
+							<input type="text" name="name" placeholder="Nombre del equipo" class="txtinput large" id="name">
+						</div>
+						<div>
+							<input type="text" name="desc" placeholder="Descripci&oacute;n" class="txtinput" id="desc">
+						</div>
+						<div class="row">
+							<div class="col">
+								<input type="text" placeholder="Capacidades" name="capacidades" id="capacidades" class="txtinput">
+							</div>
+							<div class="col">
+								<input type="text" placeholder="Materiales" name="materiales" id="materiales" class="txtinput">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<h3><strong class="bold">Horarios</strong></h3>
+						<a href="#" class="tac formcta"><span class="plusico">+</span> Agregar horario</a>
+					</div>
+					<div class="col offset-1">
+						<h3><strong class="bold">Capacitaciones</strong></h3>
+						<a href="#" class="tac formcta"><span class="plusico">+</span> Agregar capacitaci&oacute;n</a>
+					</div>
+				</div>
+			</form>
+		</div>
 	</section>
 </div>
+<% content_for(:scripts) do %>
+	<script>
+		$('.uploadPhoto').click(function() {
+			$('#imginput').click();
+		});
+		$('#addEquip').click(function() {
+			$('.EquipoGrid').fadeOut(function() {
+				$('.EquipoForm').fadeIn();
+			});
+		});
+	</script>
+<% end %>
