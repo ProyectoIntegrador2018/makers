@@ -1,35 +1,123 @@
-<p id="notice"><%= notice %></p>
+<%= stylesheet_link_tag "selectize" %>
+<%= stylesheet_link_tag "selectize.default" %>
+<div class="Resultados">
+	<div class="row">
+		<div class="col-3">
+			<div class="sidebar">
+				<h3>Refinar b&uacute;squeda:</h3>
+				<hr>
+				<div>
+					<label><input type="checkbox" name="showtags" id="showtags"> mostrar tags</label>
+				</div>
+				<section class="filter">
+					<p class="title">Material</p>
+					<select name="materiales" id="select-material">
+						<option value="1">Material 1</option>
+						<option value="1">Material 1</option>
+						<option value="2">Material 2</option>
+						<option value="3">Material 3</option>
+						<option value="4">Material 4</option>
+						<option value="5">Material 5</option>
+						<option value="6">Material 6</option>
+						<option value="7">Material 7</option>
+					</select>
+				</section>
+				<section class="filter">
+					<p class="title">Capacidad</p>
+					<select name="" id="select-capacidad">
+						<option value="1">Capacidad 1</option>
+						<option value="2">Capacidad 2</option>
+						<option value="3">Capacidad 3</option>
+						<option value="4">Capacidad 4</option>
+						<option value="5">Capacidad 5</option>
+						<option value="6">Capacidad 6</option>
+						<option value="7">Capacidad 7</option>
+						<option value="8">Capacidad 8</option>
+						<option value="9">Capacidad 9</option>
+					</select>
+				</section>
+			</div>
+		</div>
+		<div class="col-9">
+			<div class="main">
+				<h1 class="maintitle">Resultados para:</h1>
+				<h2 class="query">Quiero imprimir en 3D usando pl&aacute;stico</h2>
+				<p id="notice"><%= notice %></p>
 
-<h1>Equipment</h1>
+				<div class="resultsContainer">
+					<% (1..10).each do |i| %>
+					<article class="SearchResult">
+						<h2 class="title mb-3">Impresora 3D <a href="#" class="ml-5 btn highlight small lp" style="padding: 8px 15px">Reservar</a></h2>
+						<table class="detailsTable">
+							<tbody>
+								<tr>
+									<td><strong class="primary">Laboratorio:</strong></td>
+									<td><a href="#">Laboratorio de Mecatr&oacute;nica</a></td>
+								</tr>
+								<tr>
+									<td><strong class="primary">Ubicaci&oacute;n:</strong></td>
+									<td>A4-334</td>
+								</tr>
+								<tr>
+									<td><strong class="primary">Horarios:</strong></td>
+									<td>Lunes - Jueves | 10 AM - 12 PM</td>
+								</tr>
+								<tr>
+									<td><strong class="primary">Capacitaciones:</strong></td>
+									<td><a href="#">Capacitaci&oacute;n 1</a></td>
+								</tr>
+							</tbody>
+						</table>
+						<p class="desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus nam eligendi doloremque, sed beatae consequatur! Tempore atque, perspiciatis magni nulla.</p>
+						<ul class="inline taglist">
+							<li><div class="pill gray small">aluminio</div></li>
+							<li><div class="pill gray small">pl&aacute;stico</div></li>
+							<li><div class="pill gray small">madera</div></li>
+						</ul>
+					</article>
+					<% end %>
+				</div>
+			</div>
+		</div>
+	</div>
+	<%# render partial: 'shared/search' %>
 
-<%= render partial: 'shared/search' %>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Image</th>
+				<th colspan="3"></th>
+			</tr>
+		</thead>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Image</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+		<tbody>
+			<% @equipment.each do |equipment| %>
+				<tr>
+					<td><%= equipment.name %></td>
+					<td><%= equipment.description %></td>
+					<td><%= image_tag equipment.image_url %></td>
+					<td><%= link_to 'Show', [equipment.lab_space.lab, equipment.lab_space, equipment] %></td>
+					<td><%= link_to 'Edit', edit_lab_lab_space_equipment_path(equipment.lab_space.lab, equipment.lab_space, equipment) %></td>
+					<td><%= link_to 'Destroy', [equipment.lab_space.lab, equipment.lab_space, equipment], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
 
-  <tbody>
-    <% @equipment.each do |equipment| %>
-      <tr>
-        <td><%= equipment.name %></td>
-        <td><%= equipment.description %></td>
-        <td><%= image_tag equipment.image_url %></td>
-        <td><%= link_to 'Show', [equipment.lab_space.lab, equipment.lab_space, equipment] %></td>
-        <td><%= link_to 'Edit', edit_lab_lab_space_equipment_path(equipment.lab_space.lab, equipment.lab_space, equipment) %></td>
-        <td><%= link_to 'Destroy', [equipment.lab_space.lab, equipment.lab_space, equipment], method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
+</div>
+<% content_for :scripts do %>
+	<%= javascript_include_tag "selectize.min" %>
+	<script>
+		$('#select-material').selectize({
+			sortField: 'text'
+		});
+		$('#select-capacidad').selectize({
+			sortField: 'text'
+		});
+	</script>
+<% end %>
 <% if @lab_space %>
-  <%= link_to 'New Equipment', new_lab_lab_space_equipment_path %>
+	<%= link_to 'New Equipment', new_lab_lab_space_equipment_path %>
 <% end %>

@@ -1,0 +1,61 @@
+// _equipment.css
+
+hr {
+	border: 0 none;
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 20px;
+}
+.Resultados {
+	h1.maintitle {
+		font-size: 1.78rem;
+	}
+	h2.query {
+		font-size: 1.17rem;
+		color: $text;
+		margin-bottom: 50px;
+	}
+	.sidebar {
+		padding-right: 20px;
+		.filter {
+			margin: 20px 0;
+			.title {
+				text-transform: uppercase;
+				color: $primary;
+				font-size: 18px;
+				font-weight: 700;
+			}
+		}
+	}
+}
+.resultsContainer {
+	.SearchResult {
+		border-bottom: 1px solid #ccc;
+		padding-bottom: 40px;
+		margin-bottom: 40px;
+		.taglist li {
+			margin: 0 5px;
+			&:first-child {
+				margin-left: 0;
+			}
+		}
+		p {
+			color: $text;
+			&.desc {
+				width: 70%;
+			}
+		}
+		h2 {
+			font-size: 1.875rem;
+			font-weight: 700;
+		}
+		.detailsTable {
+			margin: 20px 0 10px;
+			td {
+				font-size: 14px;
+			}
+			tr td:last-child {
+				padding-left: 25px;
+			}
+		}
+	}
+}

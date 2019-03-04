@@ -83,6 +83,13 @@ strong {
 strong.bold {
 	font-weight: 700; // bold
 }
+ul {
+	margin: 0;
+	padding: 0;
+}
+ul.inline li {
+	display: inline-block;
+}
 /* Fonts */
 
 ::-moz-selection,
