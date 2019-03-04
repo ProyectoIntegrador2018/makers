@@ -30,7 +30,7 @@
                       <p class="location"><%= lab.location %></p>
                     </div>
                     <div class="col-3">
-                      <p class="horarios"><%= lab.horario %></p>
+                      <p class="horarios"><%=  (defined? lab.horario) ? lab.horario : "HORARIO" %></p>
                     </div>
                   </div>
                 </div>

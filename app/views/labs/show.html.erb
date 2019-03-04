@@ -1,19 +1,116 @@
-<p id="notice"><%= notice %></p>
+<div class="LabDetail">
+	<%= link_to '&larr; Regresar a los resultados'.html_safe, labs_path %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @lab.name %>
-</p>
+	<p class="m-0 mt-5" class="entitytag"><strong><small>laboratorio</small></strong></p>
+	<h1 class="mt-0"><%= @lab.name %></h1>
+	<p id="notice"><%= notice %></p>
+	<section class="Overview">
+		<div class="row">
+			<div class="col">
+				<section class="Detalles">
+					<h2 class="mb-3">Detalles</h2>
+					<div class="section-body">
+						<div class="row">
+							<div class="col-3"><strong>Responsable:</strong></div>
+							<div class="col"><p class="mb-1">Dr. Azael Cort&eacute;s Capetillo</p></div>
+						</div>
+						<div class="row">
+							<div class="col-3"><strong>Ubicaci&oacute;n:</strong></div>
+							<div class="col"><p>CETEC 2do piso</p></div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi distinctio aspernatur magni numquam soluta quis quasi, asperiores quidem, praesentium in, tempore modi non hic voluptates quod. Veritatis rerum qui possimus labore ipsam eum excepturi. Ut quaerat, pariatur quis doloribus numquam vero. Temporibus debitis animi dolores vero odio impedit dolore quos.</p>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+			<div class="col offset-1">
+				<div class="row">
+					<section class="Horarios">
+						<h2>Horarios</h2>
+						<p>Lunes a Jueves de 9 AM a 5:30 PM</p>
+					</section>
+				</div>
+				<div class="row">
+					<section class="Mapa">
+						<h2>Mapa</h2>
+						<h1 style="color: red">GUGUL MAP</h1>
+					</section>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div class="row"></div>
+	<section class="Espacios">
+		<h2>Espacios</h2>
 
-<p>
-  <strong>Description:</strong>
-  <%= @lab.description %>
-</p>
-
-<p>
-  <strong>Location:</strong>
-  <%= @lab.location %>
-</p>
-
-<%= link_to 'Edit', edit_lab_path(@lab) %> |
-<%= link_to 'Back', labs_path %>
+		<table class="labspaceTable">
+			<thead>
+				<tr>
+					<th>Espacio</th>
+					<th>Descripci&oacute;n</th>
+					<th>Responsable</th>
+					<th>Horarios</th>
+					<th>Reservar</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% (1..5).each do |i| %>
+					<tr class="LabSpace--listitem">
+						<td><a href="#">Espacio #1</a></td>
+						<td><a href="#">Lorem ipsum dolor sit amet...</a></td>
+						<td>Dra. Alejandra S&aacute;nchez</td>
+						<td><a href="#">Ver horarios</a></td>
+						<td>
+							<div class="d-flex justify-content-end">
+								<button class="reserve btn highlight">Reservar</button>
+							</div>
+						</td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</section>
+	<section class="Equipos">
+		<h2>Equipo</h2>
+		<div class="EquipoGrid">
+			<div class="row">
+				<div class="col-4">
+					<div class="EquipoCard">
+						<div class="icon printer"></div>
+						<p class="name">Impresora 3D</p>
+						<p class="horario">LuJu 12PM - 4PM</p>
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="EquipoCard">
+						<div class="icon printer"></div>
+						<p class="name">Impresora 3D</p>
+						<p class="horario">LuJu 12PM - 4PM</p>
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="EquipoCard">
+						<div class="icon printer"></div>
+						<p class="name">Impresora 3D</p>
+						<p class="horario">LuJu 12PM - 4PM</p>
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="EquipoCard">
+						<div class="icon printer"></div>
+						<p class="name">Impresora 3D</p>
+						<p class="horario">LuJu 12PM - 4PM</p>
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="EquipoCard" style="border: 2px dashed #ACACBC">
+						<p class="name tac" style="margin-top: 50px; margin-left: -10px; color: #8E8E9D">+ Agregar un equipo</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>

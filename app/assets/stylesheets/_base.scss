@@ -190,7 +190,9 @@ h1 {
 ----------------------------- */
 
 .btn {
+	border: 0 none;
 	border-radius: 40px;
+	cursor: pointer;
 	padding: 10px 20px;
 	text-transform: uppercase;
 	font-weight: 700;
