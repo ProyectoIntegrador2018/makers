@@ -30,7 +30,6 @@ class EquipmentController < ApplicationController
   # POST /lab/1/lab_spaces/1/equipment.json
   def create
     @equipment = @equipment.new(equipment_params)
-
     respond_to do |format|
       if @equipment.save && save_relations('materials') && save_relations('capabilities')
         format.html { redirect_to [@lab_space.lab, @lab_space, @equipment], notice: 'Equipment was successfully created.' }
@@ -72,8 +71,8 @@ class EquipmentController < ApplicationController
     if params[:lab_space_id]
       @lab_space = LabSpace.find(params[:lab_space_id])
       @equipment = @lab_space.equipment
-      @capabilities = @equipment.capabilities
-      @materials = @equipment.materials
+      @capabilities = @equipment.map {|x| x.capabilities}.compact
+      @materials = @equipment.map {|x| x.materials}.compact
     else
       @equipment = Equipment.all
       @capabilities = Capability.all

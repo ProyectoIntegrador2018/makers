@@ -115,7 +115,7 @@
     </div>
     <div class="EquipoForm" style="margin-top: 0; display: none;">
       <div class="d-flex justify-content-end">
-        <button class="btn highlight medium">Guardar</button>
+        <button onclick="saveEquipment()" class="btn highlight medium">Guardar</button>
       </div>
       <form action="#">
         <div class="row firstrow">
@@ -261,7 +261,7 @@
       e.preventDefault();
       saveNewSchedule();
     });
-
+    $EquipoForm = $('.EquipoForm');
     function saveNewSchedule() {
       let $form = $('#addScheduleForm');
       let $selectDay = $form.find('select[name="day"]');
@@ -283,6 +283,45 @@
       // Hide the form
       [$selectDay, $selectSH, $selectEH].forEach(function($sel) {
         $sel.prop('selectedIndex', 0);
+      });
+    }
+    function saveEquipment() {
+      // Build the form object
+      // Send the ajax request
+      let name = $EquipoForm.find('#name').val();
+      let desc = $EquipoForm.find('#desc').val();
+      let capacidades = $EquipoForm.find('#select-capacidad').val();
+      let materiales = $EquipoForm.find('#select-material').val();
+      let image = $EquipoForm.find('.uploadPhoto img');
+      let imgFile = false;
+      if(image.length > 0) {
+        imgFile = image[0].file;
+      }
+      let formData = {
+        name: name,
+        desc: desc,
+        capacidades: capacidades,
+        materiales: materiales,
+        "authenticity_token": $('meta[name=csrf-token]').attr('content'),
+        image: imgFile
+      };
+      let fd = new FormData();
+      for(var key in formData) {
+        fd.append(key, formData[key]);
+      }
+
+      // Get horarios
+      // Get photo
+      $.ajax({
+        url: "<%= lab_lab_space_equipment_index_path lab_id: @lab.id, lab_space_id: 1 %>",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: fd,
+        method: 'POST',
+        success: function(data) {
+          console.log(data);
+        }
       });
     }
   </script>
