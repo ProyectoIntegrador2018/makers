@@ -74,6 +74,9 @@ hr {
 	form {
 		margin: 4% 0 15%;
 	}
+	a {
+		outline: 0;
+	}
 	.selectize-control.txtinput {
 		border: 0 none;
 		.selectize-input {
@@ -81,6 +84,7 @@ hr {
 			border: 0 none;
 			border-radius: 0;
 			border-bottom: 1px solid #BCBCBC;
+			padding-left: 0;
 			&:focus {
 				border-color: $highlight;
 			}
@@ -94,10 +98,17 @@ hr {
 	}
 	.uploadPhoto {
 		border: 2px dashed #ccc;
-		text-align: center;
 		border-radius: 20px;
-		padding: 40px 20px;
 		cursor: pointer;
+		text-align: center;
+		padding: 0 20px;
+		height: 100%;
+		img {
+			margin-top: 25px;
+		}
+		&.with-photo {
+			.text {display: none;}
+		}
 		.text {
 			color: $gray2 !important;
 			font-size: 24px;

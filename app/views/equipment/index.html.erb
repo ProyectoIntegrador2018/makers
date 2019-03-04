@@ -60,35 +60,38 @@
 
 				<div class="resultsContainer">
 					<% @equipment.each do |equipment| %>
-					<article class="SearchResult">
-						<h2 class="title mb-3"><%= link_to equipment.name, [equipment.lab_space.lab, equipment.lab_space, equipment] %> <a href="#" class="ml-5 btn highlight small lp" style="padding: 8px 15px">Reservar</a></h2>
-						<table class="detailsTable">
-							<tbody>
-								<tr>
-									<td><strong class="primary">Laboratorio:</strong></td>
-									<td><a href="#">Laboratorio de Mecatr&oacute;nica</a></td>
-								</tr>
-								<tr>
-									<td><strong class="primary">Ubicaci&oacute;n:</strong></td>
-									<td>A4-334</td>
-								</tr>
-								<tr>
-									<td><strong class="primary">Horarios:</strong></td>
-									<td>Lunes - Jueves | 10 AM - 12 PM</td>
-								</tr>
-								<tr>
-									<td><strong class="primary">Capacitaciones:</strong></td>
-									<td><a href="#">Capacitaci&oacute;n 1</a></td>
-								</tr>
-							</tbody>
-						</table>
-						<p class="desc"><%= equipment.Description %></p>
-						<ul class="inline taglist">
-							<li><div class="pill gray small">aluminio</div></li>
-							<li><div class="pill gray small">pl&aacute;stico</div></li>
-							<li><div class="pill gray small">madera</div></li>
-						</ul>
-					</article>
+						<article class="SearchResult">
+							<h2 class="title mb-3">
+								<%= link_to equipment.name, [equipment.lab_space.lab, equipment.lab_space, equipment] %> 
+								<a href="#" class="ml-5 btn highlight small lp" style="padding: 8px 15px">Reservar</a>
+							</h2>
+							<table class="detailsTable">
+								<tbody>
+									<tr>
+										<td><strong class="primary">Laboratorio:</strong></td>
+										<td><a href="#"><%= equipment.lab_space.lab.name %></a></td>
+									</tr>
+									<tr>
+										<td><strong class="primary">Ubicaci&oacute;n:</strong></td>
+										<td><%= equipment.lab_space.location %></td>
+									</tr>
+									<tr>
+										<td><strong class="primary">Horarios:</strong></td>
+										<td><%= equipment.lab_space.hours %></td>
+									</tr>
+									<tr>
+										<td><strong class="primary">Capacitaciones:</strong></td>
+										<td><a href="#">Capacitaci&oacute;n 1</a></td>
+									</tr>
+								</tbody>
+							</table>
+							<p class="desc"><%= equipment.description %></p>
+							<ul class="inline taglist">
+								<li><div class="pill gray small">aluminio</div></li>
+								<li><div class="pill gray small">pl&aacute;stico</div></li>
+								<li><div class="pill gray small">madera</div></li>
+							</ul>
+						</article>
 					<% end %>
 				</div>
 			</div>
