@@ -1,120 +1,127 @@
 <%# stylesheet_link_tag "selectize" %>
 <%# stylesheet_link_tag "selectize.default" %>
 <div class="Resultados">
-	<div class="row">
-		<div class="col-3">
-			<div class="sidebar">
-				<h3>Refinar b&uacute;squeda</h3>
-				<hr>
-				<div>
-					<label><input type="checkbox" name="showtags" id="showtags"> <small>mostrar tags</small></label>
-				</div>
-				<section class="filter">
-					<p class="title">Material</p>
-					<select multiple name="materiales" id="select-material">
+  <div class="row">
+    <div class="col-3">
+      <div class="sidebar">
+        <h3>Refinar b&uacute;squeda</h3>
+        <hr>
+        <div>
+          <label><input type="checkbox" checked name="showtags" id="showtags"> <small>mostrar tags</small></label>
+        </div>
+        <section class="filter">
+          <p class="title">Material</p>
+          <select multiple name="materiales" id="select-material">
             <option value="">Materiales</option>
-						<option value="1">Material 1</option>
-						<option value="1">Material 1</option>
-						<option value="2">Material 2</option>
-						<option value="3">Material 3</option>
-						<option value="4">Material 4</option>
-						<option value="5">Material 5</option>
-						<option value="6">Material 6</option>
-						<option value="7">Material 7</option>
-					</select>
-					<div class="filterContainer">
-						<ul class="inline filterlist hidden">
-							<li><div class="pill border xsmall with-cross">aluminio</div></li>
-							<li><div class="pill border xsmall with-cross">pl&aacute;stico</div></li>
-							<li><div class="pill border xsmall with-cross">madera</div></li>
-						</ul>
-					</div>
-				</section>
-				<section class="filter">
-					<p class="title">Capacidad</p>
-					<select multiple name="capacidades" id="select-capacidad">
+            <option value="1">Material 1</option>
+            <option value="1">Material 1</option>
+            <option value="2">Material 2</option>
+            <option value="3">Material 3</option>
+            <option value="4">Material 4</option>
+            <option value="5">Material 5</option>
+            <option value="6">Material 6</option>
+            <option value="7">Material 7</option>
+            <% @materials.each do |m|  %>
+              <option value="<%= m.id %>"><%= m.name %></option>
+            <% end %>
+          </select>
+          <div class="filterContainer">
+            <ul class="inline filterlist hidden">
+              <li><div class="pill border xsmall with-cross">aluminio</div></li>
+              <li><div class="pill border xsmall with-cross">pl&aacute;stico</div></li>
+              <li><div class="pill border xsmall with-cross">madera</div></li>
+            </ul>
+          </div>
+        </section>
+        <section class="filter">
+          <p class="title">Capacidad</p>
+          <select multiple name="capacidades" id="select-capacidad">
             <option value="">Capacidades</option>
-						<option value="1">Capacidad 1</option>
-						<option value="2">Capacidad 2</option>
-						<option value="3">Capacidad 3</option>
-						<option value="4">Capacidad 4</option>
-						<option value="5">Capacidad 5</option>
-						<option value="6">Capacidad 6</option>
-						<option value="7">Capacidad 7</option>
-						<option value="8">Capacidad 8</option>
-						<option value="9">Capacidad 9</option>
-					</select>
-					<div class="filterContainer">
-						<ul class="inline filterlist hidden">
-							<li><div class="pill border xsmall with-cross">aluminio</div></li>
-							<li><div class="pill border xsmall with-cross">pl&aacute;stico</div></li>
-							<li><div class="pill border xsmall with-cross">madera</div></li>
-						</ul>
-					</div>
-				</section>
-			</div>
-		</div>
-		<div class="col-9">
-			<div class="main">
-				<h1 class="maintitle"><%= @query.nil? ? "Equipo disponible" : "Resultados para:" %></h1>
-				<h2 class="query"><%= @query %></h2>
-				<p id="notice"><%= notice %></p>
+            <option value="1">Capacidad 1</option>
+            <option value="2">Capacidad 2</option>
+            <option value="3">Capacidad 3</option>
+            <option value="4">Capacidad 4</option>
+            <option value="5">Capacidad 5</option>
+            <option value="6">Capacidad 6</option>
+            <option value="7">Capacidad 7</option>
+            <option value="8">Capacidad 8</option>
+            <option value="9">Capacidad 9</option>
+            <% @capabilities.each do |c|  %>
+              <option value="<%= c.id %>"><%= c.name %></option>
+            <% end %>
+          </select>
+          <div class="filterContainer">
+            <ul class="inline filterlist hidden">
+              <li><div class="pill border xsmall with-cross">aluminio</div></li>
+              <li><div class="pill border xsmall with-cross">pl&aacute;stico</div></li>
+              <li><div class="pill border xsmall with-cross">madera</div></li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </div>
+    <div class="col-9">
+      <div class="main">
+        <h1 class="maintitle"><%= @query.nil? ? "Equipo disponible" : "Resultados para:" %></h1>
+        <h2 class="query"><%= @query %></h2>
+        <p id="notice"><%= notice %></p>
 
-				<div class="resultsContainer">
-					<% @equipment.each do |equipment| %>
-						<article class="SearchResult">
-							<h2 class="title mb-3">
-								<%= link_to equipment.name, [equipment.lab_space.lab, equipment.lab_space, equipment] %>
-								<a href="#" class="ml-5 btn highlight small lp" style="padding: 8px 15px">Reservar</a>
-							</h2>
-							<table class="detailsTable">
-								<tbody>
-									<tr>
-										<td><strong class="primary">Laboratorio:</strong></td>
-										<td><a href="#"><%= link_to equipment.lab_space.lab.name, equipment.lab_space.lab %></a></td>
-									</tr>
-									<tr>
-										<td><strong class="primary">Ubicaci&oacute;n:</strong></td>
-										<td><%= equipment.lab_space.location %></td>
-									</tr>
-									<tr>
-										<td><strong class="primary">Horarios:</strong></td>
-										<td><%= equipment.lab_space.hours %></td>
-									</tr>
-									<tr>
-										<td><strong class="primary">Capacitaciones:</strong></td>
-										<td><a href="#">Capacitaci&oacute;n 1</a></td>
-									</tr>
-								</tbody>
-							</table>
-							<p class="desc"><%= equipment.description %></p>
-							<ul class="inline taglist">
-								<li><div class="pill gray small">aluminio</div></li>
-								<li><div class="pill gray small">pl&aacute;stico</div></li>
-								<li><div class="pill gray small">madera</div></li>
-							</ul>
-						</article>
-					<% end %>
-				</div>
-			</div>
-		</div>
-	</div>
-	<%# render partial: 'shared/search' %>
+        <div class="resultsContainer">
+          <% @equipment.each do |equipment| %>
+            <article class="SearchResult">
+              <h2 class="title mb-3">
+                <%= link_to equipment.name, [equipment.lab_space.lab, equipment.lab_space, equipment] %>
+                <a href="#" class="ml-5 btn highlight small lp" style="padding: 8px 15px">Reservar</a>
+              </h2>
+              <table class="detailsTable">
+                <tbody>
+                  <tr>
+                    <td><strong class="primary">Laboratorio:</strong></td>
+                    <td><a href="#"><%= link_to equipment.lab_space.lab.name, equipment.lab_space.lab %></a></td>
+                  </tr>
+                  <tr>
+                    <td><strong class="primary">Ubicaci&oacute;n:</strong></td>
+                    <td><%= equipment.lab_space.location %></td>
+                  </tr>
+                  <tr>
+                    <td><strong class="primary">Horarios:</strong></td>
+                    <td><%= equipment.lab_space.hours %></td>
+                  </tr>
+                  <tr>
+                    <td><strong class="primary">Capacitaciones:</strong></td>
+                    <td><a href="#">Capacitaci&oacute;n 1</a></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="desc"><%= equipment.description %></p>
+              <ul class="inline taglist">
+                <li><div class="pill gray small">aluminio</div></li>
+                <li><div class="pill gray small">pl&aacute;stico</div></li>
+                <li><div class="pill gray small">madera</div></li>
+              </ul>
+            </article>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%# render partial: 'shared/search' %>
 </div>
 <% content_for :scripts do %>
-	<%# javascript_include_tag "selectize.min" %>
+  <%# javascript_include_tag "selectize.min" %>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.css">
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.default.min.css"> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
-	<script>
-		$('#select-material').selectize({
-			sortField: 'text'
-		});
-		$('#select-capacidad').selectize({
-			sortField: 'text'
-		});
-	</script>
+  <script>
+    $('#select-material').selectize({
+      sortField: 'text',
+      plugins: ['remove_button']
+    });
+    $('#select-capacidad').selectize({
+      sortField: 'text'
+    });
+  </script>
 <% end %>
 <% if @lab_space %>
-	<%= link_to 'New Equipment', new_lab_lab_space_equipment_path %>
+  <%= link_to 'New Equipment', new_lab_lab_space_equipment_path %>
 <% end %>

@@ -72,8 +72,12 @@ class EquipmentController < ApplicationController
     if params[:lab_space_id]
       @lab_space = LabSpace.find(params[:lab_space_id])
       @equipment = @lab_space.equipment
+      @capabilities = @equipment.capabilities
+      @materials = @equipment.materials
     else
       @equipment = Equipment.all
+      @capabilities = Capability.all
+      @materials = Material.all
     end
   end
 
