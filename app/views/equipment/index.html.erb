@@ -54,8 +54,8 @@
 		</div>
 		<div class="col-9">
 			<div class="main">
-				<h1 class="maintitle">Resultados para:</h1>
-				<h2 class="query">Quiero imprimir en 3D usando pl&aacute;stico</h2>
+				<h1 class="maintitle"><%= @query.nil? ? "Equipo disponible" : "Resultados para:" %></h1>
+				<h2 class="query"><%= @query %></h2>
 				<p id="notice"><%= notice %></p>
 
 				<div class="resultsContainer">

@@ -49,7 +49,11 @@
 				<div class="pill white">pl&aacute;stico</div>
 			</section>
 			<footer class="homeFooter">
-				<p>o consulta el <a href="#"><strong class="bold">cat&aacute;logo de equipos</strong></a></p>
+				<p>
+					o consulta el <%= link_to equipment_index_path do %>
+						<%= content_tag :strong, "cat&aacute;logo de equipos".html_safe, :class => "bold" %>
+					<% end %>
+				</p>
 			</footer>
 			<% #render partial: 'shared/search' %>
 		</div>
