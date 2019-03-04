@@ -62,14 +62,14 @@
 					<% @equipment.each do |equipment| %>
 						<article class="SearchResult">
 							<h2 class="title mb-3">
-								<%= link_to equipment.name, [equipment.lab_space.lab, equipment.lab_space, equipment] %> 
+								<%= link_to equipment.name, [equipment.lab_space.lab, equipment.lab_space, equipment] %>
 								<a href="#" class="ml-5 btn highlight small lp" style="padding: 8px 15px">Reservar</a>
 							</h2>
 							<table class="detailsTable">
 								<tbody>
 									<tr>
 										<td><strong class="primary">Laboratorio:</strong></td>
-										<td><a href="#"><%= equipment.lab_space.lab.name %></a></td>
+										<td><a href="#"><%= link_to equipment.lab_space.lab.name, equipment.lab_space.lab %></a></td>
 									</tr>
 									<tr>
 										<td><strong class="primary">Ubicaci&oacute;n:</strong></td>
