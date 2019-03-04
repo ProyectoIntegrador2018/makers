@@ -1,19 +1,349 @@
-<p id="notice"><%= notice %></p>
+<div class="LabDetail">
+  <%= link_to '&larr; Regresar a los resultados'.html_safe, labs_path %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @lab.name %>
-</p>
+  <p class="m-0 mt-5 entitytag"><strong><small>laboratorio</small></strong></p>
+  <h1 class="mt-0"><%= @lab.name %></h1>
+  <p id="notice"><%= notice %></p>
+  <section class="Overview">
+    <div class="row">
+      <div class="col">
+        <section class="Detalles">
+          <h2 class="mb-3">Detalles</h2>
+          <div class="section-body">
+            <div class="row">
+              <div class="col-3"><strong style="color: red">Responsable:</strong></div>
+              <div class="col"><p class="mb-1">Dr. Azael Cort&eacute;s Capetillo</p></div>
+            </div>
+            <div class="row">
+              <div class="col-3"><strong>Ubicaci&oacute;n:</strong></div>
+              <div class="col"><p><%= @lab.location %></p></div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <p><%= @lab.description %></p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="col offset-1">
+        <div class="row">
+          <section class="Horarios">
+            <h2>Horarios</h2>
+            <p style="color: red">Lunes a Jueves de 9 AM a 5:30 PM</p>
+          </section>
+        </div>
+        <div class="row">
+          <section class="Mapa">
+            <h2>Mapa</h2>
+            <h1 style="color: red">GUGUL MAP</h1>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="row"></div>
+  <section class="Espacios">
+    <h2>Espacios</h2>
 
-<p>
-  <strong>Description:</strong>
-  <%= @lab.description %>
-</p>
+    <table class="labspaceTable">
+      <thead>
+        <tr>
+          <th>Espacio</th>
+          <th>Descripci&oacute;n</th>
+          <th>Responsable</th>
+          <th>Horarios</th>
+          <th>Reservar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="LabSpace--listitem">
+          <td><a href="#">Espacio #1</a></td>
+          <td><a href="#">Lorem ipsum dolor sit amet...</a></td>
+          <td>Dra. Alejandra S&aacute;nchez</td>
+          <td><a href="#">Ver horarios</a></td>
+          <td>
+            <div class="d-flex justify-content-end">
+              <button class="reserve btn highlight">Reservar</button>
+            </div>
+          </td>
+        </tr>
+        <% @lab.lab_spaces.each do |ls| %>
+          <tr class="LabSpace--listitem">
+            <td><a href="#"><%= ls.name %></a></td>
+            <td><a href="#"><%= ls.description[0..30] %>&hellip;</a></td>
+            <td>Dra. Alejandra S&aacute;nchez</td>
+            <td><a href="#">Ver horarios</a></td>
+            <td>
+              <div class="d-flex justify-content-end">
+                <button class="reserve btn highlight">Reservar</button>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </section>
+  <section class="Equipos">
+    <h2>Equipo</h2>
+    <div class="EquipoGrid">
+      <div class="row">
+        <div class="col-4">
+          <div class="EquipoCard">
+            <div class="icon printer"></div>
+            <p class="name">Impresora 3D</p>
+            <p class="horario">LuJu 12PM - 4PM</p>
+          </div>
+        </div>
+        <% @lab.lab_spaces.each do |ls| %>
+          <% ls.equipment.each do |e| %>
+            <div class="col-4">
+              <div class="EquipoCard">
+                <div class="icon printer"></div>
+                <p class="name"><%= e.name %></p>
+                <p class="horario">LuJu 12PM - 4PM</p>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+        <div class="col-4">
+          <div class="EquipoCard" id="addEquip" style="border: 2px dashed #ACACBC">
+            <p class="name tac" style="margin-top: 50px; margin-left: -10px; color: #8E8E9D">+ Agregar un equipo</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="EquipoForm" style="margin-top: 0; display: none;">
+      <div class="d-flex justify-content-end">
+        <button onclick="saveEquipment()" class="btn highlight medium">Guardar</button>
+      </div>
+      <form action="#">
+        <div class="row firstrow">
+          <div class="col-5">
+            <div class="uploadPhoto va-p">
+              <!-- <img src="http://lorempixel.com/120/80" alt=""> -->
+              <p class="text valign"><span class="large">+</span> <br> Agrega una imagen</p>
+            </div>
+            <input type="file" name="img" id="imginput" class="hidden" accept="image/jpeg, image/png">
+          </div>
+          <div class="col-7">
+            <div>
+              <input type="text" name="name" placeholder="Nombre del equipo" class="txtinput large" id="name">
+            </div>
+            <div>
+              <input type="text" name="desc" placeholder="Descripci&oacute;n" class="txtinput" id="desc">
+            </div>
+            <div class="row">
+              <div class="col">
+                <input type="text" placeholder="Capacidades" name="capacidades" id="select-capacidad" class="txtinput">
+              </div>
+              <div class="col">
+                <input type="text" placeholder="Materiales" name="materiales" id="select-material" class="txtinput">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h3><strong class="bold">Horarios</strong></h3>
+            <ul class="scheduleList mt-3">
+              <li class="scheduleList-listitem">
+                <i class="ico calendar"></i>
+                <span class="content">Todos los <strong>lunes, jueves</strong> de <strong>2 PM a 5 PM</strong></span>
+                <a href="#" title="Eliminar horario" class="deleteBtn">&times;</a>
+              </li>
 
-<p>
-  <strong>Location:</strong>
-  <%= @lab.location %>
-</p>
+              <li id="addScheduleForm" class="NewSchedule" style="display: none">
+                <p>Todos los
+                  <select name="day" id="day" value="0"> <%# TODO: make this multiple! %>
+                    <option value="0">d&iacute;as (diario)</option>
+                    <option value="1">d&iacute;as (Lu-Vie)</option>
+                    <option value="2">Lunes</option>
+                    <option value="3">Martes</option>
+                    <option value="4">Mi&eacute;rcoles</option>
+                    <option value="5">Jueves</option>
+                    <option value="6">Viernes</option>
+                    <option value="7">S&aacute;bados</option>
+                    <option value="8">Domingos</option>
+                  </select>
+                </p>
+                <p class="pl10">de
+                  <select name="start_hour" id="start_hour">
+                    <% (6..22).each do |i| %>
+                      <option value="<%= i %>:00"><%= i %>:00</option>
+                      <option value="<%= i %>:30"><%= i %>:30</option>
+                    <% end %>
+                  </select>
+                  &nbsp; a &nbsp;
+                  <select name="end_hour" id="end_hour">
+                    <% (6..22).each do |i| %>
+                      <option value="<%= i %>:00"><%= i %>:00</option>
+                      <option value="<%= i %>:30"><%= i %>:30</option>
+                    <% end %>
+                  </select>
+                  <a href="#" id="saveScheduleBtn" class="btn highlight small ml-5">Guardar</a>
+                </p>
+                <a href="#" class="cancelBtn"><small>Cancelar</small></a>
+              </li>
+            </ul>
+            <a href="#" id="addScheduleBtn" class="tac formcta"><span class="plusico">+</span> Agregar horario</a>
+          </div>
+          <div class="col offset-1">
+            <h3><strong class="bold">Capacitaciones</strong></h3>
+            <a href="#" class="tac formcta"><span class="plusico">+</span> Agregar capacitaci&oacute;n</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
+<%# stylesheet_link_tag "selectize" %>
+<%# stylesheet_link_tag "selectize.default" %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.default.min.css">
+<% content_for(:scripts) do %>
+  <script>
 
-<%= link_to 'Edit', edit_lab_path(@lab) %> |
-<%= link_to 'Back', labs_path %>
+    // TODO: add validation to this form
+    const dayOptions = ['días', 'días (lun-vie)', 'lunes', 'martes', 'miércoles', 'jueves', 'sábado', 'domingo'];
+    $('.uploadPhoto').click(function() {
+      $('#imginput').click();
+    });
+    $('#addEquip').click(function() {
+      $('.EquipoGrid').fadeOut(function() {
+        $('.EquipoForm').fadeIn();
+      });
+    });
+    $('#imginput').on('change', function(e) {
+      if(e.target.files.length <= 0) {
+        console.log('failed files');
+        return false;
+      }
+      let file = e.target.files[0];
+      if(!(file.type === "image/jpeg" || file.type === "image/png")) {
+        console.log('Failed type');
+        return false;
+      }
+      if(file.size > 1024*1024) { // max file size: 1 MiB
+        console.log('Failed size');
+        alert('File is too big. Please choose a smaller file. Max. file size allowed: 1 MB.');
+        return false;
+      }
+      const fr = new FileReader();
+      fr.onload = function(e) {
+        let img = document.createElement('img');
+        img.file = file;
+        img.src = e.target.result;
+        img.classList.add('valign');
+        img.width = 120;
+        $uploadPhoto = $('.uploadPhoto');
+        $uploadPhoto.find('img').remove();
+        $uploadPhoto.addClass('with-photo').append(img);
+      };
+      fr.onerror = function(e) {
+        console.error(e);
+      };
+      fr.readAsDataURL(file);
+    });
+    $('#addScheduleBtn').click(function(e) {
+      e.preventDefault();
+      let $form = $('#addScheduleForm');
+      $form.find('select').each(function() {
+        $(this).prop('selectedIndex', 0);
+      });
+      $form.slideDown('fast');
+    });
+    $('.NewSchedule .cancelBtn').click(function(e) {
+      e.preventDefault();
+      $('#addScheduleForm').slideUp('fast');
+    });
+    $('#saveScheduleBtn').click(function(e) {
+      e.preventDefault();
+      saveNewSchedule();
+    });
+    $EquipoForm = $('.EquipoForm');
+    function saveNewSchedule() {
+      let $form = $('#addScheduleForm');
+      let $selectDay = $form.find('select[name="day"]');
+      let $selectSH = $form.find('select[name="start_hour"]');
+      let $selectEH = $form.find('select[name="end_hour"]');
+      const startTime = $selectSH.val();
+      const endTime = $selectEH.val();
+      const dayindex = parseInt($selectDay.val(), 10);
+      const days = dayOptions[dayindex];
+
+      // TODO: validate that endTime is > startTime
+
+      let scheduleStr = `Todos los <strong>${days}</strong> de <strong>${startTime} a ${endTime}</strong>`;
+      let $listItem = $('.scheduleList-listitem').first().clone();
+      $listItem.find('.content').html(scheduleStr); // TODO: sanitise this input
+      // TODO: attach event handlers for delete here
+      $form.before($listItem);
+
+      // Hide the form
+      [$selectDay, $selectSH, $selectEH].forEach(function($sel) {
+        $sel.prop('selectedIndex', 0);
+      });
+    }
+    function saveEquipment() {
+      // Build the form object
+      // Send the ajax request
+      let name = $EquipoForm.find('#name').val();
+      let desc = $EquipoForm.find('#desc').val();
+      let capacidades = $EquipoForm.find('#select-capacidad').val();
+      let materiales = $EquipoForm.find('#select-material').val();
+      let image = $EquipoForm.find('.uploadPhoto img');
+      let imgFile = false;
+      if(image.length > 0) {
+        imgFile = image[0].file;
+      }
+      let formData = {
+        name: name,
+        desc: desc,
+        capacidades: capacidades,
+        materiales: materiales,
+        "authenticity_token": $('meta[name=csrf-token]').attr('content'),
+        image: imgFile
+      };
+      let fd = new FormData();
+      for(var key in formData) {
+        fd.append(key, formData[key]);
+      }
+
+      // Get horarios
+      // Get photo
+      $.ajax({
+        url: "<%= lab_lab_space_equipment_index_path lab_id: @lab.id, lab_space_id: 1 %>",
+        contentType: false,
+        processData: false,
+        cache: false,
+        data: fd,
+        method: 'POST',
+        success: function(data) {
+          console.log(data);
+        }
+      });
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
+  <%# javascript_include_tag "selectize.min" %>
+  <script>
+    let capabilities = []; // <%# @capabilities %>
+    let materials = []; // <%# @capabilities %>
+
+    // TODO: remove this
+    for (var i = 0; i < 10; i++) {
+      capabilities.push({text: `Capability ${(i+1+"").padStart(2, '0')}`, value: i});
+      materials.push({text: `Material ${(i+1+"").padStart(2, '0')}`, value: i});
+    }
+    $('#select-material').selectize({
+      sortField: 'text',
+      options: materials
+    });
+    $('#select-capacidad').selectize({
+      sortField: 'text',
+      options: capabilities
+    });
+  </script>
+
+<% end %>

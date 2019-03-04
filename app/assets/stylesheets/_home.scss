@@ -1,0 +1,60 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.Home {
+	background-color: $light-blue;
+
+	.container {
+		padding: 6% 0 8%;
+	}
+	h2.tagline {
+		font-size: 1.875rem;
+		margin: 6% 0 8%;
+	}
+	a.logo {
+		width: 320px;
+		display: block;
+		margin: 0 auto;
+		.tecbrand {
+			font-weight: 600;
+			color: $gray2;
+		}
+	}
+	.QueryBuilder {
+		.stmt {
+			color: $primary;
+			font-size: 3rem;
+			font-weight: 300;
+		}
+		.fuzzy-input {
+			background: transparent;
+			border: 0 none;
+			border-bottom: 1px solid #BCBCBC;
+			display: block;
+			font-size: 2.15rem;
+			width: 100%;
+			position: relative;
+			top: 5px;
+		}
+		.large.btn {
+			position: relative;
+			top: 20px;
+		}
+	}
+	.queryOptionsContainer {
+		width: 60%;
+		margin: 4% auto;
+
+		.pill {
+			margin: 0 10px;
+			margin-bottom: 20px;
+			padding: 6px 18px;
+			font-size: 1rem;
+			display: inline-block;
+		}
+	}
+	.homeFooter p {
+		font-size: 1.17rem;
+	}
+}

@@ -12,7 +12,7 @@
 
 <p>
   <strong>Image:</strong>
-  <%= image_tag @equipment.image_url %>
+  <%= image_tag @equipment.image_url if !@equipment.image_url.nil? %>
 </p>
 
 <%= link_to 'Edit', edit_lab_lab_space_equipment_path(@equipment) %> |

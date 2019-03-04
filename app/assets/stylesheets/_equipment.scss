@@ -1,0 +1,202 @@
+// _equipment.css
+
+hr {
+	border: 0 none;
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 20px;
+}
+.Resultados {
+	h1.maintitle {
+		font-size: 1.78rem;
+	}
+	h2.query {
+		font-size: 1.17rem;
+		color: $text;
+		margin-bottom: 50px;
+	}
+	.sidebar {
+		padding-right: 20px;
+		.filter {
+			margin: 20px 0;
+			.title {
+				text-transform: uppercase;
+				color: $primary;
+				font-size: 18px;
+				font-weight: 700;
+			}
+		}
+		.filterContainer {
+			margin-top: 10px;
+			.filterlist .pill {
+				margin: 5px 0;
+			}
+		}
+		.selectize-input {
+			box-shadow: none;
+		}
+	}
+}
+.resultsContainer {
+	.SearchResult {
+		border-bottom: 1px solid #ccc;
+		padding-bottom: 40px;
+		margin-bottom: 40px;
+		.taglist li {
+			margin: 0 5px;
+			&:first-child {
+				margin-left: 0;
+			}
+		}
+		p {
+			color: $text;
+			&.desc {
+				width: 70%;
+			}
+		}
+		h2 {
+			font-size: 1.875rem;
+			font-weight: 700;
+		}
+		.detailsTable {
+			margin: 20px 0 10px;
+			td {
+				font-size: 14px;
+			}
+			tr td:last-child {
+				padding-left: 25px;
+			}
+		}
+	}
+}
+.EquipoForm {
+	position: relative;
+	top: -90px;
+	form {
+		margin: 4% 0 15%;
+	}
+	a {
+		outline: 0;
+	}
+	.selectize-control.txtinput {
+		border: 0 none;
+		.selectize-input {
+			box-shadow: none;
+			border: 0 none;
+			border-radius: 0;
+			border-bottom: 1px solid #BCBCBC;
+			padding-left: 0;
+			&:focus {
+				border-color: $highlight;
+			}
+			input[type="text"] {
+				font-size: 16px;
+			}
+		}
+	}
+	.firstrow {
+		margin-bottom: 60px;
+	}
+	.uploadPhoto {
+		border: 2px dashed #ccc;
+		border-radius: 20px;
+		cursor: pointer;
+		text-align: center;
+		padding: 0 20px;
+		height: 100%;
+		img {
+			margin-top: 25px;
+		}
+		&.with-photo {
+			.text {display: none;}
+		}
+		.text {
+			color: $gray2 !important;
+			font-size: 24px;
+			font-weight: 600;
+			.large {
+				font-size: 3rem;
+				line-height: 80%;
+			}
+		}
+	}
+	.txtinput {
+		font-size: 1rem;
+		color: $primary;
+		padding-left: 0;
+		padding-right: 0;
+		transition: border 300ms;
+		&:focus {
+			border-color: $highlight;
+		}
+		&.large {
+			font-size: 2.8rem;
+		}
+	}
+	.formcta {
+		font-size: 1.4rem;
+		color: $primary;
+		text-align: center;
+		font-weight: 700;
+		display: block;
+		margin: 40px 0;
+		.plusico {
+			background-color: #3587F6;
+			color: white;
+			font-weight: 700;
+			border-radius: 50%;
+			display: inline-block;
+			padding: 10px;
+			width: 40px;
+			height: 40px;
+			font-size: 2rem;
+			margin-right: 10px;
+			line-height: 45%;
+		}
+	}
+	.scheduleList {
+		list-style: none;
+
+		.scheduleList-listitem {
+			border-bottom: 1px solid #ccc;
+			padding: 10px;
+			position: relative;
+			.deleteBtn {
+				position: absolute;
+				right: 10px;
+				bottom: 8px;
+				font-weight: 700;
+				color: $gray1;
+			}
+			.ico.calendar {
+				background-image: url(image-path("icons/calendar.svg"));
+				background-repeat: no-repeat;
+				background-size: 30px;
+				display: inline-block;
+				width: 30px;
+				height: 30px;
+				margin-right: 10px;
+				position: relative;
+				top: 8px;
+			}
+		}
+	}
+	.NewSchedule {
+		padding: 50px 20px 20px;
+		font-size: 1.2rem;
+		position: relative;
+		.pl10 {
+			padding-left: 60px;
+		}
+		.cancelBtn {
+			color: $gray2;
+			position: absolute;
+			font-size: 1rem;
+			top: 10px;
+			right: 15px;
+			&:hover {
+				color: $primary;
+			}
+		}
+	}
+}
+

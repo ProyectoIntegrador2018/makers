@@ -1,15 +1,41 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Makersprogram</title>
+    <title>Makers</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-grid.min.css">
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="<%= @bodyClass %>">
+    <div class="container pt-5 pb-5">
+      <header class="standard header">
+        <div class="row">
+          <div class="col">
+            <a href="/" class="logo">
+              <%= image_tag "logo.svg", alt: "Makers program" %>
+            </a>
+          </div>
+          <div class="col d-flex justify-content-end">
+            <nav class="mainNav">
+              <a href="#" class="trigger hamburger">
+                <%= image_tag "icons/menu.svg", alt: "Show main menu" %>
+              </a>
+              <ul class="navList">
+                <li><a href="#">Some link</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </header>
+      <%= yield %>
+    </div>
+    <!-- <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <%= yield(:scripts) if content_for?(:scripts)  %>
   </body>
 </html>

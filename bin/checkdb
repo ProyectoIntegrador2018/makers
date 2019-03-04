@@ -1,0 +1,78 @@
+#!/usr/bin/env ruby
+
+# This script is used by this project's Docker development entrypoint script to check if the app
+# database (and any of the configured database schemas) exists, tripping out if they are missing.
+#
+# If this script trips out, the entrypoint script will then try to run the database setup. This is
+# part of the magic that allows us the "clone & run" configuration.
+require 'rubygems'
+require 'rake'
+require 'bundler'
+
+Bundler.setup(:default)
+
+require 'active_record'
+require 'erb'
+require 'yaml'
+
+def connection_to_database?
+  ActiveRecord::Base.establish_connection && ActiveRecord::Migrator.current_version
+end
+
+# Check if the app's database schema exists... we'll require to load the rails database
+# configuration yaml, and get the schema_search_path key's contents:
+def schema_search_path
+  @schema_search_path ||= begin
+    yaml = Pathname.new('config/database.yml')
+    loaded_yaml = YAML.load(ERB.new(yaml.read).result) || {}
+    rails_env = ENV.fetch 'RAILS_ENV', 'development'
+    loaded_yaml.fetch(rails_env, {}).fetch 'schema_search_path', false
+  end
+end
+
+def schema_search_path?
+  schema_search_path != false
+end
+
+def app_exclusive_schemas
+  @app_schemas ||= schema_search_path.split(',').each(&:strip!).keep_if { |s| s != 'public' }
+end
+
+# Performs a query to the "information_schema" schema about the existing & required schemas:
+def any_app_exclusive_schema_exists?
+  schemas_as_values = app_exclusive_schemas.each_with_object([]) do |schema_name, accum|
+    accum << "('#{schema_name}')"
+  end
+
+  schema_check_sql = 'SELECT bool_or("existing"."schema_name" IS NOT NULL) AS "check" FROM (VALUES '
+  schema_check_sql << schemas_as_values.join(',')
+  schema_check_sql << ') "required" ("schema_name") '\
+                      'LEFT JOIN "information_schema"."schemata" "existing" ON '\
+                      '"required"."schema_name" = "existing"."schema_name"'
+
+  ActiveRecord::Base.connection.execute(schema_check_sql).to_a.last.values.last
+end
+
+exit begin
+  connection_tries ||= 3
+
+  connection_to_database?
+
+  # Return 0 immediately if there's no schema_search_path configured:
+  exit 0 unless schema_search_path?
+
+  # Return 0 if any of the app-exclusive schemas exists:
+  exit 0 if any_app_exclusive_schema_exists?
+  exit 3 # This exit code
+rescue PG::ConnectionBad
+  unless (connection_tries -= 1).zero?
+    puts "Retrying DB connection #{connection_tries} more times..."
+    sleep ENV.fetch("APP_SETUP_WAIT", "5").to_i
+    retry
+  end
+  exit 1
+rescue ActiveRecord::NoDatabaseError
+  exit 2
+ensure
+  ActiveRecord::Base.clear_all_connections!
+end
