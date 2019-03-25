@@ -10,3 +10,19 @@ Style/SymbolArray:
 
 Style/Documentation:
   Enabled: false
+
+Metrics/AbcSize:
+  Max: 20
+
+Metrics/LineLength:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 20
+
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+    - 'bin/**/*'

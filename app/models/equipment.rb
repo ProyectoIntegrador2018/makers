@@ -20,7 +20,7 @@ class Equipment < ApplicationRecord
   def self.search_by(relation, query)
     if query.present?
       names = query.split(/[,\s]+/)
-      joins(relation).where(relation => {name: names}).distinct
+      joins(relation).where(relation => { name: names }).distinct
     else
       Equipment.all
     end
