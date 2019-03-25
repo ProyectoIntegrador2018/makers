@@ -7,4 +7,6 @@ class User < ApplicationRecord
 
   # default is 0 (:user)
   enum role: [:user, :superadmin, :admin, :lab_admin]
+
+  has_many :reservations
 end
