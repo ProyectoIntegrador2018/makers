@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_25_012439) do
+ActiveRecord::Schema.define(version: 2019_03_25_023714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "available_hours", force: :cascade do |t|
+    t.time "start_time"
+    t.time "end_time"
+    t.string "days_of_week"
+    t.bigint "equipment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["equipment_id"], name: "index_available_hours_on_equipment_id"
+  end
 
   create_table "capabilities", force: :cascade do |t|
     t.string "name"
@@ -98,6 +108,7 @@ ActiveRecord::Schema.define(version: 2019_03_25_012439) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "available_hours", "equipment"
   add_foreign_key "equipment", "lab_spaces"
   add_foreign_key "equipment_capabilities", "capabilities"
   add_foreign_key "equipment_capabilities", "equipment"
