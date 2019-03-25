@@ -7,3 +7,6 @@ Style/EmptyMethod:
 Style/SymbolArray:
   Enabled: true
   EnforcedStyle: brackets
+
+Style/Documentation:
+  Enabled: false
