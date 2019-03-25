@@ -4,4 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :confirmable
+
+  # default is 0 (:user)
+  enum role: [:user, :superadmin, :admin, :lab_admin]
 end
