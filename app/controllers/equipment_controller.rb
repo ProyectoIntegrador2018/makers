@@ -71,8 +71,8 @@ class EquipmentController < ApplicationController
     if params[:lab_space_id]
       @lab_space = LabSpace.find(params[:lab_space_id])
       @equipment = @lab_space.equipment
-      @capabilities = @equipment.map {|x| x.capabilities}.compact
-      @materials = @equipment.map {|x| x.materials}.compact
+      @capabilities = @equipment.map(:capabilities).compact
+      @materials = @equipment.map(:materials).compact
     else
       @equipment = Equipment.all
       @capabilities = Capability.all
@@ -81,7 +81,7 @@ class EquipmentController < ApplicationController
   end
 
   def set_equipment
-     @equipment = @equipment.find(params[:id])
+    @equipment = @equipment.find(params[:id])
   end
 
   def equipment_params

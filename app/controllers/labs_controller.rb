@@ -62,11 +62,12 @@ class LabsController < ApplicationController
   end
 
   private
-    def set_lab
-      @lab = Lab.find(params[:id])
-    end
 
-    def lab_params
-      params.require(:lab).permit(:name, :description, :location, :image)
-    end
+  def set_lab
+    @lab = Lab.find(params[:id])
+  end
+
+  def lab_params
+    params.require(:lab).permit(:name, :description, :location, :image)
+  end
 end
