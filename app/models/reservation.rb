@@ -1,6 +1,5 @@
 class Reservation < ApplicationRecord
-  enum status: [:arrived, :pending, :cancelled]
-  enum type: [:normal, :block, :cancelled]
+  enum status: [:arrived, :pending, :cancelled, :blocked]
 
   belongs_to :equipment
   belongs_to :user
