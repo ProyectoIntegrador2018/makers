@@ -90,6 +90,8 @@ ActiveRecord::Schema.define(version: 2019_03_25_025304) do
 
   create_table "reservations", force: :cascade do |t|
     t.integer "status"
+    t.integer "purpose"
+    t.text "comment"
     t.datetime "start_time"
     t.datetime "end_time"
     t.bigint "equipment_id"
