@@ -85,7 +85,7 @@ class EquipmentController < ApplicationController
   end
 
   def equipment_params
-    params.require(:equipment).permit(:name, :description, :image)
+    params.require(:equipment).permit(:name, :description, :image, :technical_description)
   end
 
   def update_relations(type)
