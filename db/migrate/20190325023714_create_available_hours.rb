@@ -3,7 +3,7 @@ class CreateAvailableHours < ActiveRecord::Migration[5.2]
     create_table :available_hours do |t|
       t.time :start_time
       t.time :end_time
-      t.string :days_of_week
+      t.integer :day_of_week
       t.references :equipment, foreign_key: true
 
       t.timestamps

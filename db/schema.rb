@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2019_03_25_025304) do
   create_table "available_hours", force: :cascade do |t|
     t.time "start_time"
     t.time "end_time"
-    t.string "days_of_week"
+    t.integer "day_of_week"
     t.bigint "equipment_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
