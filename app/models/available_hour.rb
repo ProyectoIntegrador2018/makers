@@ -1,5 +1,5 @@
 class AvailableHour < ApplicationRecord
-  enum day_of_week: [:monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday ]
+  enum day_of_week: [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
 
   belongs_to :equipment
 end
