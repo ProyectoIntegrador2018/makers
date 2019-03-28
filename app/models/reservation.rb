@@ -10,7 +10,7 @@ class Reservation < ApplicationRecord
 
   def not_overlapped
     if start_time.present? && end_time.present?
-      if Reservation.where('start_time < ? AND ? < end_time', end_time, start_time).exists?
+      if equipment.reservations.where('start_time < ? AND ? < end_time', end_time, start_time).exists?
         errors.add(:date, 'is overlapping with another reservation')
       end
     end
