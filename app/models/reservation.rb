@@ -1,5 +1,5 @@
 class Reservation < ApplicationRecord
-  enum status: [:arrived, :pending, :cancelled, :blocked]
+  enum status: [:confirmed, :complete, :cancelled, :blocked]
   enum purpose: [:academic, :entrepreneurship, :research, :personal]
 
   belongs_to :equipment
@@ -8,9 +8,16 @@ class Reservation < ApplicationRecord
   validates :status, :purpose, :start_time, :end_time, presence: true
   validate :date_range_valid, :not_overlapped
 
+  def overlapped_reservations
+    equipment.reservations
+             .where.not(id: id)
+             .where('start_time < ? AND ? < end_time', end_time, start_time)
+             .where.not('status = ?', Reservation.statuses[:cancelled])
+  end
+
   def not_overlapped
     if start_time.present? && end_time.present?
-      if equipment.reservations.where('start_time < ? AND ? < end_time', end_time, start_time).exists?
+      if overlapped_reservations.exists?
         errors.add(:date, 'is overlapping with another reservation')
       end
     end
