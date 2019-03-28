@@ -1,4 +1,4 @@
-class ReservationsController < ApplicationControllergit ad
+class ReservationsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   before_action :set_reservations_scope
   before_action :set_reservation, only: [:show, :edit, :update, :destroy]
@@ -30,6 +30,8 @@ class ReservationsController < ApplicationControllergit ad
   def create
     @reservation = @reservations_scope.new(reservation_params)
     @reservation.user = current_user
+
+    @reservation.remove_overlapped if @reservation.blocked?
 
     respond_to do |format|
       if @reservation.save

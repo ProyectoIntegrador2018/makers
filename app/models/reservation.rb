@@ -23,6 +23,10 @@ class Reservation < ApplicationRecord
     end
   end
 
+  def remove_overlapped
+    overlapped_reservations.each(&:cancelled!) # TODO: notify user of cancellation
+  end
+
   def date_range_valid
     return if start_time.present?
 
