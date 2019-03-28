@@ -7,7 +7,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :equipment, only: [:index]
+  resources :equipment, only: [:index] do
+    resources :reservations, except: [:show, :edit, :update, :destroy]
+  end
+
+  authenticate :user do
+    resources :reservations, except: [:new, :create]
+  end
   
   root 'home#landing'
 end
