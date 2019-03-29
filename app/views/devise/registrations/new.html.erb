@@ -1,29 +1,31 @@
-<h2>Sign up</h2>
+<div class="devise">
+  <h2>Reg&iacute;strate</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+    <div class="field email-container">
+      <%= f.label :email, "Correo electrónico", class: 'sr-only' %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Correo electrónico", class: 'email' %>
+    </div>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
+    <div class="field password-container">
+      <%= f.label :password, "Contraseña", class: 'sr-only' %>
+      <%= f.password_field :password, autocomplete: "new-password", placeholder: "Contraseña", class: "password" %>
+      <% if @minimum_password_length %>
+        <em class="min-length">(<%= @minimum_password_length %> caracteres m&iacute;nimo)</em>
+      <% end %>
+    </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+    <div class="field password-container">
+      <%= f.label :password_confirmation, "Confirma tu contraseña", class: 'sr-only' %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirma la contraseña", class: "password" %>
+    </div>
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
+    <div class="actions">
+      <%= f.submit "Enviar", class: 'submit highlight btn' %>
+    </div>
+  <% end %>
 
-<%= render "devise/shared/links" %>
+  <%= render "devise/shared/links" %>
+</div>
