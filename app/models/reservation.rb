@@ -8,6 +8,8 @@ class Reservation < ApplicationRecord
   validates :status, :purpose, :start_time, :end_time, presence: true
   validate :date_range_valid, :not_overlapped
 
+  scope :upcoming, ->(limit) { where('start_time > ?', Time.now).order(:start_time).limit(limit) }
+
   def overlapped_reservations
     equipment.reservations
              .where.not(id: id)
