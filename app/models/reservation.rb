@@ -28,9 +28,9 @@ class Reservation < ApplicationRecord
   end
 
   def date_range_valid
-    return if start_time.present?
+    return if start_time.blank?
 
-    errors.add(:start_time, "can't be in the past") if start_time < Date.today
+    errors.add(:start_time, "can't be in the past") if start_time < Time.now
     errors.add(:end_time, "can't be before start time") if end_time.present? && end_time < start_time
   end
 end
