@@ -1,0 +1,67 @@
+// _devise.scss
+// @desc Used for all the devise-generated views (user login/signup)
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.devise {
+  width: 50%;
+  margin: 0 auto;
+  h2 {
+    margin-bottom: 40px;
+    color: $highlight;
+    font-size: 2rem;
+  }
+  .field {
+    margin-bottom: 20px;
+    input {
+      background-color: #f4f6f8;
+      border: 0 none;
+    }
+  }
+  .email-container,
+  .password-container {
+    position: relative;
+  }
+  input.email,
+  input.password {
+    width: 100%;
+    padding: 14px 44px;
+  }
+  .email-container::before,
+  .password-container::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    left: 14px;
+    top: 16px;
+    background-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+  .email-container::before {
+    background-image: url(image-path("icons/email.svg"));
+  }
+  .password-container::before {
+    background-image: url(image-path("icons/lock.svg"));
+  }
+  .submit {
+    margin: 5px 0 40px;
+  }
+  em.min-length {
+    position: absolute;
+    right: -150px;
+    top: 14px;
+    font-size: .8rem;
+    color: #9295A6;
+    display: none;
+  }
+}
