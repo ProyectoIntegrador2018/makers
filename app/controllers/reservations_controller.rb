@@ -9,6 +9,16 @@ class ReservationsController < ApplicationController
   # GET /equipment/1/reservations.json
   def index
     @reservations = @reservations_scope.all
+    @upcoming_reservations = @reservations.upcoming(params[:upcoming_limit] || 5)
+
+    if params[:day]
+      date = Date.parse(params[:day])
+      @reservations = @reservations.where(start_time: date.all_day)
+    elsif params[:start_date] && params[:end_date]
+      start_date = Date.parse(params[:start_date])
+      end_date = Date.parse(params[:end_date])
+      @reservations = @reservations.where(start_time: start_date..end_date)
+    end
   end
 
   # GET /reservations/1
