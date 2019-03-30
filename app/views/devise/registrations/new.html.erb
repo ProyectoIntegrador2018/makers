@@ -11,7 +11,7 @@
       <div class="col">
         <div class="field">
           <%= f.label :given_name, raw('Nombre'), class: 'sr-only' %>
-          <%= f.text_field :given_name, placeholder: 'Nombre', class: 'txt-input' %>
+          <%= f.text_field :given_name, autofocus: true, placeholder: 'Nombre', class: 'txt-input' %>
         </div>
       </div>
       <div class="col">
@@ -27,7 +27,7 @@
     </div>
     <div class="field email-container has-ico">
       <%= f.label :email, raw("Correo electr&oacute;nico"), class: "sr-only" %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: raw("Correo electr&oacute;nico (itesm.mx &oacute; tec.mx)"), class: "email txt-input" %>
+      <%= f.email_field :email, autocomplete: "email", placeholder: raw("Correo electr&oacute;nico (itesm.mx &oacute; tec.mx)"), class: "email txt-input" %>
     </div>
     <div class="field password-container has-ico">
       <%= f.label :password, "Contraseña", class: "sr-only" %>

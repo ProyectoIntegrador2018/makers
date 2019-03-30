@@ -69,4 +69,4 @@ en:
         user:
           attributes:
             email:
-              invalid: "is invalid. Please use your @itesm or @tec email."
+              invalid: "is invalid. Please use your @itesm.mx or @tec.mx email."

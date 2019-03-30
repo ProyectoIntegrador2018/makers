@@ -56,3 +56,14 @@ es:
         subject: 'Instrucciones de reinicio de contraseña'
       unlock_instructions:
         subject: 'Instrucciones de desbloqueo'
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              invalid: 'es inválido. Utiliza tu correo @itesm.mx or @tec.mx.'
+              blank: 'El correo electrónico no puede estar en blanco.'
+            password:
+              blank: 'La contraseña no puede estar en blanco.'
+
