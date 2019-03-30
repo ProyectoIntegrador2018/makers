@@ -1,26 +1,30 @@
 <div class="devise">
-  <h2>Log in</h2>
+  <h2>Inicia sesi&oacute;n</h2>
+
+  <%= content_tag(:div, flash[:error], :id => "flash_error") if flash[:error] %>
+  <%= content_tag(:div, flash[:notice], :id => "flash_notice") if flash[:notice] %>
+  <%= content_tag(:div, flash[:alert], :class => "alert alert-danger") if flash[:alert] %>
 
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-    <div class="field email-container">
+    <div class="field has-ico email-container">
       <%= f.label :email, class: 'sr-only' %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: 'Correo electrónico', class: 'email' %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: raw('Correo electr&oacute;nico'), class: 'email txt-input' %>
     </div>
 
-    <div class="field password-container">
+    <div class="field has-ico password-container">
       <%= f.label :password, class: 'sr-only' %>
-      <%= f.password_field :password, autocomplete: "current-password", placeholder: 'Contraseña', class: 'password' %>
+      <%= f.password_field :password, autocomplete: "current-password", placeholder: 'Contraseña', class: 'password txt-input' %>
     </div>
 
     <% if devise_mapping.rememberable? %>
       <div class="field">
         <%= f.check_box :remember_me %>
-        <%= f.label :remember_me %>
+        <%= f.label :remember_me, raw("Recu&eacute;rdame") %>
       </div>
     <% end %>
 
     <div class="actions">
-      <%= f.submit "Log in", class: 'submit highlight btn' %>
+      <%= f.submit raw("Iniciar sesi&oacute;n"), class: 'submit highlight btn' %>
     </div>
   <% end %>
 

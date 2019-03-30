@@ -55,6 +55,29 @@ img {
 .va-p {
   @include valign-parent;
 }
+
+
+.alert {
+  position: relative;
+  padding: .75rem 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: .25rem;
+  &.alert-danger.alert-danger {
+    color: #721c24 !important;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    p {
+      color: inherit;
+    }
+  }
+  ul {
+    margin-left: 1.25rem;
+    li {
+      font-size: .9rem;
+    }
+  }
+}
+
 /* Clears */
 .clear {
   clear: both;
