@@ -1,9 +1,5 @@
 <div class="devise">
   <h2>Reg&iacute;strate</h2>
-  <%= devise_error_messages! %>
-  <% flash.each do |key, value| %>
-   <div class="flash <%= key %>"><%= value %></div>
-  <% end %>
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
 

@@ -64,7 +64,7 @@
       <div class="main">
         <h1 class="maintitle"><%= @query.nil? ? "Equipo disponible" : "Resultados para:" %></h1>
         <h2 class="query"><%= @query %></h2>
-        <p id="notice"><%= notice %></p>
+        <p id="notice"><%# notice %></p>
 
         <div class="resultsContainer">
           <% @equipment.each do |equipment| %>
