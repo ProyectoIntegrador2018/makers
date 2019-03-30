@@ -21,6 +21,8 @@ es:
       invalid_token: 'Ficha de autenticación invalida.'
       timeout: 'Tu sesión ha expirado, por favor ingresa nuevamente para continuar.'
       inactive: 'Tu cuenta aún no ha sido activada.'
+      user:
+        not_found_in_database: 'Correo o contraseña inválidos.'
     sessions:
       signed_in: 'Ingreso exitoso.'
       signed_out: 'Has salido del sistema.'
@@ -66,4 +68,12 @@ es:
               blank: 'El correo electrónico no puede estar en blanco.'
             password:
               blank: 'La contraseña no puede estar en blanco.'
+            last_name:
+              blank: 'El campo de apellidos no puede estar en blanco.'
+            given_name:
+              blank: 'El nombre no puede estar en blanco.'
+            confirmation_token:
+              invalid: 'El token de confirmación es inválido.'
+            institutional_id:
+              blank: 'La matrícula no puede estar en blanco.'
 
