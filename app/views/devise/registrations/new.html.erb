@@ -1,25 +1,45 @@
 <div class="devise">
   <h2>Reg&iacute;strate</h2>
-
+  <%= devise_error_messages! %>
+  <% flash.each do |key, value| %>
+   <div class="flash <%= key %>"><%= value %></div>
+  <% end %>
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
 
-    <div class="field email-container">
-      <%= f.label :email, "Correo electrónico", class: 'sr-only' %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Correo electrónico", class: 'email' %>
+    <div class="row">
+      <div class="col">
+        <div class="field">
+          <%= f.label :given_name, raw('Nombre'), class: 'sr-only' %>
+          <%= f.text_field :given_name, placeholder: 'Nombre', class: 'txt-input' %>
+        </div>
+      </div>
+      <div class="col">
+        <div class="field">
+          <%= f.label :last_name, raw('Apellido'), class: 'sr-only' %>
+          <%= f.text_field :last_name, placeholder: 'Apellido', class: 'txt-input' %>
+        </div>
+      </div>
     </div>
-
-    <div class="field password-container">
-      <%= f.label :password, "Contraseña", class: 'sr-only' %>
-      <%= f.password_field :password, autocomplete: "new-password", placeholder: "Contraseña", class: "password" %>
+    <div class="field">
+      <%= f.label :institutional_id, raw("Matr&iacute;cula o n&uacute;mero de empleado"), class: "sr-only" %>
+      <%= f.text_field :institutional_id, placeholder: raw("Matr&iacute;cula o n&uacute;mero de empleado"), class: "txt-input" %>
+    </div>
+    <div class="field email-container has-ico">
+      <%= f.label :email, raw("Correo electr&oacute;nico"), class: "sr-only" %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: raw("Correo electr&oacute;nico (itesm.mx &oacute; tec.mx)"), class: "email txt-input" %>
+    </div>
+    <div class="field password-container has-ico">
+      <%= f.label :password, "Contraseña", class: "sr-only" %>
+      <%= f.password_field :password, autocomplete: "new-password", placeholder: "Contraseña", class: "password txt-input" %>
       <% if @minimum_password_length %>
-        <em class="min-length">(<%= @minimum_password_length %> caracteres m&iacute;nimo)</em>
+        <em class="min-length">(<%= @minimum_password_length %> caracteres raw(m&iacute;nimo))</em>
       <% end %>
     </div>
 
-    <div class="field password-container">
-      <%= f.label :password_confirmation, "Confirma tu contraseña", class: 'sr-only' %>
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirma la contraseña", class: "password" %>
+    <div class="field password-container has-ico">
+      <%= f.label :password_confirmation, "Confirma tu contraseña", class: "sr-only" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirma la contraseña", class: "password txt-input" %>
     </div>
 
     <div class="actions">

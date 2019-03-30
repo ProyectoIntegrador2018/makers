@@ -11,7 +11,13 @@
   white-space: nowrap;
   border: 0;
 }
+label {
+  display: block;
+}
 
+input[type="checkbox"] + label {
+  display: inline-block;
+}
 .devise {
   width: 50%;
   margin: 0 auto;
@@ -22,22 +28,20 @@
   }
   .field {
     margin-bottom: 20px;
+    position: relative;
     input {
       background-color: #f4f6f8;
       border: 0 none;
     }
   }
-  .email-container,
-  .password-container {
-    position: relative;
-  }
-  input.email,
-  input.password {
+  .txt-input {
     width: 100%;
+    padding: 14px 20px;
+  }
+  .field.has-ico .txt-input {
     padding: 14px 44px;
   }
-  .email-container::before,
-  .password-container::before {
+  .has-ico::before {
     content: " ";
     display: block;
     position: absolute;
