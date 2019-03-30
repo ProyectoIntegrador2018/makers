@@ -278,6 +278,24 @@ h1 {
       display: none;
     }
   }
+  .userNav {
+    margin-right: 40px;
+    p {margin: 0; }
+    .right {
+      margin-left: 13px;
+    }
+    .signout-link {
+      position: relative;
+      top: -6px;
+      color: $gray2;
+      &:hover {
+        color: $highlight;
+      }
+    }
+    .user-avatar img {
+      width: 40px;
+    }
+  }
 }
 
 .txtinput {
