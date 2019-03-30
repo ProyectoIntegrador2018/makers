@@ -31,7 +31,7 @@ class EquipmentController < ApplicationController
   def create
     @equipment = @equipment.new(equipment_params)
     respond_to do |format|
-      if @equipment.save && save_relations('materials') && save_relations('capabilities')
+      if @equipment.save && save_relations('materials') && save_relations('capabilities') && save_availability
         format.html { redirect_to [@lab_space.lab, @lab_space, @equipment], notice: 'Equipment was successfully created.' }
         format.json { render :show, status: :created, location: [@lab_space.lab, @lab_space, @equipment] }
       else
@@ -45,7 +45,7 @@ class EquipmentController < ApplicationController
   # PATCH/PUT /lab/1/lab_spaces/1/equipment/1.json
   def update
     respond_to do |format|
-      if @equipment.update(equipment_params) && update_relations('materials') && update_relations('capabilities')
+      if @equipment.update(equipment_params) && update_relations('materials') && update_relations('capabilities') && update_availability
         format.html { redirect_to [@lab_space.lab, @lab_space, @equipment], notice: 'Equipment was successfully updated.' }
         format.json { render :show, status: :ok, location: [@lab_space.lab, @lab_space, @equipment] }
       else
@@ -109,5 +109,23 @@ class EquipmentController < ApplicationController
       end
     end
     true
+  end
+
+  def schedule_params(schedule)
+    schedule.permit(:start_time, :end_time, :day_of_week)
+  end
+
+  def save_availability
+    if params.require(:equipment)[:available_hours]
+      params.require(:equipment)[:available_hours].each do |schedule|
+        availabilities = @equipment.available_hours.new(schedule_params(schedule))
+        availabilities.save
+      end
+    end
+  end
+
+  def update_availability
+    @equipment.available_hours.destroy_all
+    save_availability
   end
 end

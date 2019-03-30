@@ -5,7 +5,7 @@ class Equipment < ApplicationRecord
   has_many :materials, through: :equipment_materials
   has_many :equipment_capabilities, dependent: :destroy
   has_many :capabilities, through: :equipment_capabilities
-  has_many :available_hours
+  has_many :available_hours, dependent: :destroy
   has_many :reservations
   belongs_to :lab_space
 
