@@ -116,11 +116,9 @@ class EquipmentController < ApplicationController
   end
 
   def save_availability
-    if params.require(:equipment)[:available_hours]
-      params.require(:equipment)[:available_hours].each do |schedule|
-        availabilities = @equipment.available_hours.new(schedule_params(schedule))
-        availabilities.save
-      end
+    params.require(:equipment)[:available_hours]&.each do |schedule|
+      availabilities = @equipment.available_hours.new(schedule_params(schedule))
+      availabilities.save
     end
   end
 
