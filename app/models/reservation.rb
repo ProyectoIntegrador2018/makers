@@ -6,7 +6,7 @@ class Reservation < ApplicationRecord
   belongs_to :user
 
   validates :status, :purpose, :start_time, :end_time, presence: true
-  validate :date_range_valid, :not_overlapped
+  validate :date_range_valid, :not_overlapped, :date_is_available
 
   scope :upcoming, ->(limit) { where('start_time > ?', Time.now).order(:start_time).limit(limit) }
 
@@ -21,6 +21,20 @@ class Reservation < ApplicationRecord
     if start_time.present? && end_time.present?
       if overlapped_reservations.exists?
         errors.add(:date, 'is overlapping with another reservation')
+      end
+    end
+  end
+
+  def date_in_available_range
+    equipment.available_hours
+             .where(day_of_week: start_time.wday)
+             .where('start_time < ? AND ? < end_time', end_time.to_formatted_s(:time), start_time.to_formatted_s(:time))
+  end
+
+  def date_is_available
+    if start_time.present? && end_time.present?
+      unless date_in_available_range.exists?
+        errors.add(:date, 'is not within the equipment available hours')
       end
     end
   end
