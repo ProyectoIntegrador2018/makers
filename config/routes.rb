@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   authenticate :user do
     resources :reservations, except: [:new, :create]
   end
-  
+
+  get '/users', to: redirect('users/sign_up')
+
   root 'home#landing'
 end

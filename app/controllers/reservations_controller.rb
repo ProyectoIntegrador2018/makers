@@ -1,4 +1,5 @@
 class ReservationsController < ApplicationController
+  #skip_before_action :verify_authenticity_token
   before_action :authenticate_user!, except: [:index]
   before_action :set_reservations_scope
   before_action :set_reservation, only: [:show, :edit, :update, :destroy]

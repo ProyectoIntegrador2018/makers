@@ -1,19 +1,138 @@
-<p id="notice"><%= notice %></p>
+<div class="LabDetail EquipmentDetail">
+  <p class="m-0 entitytag"><strong><small>equipo</small></strong></p>
+  <h1 class="mt-0"><%= @equipment.name %></h1>
+  <section class="Overview">
+    <div class="row">
+      <div class="col">
+        <section class="Detalles">
+          <h2 class="mb-3">Detalles</h2>
+          <div class="section-body">
+            <div class="row">
+              <div class="col">
+                <p><%= @equipment.description %></p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="col offset-1">
+        <div class="row">
+          <section class="equipment-image">
+              <%= image_tag @equipment.image.url unless @equipment.image.url.nil? %>
+          </section>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h2 class="mb-2">Ficha t&eacute;cnica</h2>
+        <p><%= @equipment.technical_description %></p>
+      </div>
+    </div>
+  </section>
+  <section class="Horario">
+    <h2 class="mb-3">Horario</h2>
+    <div id="calendar"></div>
+  </section>
+  <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Nueva reservaci&oacute;n</h5>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="ttu" for="purpose"><strong>Prop&oacute;sito del proyecto <small>(Requerido)</small></strong></label>
+            <select name="purpose" class="form-control" id="purpose">
+              <option value="academic">Academia</option>
+              <option value="entrepreneurship">Emprendimiento</option>
+              <option value="research">Investigaci&oacute;n</option>
+              <option value="personal">Personal</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="comment" class="ttu"><strong>Comentarios adicionales <small>(Opcional)</small></strong></label>
+            <textarea name="comment" id="comment" rows="2" class="form-control" placeholder="Agrega aqu&iacute; comentarios adicionales para el laboratorista"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn highlight reserveBtn">Reservar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @equipment.name %>
-</p>
+  <% content_for(:scripts) do %>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/main.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.0.1/main.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.0.1/main.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.0.1/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.0.1/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.0.1/main.min.js"></script>
+     <script>
+       const $modal = $('#exampleModal').modal({keyboard: false, backdrop: 'static', show: false});
+     </script>
+    <script>
+      const userName = '<%= "#{current_user.given_name} #{current_user.last_name}" %>';
+      let tmpEvent = null;
+      let calendar;
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
 
-<p>
-  <strong>Description:</strong>
-  <%= @equipment.description %>
-</p>
+        calendar = new FullCalendar.Calendar(calendarEl, {
+          plugins: [ 'dayGrid', 'timeGrid', 'interaction' ],
+          defaultView: 'timeGridWeek',
+          selectable: true,
+          selectOverlap: false,
+          select: function(selInfo) {
+            $modal.modal('show');
+            // console.log(`Start time: ${selInfo.start.toLocaleString()} \nEnd time: ${selInfo.end.toLocaleString()}`);
+            // calendar.addEvent();
+            tmpEvent = {
+              title: userName,
+              start: selInfo.start,
+              end: selInfo.end,
+            };
+          },
+          allDaySlot: false,
+          eventTextColor: 'white',
+          minTime: "06:00:00",
+          maxTime: "22:00:00",
+          businessHours: {
+            // days of week. an array of zero-based day of week integers (0=Sunday)
+            daysOfWeek: [ 1, 2, 3, 4,5 ], // Monday - Thursday
 
-<p>
-  <strong>Image:</strong>
-  <%= image_tag @equipment.image_url unless @equipment.image_url.nil? %>
-</p>
+            startTime: '08:00', // a start time (10am in this example)
+            endTime: '18:00', // an end time (6pm in this example)
+          }
+        });
 
-<%= link_to 'Edit', edit_lab_lab_space_equipment_path(@equipment) %> |
-<%= link_to 'Back', lab_lab_space_equipment_index_path %>
+        calendar.render();
+      });
+
+     </script>
+     <script>
+       $('.reserveBtn').click(function() {
+        if(tmpEvent) {
+          calendar.addEvent(tmpEvent);
+          tmpEvent = null;
+        }
+        else {
+          alert('An error was produced. Please try again');
+        }
+        // Reset modal fields
+        $modal.find('textarea').val('');
+        $modal.find('select').val('academic');
+        $modal.modal('hide');
+       });
+
+     </script>
+  <% end %>
+
+
+</div>

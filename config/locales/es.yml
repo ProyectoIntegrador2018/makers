@@ -34,7 +34,7 @@ es:
     confirmations:
       send_instructions: 'Recibirás un correo electrónico con instrucciones sobre cómo confirmar tu cuenta en unos minutos.'
       send_paranoid_instructions: 'Si tu correo electrónico existe en nuestra base de datos, recibirás un correo con instrucciones sobre cómo confirmar tu cuenta en unos minutos.'
-      confirmed: 'Tu cuenta fue confirmada exitosamente, has sido ingresado al sistema.'
+      confirmed: 'Tu cuenta fue confirmada exitosamente.'
     registrations:
       signed_up: '¡Bienvenido! Has ingresado al sistema exitosamente.'
       inactive_signed_up: 'Te has registrado exitosamente; sin embargo, no te hemos podido ingresar debido a que tu cuenta está %{reason}.'
@@ -60,6 +60,8 @@ es:
         subject: 'Instrucciones de desbloqueo'
   activerecord:
     errors:
+      messages:
+        record_invalid: 'El recurso es inválido.'
       models:
         user:
           attributes:
