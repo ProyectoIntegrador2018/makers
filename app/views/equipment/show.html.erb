@@ -1,3 +1,14 @@
+<%
+  reservations = []
+  @equipment.reservations.each do | eq |
+    reservations.push({
+      "id" => eq.id,
+      "start" => eq.start_time,
+      "end" => eq.end_time,
+      "title" => current_user.id == eq.user_id ? "#{current_user.given_name} #{current_user.last_name}" : "Reservaci&oacute;n"
+    })
+  end
+%>
 <div class="LabDetail EquipmentDetail">
   <p class="m-0 entitytag"><strong><small>equipo</small></strong></p>
   <h1 class="mt-0"><%= @equipment.name %></h1>
@@ -34,34 +45,39 @@
     <h2 class="mb-3">Horario</h2>
     <div id="calendar"></div>
   </section>
-  <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Nueva reservaci&oacute;n</h5>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label class="ttu" for="purpose"><strong>Prop&oacute;sito del proyecto <small>(Requerido)</small></strong></label>
-            <select name="purpose" class="form-control" id="purpose">
-              <option value="academic">Academia</option>
-              <option value="entrepreneurship">Emprendimiento</option>
-              <option value="research">Investigaci&oacute;n</option>
-              <option value="personal">Personal</option>
-            </select>
+</div>
+
+  <% if user_signed_in? %>
+  <!-- Modal for reservations -->
+    <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Nueva reservaci&oacute;n</h5>
           </div>
-          <div class="form-group">
-            <label for="comment" class="ttu"><strong>Comentarios adicionales <small>(Opcional)</small></strong></label>
-            <textarea name="comment" id="comment" rows="2" class="form-control" placeholder="Agrega aqu&iacute; comentarios adicionales para el laboratorista"></textarea>
+          <div class="modal-body">
+            <div class="form-group">
+              <label class="ttu" for="purpose"><strong>Prop&oacute;sito del proyecto <small>(Requerido)</small></strong></label>
+              <select name="purpose" class="form-control" id="purpose">
+                <option value="academic">Academia</option>
+                <option value="entrepreneurship">Emprendimiento</option>
+                <option value="research">Investigaci&oacute;n</option>
+                <option value="personal">Personal</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="comment" class="ttu"><strong>Comentarios adicionales <small>(Opcional)</small></strong></label>
+              <textarea name="comment" id="comment" rows="2" class="form-control" placeholder="Agrega aqu&iacute; comentarios adicionales para el laboratorista"></textarea>
+            </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn highlight reserveBtn">Reservar</button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn highlight reserveBtn">Reservar</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  <% end %>
 
   <% content_for(:scripts) do %>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/main.min.css">
@@ -74,11 +90,10 @@
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.0.1/main.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.0.1/main.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.0.1/main.min.js"></script>
-     <script>
-       const $modal = $('#exampleModal').modal({keyboard: false, backdrop: 'static', show: false});
-     </script>
+
+    <%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
     <script>
-      const userName = '<%= "#{current_user.given_name} #{current_user.last_name}" %>';
+      const eqid = '<%= @equipment.id %>';
       let tmpEvent = null;
       let calendar;
       document.addEventListener('DOMContentLoaded', function() {
@@ -87,6 +102,7 @@
         calendar = new FullCalendar.Calendar(calendarEl, {
           plugins: [ 'dayGrid', 'timeGrid', 'interaction' ],
           defaultView: 'timeGridWeek',
+          events: reservations,
           selectable: true,
           selectOverlap: false,
           select: function(selInfo) {
@@ -101,6 +117,7 @@
           },
           allDaySlot: false,
           eventTextColor: 'white',
+          eventBackgroundColor: 'rgba(68, 93, 252, .77)',
           minTime: "06:00:00",
           maxTime: "22:00:00",
           businessHours: {
@@ -116,23 +133,54 @@
       });
 
      </script>
-     <script>
-       $('.reserveBtn').click(function() {
-        if(tmpEvent) {
-          calendar.addEvent(tmpEvent);
-          tmpEvent = null;
-        }
-        else {
-          alert('An error was produced. Please try again');
-        }
-        // Reset modal fields
-        $modal.find('textarea').val('');
-        $modal.find('select').val('academic');
-        $modal.modal('hide');
-       });
 
-     </script>
+    <% if user_signed_in? %>
+      <script>
+        const $modal = $('#exampleModal').modal({keyboard: false, backdrop: 'static', show: false});
+        const userName = '<%= "#{current_user.given_name} #{current_user.last_name}" %>';
+        const reservations = <%= raw(reservations.to_json) %>;
+      </script>
+       <script>
+         $('.reserveBtn').click(function() {
+          if(tmpEvent) {
+            const eventData = buildEvent(tmpEvent);
+            registerEvent(eventData, function(created) {
+              if(created) {
+                calendar.addEvent(tmpEvent);
+                tmpEvent = null;
+              }
+            });
+          }
+          else {
+            alert('An error was produced. Please try again');
+          }
+          // Reset modal fields
+          $modal.find('textarea').val('');
+          $modal.find('select').val('academic');
+          $modal.modal('hide');
+         });
+
+         function buildEvent(event) {
+          return {
+            authenticity_token: window._token,
+            "reservation": {
+              "purpose": $modal.find('select').val(),
+              "comment": $modal.find('textarea').val(),
+              "start_time": event.start.toISOString(),
+              "end_time": event.end.toISOString()
+            }
+          };
+         }
+         function registerEvent(eventData, cb) {
+          $.post(`/equipment/${eqid}/reservations.json`, eventData, function(data, status, xhr) {
+            console.log(data, status);
+            cb(data.status && data.status === "confirmed");
+          }, 'json')
+          .fail(function(err) {
+            console.error(err);
+            alert('No ha sido posible guardar tu evento. Por favor, inténtalo otra vez.');
+          });
+         }
+       </script>
+    <% end %>
   <% end %>
-
-
-</div>
