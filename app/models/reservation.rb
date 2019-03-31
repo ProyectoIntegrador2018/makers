@@ -25,10 +25,10 @@ class Reservation < ApplicationRecord
     end
   end
 
-  def get_first_available_overlap(st)
+  def get_first_available_overlap(st, et, day)
     equipment.available_hours
-             .where(day_of_week: start_time.wday)
-             .where('start_time < ? AND ? < end_time', end_time.to_formatted_s(:time), st.to_formatted_s(:time))
+             .where(day_of_week: day)
+             .where('start_time < ? AND ? < end_time', et.to_formatted_s(:time), st.to_formatted_s(:time))
              .order(start_time: :asc)
              .first
   end
@@ -36,13 +36,17 @@ class Reservation < ApplicationRecord
   def date_is_available
     if start_time.present? && end_time.present?
       st = start_time
+      day = start_time.wday
+      et = end_time
+      et = Time.parse("2000-01-01T23:59:59.000Z") if st.to_formatted_s(:time) > end_time.to_formatted_s(:time) # this means reservation is overnight
       begin
-        first_match = get_first_available_overlap(st)
+        first_match = get_first_available_overlap(st, et, day)
         if first_match.blank?
           errors.add(:date, 'is not within the equipment available hours')
           return
         else # change st to be the end of the
           st = first_match.end_time
+          day=(day+1)%7 if start_time.to_formatted_s(:time) > st.to_formatted_s(:time) # check for next day, if overnight reservation
         end
       end while end_time.to_formatted_s(:time) > first_match.end_time.to_formatted_s(:time)
     end
