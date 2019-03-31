@@ -1,5 +1,5 @@
 <div class="devise">
-	<h2>¿Olvidaste tu contraseña?</h2>
+	<h2>&iquest;Olvidaste tu contraseña?</h2>
 
 	<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
 	  <%= render "devise/shared/error_messages", resource: resource %>
@@ -10,7 +10,7 @@
       </div>
 
 	  <div class="actions">
-	  	<%= f.submit raw("Enviame instrucciones para restablecer contraseña"), class: 'submit highlight btn' %>
+	  	<%= f.submit raw("Env&iacute;ame instrucciones para restablecer contraseña"), class: 'submit highlight btn' %>
 	  </div>
 	<% end %>
 
