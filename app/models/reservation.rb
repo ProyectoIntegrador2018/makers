@@ -25,17 +25,26 @@ class Reservation < ApplicationRecord
     end
   end
 
-  def date_in_available_range
+  def get_first_available_overlap(st)
     equipment.available_hours
              .where(day_of_week: start_time.wday)
-             .where('start_time < ? AND ? < end_time', end_time.to_formatted_s(:time), start_time.to_formatted_s(:time))
+             .where('start_time < ? AND ? < end_time', end_time.to_formatted_s(:time), st.to_formatted_s(:time))
+             .order(start_time: :asc)
+             .first
   end
 
   def date_is_available
     if start_time.present? && end_time.present?
-      unless date_in_available_range.exists?
-        errors.add(:date, 'is not within the equipment available hours')
-      end
+      st = start_time
+      begin
+        first_match = get_first_available_overlap(st)
+        if first_match.blank?
+          errors.add(:date, 'is not within the equipment available hours')
+          return
+        else # change st to be the end of the
+          st = first_match.end_time
+        end
+      end while end_time.to_formatted_s(:time) > first_match.end_time.to_formatted_s(:time)
     end
   end
 
