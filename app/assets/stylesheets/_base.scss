@@ -33,6 +33,7 @@
 
 $primary: #191A45;
 $highlight: #445BFC;
+$white: white;
 $light-blue: #F2F4F8;
 $gray1: #8E8E9D;
 $gray2: #ACACBC;
@@ -44,6 +45,7 @@ $colors: (
   highlight: $highlight,
   gray1: $gray1,
   gray2: $gray2,
+  white: $white,
   light-blue: $light-blue
 );
 img {
@@ -156,13 +158,14 @@ h1 {
 ----------------------------- */
 
 .tac {text-align: center;}
+.ttu {text-transform: uppercase;}
 
 
 /* Colors */
 
 @each $color in $colors {
   .#{""+nth($color,1)}{
-    color: #{nth($color,2)};
+    color: #{nth($color,2)} !important;
   }
   a.#{""+nth($color,1)}:hover {
     color: darken(nth($color,2),10%);
@@ -258,7 +261,7 @@ h1 {
     font-size: 1.43rem;
   }
   &.highlight {
-    color: #fff;
+    color: #fff !important;
     background: #4e69fd;
     background: -moz-linear-gradient(top, #4e69fd 0%, #465df1 100%);
     background: -webkit-linear-gradient(top, #4e69fd 0%,#465df1 100%);
