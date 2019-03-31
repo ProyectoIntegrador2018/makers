@@ -29,6 +29,7 @@ class Reservation < ApplicationRecord
     equipment.available_hours
              .where(day_of_week: day)
              .where('start_time < ? AND ? < end_time', et.to_formatted_s(:time), st.to_formatted_s(:time))
+             .where('start_time <= ?', st.to_formatted_s(:time))
              .order(start_time: :asc)
              .first
   end
