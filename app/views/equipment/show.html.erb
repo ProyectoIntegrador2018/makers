@@ -1,11 +1,13 @@
 <%
+  # TODO: refactor this
   reservations = []
   @equipment.reservations.each do | eq |
     reservations.push({
       "id" => eq.id,
       "start" => eq.start_time,
       "end" => eq.end_time,
-      "title" => current_user.id == eq.user_id ? "#{current_user.given_name} #{current_user.last_name}" : "Reservaci&oacute;n"
+      "title" => (user_signed_in? and current_user.id == eq.user_id) ? "#{current_user.given_name} #{current_user.last_name}" : "Reservación",
+      "isUser" => (user_signed_in? and current_user.id == eq.user_id)
     })
   end
 %>
@@ -94,6 +96,7 @@
     <%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
     <script>
       const eqid = '<%= @equipment.id %>';
+      const reservations = <%= raw(reservations.to_json) %>;
       let tmpEvent = null;
       let calendar;
       document.addEventListener('DOMContentLoaded', function() {
@@ -103,6 +106,7 @@
           plugins: [ 'dayGrid', 'timeGrid', 'interaction' ],
           defaultView: 'timeGridWeek',
           events: reservations,
+          <% if user_signed_in? %>
           selectable: true,
           selectOverlap: false,
           select: function(selInfo) {
@@ -115,18 +119,35 @@
               end: selInfo.end,
             };
           },
+          <% end %>
           allDaySlot: false,
           eventTextColor: 'white',
           eventBackgroundColor: 'rgba(68, 93, 252, .77)',
           minTime: "06:00:00",
           maxTime: "22:00:00",
+          <% if user_signed_in? %>
           businessHours: {
             // days of week. an array of zero-based day of week integers (0=Sunday)
             daysOfWeek: [ 1, 2, 3, 4,5 ], // Monday - Thursday
 
             startTime: '08:00', // a start time (10am in this example)
             endTime: '18:00', // an end time (6pm in this example)
+          },
+          eventRender: function(info) {
+            if(info.event.extendedProps.isUser) {
+              const element = $(info.el);
+              element.append( "<span title='Cancelar reservaci&oacute;n' class='removebtn'>&times;</span>" );
+              element.find(".removebtn").click(function() {
+                if(confirm('¿Estás seguro de que deseas cancelar esta reservación?')) {
+                  cancelEvent(info.event, function() {
+                    alert('Resrevación cancelada exitosamente.');
+                    info.event.remove();
+                  });
+                }
+              });
+            }
           }
+          <% end %>
         });
 
         calendar.render();
@@ -138,10 +159,9 @@
       <script>
         const $modal = $('#exampleModal').modal({keyboard: false, backdrop: 'static', show: false});
         const userName = '<%= "#{current_user.given_name} #{current_user.last_name}" %>';
-        const reservations = <%= raw(reservations.to_json) %>;
       </script>
-       <script>
-         $('.reserveBtn').click(function() {
+      <script>
+        $('.reserveBtn').click(function() {
           if(tmpEvent) {
             const eventData = buildEvent(tmpEvent);
             registerEvent(eventData, function(created) {
@@ -158,9 +178,26 @@
           $modal.find('textarea').val('');
           $modal.find('select').val('academic');
           $modal.modal('hide');
-         });
-
-         function buildEvent(event) {
+        });
+        function cancelEvent(event, cb) {
+          $.ajax({
+            url: `/reservations/${event.id}.json`,
+            method: 'DELETE',
+            data: { authenticity_token: window._token },
+            dataType: 'json',
+            success: function(data) {
+              console.log('success');
+              console.log(data);
+              cb();
+            },
+            error: function(xhr, status, err) {
+              alert('Se ha producido un error. Por favor, intenta más tarde.');
+              console.error(err);
+              console.error(xhr);
+            }
+          });
+        }
+        function buildEvent(event) {
           return {
             authenticity_token: window._token,
             "reservation": {
@@ -170,8 +207,8 @@
               "end_time": event.end.toISOString()
             }
           };
-         }
-         function registerEvent(eventData, cb) {
+        }
+        function registerEvent(eventData, cb) {
           $.post(`/equipment/${eqid}/reservations.json`, eventData, function(data, status, xhr) {
             console.log(data, status);
             cb(data.status && data.status === "confirmed");
@@ -180,7 +217,7 @@
             console.error(err);
             alert('No ha sido posible guardar tu evento. Por favor, inténtalo otra vez.');
           });
-         }
-       </script>
+        }
+      </script>
     <% end %>
   <% end %>

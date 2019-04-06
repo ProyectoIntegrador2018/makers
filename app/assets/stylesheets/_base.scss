@@ -196,7 +196,7 @@ h1 {
   font-weight: 600;
   &.white {
     background-color: white;
-    color: $highlight;
+    color: $highlight !important;
     box-shadow: 0 2px 8px rgba(#7C86CC,.3);
     transition: box-shadow 300ms;
     &:hover {

@@ -44,6 +44,8 @@ es:
         inactive: 'inactiva'
         unconfirmed: 'sin confirmar'
         locked: 'bloqueada'
+      user:
+        signed_up_but_unconfirmed: "Registro exitoso. Recibirás un correo electrónico con instrucciones sobre cómo confirmar tu cuenta en unos minutos. Da click en el enlace para activar tu cuenta."
     unlocks:
       send_instructions: 'Recibirás un correo electrónico con instrucciones sobre cómo desbloquear tu cuenta en unos minutos.'
       unlocked: 'Tu cuenta fue desbloqueada con éxito, has sido ingresado al sistema.'
