@@ -85,82 +85,89 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/main.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.0.1/main.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.0.1/main.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/main.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.0.1/main.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.0.1/main.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.0.1/main.min.js"></script>
+
+    <% if user_signed_in? %>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.0.1/main.min.js"></script>
+    <% end %>
 
     <%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
+
     <script>
       const eqid = '<%= @equipment.id %>';
       const reservations = <%= raw(reservations.to_json) %>;
       let tmpEvent = null;
       let calendar;
+
       document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
+        let calendarEl = document.getElementById('calendar');
+
+        <% if user_signed_in? %>
+          const signedInOptions = {
+            selectable: true,
+            selectOverlap: false,
+            select: function(selInfo) {
+              $modal.modal('show');
+              tmpEvent = {
+                title: userName,
+                start: selInfo.start,
+                end: selInfo.end,
+              };
+            },
+            businessHours: {
+              // days of week. an array of zero-based day of week integers (0=Sunday)
+              daysOfWeek: [1, 2, 3, 4, 5], // Monday - Friday
+              startTime: '08:00', // a start time (10am in this example)
+              endTime: '18:00', // an end time (6pm in this example)
+            },
+            eventRender: function(info) {
+              if(info.event.extendedProps.isUser) {
+                const element = $(info.el);
+                element.append( "<span title='Cancelar reservaci&oacute;n' class='removebtn'>&times;</span>" );
+                element.find(".removebtn").click(function() {
+                  if(confirm('¿Estás seguro de que deseas cancelar esta reservación?')) {
+                    cancelEvent(info.event, function() {
+                      alert('Resrevación cancelada exitosamente.');
+                      info.event.remove();
+                    });
+                  }
+                });
+              }
+            }
+          };
+        <% end %>
 
         calendar = new FullCalendar.Calendar(calendarEl, {
           plugins: [ 'dayGrid', 'timeGrid', 'interaction' ],
           defaultView: 'timeGridWeek',
           events: reservations,
-          <% if user_signed_in? %>
-          selectable: true,
-          selectOverlap: false,
-          select: function(selInfo) {
-            $modal.modal('show');
-            // console.log(`Start time: ${selInfo.start.toLocaleString()} \nEnd time: ${selInfo.end.toLocaleString()}`);
-            // calendar.addEvent();
-            tmpEvent = {
-              title: userName,
-              start: selInfo.start,
-              end: selInfo.end,
-            };
-          },
-          <% end %>
           allDaySlot: false,
           eventTextColor: 'white',
           eventBackgroundColor: 'rgba(68, 93, 252, .77)',
           minTime: "06:00:00",
           maxTime: "22:00:00",
           <% if user_signed_in? %>
-          businessHours: {
-            // days of week. an array of zero-based day of week integers (0=Sunday)
-            daysOfWeek: [ 1, 2, 3, 4,5 ], // Monday - Thursday
-
-            startTime: '08:00', // a start time (10am in this example)
-            endTime: '18:00', // an end time (6pm in this example)
-          },
-          eventRender: function(info) {
-            if(info.event.extendedProps.isUser) {
-              const element = $(info.el);
-              element.append( "<span title='Cancelar reservaci&oacute;n' class='removebtn'>&times;</span>" );
-              element.find(".removebtn").click(function() {
-                if(confirm('¿Estás seguro de que deseas cancelar esta reservación?')) {
-                  cancelEvent(info.event, function() {
-                    alert('Resrevación cancelada exitosamente.');
-                    info.event.remove();
-                  });
-                }
-              });
-            }
-          }
+            ...signedInOptions
           <% end %>
         });
 
         calendar.render();
       });
 
-     </script>
+    </script>
 
     <% if user_signed_in? %>
       <script>
         const $modal = $('#exampleModal').modal({keyboard: false, backdrop: 'static', show: false});
         const userName = '<%= "#{current_user.given_name} #{current_user.last_name}" %>';
-      </script>
-      <script>
+
         $('.reserveBtn').click(function() {
           if(tmpEvent) {
             const eventData = buildEvent(tmpEvent);
