@@ -31,8 +31,8 @@ RUN echo -e "127.0.0.1\tpostgres" >> /etc/hosts
 
 # 7: Install node & testing packages - I separated these apart to share as many layers as possible
 # with inventory services' container image:
-RUN set -ex && apt-get install -y \
-  nodejs
+RUN set -ex && apt-get remove -y nodejs && curl -sL https://deb.nodesource.com/setup_10.x | bash - \
+  && apt-get install -y nodejs
 
 RUN apt-get install --only-upgrade -y bash
 RUN apt-get autoclean
