@@ -1,4 +1,18 @@
 Rails.application.routes.draw do
+  namespace :admin do
+      resources :users
+      resources :available_hours
+      resources :capabilities
+      resources :equipment
+      resources :equipment_capabilities
+      resources :equipment_materials
+      resources :labs
+      resources :lab_spaces
+      resources :materials
+      resources :reservations
+
+      root to: "users#index"
+    end
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :labs do

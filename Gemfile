@@ -69,3 +69,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # For seeding the DB
 gem 'faker'
+
+# Admin dashboard
+gem "administrate"
