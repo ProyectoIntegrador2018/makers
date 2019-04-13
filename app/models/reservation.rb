@@ -35,22 +35,24 @@ class Reservation < ApplicationRecord
   end
 
   def date_is_available
-    if start_time.present? && end_time.present?
-      st = start_time
-      day = start_time.wday
-      et = end_time
-      et = Time.parse('2000-01-01T23:59:59.000Z') if st.to_formatted_s(:time) > end_time.to_formatted_s(:time) # this means reservation is overnight
-      begin
-        first_match = get_first_available_overlap(st, et, day)
-        if first_match.blank?
-          errors.add(:date, 'is not within the equipment available hours')
-          return
-        else # change st to be the end of the
-          st = first_match.end_time
-          day = (day + 1) % 7 if start_time.to_formatted_s(:time) > st.to_formatted_s(:time) # check for next day, if overnight reservation
-        end
-      end while end_time.to_formatted_s(:time) > first_match.end_time.to_formatted_s(:time)
-    end
+    st = start_time
+    day = start_time&.wday
+    et = end_time
+    et = AvailableHour::END_OF_DAY if is_bigger(st, end_time) # this means reservation is overnight
+    begin
+      first_match = get_first_available_overlap(st, et, day)
+      if first_match.blank?
+        errors.add(:date, 'is not within the equipment available hours')
+        return
+      else # change st to be the end of the
+        st = first_match.end_time
+        day = (day + 1) % 7 if is_bigger(start_time, st) # check for next day, if overnight reservation
+      end
+    end while is_bigger(end_time, first_match.end_time)
+  end
+
+  def is_bigger(a, b)
+    a&.to_formatted_s(:time) > b&.to_formatted_s(:time)
   end
 
   def remove_overlapped
