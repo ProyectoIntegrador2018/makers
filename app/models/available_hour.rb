@@ -1,5 +1,4 @@
 class AvailableHour < ApplicationRecord
-  END_OF_DAY = Time.parse('2000-01-01T23:59:59.000Z')
   enum day_of_week: [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday]
 
   belongs_to :equipment
