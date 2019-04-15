@@ -2,7 +2,8 @@
 // Everything related to the reservations calendar
 .fc-event {
   position: relative;
-  span.removebtn {
+
+  .removebtn {
     cursor: pointer;
     font-size: 14px;
     font-weight: 800;
@@ -11,7 +12,9 @@
     top: 1px;
     z-index: 2;
   }
+
 }
+
 .fc-axis.fc-time {
   text-transform: uppercase;
 }
