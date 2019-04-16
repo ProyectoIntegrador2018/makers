@@ -8,6 +8,8 @@
 
 require 'faker'
 
+puts "Seeding the database..."
+
 2.times do
 
   lab = Lab.create!(
@@ -43,5 +45,38 @@ require 'faker'
     end
   end
 end
+
+
+## Seed users
+puts "\tSeeding users..."
+
+johndoe = User.create!(
+  email: "johndoe@itesm.mx",
+  password: "johndoe",
+  given_name: "John",
+  last_name: "Doe",
+  institutional_id: "A00000001"
+)
+johndoe.confirm
+
+janedoe = User.create!(
+  email: "janedoe@itesm.mx",
+  password: "janedoe",
+  given_name: "Jane",
+  last_name: "Doe",
+  institutional_id: "A00000002"
+)
+janedoe.confirm
+
+
+# Super admin
+admin_user = User.create!(
+  email: "admin@itesm.mx",
+  password: "admin123",
+  role: :superadmin,
+  given_name: "Admin",
+  institutional_id: "A00000000"
+)
+admin_user.confirm
 
 puts "Success! Inserted records into the database"

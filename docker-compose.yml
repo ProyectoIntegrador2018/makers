@@ -23,7 +23,8 @@ services:
       POSTGRES_PASSWORD: postgres
     #   POSTGRES_DB: 'makersprogram'
 
-  test: &app
+  web:
+  # test: &app
     build: .
     image: vovimayhem/rails-demo:development
     entrypoint: /usr/src/bin/dev-entrypoint
@@ -44,28 +45,28 @@ services:
     depends_on:
       - db
 
-    command: guard
+    # command: guard
 
     environment: &app_env
       # URL to connect to the database:
       DATABASE_URL: postgres://postgres:postgres@db
 
-      RAILS_ENV: test
-      RACK_ENV: test
+      # RAILS_ENV: test
+      # RACK_ENV: test
+      RAILS_ENV: development
+      RACK_ENV: development
       RAILS_LOG_TO_STDOUT: "true"
 
-  web:
-    <<: *app
+  # web:
+    # <<: *app
     labels:
       com.icalialabs.plis.group: demo backend
     command: rails server -p 3000 -b 0.0.0.0
     ports:
       - published: ${DEMO_WEB_PORT:-3000}
         target: 3000
-    environment:
-      <<: *app_env
+    # environment:
+    #   <<: *app_env
       # Override the URL for the development database - we'll use oauth_provider_development:
       # DATABASE_URL: postgres://postgres:3x4mpl3@0.0.0.0:5432/makersprogram_dev
       # DATABASE_PASSWORD: 3x4mpl3
-      RAILS_ENV: development
-      RACK_ENV: development

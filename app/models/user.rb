@@ -7,6 +7,6 @@ class User < ApplicationRecord
 
   # default is 0 (:user)
   enum role: [:user, :superadmin, :admin, :lab_admin]
-  validates :given_name, :last_name, :institutional_id, presence: true
+  validates :given_name, :institutional_id, presence: true
   has_many :reservations
 end
