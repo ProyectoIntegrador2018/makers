@@ -12,8 +12,9 @@ module Admin
     def set_locale
       I18n.locale = :en || I18n.default_locale
     end
+
     def authenticate_admin
-      # TODO Add authentication logic here.
+      # TODO: Add authentication logic here.
     end
 
     # Override this value to specify the number of elements to display at a time

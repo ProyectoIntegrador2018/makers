@@ -29,3 +29,4 @@ AllCops:
     - 'config/**/*'
     - 'script/**/*'
     - 'bin/**/*'
+    - 'app/dashboards/**/*'
