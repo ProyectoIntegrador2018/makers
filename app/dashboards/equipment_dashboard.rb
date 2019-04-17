@@ -61,6 +61,7 @@ class EquipmentDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
+    :name,
     :equipment_materials,
     :materials,
     :equipment_capabilities,
@@ -68,7 +69,6 @@ class EquipmentDashboard < Administrate::BaseDashboard
     :available_hours,
     :reservations,
     :lab_space,
-    :name,
     :description,
     :image,
     :technical_description,
@@ -77,7 +77,7 @@ class EquipmentDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how equipment are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(equipment)
-  #   "Equipment ##{equipment.id}"
-  # end
+  def display_resource(equipment)
+    equipment.name
+  end
 end
