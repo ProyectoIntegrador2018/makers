@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
 
   protected
+
   def set_locale
     I18n.locale = :es || I18n.default_locale
   end

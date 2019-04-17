@@ -71,4 +71,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'faker'
 
 # Admin dashboard
-gem "administrate"
+gem 'administrate'
