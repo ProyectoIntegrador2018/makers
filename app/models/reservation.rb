@@ -57,10 +57,6 @@ class Reservation < ApplicationRecord
     end while bigger(end_time, st)
   end
 
-  def bigger(time_a, time_b)
-    time_a.to_formatted_s(:time) > time_b.to_formatted_s(:time)
-  end
-
   def remove_overlapped
     overlapped_reservations.each(&:cancelled!) # TODO: notify user of cancellation
   end
@@ -70,5 +66,11 @@ class Reservation < ApplicationRecord
 
     errors.add(:start_time, "can't be in the past") if start_time < Time.now
     errors.add(:end_time, "can't be before start time") if end_time.present? && end_time < start_time
+  end
+
+  private
+
+  def bigger(time_a, time_b)
+    time_a.to_formatted_s(:time) > time_b.to_formatted_s(:time)
   end
 end
