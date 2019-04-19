@@ -40,9 +40,6 @@
 		"space-after-colon": 2,
 		"indentation": [
 			2,
-			{
-				"size": "tab"
-			}
 		],
 		"property-sort-order": [
 			1,
