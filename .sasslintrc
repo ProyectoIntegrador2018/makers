@@ -11,7 +11,7 @@
 	},
 	"rules": {
 		"brace-style": [2, {"style": "stroustrup", "allow-single-line": true}],
-		"class-name-format": [1, {"convention": "hyphenatedlowercase", "convention-explanation": "Your classes should be lower-case-hyphenated"}],
+		"class-name-format": [0, {"convention": "hyphenatedlowercase", "convention-explanation": "Your classes should be lower-case-hyphenated"}],
 		"extends-before-mixins": 2,
 		"extends-before-declarations": 2,
 		"declarations-before-nesting": 2,
@@ -32,7 +32,6 @@
 		"no-empty-rulesets": 1,
 		"no-debug": 1,
 		"no-ids": 1,
-		"no-important": 2,
 		"no-mergeable-selectors": 2,
 		"pseudo-element": 1,
 		"shorthand-values": 1,
