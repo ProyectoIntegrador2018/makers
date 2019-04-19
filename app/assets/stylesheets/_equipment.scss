@@ -83,7 +83,7 @@ hr {
       box-shadow: none;
       border: 0 none;
       border-radius: 0;
-      border-bottom: 1px solid #BCBCBC;
+      border-bottom: 1px solid #bcbcbc;
       padding-left: 0;
       &:focus {
         border-color: $highlight;
@@ -140,7 +140,7 @@ hr {
     display: block;
     margin: 40px 0;
     .plusico {
-      background-color: #3587F6;
+      background-color: #3587f6;
       color: white;
       font-weight: 700;
       border-radius: 50%;
