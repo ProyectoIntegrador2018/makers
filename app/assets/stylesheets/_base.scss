@@ -306,26 +306,24 @@ h1 {
   }
   .mainNav {
     position: relative;
-    .navList {
-      background-color: white;
-      z-index: 800;
-      border: 1px solid #e9ecef;
-      border-radius: .25rem;
-
-
-      display: none;
-      left: auto;
-      list-style: none;
-      position: absolute;
-      right: 0;
-      top: 40px;
-      &.show {
-        display: block;
-      }
-      .dropdown-item {
-        display: block;
-        text-align: right;
-      }
+  }
+  .navList {
+    background-color: white;
+    border-radius: .25rem;
+    border: 1px solid #e9ecef;
+    display: none;
+    left: auto;
+    list-style: none;
+    position: absolute;
+    right: 0;
+    top: 40px;
+    z-index: 800;
+    &.show {
+      display: block;
+    }
+    .dropdown-item {
+      display: block;
+      text-align: right;
     }
   }
   .userNav {
@@ -397,18 +395,18 @@ h1 {
   border-top: 1px solid #e9ecef;
 }
 .dropdown-item {
-  display: block;
-  width: 100%; // For `<button>`s
-  padding: .45rem 1.5rem;
-  clear: both;
-  text-align: inherit; // For `<button>`s
-  white-space: nowrap; // prevent links from randomly breaking onto new lines
   background-color: transparent; // For `<button>`s
   border: 0; // For `<button>`s
+  clear: both;
+  display: block;
+  padding: .45rem 1.5rem;
+  text-align: inherit; // For `<button>`s
+  white-space: nowrap; // prevent links from randomly breaking onto new lines
+  width: 100%; // For `<button>`s
 
   &:hover, &:focus {
-    text-decoration: none;
     background-color: #f8f9fa;
+    text-decoration: none;
   }
   // &.active,
   // &:active {
