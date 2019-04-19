@@ -21,61 +21,12 @@
               <%= image_tag "logo.svg", alt: "Makers program" %>
             </a>
           </div>
-          <div class="col d-flex justify-content-end">
-            <% if user_signed_in? %>
-              <nav class="userNav">
-                <div class="d-flex">
-                  <div class="left user-avatar">
-                    <a href="#">
-                      <%= image_tag "icons/user-avatar.svg" %>
-                    </a>
-                  </div>
-                  <div class="right user-name">
-                    <p>
-                      <a class="uname-link primary" href="#">
-                        <strong><%= "#{current_user.given_name} #{current_user.last_name}"  %></strong>
-                      </a>
-                    </p>
-                    <p><small><%= link_to raw("Cerrar sesi&oacute;n"), destroy_user_session_path, method: :delete, class: "signout-link" %></small></p>
-                  </div>
-                </div>
-              </nav>
-            <% else %>
-              <nav class="userNav">
-                <%= link_to raw("Iniciar sesi&oacute;n"), new_user_session_path %>
-              </nav>
-            <% end %>
-            <nav class="mainNav">
-              <a href="#" class="trigger hamburger">
-                <%= image_tag "icons/menu.svg", alt: "Show main menu", class: 'triggerico' %>
-              </a>
-              <ul class="navList dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarDropdown">
-                <% if user_signed_in? %>
-                  <li><a class="dropdown-item" href="#">Mis reservaciones</a></li>
-                <% end %>
-                <li><%= link_to "Laboratorios", labs_path, class: 'dropdown-item' %></li>
-                <li><%= link_to "Equipo", equipment_index_path, class: 'dropdown-item' %></li>
-                <!-- <li><div class="dropdown-divider"></div></li> -->
-                <!-- <li><a href="#" class="dropdown-item">Logout</a></li> -->
-              </ul>
-            </nav>
-          </div>
+          <%= render partial: 'shared/nav' %>
         </div>
       </header>
       <%= yield %>
     </div>
     <!-- <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script>
-      $('.trigger').click(function(e) {
-        e.preventDefault();
-        $('.navList').addClass('show');
-      });
-      $('body').click(function(e) {
-        if(!$(e.target).hasClass('triggerico')) {
-          $('.navList').removeClass('show');
-        }
-      });
-    </script>
     <%= yield(:scripts) if content_for?(:scripts)  %> </body>
 </html>

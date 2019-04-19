@@ -13,6 +13,11 @@
 
 	<body class="<%= @body_class %>">
 		<div class="container tac">
+      <div class="standard header home">
+        <div class="row">
+          <%= render partial: 'shared/nav' %>
+        </div>
+      </div>
 			<a href="#" class="logo">
 				<%= image_tag "logo.svg", alt: "Makers Program" %>
 				<p class="tecbrand">@Tec de Monterrey</p>
@@ -57,7 +62,8 @@
 			</footer>
 			<% #render partial: 'shared/search' %>
 		</div>
-
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <%= yield(:scripts) if content_for?(:scripts)  %> </body>
 	</body>
 </html>
 
