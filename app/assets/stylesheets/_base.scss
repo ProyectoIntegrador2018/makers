@@ -305,8 +305,27 @@ h1 {
     display: block;
   }
   .mainNav {
+    position: relative;
     .navList {
+      background-color: white;
+      z-index: 800;
+      border: 1px solid #e9ecef;
+      border-radius: .25rem;
+
+
       display: none;
+      left: auto;
+      list-style: none;
+      position: absolute;
+      right: 0;
+      top: 40px;
+      &.show {
+        display: block;
+      }
+      .dropdown-item {
+        display: block;
+        text-align: right;
+      }
     }
   }
   .userNav {
@@ -328,7 +347,78 @@ h1 {
     }
   }
 }
+@media (min-width: 992px) {
+  .animate {
+    animation-duration: 0.3s;
+    -webkit-animation-duration: 0.3s;
+    animation-fill-mode: both;
+    -webkit-animation-fill-mode: both;
+  }
+}
 
+@keyframes slideIn {
+  0% {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+  100% {
+    transform:translateY(0rem);
+    opacity: 1;
+  }
+  0% {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes slideIn {
+  0% {
+    -webkit-transform: transform;
+    -webkit-opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    -webkit-opacity: 1;
+  }
+  0% {
+    -webkit-transform: translateY(1rem);
+    -webkit-opacity: 0;
+  }
+}
+
+.slideIn {
+  -webkit-animation-name: slideIn;
+  animation-name: slideIn;
+}
+.dropdown-item {
+  display: block;
+  width: 100%; // For `<button>`s
+  padding: .45rem 1.5rem;
+  clear: both;
+  text-align: inherit; // For `<button>`s
+  white-space: nowrap; // prevent links from randomly breaking onto new lines
+  background-color: transparent; // For `<button>`s
+  border: 0; // For `<button>`s
+
+  // @include hover-focus {
+  //   color: $dropdown-link-hover-color;
+  //   text-decoration: none;
+  // }
+
+  // &.active,
+  // &:active {
+  //   color: $dropdown-link-active-color;
+  //   text-decoration: none;
+  // }
+
+  // &.disabled,
+  // &:disabled {
+  //   color: $dropdown-link-disabled-color;
+  //   pointer-events: none;
+  //   background-color: transparent;
+  //   }
+  // }
+}
 .txtinput {
   background: transparent;
   border: 0 none;
