@@ -1,13 +1,13 @@
 // _base.scss
 
 @mixin valign-parent {
-  display:table;
+  display: table;
   height: 100%;
   width: 100%;
 }
 @mixin valign {
-  display:table-cell;
-  vertical-align:middle;
+  display: table-cell;
+  vertical-align: middle;
 }
 @mixin transition($prop, $time, $opt: null, $fn: null) {
   transition: $prop $time $fn $opt;
@@ -19,11 +19,11 @@
   -webkit-transform: $trans;
   transform: $trans;
 }
-@mixin bgtrans($color, $alpha){
+@mixin bgtrans($color, $alpha) {
   background-color: $color;
   background-color: rgba($color,$alpha);
 }
-@mixin bgsize($size){
+@mixin bgsize($size) {
   -webkit-background-size: $size;
   -moz-background-size: $size;
   -o-background-size: $size;
@@ -95,14 +95,14 @@ img {
   height: 0;
 }
 $i: 5;
-@while $i < 51{
+@while $i < 51 {
   .h#{$i}px { height: $i*1px}
   $i: $i+5;
 }
-.h60px { height:60px;   }
-.h80px { height:80px;   }
-.h100px { height:100px; }
-.h120px { height:120px; }
+.h60px { height: 60px;   }
+.h80px { height: 80px;   }
+.h100px { height: 100px; }
+.h120px { height: 120px; }
 a {
   text-decoration: none !important;
   color: $highlight;
@@ -143,9 +143,9 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-size: 2.625rem;
 }
-.fz12{font-size: 1.2rem;}
-.fz18{font-size: 1.8rem;}
-.fz20{font-size: 2rem;}
+.fz12 {font-size: 1.2rem;}
+.fz18 {font-size: 1.8rem;}
+.fz20 {font-size: 2rem;}
 .semibold {
   font-weight: 600;
 }
@@ -164,16 +164,16 @@ h1 {
 /* Colors */
 
 @each $color in $colors {
-  .#{""+nth($color,1)}{
+  .#{""+nth($color,1)} {
     color: #{nth($color,2)} !important;
   }
   a.#{""+nth($color,1)}:hover {
     color: darken(nth($color,2),10%);
   }
-  .bg-#{""+nth($color,1)}{
+  .bg-#{""+nth($color,1)} {
     background-color: #{nth($color,2)};
   }
-  a.bg-#{""+nth($color,1)}, button.bg-#{""+nth($color,1)}{
+  a.bg-#{""+nth($color,1)}, button.bg-#{""+nth($color,1)} {
     color: white;
     &:hover { background-color: darken(nth($color,2),10%); }
   }
@@ -295,11 +295,11 @@ h1 {
 ----------------------------- */
 
 .standard.header {
+  margin-bottom: 30px;
   &.home {
     position: relative;
     top: -40px;
   }
-  margin-bottom: 30px;
   .logo {
     width: 170px;
     display: block;
@@ -364,7 +364,7 @@ h1 {
     opacity: 0;
   }
   100% {
-    transform:translateY(0rem);
+    transform: translateY(0);
     opacity: 1;
   }
   0% {
