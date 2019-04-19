@@ -43,10 +43,11 @@
             <% end %>
             <nav class="mainNav">
               <a href="#" class="trigger hamburger">
-                <%= image_tag "icons/menu.svg", alt: "Show main menu" %>
+                <%= image_tag "icons/menu.svg", alt: "Show main menu", class: 'triggerico' %>
               </a>
-              <ul class="navList">
-                <li><a href="#">Some link</a></li>
+              <ul class="navList dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
               </ul>
             </nav>
           </div>
@@ -56,6 +57,16 @@
     </div>
     <!-- <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <%= yield(:scripts) if content_for?(:scripts)  %>
-  </body>
+    <script>
+      $('.trigger').click(function(e) {
+        e.preventDefault();
+        $('.navList').addClass('show');
+      });
+      $('body').click(function(e) {
+        if(!$(e.target).hasClass('triggerico')) {
+          $('.navList').removeClass('show');
+        }
+      });
+    </script>
+    <%= yield(:scripts) if content_for?(:scripts)  %> </body>
 </html>
