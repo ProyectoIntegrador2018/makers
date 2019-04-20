@@ -1,5 +1,7 @@
 .idea
 public/uploads/*
+.bash_history
+
 
 # Created by https://www.gitignore.io/api/ruby,rails,macos,windows
 # Edit at https://www.gitignore.io/?templates=ruby,rails,macos,windows
