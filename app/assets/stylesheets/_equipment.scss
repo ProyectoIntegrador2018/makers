@@ -41,6 +41,11 @@ hr {
     border-bottom: 1px solid #ccc;
     padding-bottom: 20px;
     margin-bottom: 40px;
+    .reserveBtn {
+      opacity: 0;
+      padding: 8px 15px;
+    }
+    &:hover .reserveBtn {opacity: 1;}
     .taglist li {
       margin: 0 5px;
       &:first-child {
