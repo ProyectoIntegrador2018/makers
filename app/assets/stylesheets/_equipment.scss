@@ -202,4 +202,27 @@ hr {
     }
   }
 }
-
+.EquipmentDetail {
+  .detailsTable {
+    margin-bottom: 20px;
+    width: 100%;
+    tr td:first-child {
+      width: 30%;
+      font-weight: 600;
+    }
+  }
+  .entitytag {
+    position: relative;
+    top: -4px;
+  }
+  .ico.ico-cal {
+    width: 26px;
+    position: relative;
+    top: -4px;
+    margin-left: 5px;
+  }
+  #calendar h2 {
+    color: $gray1;
+    font-size: 1.35em;
+  }
+}
