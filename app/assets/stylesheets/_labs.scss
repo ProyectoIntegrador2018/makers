@@ -23,13 +23,10 @@
     }
     .taglist {
       position: relative;
-      top: 6px;
-      margin-left: 20px;
+      // top: 6px;
+      margin-left: 15px;
       .pill {
         cursor: default;
-      }
-      li {
-        display: inline-block;
       }
     }
   }

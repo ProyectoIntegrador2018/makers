@@ -13,25 +13,35 @@
     <section class="labList">
       <% if !@labs.blank? %>
         <% @labs.each do |lab| %>
+          <%
+            tags = Array.new
+            lab.lab_spaces.each do | ls | ls.equipment.each do | e |
+              tags = tags + e.capabilities.map{|c| c.name}
+              tags = tags + e.materials.map{|m| m.name}
+            end; end;
+            tags.uniq!
+          %>
           <article class="labEntry">
             <div class="row">
               <div class="col-10">
                 <div class="container">
                   <div class="row pl-3">
                     <h2 class="title"><%= lab.name %></h2>
-                    <ul class="taglist">
-                      <li><div class="pill gray small">aluminio</div></li>
-                      <li><div class="pill gray small">pl&aacute;stico</div></li>
-                      <li><div class="pill gray small">madera</div></li>
-                    </ul>
                   </div>
                   <div class="row no-gutters semibold">
                     <div class="col-2 pl-1">
-                      <p class="location"><%= lab.location %></p>
+                      <p class="location mb-2"><%= lab.location %></p>
                     </div>
                     <div class="col-3">
-                      <p class="horarios"><%=  (defined? lab.horario) ? lab.horario : "HORARIO" %></p>
+                      <p class="horarios mb-2"><%=  (defined? lab.horario) ? lab.horario : "HORARIO" %></p>
                     </div>
+                  </div>
+                  <div class="row">
+                    <ul class="taglist inline">
+                      <% tags.each do |t| %>
+                        <li><div class="pill gray small"><%= t %></div></li>
+                      <% end %>
+                    </ul>
                   </div>
                 </div>
               </div>
