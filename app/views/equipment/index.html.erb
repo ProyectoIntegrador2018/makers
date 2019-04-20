@@ -13,14 +13,6 @@
           <p class="title">Material</p>
           <select multiple name="materiales" id="select-material">
             <option value="">Materiales</option>
-            <option value="1">Material 1</option>
-            <option value="1">Material 1</option>
-            <option value="2">Material 2</option>
-            <option value="3">Material 3</option>
-            <option value="4">Material 4</option>
-            <option value="5">Material 5</option>
-            <option value="6">Material 6</option>
-            <option value="7">Material 7</option>
             <% @materials.each do |m|  %>
               <option value="<%= m.id %>"><%= m.name %></option>
             <% end %>
@@ -37,15 +29,6 @@
           <p class="title">Capacidad</p>
           <select multiple name="capacidades" id="select-capacidad">
             <option value="">Capacidades</option>
-            <option value="1">Capacidad 1</option>
-            <option value="2">Capacidad 2</option>
-            <option value="3">Capacidad 3</option>
-            <option value="4">Capacidad 4</option>
-            <option value="5">Capacidad 5</option>
-            <option value="6">Capacidad 6</option>
-            <option value="7">Capacidad 7</option>
-            <option value="8">Capacidad 8</option>
-            <option value="9">Capacidad 9</option>
             <% @capabilities.each do |c|  %>
               <option value="<%= c.id %>"><%= c.name %></option>
             <% end %>
@@ -95,9 +78,12 @@
               </table>
               <p class="desc"><%= equipment.description %></p>
               <ul class="inline taglist">
-                <li><div class="pill gray small">aluminio</div></li>
-                <li><div class="pill gray small">pl&aacute;stico</div></li>
-                <li><div class="pill gray small">madera</div></li>
+                <% equipment.capabilities.each do | c | %>
+                  <li><div class="pill gray small"><%= c.name %></div></li>
+                <% end %>
+                <% equipment.materials.each do | m | %>
+                  <li><div class="pill gray small"><%= m.name %></div></li>
+                <% end %>
               </ul>
             </article>
           <% end %>
