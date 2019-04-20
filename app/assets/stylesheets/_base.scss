@@ -187,6 +187,9 @@ h1 {
 
 /* Pills
 ----------------------------- */
+.tagslist.inline .pill {
+  margin-bottom: 10px;
+}
 .Resultados .sidebar .selectize-input.items .item,
 .pill {
   border-radius: 40px;

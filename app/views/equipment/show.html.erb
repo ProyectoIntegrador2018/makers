@@ -25,6 +25,18 @@
                 <p><%= @equipment.description %></p>
               </div>
             </div>
+            <div class="row">
+              <div class="col">
+                <ul class="tagslist inline">
+                  <% @equipment.capabilities.each do |c| %>
+                    <li><div class="pill gray small"><%= c.name %></div></li>
+                  <% end %>
+                  <% @equipment.materials.each do | m | %>
+                    <li><div class="pill gray small"><%= m.name %></div></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
           </div>
         </section>
       </div>
