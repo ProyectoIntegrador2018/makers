@@ -35,7 +35,7 @@
             </div>
             <div class="row">
               <div class="col">
-                <ul class="tagslist inline">
+                <ul class="taglist inline">
                   <% @equipment.capabilities.each do |c| %>
                     <li><div class="pill gray small"><%= c.name %></div></li>
                   <% end %>
@@ -64,7 +64,8 @@
     </div>
   </section>
   <section class="Horario">
-    <h2 class="mb-3">Horario <%= image_tag "icons/calendar.svg", class: 'ico ico-cal' %></h2>
+    <h2>Horario <%= image_tag "icons/calendar.svg", class: 'ico ico-cal' %></h2>
+    <p class="mb-5 mt-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex odio, ut corporis error, necessitatibus omnis laudantium hic provident a maxime.</p>
     <div id="calendar"></div>
   </section>
 </div>
