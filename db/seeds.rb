@@ -46,6 +46,15 @@ puts "Seeding the database..."
   end
 end
 
+## Seed capabilities
+12.times do
+  Capability.create!(name: Faker::Verb.base)
+end
+
+## Seed materials
+8.times do
+  Material.create!(name: Faker::Construction.unique.material)
+end
 
 ## Seed users
 puts "\tSeeding users..."
