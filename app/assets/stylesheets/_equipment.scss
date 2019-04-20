@@ -39,7 +39,7 @@ hr {
 .resultsContainer {
   .SearchResult {
     border-bottom: 1px solid #ccc;
-    padding-bottom: 40px;
+    padding-bottom: 20px;
     margin-bottom: 40px;
     .taglist li {
       margin: 0 5px;
@@ -65,6 +65,12 @@ hr {
       tr td:last-child {
         padding-left: 25px;
       }
+    }
+    .taglist {
+      width: 70%;
+    }
+    .pill {
+      margin-bottom: 10px;
     }
   }
 }

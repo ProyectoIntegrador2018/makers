@@ -10,6 +10,16 @@ require 'faker'
 
 puts "Seeding the database..."
 
+## Seed capabilities
+12.times do
+  Capability.create!(name: Faker::Verb.base)
+end
+
+## Seed materials
+8.times do
+  Material.create!(name: Faker::Construction.unique.material)
+end
+
 2.times do
 
   lab = Lab.create!(
@@ -34,7 +44,9 @@ puts "Seeding the database..."
       name: Faker::App.name,
       description: Faker::Lorem.sentence(100, true, 10),
       remote_image_url: "http://lorempixel.com/600/440",
-      technical_description: Faker::Lorem.sentence(40, true, 15)
+      technical_description: Faker::Lorem.sentence(40, true, 15),
+      capability_ids: Capability.ids.sample(6),
+      material_ids: Material.ids.sample(4)
     )
     5.times do |i|
       eq.available_hours.create!(
@@ -46,15 +58,8 @@ puts "Seeding the database..."
   end
 end
 
-## Seed capabilities
-12.times do
-  Capability.create!(name: Faker::Verb.base)
-end
 
-## Seed materials
-8.times do
-  Material.create!(name: Faker::Construction.unique.material)
-end
+
 
 ## Seed users
 puts "\tSeeding users..."
