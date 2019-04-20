@@ -22,6 +22,14 @@
           <div class="section-body">
             <div class="row">
               <div class="col">
+                <table class="detailsTable">
+                  <tbody>
+                    <tr>
+                      <td>Laboratorio:</td>
+                      <td><%= link_to @equipment.lab_space.name, lab_lab_space_path(@equipment.lab_space.id) %></td>
+                    </tr>
+                  </tbody>
+                </table>
                 <p><%= @equipment.description %></p>
               </div>
             </div>
@@ -56,7 +64,7 @@
     </div>
   </section>
   <section class="Horario">
-    <h2 class="mb-3">Horario</h2>
+    <h2 class="mb-3">Horario <%= image_tag "icons/calendar.svg", class: 'ico ico-cal' %></h2>
     <div id="calendar"></div>
   </section>
 </div>
