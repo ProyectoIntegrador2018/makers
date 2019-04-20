@@ -17,13 +17,6 @@
               <option value="<%= m.id %>"><%= m.name %></option>
             <% end %>
           </select>
-          <div class="filterContainer">
-            <ul class="inline filterlist hidden">
-              <li><div class="pill border xsmall with-cross">aluminio</div></li>
-              <li><div class="pill border xsmall with-cross">pl&aacute;stico</div></li>
-              <li><div class="pill border xsmall with-cross">madera</div></li>
-            </ul>
-          </div>
         </section>
         <section class="filter">
           <p class="title">Capacidad</p>
@@ -33,13 +26,6 @@
               <option value="<%= c.id %>"><%= c.name %></option>
             <% end %>
           </select>
-          <div class="filterContainer">
-            <ul class="inline filterlist hidden">
-              <li><div class="pill border xsmall with-cross">aluminio</div></li>
-              <li><div class="pill border xsmall with-cross">pl&aacute;stico</div></li>
-              <li><div class="pill border xsmall with-cross">madera</div></li>
-            </ul>
-          </div>
         </section>
       </div>
     </div>
@@ -54,7 +40,7 @@
             <article class="SearchResult">
               <h2 class="title mb-3">
                 <%= link_to equipment.name, [equipment.lab_space.lab, equipment.lab_space, equipment] %>
-                <a href="#" class="ml-5 btn highlight small lp" style="padding: 8px 15px">Reservar</a>
+                <%= link_to "Reservar", [equipment.lab_space.lab, equipment.lab_space, equipment], class: "ml-5 reserveBtn btn highlight small lp"%>
               </h2>
               <table class="detailsTable">
                 <tbody>
@@ -94,20 +80,65 @@
   <%# render partial: 'shared/search' %>
 </div>
 <% content_for :scripts do %>
+  <script>
+    const $resultDivs = $('article.SearchResult');
+    let data = <%= raw(@equipment.as_json(only: [:capabilities, :materials], include:[{capabilities: {only: :id}}, {materials: {only: :id}}]).to_json) %>;
+    // Prepare data for easier manipulation (remove object info)
+    data = data.map((eq, i) => {
+      eq.forindex = i;
+      eq.capabilities = eq.capabilities.map(c => c.id);
+      eq.materials = eq.materials.map(m => m.id);
+      return eq;
+    });
+
+    function filterOnCollection(collectionName) {
+      return function(collection, selected) { // selected is Array
+        return collection.filter(function(item) {
+          return selected.every(function(cv) {
+            // Check if every selected item is in this results' `collectionName`
+            return item[collectionName].indexOf(parseInt(cv, 10)) > -1;
+          });
+        });
+      };
+    }
+
+    const filterMaterials = filterOnCollection('materials');
+    const filterCapabilities = filterOnCollection('capabilities');
+
+    function filterResults() {
+      let materialsQuery = sel1.getValue();
+      let capQuery = sel2.getValue();
+      const results = filterCapabilities(filterMaterials(data, materialsQuery), capQuery).map(r => r.forindex);;
+      $resultDivs.hide();
+      results.forEach(function(index) {
+        $resultDivs.eq(index).show();
+      });
+    }
+
+    $("#showtags").on('change', function() {
+      if($(this).prop('checked') === true) {
+        $('.taglist').show();
+      }
+      else {
+        $('.taglist').hide();
+      }
+    });
+
+  </script>
   <%# javascript_include_tag "selectize.min" %>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.css">
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.default.min.css"> -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
   <script>
-    $('#select-material').selectize({
+    const opts = {
       sortField: 'text',
       plugins: ['remove_button']
-    });
-    $('#select-capacidad').selectize({
-      sortField: 'text'
-    });
+    };
+    let $sel1 = $('#select-material').selectize(opts);
+    let $sel2 = $('#select-capacidad').selectize(opts);
+    let sel1 = $sel1[0].selectize;
+    let sel2 = $sel2[0].selectize;
+    sel1.on('change', filterResults);
+    sel2.on('change', filterResults);
   </script>
-<% end %>
-<% if @lab_space %>
-  <%= link_to 'New Equipment', new_lab_lab_space_equipment_path %>
 <% end %>
