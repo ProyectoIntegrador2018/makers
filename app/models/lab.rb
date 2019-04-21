@@ -3,4 +3,7 @@ class Lab < ApplicationRecord
   validates :name, :description, :location, presence: true
 
   has_many :lab_spaces
+
+  has_many :lab_administrations, as: :space
+  has_many :admins, through: :lab_administrations
 end
