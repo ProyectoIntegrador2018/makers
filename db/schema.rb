@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_28_233327) do
+ActiveRecord::Schema.define(version: 2019_04_21_003243) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,16 @@ ActiveRecord::Schema.define(version: 2019_03_28_233327) do
     t.datetime "updated_at", null: false
     t.index ["equipment_id"], name: "index_equipment_materials_on_equipment_id"
     t.index ["material_id"], name: "index_equipment_materials_on_material_id"
+  end
+
+  create_table "lab_administrations", force: :cascade do |t|
+    t.bigint "admin_id"
+    t.string "space_type"
+    t.bigint "space_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_id"], name: "index_lab_administrations_on_admin_id"
+    t.index ["space_type", "space_id"], name: "index_lab_administrations_on_space_type_and_space_id"
   end
 
   create_table "lab_spaces", force: :cascade do |t|
@@ -130,6 +140,7 @@ ActiveRecord::Schema.define(version: 2019_03_28_233327) do
   add_foreign_key "equipment_capabilities", "equipment"
   add_foreign_key "equipment_materials", "equipment"
   add_foreign_key "equipment_materials", "materials"
+  add_foreign_key "lab_administrations", "users", column: "admin_id"
   add_foreign_key "lab_spaces", "labs"
   add_foreign_key "reservations", "equipment"
   add_foreign_key "reservations", "users"
