@@ -54,10 +54,12 @@ class User < ApplicationRecord
   end
 
   def manages_lab_space?(lab_space)
-    directly_managed_lab_spaces.where(id: lab_space.id).exists? || indirectly_managed_lab_spaces.where(id: lab_space.id).exists?
+    lab_space_id = lab_space.id
+    directly_managed_lab_spaces.where(id: lab_space_id).exists? || indirectly_managed_lab_spaces.where(id: lab_space_id).exists?
   end
 
   def manages_reservation?(reservation)
-    directly_managed_reservations.where(id: reservation.id).exists? || indirectly_managed_reservations.where(id: reservation.id).exists?
+    reservation_id = reservation.id
+    directly_managed_reservations.where(id: reservation_id).exists? || indirectly_managed_reservations.where(id: reservation_id).exists?
   end
 end
