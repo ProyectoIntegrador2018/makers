@@ -11,16 +11,19 @@ class User < ApplicationRecord
 
   has_many :reservations
 
+  # Aids in building queries for administration
   has_many :lab_administrations, foreign_key: 'admin_id'
 
-  # Aids in building queries for management
+  # All associations stemming from association with labs through lab_administrations, should be used for role: admin
   has_many :managed_labs, through: :lab_administrations, source: :space, source_type: 'Lab'
-  has_many :directly_managed_lab_spaces, through: :lab_administrations, source: :space, source_type: 'LabSpace'
   has_many :indirectly_managed_lab_spaces, through: :managed_labs, source: :lab_spaces
-  has_many :directly_managed_equipment, through: :directly_managed_lab_spaces, source: :equipment
   has_many :indirectly_managed_equipment, through: :indirectly_managed_lab_spaces, source: :equipment
-  has_many :directly_managed_reservations, through: :indirectly_managed_equipment, source: :reservations
-  has_many :indirectly_managed_reservations, through: :directly_managed_equipment, source: :reservations
+  has_many :indirectly_managed_reservations, through: :indirectly_managed_equipment, source: :reservations
+
+  # All associations stemming from association with lab spaces through lab_administrations, should be used for role: lab_admin
+  has_many :directly_managed_lab_spaces, through: :lab_administrations, source: :space, source_type: 'LabSpace'
+  has_many :directly_managed_equipment, through: :directly_managed_lab_spaces, source: :equipment
+  has_many :directly_managed_reservations, through: :directly_managed_equipment, source: :reservations
 
   def managed_lab_spaces
     LabSpace.find_by_sql("(#{directly_managed_lab_spaces.to_sql}) UNION (#{indirectly_managed_lab_spaces.to_sql})")
