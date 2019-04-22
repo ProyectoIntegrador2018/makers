@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :lab_spaces
       resources :materials
       resources :reservations
+      resources :lab_administrations
 
       root to: "users#index"
     end
