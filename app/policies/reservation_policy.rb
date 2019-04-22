@@ -30,8 +30,8 @@ class ReservationPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       return scope.all if user.superadmin?
-      return user.directly_managed_reservations if user.admin?
-      return user.indirectly_managed_reservations if user.lab_admin?
+      return user.indirectly_managed_reservations if user.admin?
+      return user.directly_managed_reservations if user.lab_admin?
 
       user.reservations
     end
