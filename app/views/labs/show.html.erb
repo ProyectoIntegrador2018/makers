@@ -379,11 +379,11 @@
         processData: false,
         cache: false,
         data: fd,
+        dataType: 'json',
         method: 'POST',
         success: function(data) {
           console.log(data);
-          return true;
-          const newid = 1;
+          const newid = data.id;
           // TODO: block the button
           alert('Se ha guardado tu equipo con éxito');
           // Reset form
@@ -400,7 +400,10 @@
           $clone.find('.name').html(name);
           // Bind
           $clone.click(bindEquipment);
-          $('.EquipoGrid > .row').append($clone);
+          $('#addEquip').parent().before($clone);
+          $('.EquipoForm').fadeOut(function() {
+            $('.EquipoGrid').fadeIn();
+          });
 
         },
         error: function(a, b, c) {
