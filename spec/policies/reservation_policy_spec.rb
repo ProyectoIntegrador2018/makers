@@ -5,66 +5,85 @@ RSpec.describe ReservationPolicy do
 
   let(:lab) { create :lab }
   let(:lab_space) { create :lab_space, lab: lab }
-  let(:equipment) { create :equipment, lab_space: ls }
-  let(:reservation) { build(:reservation, user: user, equipment: equipment) }
+  let(:equipment) do
+    eqpmt = create :equipment, lab_space: lab_space
+    create :available_hour, equipment: eqpmt
+    eqpmt
+  end
+  let(:reservation) { create(:reservation, user: reservation_user, equipment: equipment) }
+  let(:other_user) { create(:user) }
 
   context 'for a visitor' do
     let(:user) { nil }
+    let(:reservation) { build(:reservation, equipment: equipment) }
 
-    it { should forbid_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
+    it { should forbid_actions([:show, :new, :create, :edit, :update, :destroy]) }
   end
 
   context 'for regular user owning that reservation' do
     let(:user) { create(:user) }
+    let(:reservation_user) { user }
 
     it { should permit_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
   end
 
   context 'for another user not owning the reservation' do
     let(:user) { create(:user) }
-    let(:other_user) { create(:user) }
+    let(:reservation_user) { other_user }
 
-    it { should forbid_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
+    it { should forbid_actions([:show, :new, :create, :edit, :update, :destroy]) }
   end
 
   context 'for a superadmin' do
-    let(:user) { create(:user) }
-    let(:admin) { create(:user, role: :superadmin) }
+    let(:user) { create(:user, role: :superadmin) }
+    let(:reservation_user) { other_user }
 
     it { should permit_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
   end
 
   context 'for an admin of that lab' do
-    let(:user) { create(:user) }
-    let(:admin) { create(:user, role: :admin) }
+    let(:reservation_user) { other_user }
+    let(:user) do
+      admin = create(:user, role: :admin)
+      admin.managed_labs << lab
+      admin
+    end
 
-    admin.managed_labs << lab
     it { should permit_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
   end
 
   context 'for a lab admin of that lab space' do
-    let(:user) { create(:user) }
-    let(:lab_admin) { create(:user, role: :lab_admin) }
+    let(:reservation_user) { other_user }
+    let(:user) do
+      lab_admin = create(:user, role: :lab_admin)
+      lab_space.admins << lab_admin
+      lab_admin
+    end
 
-    lab_space.admins << lab_admin
     it { should permit_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
   end
 
   context 'for an admin of another lab' do
-    let(:user) { create(:user) }
-    let(:admin) { create(:user, role: :admin) }
-    let(:new_lab) { create(:lab) }
+    let(:reservation_user) { other_user }
+    let(:user) { create(:user, role: :admin) }
+    let(:new_lab) do
+      new_lab = create(:lab)
+      user.managed_labs << new_lab
+      new_lab
+    end
 
-    admin.managed_labs << new_lab
-    it { should permit_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
+    it { should forbid_actions([:show, :new, :create, :edit, :update, :destroy]) }
   end
 
   context 'for a lab admin of another lab space' do
-    let(:user) { create(:user) }
-    let(:lab_admin) { create(:user, role: :lab_admin) }
-    let(:new_lab_space) { create :lab_space, lab: lab }
+    let(:reservation_user) { other_user }
+    let(:user) { create(:user, role: :lab_admin) }
+    let(:new_lab_space) do
+      new_lab_space = create :lab_space, lab: lab
+      new_lab_space.admins << user
+      new_lab_space
+    end
 
-    new_lab_space.admins << lab_admin
-    it { should permit_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
+    it { should forbid_actions([:show, :new, :create, :edit, :update, :destroy]) }
   end
 end
