@@ -35,7 +35,7 @@ as well as a link to its edit page.
     <div class="row">
       <div class="col-4">
         <div class="card ProfileCard">
-          <%= image_tag page.resource.image.url, class: "equipment-image" %>
+          <%= (image_tag page.resource.image.url, class: "equipment-image") unless page.resource.image.url.nil? %>
           <div class="card-body">
             <h1 class="main-content__page-title"><%= page.resource.name %></h1>
             <ul>
