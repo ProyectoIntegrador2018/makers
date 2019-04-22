@@ -25,7 +25,6 @@ class LabAdministrationDashboard < Administrate::BaseDashboard
     :admin,
     :space,
     :id,
-    :admin_id,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -34,7 +33,6 @@ class LabAdministrationDashboard < Administrate::BaseDashboard
     :admin,
     :space,
     :id,
-    :admin_id,
     :created_at,
     :updated_at,
   ].freeze
@@ -45,7 +43,6 @@ class LabAdministrationDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :admin,
     :space,
-    :admin_id,
   ].freeze
 
   # Overwrite this method to customize how lab administrations are displayed

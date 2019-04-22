@@ -116,10 +116,16 @@ class EquipmentController < ApplicationController
   end
 
   def save_availability
-    params[:equipment][:available_hours]&.each_pair do |_, schedule|
+    available_hours = params[:equipment][:available_hours]
+    return true unless available_hours
+
+    result = true
+    available_hours.each_pair do |_, schedule|
       availabilities = @equipment.available_hours.new(schedule_params(schedule))
-      availabilities.save
+      result &&= availabilities.save
     end
+
+    result
   end
 
   def update_availability
