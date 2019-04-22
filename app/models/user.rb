@@ -26,15 +26,18 @@ class User < ApplicationRecord
   has_many :directly_managed_reservations, through: :directly_managed_equipment, source: :reservations
 
   def managed_lab_spaces
-    LabSpace.find_by_sql("(#{directly_managed_lab_spaces.to_sql}) UNION (#{indirectly_managed_lab_spaces.to_sql})")
+    lab_spaces = LabSpace.find_by_sql("(#{directly_managed_lab_spaces.to_sql}) UNION (#{indirectly_managed_lab_spaces.to_sql})")
+    LabSpace.where(id: lab_spaces.map(&:id))
   end
 
   def managed_equipment
-    LabSpace.find_by_sql("(#{directly_managed_equipment.to_sql}) UNION (#{indirectly_managed_equipment.to_sql})")
+    equipment = Equipment.find_by_sql("(#{directly_managed_equipment.to_sql}) UNION (#{indirectly_managed_equipment.to_sql})")
+    Equipment.where(id: equipment.map(&:id))
   end
 
   def managed_reservations
-    LabSpace.find_by_sql("(#{directly_managed_reservations.to_sql}) UNION (#{indirectly_managed_reservations.to_sql})")
+    reservations = Reservation.find_by_sql("(#{directly_managed_reservations.to_sql}) UNION (#{indirectly_managed_reservations.to_sql})")
+    Reservation.where(id: reservations.map(&:id))
   end
 
   def manages?(managed)
