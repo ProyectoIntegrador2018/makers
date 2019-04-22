@@ -11,18 +11,14 @@ class ReservationsController < ApplicationController
   # GET /equipment/1/reservations
   # GET /reservations.json
   # GET /equipment/1/reservations.json
-  # TODO: fix offense
   def index
     @reservations = @reservations_scope.all
     @upcoming_reservations = @reservations.upcoming(params[:upcoming_limit] || 5)
 
     if params[:day]
-      date = Date.parse(params[:day])
-      @reservations = @reservations.where(start_time: date.all_day)
+      set_day_query
     elsif params[:start_date] && params[:end_date]
-      start_date = Date.parse(params[:start_date])
-      end_date = Date.parse(params[:end_date])
-      @reservations = @reservations.where(start_time: start_date..end_date)
+      set_range_query
     end
   end
 
@@ -99,5 +95,16 @@ class ReservationsController < ApplicationController
 
   def reservation_params
     params.require(:reservation).permit(:status, :purpose, :comment, :start_time, :end_time)
+  end
+
+  def set_day_query
+    date = Date.parse(params[:day])
+    @reservations = @reservations.where(start_time: date.all_day)
+  end
+
+  def set_range_query
+    start_date = Date.parse(params[:start_date])
+    end_date = Date.parse(params[:end_date])
+    @reservations = @reservations.where(start_time: start_date..end_date)
   end
 end
