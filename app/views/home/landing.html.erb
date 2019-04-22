@@ -1,69 +1,166 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Makers</title>
-		<%= csrf_meta_tags %>
-		<%= csp_meta_tag %>
+  <head>
+    <title>Makers</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-reboot.min.css">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-grid.min.css">
-		<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-		<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-	</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-grid.min.css">
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
 
-	<body class="<%= @body_class %>">
-		<div class="container tac">
+  <body class="<%= @body_class %>">
+    <div class="container tac">
       <div class="standard header home">
         <div class="row">
           <%= render partial: 'shared/nav' %>
         </div>
       </div>
-			<a href="#" class="logo">
-				<%= image_tag "logo.svg", alt: "Makers Program" %>
-				<p class="tecbrand">@Tec de Monterrey</p>
-			</a>
-			<h2 class="tagline">&iquest;Qu&eacute; quieres crear hoy?</h2>
-			<div class="QueryBuilder">
-				<div class="row no-gutters">
-					<div class="col">
-						<p class="stmt">Quiero</p>
-					</div>
-					<div class="col">
-						<input type="text" name="capacidades" placeholder="capacidades" id="query-capacidades" class="fuzzy-input">
-					</div>
-					<div class="col">
-						<p class="stmt">usando</p>
-					</div>
-					<div class="col">
-						<input type="text" name="materiales" placeholder="materiales" id="query-materiales" class="fuzzy-input">
-					</div>
-					<div class="col">
-						<a href="#" class="highlight large btn" role="button">Buscar</a>
-					</div>
-				</div>
-			</div>
-			<section class="queryOptionsContainer">
-				<div class="pill white">acero</div>
-				<div class="pill white">madera</div>
-				<div class="pill white">pl&aacute;stico</div>
-				<div class="pill white">acero</div>
-				<div class="pill white">madera</div>
-				<div class="pill white">pl&aacute;stico</div>
-				<div class="pill white">acero</div>
-				<div class="pill white">madera</div>
-				<div class="pill white">pl&aacute;stico</div>
-			</section>
-			<footer class="homeFooter">
-				<p>
-					o consulta el <%= link_to equipment_index_path do %>
-						<%= content_tag :strong, "cat&aacute;logo de equipos".html_safe, :class => "bold" %>
-					<% end %>
-				</p>
-			</footer>
-			<% #render partial: 'shared/search' %>
-		</div>
+      <a href="#" class="logo">
+        <%= image_tag "logo.svg", alt: "Makers Program" %>
+        <p class="tecbrand">@Tec de Monterrey</p>
+      </a>
+      <h2 class="tagline">&iquest;Qu&eacute; quieres crear hoy?</h2>
+      <div class="QueryBuilder">
+        <div class="row no-gutters">
+          <div class="col">
+            <p class="stmt">Quiero</p>
+          </div>
+          <div class="col">
+            <div class="tagBox" id="capabilities"></div>
+            <input type="text" name="capacidades" placeholder="capacidades" id="query-capacidades" class="fuzzy-input">
+          </div>
+          <div class="col">
+            <p class="stmt">usando</p>
+          </div>
+          <div class="col">
+            <div class="tagBox" id="materials"></div>
+            <input type="text" name="materiales" placeholder="materiales" id="query-materiales" class="fuzzy-input">
+          </div>
+          <div class="col">
+            <a href="#" class="highlight large btn searchBtn" role="button">Buscar</a>
+          </div>
+        </div>
+      </div>
+      <section class="queryOptionsContainer" id="default">
+        <% @capabilities.to_a.sample(5).each do |c| %>
+          <div data-type="capabilities" class="pill white"><%= c.name %></div>
+        <% end %>
+        <% @materials.to_a.sample(5).each do |m| %>
+          <div data-type="materials" class="pill white"><%= m.name %></div>
+        <% end %>
+      </section>
+      <section class="queryOptionsContainer" id="results" style="display:none;"> </section>
+      <footer class="homeFooter">
+        <p>
+          o consulta el <%= link_to equipment_index_path do %>
+            <%= content_tag :strong, "cat&aacute;logo de equipos".html_safe, :class => "bold" %>
+          <% end %>
+        </p>
+      </footer>
+      <%= render partial: 'shared/search' %>
+    </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+      const $pillBox = $('.queryOptionsContainer#results');
+      const $defaultPillBox = $('.queryOptionsContainer#default');
+
+      window.capabilities = <%= raw(@capabilities.as_json(only: [:id, :name]).to_json) %>;
+      window.materials = <%= raw(@materials.as_json(only: [:id, :name]).to_json) %>;
+
+      const $queryCap = $("#query-capacidades");
+      const $queryMat = $("#query-materiales");
+
+
+      function draw(results, type) {
+        const resultDivs = results.map(r => {
+          return `<div data-id="${r.id}" data-type="${type}" class="pill white">${r.name}</div>`;
+        });
+        $pillBox.html(resultDivs);
+        bindPills();
+      }
+      const processQueryOnCollection = function(collection) {
+        return function() {
+          const query = $(this).val().trim().toLowerCase();
+          if(query == "") {
+            console.log(query);
+            $pillBox.hide();
+            $defaultPillBox.show();
+            return false;
+          }
+
+          const results = window[collection].filter(c => c.name.toLowerCase().indexOf(query) > -1);
+          $defaultPillBox.hide();
+          $pillBox.show();
+          draw(results, collection);
+        };
+      };
+
+      const tagFocus = function(collection, handler) {
+        return function() {
+          if($(this).val().trim() !== "") {
+            return handler();
+          }
+          $defaultPillBox.hide();
+          draw(window[collection].slice(0,10), collection);
+          $pillBox.show();
+        };
+      };
+
+      const filterCapabilities = processQueryOnCollection('capabilities').bind($queryCap);
+      const filterMaterials = processQueryOnCollection('materials').bind($queryMat);
+
+      // Event handlers
+      $queryCap.on('input', filterCapabilities);
+      $queryMat.on('input', filterMaterials);
+
+      function bindPills() {
+        $('.queryOptionsContainer .pill.white').click(onOptionClick);
+      }
+      bindPills();
+
+      function onOptionClick() {
+        console.log('onpillclick');
+        let $pill = $(this).remove();
+        if($pill.data('type') == 'capabilities') {
+          $("#capabilities").append($pill);
+        }
+        else {
+          $("#materials").append($pill);
+        }
+        $pill.on('click', onSelectedOptionClick);
+      }
+      function onSelectedOptionClick() {
+        let $pill = $(this).remove();
+        $('.queryOptionsContainer').filter(':visible').append($pill);
+      }
+
+      function submitForm() {
+        const capabilities = $('.tagBox#capabilities .pill').toArray().map(p => p.textContent.trim()).join(',');
+        const materials = $('.tagBox#materials .pill').toArray().map(p => p.textContent.trim()).join(',');
+        $('#materials_query').val(materials);
+        $('#capabilities_query').val(capabilities);
+        $('.search-form').submit();
+      }
+      $('.searchBtn').click(function(e) {
+        e.preventDefault();
+        submitForm();
+      });
+
+
+      // On focus, show a sample of 10 tags
+      $queryCap.on('focus', tagFocus('capabilities', filterCapabilities));
+      $queryMat.on('focus', tagFocus('materials', filterMaterials));
+
+//      $([$queryCap[0], $queryMat[0]]).on('blur', function() {
+//        $pillBox.hide();
+//        $defaultPillBox.show();
+//      });
+
+    </script>
     <%= yield(:scripts) if content_for?(:scripts)  %> </body>
-	</body>
+  </body>
 </html>
 
