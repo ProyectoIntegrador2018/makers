@@ -72,3 +72,4 @@ gem 'faker'
 
 # Admin dashboard
 gem 'administrate'
+gem 'administrate-field-carrierwave', '~> 0.4.1'
