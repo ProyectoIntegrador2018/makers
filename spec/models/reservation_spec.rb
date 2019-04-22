@@ -2,10 +2,10 @@ require 'rails_helper'
 require 'faker'
 
 RSpec.describe Reservation, type: :model do
-  let(:user) {create :user}
-  let(:lab) {create :lab}
-  let(:ls) {create :lab_space, lab: lab}
-  let(:equipment) {create :equipment, lab_space: ls}
+  let(:user) { create :user }
+  let(:lab) { create :lab }
+  let(:ls) { create :lab_space, lab: lab }
+  let(:equipment) { create :equipment, lab_space: ls }
 
   it "has none to begin with" do
     expect(Reservation.count).to eq 0

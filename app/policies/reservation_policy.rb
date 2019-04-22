@@ -1,0 +1,2 @@
+class ReservationPolicy < ApplicationPolicy
+end
