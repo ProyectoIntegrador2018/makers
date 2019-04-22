@@ -54,7 +54,24 @@
       display: inline-block;
     }
   }
+  .tagBox {
+    text-align: left;
+    .pill {
+      margin: 0 4px 4px;
+
+    }
+  }
   .homeFooter p {
     font-size: 1.17rem;
+  }
+  .searchBtn {
+    transition: box-shadow 300ms;
+    &:focus,
+    &:hover {
+      box-shadow: 0 0 30px rgba($highlight, .4);
+    }
+  }
+  .search-form {
+    display: none;
   }
 }
