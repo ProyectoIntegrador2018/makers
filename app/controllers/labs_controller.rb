@@ -10,6 +10,8 @@ class LabsController < ApplicationController
   # GET /labs/1
   # GET /labs/1.json
   def show
+    @capabilities = Capability.all
+    @materials = Material.all
   end
 
   # GET /labs/new

@@ -38,6 +38,15 @@ as well as a link to its edit page.
           <%= image_tag page.resource.image.url, class: "equipment-image" %>
           <div class="card-body">
             <h1 class="main-content__page-title"><%= page.resource.name %></h1>
+            <ul>
+
+            <% page.resource.available_hours.each do | ah | %>
+              <li><%= ah.start_time.to_formatted_s(:time) %>,
+              <%= ah.end_time.to_formatted_s(:time) %>,
+              <%= ah.day_of_week %></li>
+            <% end %>
+            </ul>
+
             <p class="content-label">Description</p>
             <p class=""><%= page.resource.description %></p>
             <p class="content-label">Technical description</p>

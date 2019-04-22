@@ -1,5 +1,9 @@
 <div class="LabDetail">
   <%= link_to '&larr; Regresar a los resultados'.html_safe, labs_path %>
+  <%
+    caps = @capabilities.map { |c| {"text" => c.name, "value" => c.name} }
+    mats = @materials.map { |c| {"text" => c.name, "value" => c.name} }
+  %>
 
   <p class="m-0 mt-5 entitytag"><strong><small>laboratorio</small></strong></p>
   <h1 class="mt-0"><%= @lab.name %></h1>
@@ -128,6 +132,9 @@
             <div>
               <input type="text" name="desc" placeholder="Descripci&oacute;n" class="txtinput" id="desc">
             </div>
+            <div>
+              <input type="text" name="technical-description" placeholder="Descripci&oacute;n t&eacute;cnica" class="txtinput" id="technical-description">
+            </div>
             <div class="row">
               <div class="col">
                 <input type="text" placeholder="Capacidades" name="capacidades" id="select-capacidad" class="txtinput">
@@ -142,7 +149,7 @@
           <div class="col">
             <h3><strong class="bold">Horarios</strong></h3>
             <ul class="scheduleList mt-3">
-              <li class="scheduleList-listitem">
+              <li class="scheduleList-listitem" style="display: none">
                 <i class="ico calendar"></i>
                 <span class="content">Todos los <strong>lunes, jueves</strong> de <strong>2 PM a 5 PM</strong></span>
                 <a href="#" title="Eliminar horario" class="deleteBtn">&times;</a>
@@ -200,7 +207,7 @@
   <script>
 
     // TODO: add validation to this form
-    const dayOptions = ['días', 'días (lun-vie)', 'lunes', 'martes', 'miércoles', 'jueves', 'sábado', 'domingo'];
+    const dayOptions = ['días', 'días (lun-vie)', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábados', 'domingos'];
     $('.uploadPhoto').click(function() {
       $('#imginput').click();
     });
@@ -257,6 +264,22 @@
       saveNewSchedule();
     });
     $EquipoForm = $('.EquipoForm');
+
+    const dateMap = {
+      2: "monday",
+      3: "tuesday",
+      4: "wednesday",
+      5: "thursday",
+      6: "friday",
+      7: "saturday",
+      8: "sunday",
+    };
+    let availSchedule = [];
+
+    function removeSchedule(i) {
+      delete availSchedule[i];
+    }
+
     function saveNewSchedule() {
       let $form = $('#addScheduleForm');
       let $selectDay = $form.find('select[name="day"]');
@@ -267,11 +290,31 @@
       const dayindex = parseInt($selectDay.val(), 10);
       const days = dayOptions[dayindex];
 
+      if(dayindex === 0 || dayindex === 1) {
+        console.log("Can't handle that option yet");
+        return false;
+      }
       // TODO: validate that endTime is > startTime
+      console.log(startTime, endTime);
+
+      const dayObj = {
+        start_time: startTime,
+        end_time: endTime,
+        day_of_week: dateMap[dayindex]
+      };
 
       let scheduleStr = `Todos los <strong>${days}</strong> de <strong>${startTime} a ${endTime}</strong>`;
       let $listItem = $('.scheduleList-listitem').first().clone();
+      $listItem.data('index', availSchedule.length);
+      $listItem.css('display', 'block');
+      availSchedule.push(dayObj);
       $listItem.find('.content').html(scheduleStr); // TODO: sanitise this input
+      $listItem.find('.deleteBtn').click(function(e) {
+        e.preventDefault();
+        const index = $(this).parent().data('index');
+        removeSchedule(index);
+        $(this).parent().remove();
+      });
       // TODO: attach event handlers for delete here
       $form.before($listItem);
 
@@ -280,6 +323,7 @@
         $sel.prop('selectedIndex', 0);
       });
     }
+
     function saveEquipment() {
       // Build the form object
       // Send the ajax request
@@ -288,27 +332,37 @@
       let capacidades = $EquipoForm.find('#select-capacidad').val();
       let materiales = $EquipoForm.find('#select-material').val();
       let image = $EquipoForm.find('.uploadPhoto img');
+      let techdesc = $EquipoForm.find('#technical-description').val();
       let imgFile = false;
       if(image.length > 0) {
         imgFile = image[0].file;
       }
       let formData = {
         name: name,
-        desc: desc,
-        capacidades: capacidades,
-        materiales: materiales,
-        "authenticity_token": $('meta[name=csrf-token]').attr('content'),
+        description: desc,
+        technical_description: techdesc,
+        capabilities: capacidades,
+        materials: materiales,
         image: imgFile
       };
       let fd = new FormData();
       for(var key in formData) {
-        fd.append(key, formData[key]);
+        fd.append(`equipment[${key}]`, formData[key]);
       }
+      for (var i = 0; i < availSchedule.length; i++) {
+        if(availSchedule[i] === undefined) {
+          continue;
+        }
+        fd.append(`equipment[available_hours][${i}][day_of_week]`, availSchedule[i]['day_of_week']);
+        fd.append(`equipment[available_hours][${i}][start_time]`, availSchedule[i]['start_time']);
+        fd.append(`equipment[available_hours][${i}][end_time]`, availSchedule[i]['end_time']);
+      }
+      fd.append("authenticity_token", $('meta[name=csrf-token]').attr('content'));
 
       // Get horarios
       // Get photo
       $.ajax({
-        url: "<%= lab_lab_space_equipment_index_path lab_id: @lab.id, lab_space_id: 1 %>",
+        url: "<%= lab_lab_space_equipment_index_path lab_id: @lab.id, lab_space_id: 1 %>", // TODO: change this!
         contentType: false,
         processData: false,
         cache: false,
@@ -319,7 +373,7 @@
         }
       });
     }
-    $('.EquipoCard').click(function(e) {
+    $('.EquipoCard').not('#addEquip').click(function(e) {
       const lab_id = $(this).data('lid');
       const lab_space_id = $(this).data('lsid');
       const eq_id = $(this).data('id');
@@ -329,14 +383,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
   <%# javascript_include_tag "selectize.min" %>
   <script>
-    let capabilities = []; // <%# @capabilities %>
-    let materials = []; // <%# @capabilities %>
+    let capabilities = <%= raw(caps.to_json) %>; // <%# @capabilities %>
+    let materials = <%= raw(mats.to_json) %>; // <%# @capabilities %>
 
-    // TODO: remove this
-    for (var i = 0; i < 10; i++) {
-      capabilities.push({text: `Capability ${(i+1+"").padStart(2, '0')}`, value: i});
-      materials.push({text: `Material ${(i+1+"").padStart(2, '0')}`, value: i});
-    }
     $('#select-material').selectize({
       sortField: 'text',
       options: materials
