@@ -77,10 +77,8 @@ as well as a link to its edit page.
               <div class="card-body">
                 <h5 class="card-title">Materials</h5>
                 <ul class="materials-list tagslist inline">
-                  <% 3.times do  %>
-                    <li><div class="pill border xsmall">aluminio</div></li>
-                    <li><div class="pill border xsmall">pl&aacute;stico</div></li>
-                    <li><div class="pill border xsmall">madera</div></li>
+                  <% page.resource.materials.each do | m | %>
+                    <li><div class="pill border xsmall"><%= m.name %></div></li>
                   <% end %>
                 </ul>
               </div>
@@ -91,10 +89,8 @@ as well as a link to its edit page.
               <div class="card-body">
                 <h5 class="card-title">Capabilities</h5>
                 <ul class="materials-list tagslist inline">
-                  <% 3.times do  %>
-                    <li><div class="pill border xsmall">corte l&aacute;ser</div></li>
-                    <li><div class="pill border xsmall">imprimir</div></li>
-                    <li><div class="pill border xsmall">soldar</div></li>
+                  <% page.resource.capabilities.each do | c | %>
+                    <li><div class="pill border xsmall"><%= c.name %></div></li>
                   <% end %>
                 </ul>
               </div>
