@@ -26,7 +26,7 @@
                   <tbody>
                     <tr>
                       <td>Laboratorio:</td>
-                      <td><%= link_to @equipment.lab_space.name, lab_lab_space_path(@equipment.lab_space.id) %></td>
+                      <td><%= link_to @equipment.lab_space.name, lab_lab_space_path(@equipment.lab_space.lab.id, @equipment.lab_space.id) %></td>
                     </tr>
                   </tbody>
                 </table>
