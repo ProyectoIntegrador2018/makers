@@ -88,17 +88,10 @@
     <h2>Equipo</h2>
     <div class="EquipoGrid">
       <div class="row">
-        <div class="col-4">
-          <div class="EquipoCard">
-            <div class="icon printer"></div>
-            <p class="name">Impresora 3D</p>
-            <p class="horario">LuJu 12PM - 4PM</p>
-          </div>
-        </div>
         <% @lab.lab_spaces.each do |ls| %>
           <% ls.equipment.each do |e| %>
             <div class="col-4">
-              <div class="EquipoCard">
+              <div class="EquipoCard" data-id="<%= e.id %>" data-lid="<%= @lab.id %>" data-lsid="<%= ls.id %>">
                 <div class="icon printer"></div>
                 <p class="name"><%= e.name %></p>
                 <p class="horario">LuJu 12PM - 4PM</p>
@@ -106,11 +99,13 @@
             </div>
           <% end %>
         <% end %>
+        <% if user_signed_in? %>
         <div class="col-4">
           <div class="EquipoCard" id="addEquip" style="border: 2px dashed #ACACBC">
             <p class="name tac" style="margin-top: 50px; margin-left: -10px; color: #8E8E9D">+ Agregar un equipo</p>
           </div>
         </div>
+        <% end %>
       </div>
     </div>
     <div class="EquipoForm" style="margin-top: 0; display: none;">
@@ -324,6 +319,12 @@
         }
       });
     }
+    $('.EquipoCard').click(function(e) {
+      const lab_id = $(this).data('lid');
+      const lab_space_id = $(this).data('lsid');
+      const eq_id = $(this).data('id');
+      window.location.href = `<%= (lab_lab_space_equipment_path 1, 2, 3).sub('1', '${lab_id}').sub('2', '${lab_space_id}').sub('3', '${eq_id}') %>`;
+    });
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js"></script>
   <%# javascript_include_tag "selectize.min" %>
