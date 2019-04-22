@@ -112,11 +112,11 @@ class EquipmentController < ApplicationController
   end
 
   def schedule_params(schedule)
-    schedule.permit(:start_time, :end_time, :day_of_week)
+    { start_time: schedule[:start_time], end_time: schedule[:end_time], day_of_week: schedule[:day_of_week] }
   end
 
   def save_availability
-    params.require(:equipment)[:available_hours]&.each do |schedule|
+    params[:equipment][:available_hours]&.each_pair do |_, schedule|
       availabilities = @equipment.available_hours.new(schedule_params(schedule))
       availabilities.save
     end
