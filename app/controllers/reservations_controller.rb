@@ -3,11 +3,15 @@ class ReservationsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   before_action :set_reservations_scope
   before_action :set_reservation, only: [:show, :edit, :update, :destroy]
+  before_action do
+    authorize @reservation || :reservation
+  end
 
   # GET /reservations
   # GET /equipment/1/reservations
   # GET /reservations.json
   # GET /equipment/1/reservations.json
+  # TODO: fix offense
   def index
     @reservations = @reservations_scope.all
     @upcoming_reservations = @reservations.upcoming(params[:upcoming_limit] || 5)
@@ -85,7 +89,7 @@ class ReservationsController < ApplicationController
     if params[:equipment_id]
       @reservations_scope = Equipment.find(params[:equipment_id]).reservations
     else
-      @reservations_scope = current_user.reservations
+      @reservations_scope = policy_scope(Reservation)
     end
   end
 
