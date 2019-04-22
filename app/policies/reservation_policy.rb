@@ -8,7 +8,7 @@ class ReservationPolicy < ApplicationPolicy
   end
 
   def create?
-    default_authorization
+    true
   end
 
   def update?
@@ -30,9 +30,7 @@ class ReservationPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       return scope.all if user.superadmin?
-      return user.indirectly_managed_reservations if user.admin?
-      return user.directly_managed_reservations if user.lab_admin?
-
+      return user.managed_reservations if user.admin? || user.lab_admin?
       user.reservations
     end
   end
