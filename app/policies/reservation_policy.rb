@@ -3,22 +3,6 @@ class ReservationPolicy < ApplicationPolicy
     true
   end
 
-  def show?
-    default_authorization
-  end
-
-  def create?
-    true
-  end
-
-  def update?
-    default_authorization
-  end
-
-  def destroy?
-    default_authorization
-  end
-
   def default_authorization
     return false unless user
     return true if record.user == user

@@ -7,15 +7,15 @@ class ApplicationPolicy
   end
 
   def index?
-    false
+    default_authorization
   end
 
   def show?
-    false
+    default_authorization
   end
 
   def create?
-    false
+    default_authorization
   end
 
   def new?
@@ -23,7 +23,7 @@ class ApplicationPolicy
   end
 
   def update?
-    false
+    default_authorization
   end
 
   def edit?
@@ -31,6 +31,10 @@ class ApplicationPolicy
   end
 
   def destroy?
+    default_authorization
+  end
+
+  def default_authorization
     false
   end
 

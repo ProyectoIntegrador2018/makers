@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ReservationPolicy do
+RSpec.describe ReservationPolicy, type: :policy do
   subject { described_class.new(user, reservation) }
 
   let(:lab) { create :lab }

@@ -6,15 +6,17 @@
 # you're free to overwrite the RESTful controller actions.
 module Admin
   class ApplicationController < Administrate::ApplicationController
-    before_action :authenticate_admin
+    include Administrate::Punditize
+    before_action :authenticate_user!
+    before_action :authorize_admin
     before_action :set_locale
 
     def set_locale
       I18n.locale = :en || I18n.default_locale
     end
 
-    def authenticate_admin
-      # TODO: Add authentication logic here.
+    def authorize_admin
+      authorize :admin, :show?
     end
 
     # Override this value to specify the number of elements to display at a time

@@ -4,7 +4,7 @@ class ReservationsController < ApplicationController
   before_action :set_reservations_scope
   before_action :set_reservation, only: [:show, :edit, :update, :destroy]
   before_action do
-    authorize @reservation || :reservation
+    authorize @reservation || Reservation.new(user: current_user)
   end
 
   # GET /reservations
