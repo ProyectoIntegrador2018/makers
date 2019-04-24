@@ -1,0 +1,2 @@
+class LabSpacePolicy < ManagedModelsPolicy
+end
