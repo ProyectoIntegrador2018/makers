@@ -46,6 +46,8 @@ class User < ApplicationRecord
       manages_lab?(managed)
     when LabSpace
       manages_lab_space?(managed)
+    when Equipment
+      manages_equipment?(managed)
     when Reservation
       manages_reservation?(managed)
     else
@@ -62,6 +64,10 @@ class User < ApplicationRecord
   def manages_lab_space?(lab_space)
     lab_space_id = lab_space.id
     directly_managed_lab_spaces.where(id: lab_space_id).exists? || indirectly_managed_lab_spaces.where(id: lab_space_id).exists?
+  end
+
+  def manages_equipment?(equipment)
+    manages_lab_space?(equipment.lab_space)
   end
 
   def manages_reservation?(reservation)

@@ -1,13 +1,17 @@
 class EquipmentController < ApplicationController
   before_action :set_parent_lab_space
   before_action :set_equipment, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action do
+    authorize @equipment || @equipment_scope.new
+  end
 
   # GET /lab/1/lab_spaces/1/equipment
   # GET /equipment.json
   def index
-    @equipment = @equipment.search(params[:equipment_query])
-    @equipment = @equipment.search_by(:materials, params[:materials_query])
-    @equipment = @equipment.search_by(:capabilities, params[:capabilities_query])
+    @equipment_scope = @equipment_scope.search(params[:equipment_query])
+    @equipment_scope = @equipment_scope.search_by(:materials, params[:materials_query])
+    @equipment_scope = @equipment_scope.search_by(:capabilities, params[:capabilities_query])
   end
 
   # GET /lab/1/lab_spaces/1/equipment/1
@@ -17,7 +21,7 @@ class EquipmentController < ApplicationController
 
   # GET /lab/1/lab_spaces/1/equipment/new
   def new
-    @equipment = @equipment.new
+    @equipment = @equipment_scope.new
     @materials = Material.new
     @capabilities = Capability.new
   end
@@ -29,7 +33,7 @@ class EquipmentController < ApplicationController
   # POST /lab/1/lab_spaces/1/equipment
   # POST /lab/1/lab_spaces/1/equipment.json
   def create
-    @equipment = @equipment.new(equipment_params)
+    @equipment = @equipment_scope.new(equipment_params)
     respond_to do |format|
       if @equipment.save && save_relations('materials') && save_relations('capabilities') && save_availability
         format.html { redirect_to [@lab_space.lab, @lab_space, @equipment], notice: 'Equipment was successfully created.' }
@@ -70,18 +74,19 @@ class EquipmentController < ApplicationController
   def set_parent_lab_space
     if params[:lab_space_id]
       @lab_space = LabSpace.find(params[:lab_space_id])
-      @equipment = @lab_space.equipment
-      @capabilities = @equipment.map(&:capabilities).compact
-      @materials = @equipment.map(&:materials).compact
+      @equipment_scope = @lab_space.equipment
+      @capabilities = @equipment_scope.map(&:capabilities).compact
+      @materials = @equipment_scope.map(&:materials).compact
     else
-      @equipment = Equipment.all
+      @equipment_scope = Equipment.all
       @capabilities = Capability.all
       @materials = Material.all
     end
   end
 
   def set_equipment
-    @equipment = @equipment.find(params[:id])
+    @equipment = @equipment_scope.find(params[:id])
+    @equipment = @equipment_scope.find(params[:id])
   end
 
   def equipment_params
