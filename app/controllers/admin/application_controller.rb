@@ -11,7 +11,7 @@ module Admin
     before_action :authorize_admin
     before_action :set_locale
 
-    helper all_helpers_from_path "app/helpers"
+    helper all_helpers_from_path 'app/helpers'
 
     def set_locale
       I18n.locale = :en || I18n.default_locale

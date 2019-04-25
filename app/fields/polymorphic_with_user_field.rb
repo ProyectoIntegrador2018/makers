@@ -1,9 +1,7 @@
-require "administrate/field/polymorphic"
+require 'administrate/field/polymorphic'
 
 class PolymorphicWithUserField < Administrate::Field::Polymorphic
-  def set_current_user(current_user)
-    @current_user = current_user
-  end
+  attr_writer :current_user
 
   def scope_names
     options.fetch(:scope_names, [])
@@ -11,9 +9,13 @@ class PolymorphicWithUserField < Administrate::Field::Polymorphic
 
   def associated_resource_grouped_options
     classes.map do |klass|
-      [klass.to_s, candidate_resources_for(klass).map do |resource|
-        [display_candidate_resource(resource), resource.to_global_id]
-      end]
+      [klass.to_s, group_options_for(klass)]
+    end
+  end
+
+  def group_options_for(klass)
+    candidate_resources_for(klass).map do |resource|
+      [display_candidate_resource(resource), resource.to_global_id]
     end
   end
 
@@ -21,6 +23,7 @@ class PolymorphicWithUserField < Administrate::Field::Polymorphic
     scope_name = scope_names.fetch(klass.to_s.to_sym, nil)
     return klass.none unless scope_name
 
-    order ? @current_user.try(scope_name).order(order) : @current_user.try(scope_name).all
+    scope = @current_user.try(scope_name)
+    order ? scope.order(order) : scope.all
   end
 end
