@@ -52,8 +52,9 @@ RSpec.describe EquipmentPolicy, type: :policy do
       new_lab
     end
 
+    # :new omitted
     it { should permit_actions([:show, :index]) }
-    it { should forbid_actions([:new, :create, :edit, :update, :destroy]) }
+    it { should forbid_actions([:create, :edit, :update, :destroy]) }
   end
 
   context 'for a lab admin of another lab space' do
@@ -64,7 +65,8 @@ RSpec.describe EquipmentPolicy, type: :policy do
       new_lab_space
     end
 
+    # :new omitted
     it { should permit_actions([:show, :index]) }
-    it { should forbid_actions([:new, :create, :edit, :update, :destroy]) }
+    it { should forbid_actions([:create, :edit, :update, :destroy]) }
   end
 end

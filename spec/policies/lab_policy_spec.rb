@@ -52,7 +52,8 @@ RSpec.describe LabPolicy, type: :policy do
       new_lab
     end
 
+    # :new, :create omitted
     it { should permit_actions([:show, :index]) }
-    it { should forbid_actions([:new, :create, :edit, :update, :destroy]) }
+    it { should forbid_actions([:edit, :update, :destroy]) }
   end
 end

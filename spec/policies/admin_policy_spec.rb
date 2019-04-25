@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AdminPolicy, type: :policy do
-  subject { described_class.new(user, :dashboard) }
+  subject { described_class.new(user, :admin) }
 
   context 'for regular user' do
     let(:user) { create(:user) }

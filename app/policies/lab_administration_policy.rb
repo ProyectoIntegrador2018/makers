@@ -1,6 +1,8 @@
 class LabAdministrationPolicy < ApplicationPolicy
   def new?
-    true
+    return false unless user
+
+    user.superadmin? || user.admin?
   end
 
   def update?
@@ -9,7 +11,7 @@ class LabAdministrationPolicy < ApplicationPolicy
 
   def default_authorization
     return false unless user
-    return user.manages?(record.space) if user.admin? || user.lab_admin?
+    return user.manages?(record.space) if user.admin?
 
     user.superadmin?
   end
