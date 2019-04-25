@@ -15,6 +15,7 @@ class ReservationPolicy < ApplicationPolicy
     def resolve
       return scope.all if user.superadmin?
       return user.managed_reservations if user.admin? || user.lab_admin?
+
       user.reservations
     end
   end

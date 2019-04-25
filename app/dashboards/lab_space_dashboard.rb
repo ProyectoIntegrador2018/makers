@@ -9,7 +9,7 @@ class LabSpaceDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    lab: Field::BelongsTo,
+    lab: Field::BelongsToWithUserField.with_options(scope_name: :managed_labs),
     equipment: Field::HasMany,
     id: Field::Number,
     name: Field::String,
@@ -31,27 +31,24 @@ class LabSpaceDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :id,
     :name,
     :lab,
     :location,
     :hours,
     :contact_email,
-    :equipment,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :lab,
-    :equipment,
-    :id,
     :name,
     :description,
     :hours,
     :location,
+    :lab,
     :contact_email,
     :contact_phone,
+    :equipment,
     :created_at,
     :updated_at,
     :image,
@@ -69,7 +66,6 @@ class LabSpaceDashboard < Administrate::BaseDashboard
     :contact_phone,
     :image,
     :lab,
-    :equipment,
   ].freeze
 
   # Overwrite this method to customize how lab spaces are displayed
