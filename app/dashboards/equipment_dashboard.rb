@@ -14,7 +14,9 @@ class EquipmentDashboard < Administrate::BaseDashboard
     lab_space: BelongsToWithUserField.with_options(scope_name: :managed_lab_spaces),
     name: Field::String,
     description: Field::Text,
-    image: Field::Carrierwave,
+    image: Field::Carrierwave.with_options(
+      remove: true,
+      ),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     technical_description: Field::Text,

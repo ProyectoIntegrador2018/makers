@@ -15,7 +15,9 @@ class LabDashboard < Administrate::BaseDashboard
     location: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    image: Field::String,
+    image: Field::Carrierwave.with_options(
+      remove: true,
+      ),
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -24,20 +26,20 @@ class LabDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :id,
     :name,
-    :lab_spaces,
     :description,
+    :location,
+    :created_at,
+    :updated_at
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :id,
-    :lab_spaces,
     :name,
     :description,
     :location,
+    :lab_spaces,
     :created_at,
     :updated_at,
     :image,
@@ -47,7 +49,6 @@ class LabDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :lab_spaces,
     :name,
     :description,
     :location,
@@ -57,7 +58,7 @@ class LabDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how labs are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(lab)
-  #   "Lab ##{lab.id}"
-  # end
+  def display_resource(lab)
+    lab.name
+  end
 end

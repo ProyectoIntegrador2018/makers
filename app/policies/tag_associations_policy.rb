@@ -18,6 +18,7 @@ class TagAssociationsPolicy < ApplicationPolicy
   def default_authorization
     return false unless user
     return false if user.user?
+
     user.manages?(record.equipment)
   end
 end
