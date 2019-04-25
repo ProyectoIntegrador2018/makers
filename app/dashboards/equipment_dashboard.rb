@@ -8,17 +8,13 @@ class EquipmentDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    equipment_materials: Field::HasMany,
     materials: Field::HasMany,
-    equipment_capabilities: Field::HasMany,
     capabilities: Field::HasMany,
-    available_hours: Field::HasMany,
-    reservations: Field::HasMany,
-    lab_space: Field::BelongsTo,
-    id: Field::Number,
+    available_hours: Field::NestedHasMany.with_options(skip: :equipment),
+    lab_space: BelongsToWithUserField.with_options(scope_name: :managed_lab_spaces),
     name: Field::String,
     description: Field::Text,
-    image: Field::String,
+    image: Field::Carrierwave,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     technical_description: Field::Text,
@@ -30,9 +26,7 @@ class EquipmentDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :id,
     :name,
-    :available_hours,
     :lab_space,
     :created_at,
     :updated_at,
@@ -41,20 +35,16 @@ class EquipmentDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :equipment_materials,
-    :materials,
-    :equipment_capabilities,
-    :capabilities,
-    :available_hours,
-    :reservations,
-    :lab_space,
-    :id,
     :name,
     :description,
+    :technical_description,
+    :available_hours,
     :image,
+    :materials,
+    :capabilities,
+    :lab_space,
     :created_at,
     :updated_at,
-    :technical_description,
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -62,12 +52,9 @@ class EquipmentDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :name,
-    :equipment_materials,
     :materials,
-    :equipment_capabilities,
     :capabilities,
     :available_hours,
-    :reservations,
     :lab_space,
     :description,
     :image,

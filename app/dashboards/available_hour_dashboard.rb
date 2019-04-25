@@ -54,7 +54,7 @@ class AvailableHourDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how available hours are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(available_hour)
-  #   "AvailableHour ##{available_hour.id}"
-  # end
+  def display_resource(available_hour)
+    "#{available_hour.day_of_week} from #{available_hour.start_time.to_formatted_s(:time)} to #{available_hour.end_time.to_formatted_s(:time)}"
+  end
 end

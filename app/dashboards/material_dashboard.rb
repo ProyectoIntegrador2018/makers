@@ -8,7 +8,6 @@ class MaterialDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    equipment_materials: Field::HasMany,
     equipment: Field::HasMany,
     id: Field::Number,
     name: Field::String,
@@ -22,18 +21,13 @@ class MaterialDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :equipment_materials,
-    :equipment,
-    :id,
     :name,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :equipment_materials,
     :equipment,
-    :id,
     :name,
     :created_at,
     :updated_at,
@@ -43,15 +37,13 @@ class MaterialDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :equipment_materials,
-    :equipment,
     :name,
   ].freeze
 
   # Overwrite this method to customize how materials are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(material)
-  #   "Material ##{material.id}"
-  # end
+  def display_resource(material)
+    material.name
+  end
 end
