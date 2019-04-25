@@ -15,6 +15,10 @@ detectors:
   Attribute:
     enabled: false
 
+  RepeatedConditional:
+    exclude:
+      - "UserPolicy"
+
 directories:
   "app/helpers":
     FeatureEnvy:
@@ -22,3 +26,7 @@ directories:
 
 exclude_paths:
   - app/dashboards
+  - db
+  - config
+  - script
+  - bin
