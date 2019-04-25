@@ -33,14 +33,11 @@ class UserDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :id,
     :institutional_id,
     :given_name,
     :last_name,
     :email,
     :role,
-    :reservations,
-    :confirmed_at,
     :created_at,
     :updated_at,
   ].freeze
@@ -48,43 +45,26 @@ class UserDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :reservations,
-    :id,
+    :institutional_id,
+    :given_name,
+    :last_name,
     :email,
-    :encrypted_password,
-    :reset_password_token,
+    :role,
     :reset_password_sent_at,
     :remember_created_at,
     :confirmation_token,
     :confirmed_at,
     :confirmation_sent_at,
-    :unconfirmed_email,
     :created_at,
     :updated_at,
-    :role,
-    :given_name,
-    :last_name,
-    :institutional_id,
+    :reservations,
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :reservations,
-    :email,
-    :encrypted_password,
-    :reset_password_token,
-    :reset_password_sent_at,
-    :remember_created_at,
-    :confirmation_token,
-    :confirmed_at,
-    :confirmation_sent_at,
-    :unconfirmed_email,
     :role,
-    :given_name,
-    :last_name,
-    :institutional_id,
   ].freeze
 
   # Overwrite this method to customize how users are displayed
