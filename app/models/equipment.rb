@@ -29,4 +29,12 @@ class Equipment < ApplicationRecord
       Equipment.all
     end
   end
+
+  def self.materials
+    Material.joins(:equipment).where(equipment: { id: ids })
+  end
+
+  def self.capabilities
+    Capability.joins(:equipment).where(equipment: { id: ids })
+  end
 end

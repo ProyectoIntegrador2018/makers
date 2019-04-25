@@ -13,7 +13,7 @@
           <p class="title">Material</p>
           <select multiple name="materiales" id="select-material">
             <option value="">Materiales</option>
-            <% @materials.each do |m|  %>
+            <% @equipment_scope.materials.each do |m|  %>
               <option value="<%= m.id %>"><%= m.name %></option>
             <% end %>
           </select>
@@ -22,7 +22,7 @@
           <p class="title">Capacidad</p>
           <select multiple name="capacidades" id="select-capacidad">
             <option value="">Capacidades</option>
-            <% @capabilities.each do |c|  %>
+            <% @equipment_scope.capabilities.each do |c|  %>
               <option value="<%= c.id %>"><%= c.name %></option>
             <% end %>
           </select>

@@ -1,9 +1,7 @@
 require 'administrate/field/belongs_to'
 
 class BelongsToWithUserField < Administrate::Field::BelongsTo
-  def set_current_user(current_user)
-    @current_user = current_user
-  end
+  attr_writer :current_user
 
   protected
 
