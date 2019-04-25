@@ -1,0 +1,2 @@
+class EquipmentCapabilityPolicy < TagAssociationsPolicy
+end

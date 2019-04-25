@@ -11,6 +11,8 @@ class Equipment < ApplicationRecord
 
   validates :name, :description, :lab_space, presence: true
 
+  accepts_nested_attributes_for :available_hours
+
   def self.search(name)
     if name.present?
       where('equipment.name ILIKE ?', "%#{name}%")

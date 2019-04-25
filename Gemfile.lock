@@ -58,6 +58,9 @@ GEM
     administrate-field-carrierwave (0.4.1)
       administrate (< 1.0.0)
       rails (>= 4.2, < 6)
+    administrate-field-nested_has_many (1.1.0)
+      administrate (> 0.8, < 1)
+      cocoon (~> 1.2, >= 1.2.11)
     archive-zip (0.11.0)
       io-like (~> 0.3.0)
     arel (9.0.0)
@@ -86,6 +89,7 @@ GEM
     chromedriver-helper (2.1.0)
       archive-zip (~> 0.10)
       nokogiri (~> 1.8)
+    cocoon (1.2.12)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0)
@@ -280,6 +284,7 @@ PLATFORMS
 DEPENDENCIES
   administrate
   administrate-field-carrierwave (~> 0.4.1)
+  administrate-field-nested_has_many
   bootsnap (>= 1.1.0)
   byebug
   capybara (>= 2.15)
