@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :trainings
   namespace :admin do
       resources :users
       resources :available_hours
