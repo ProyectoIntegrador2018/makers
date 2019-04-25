@@ -36,7 +36,7 @@
         <p id="notice"><%# notice %></p>
 
         <div class="resultsContainer">
-          <% @equipment.each do |equipment| %>
+          <% @equipment_scope.each do |equipment| %>
             <article class="SearchResult">
               <h2 class="title mb-3">
                 <%= link_to equipment.name, [equipment.lab_space.lab, equipment.lab_space, equipment] %>
@@ -82,7 +82,7 @@
 <% content_for :scripts do %>
   <script>
     const $resultDivs = $('article.SearchResult');
-    let data = <%= raw(@equipment.as_json(only: [:capabilities, :materials], include:[{capabilities: {only: :id}}, {materials: {only: :id}}]).to_json) %>;
+    let data = <%= raw(@equipment_scope.as_json(only: [:capabilities, :materials], include:[{capabilities: {only: :id}}, {materials: {only: :id}}]).to_json) %>;
     // Prepare data for easier manipulation (remove object info)
     data = data.map((eq, i) => {
       eq.forindex = i;
