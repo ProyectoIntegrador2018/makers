@@ -12,7 +12,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    user.id == record.id || user.superadmin?
+    user.id == record.id || user.superadmin? || user.admin?
   end
 
   def destroy?
