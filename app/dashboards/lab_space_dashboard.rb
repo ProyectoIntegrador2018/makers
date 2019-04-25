@@ -9,7 +9,7 @@ class LabSpaceDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    lab: Field::BelongsToWithUserField.with_options(scope_name: :managed_labs),
+    lab: BelongsToWithUserField.with_options(scope_name: :managed_labs),
     equipment: Field::HasMany,
     id: Field::Number,
     name: Field::String,

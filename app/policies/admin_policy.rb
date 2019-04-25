@@ -1,9 +1,9 @@
 class AdminPolicy
   attr_reader :user, :record
 
-  def initialize(user, dashboard)
+  def initialize(user, admin)
     @user = user
-    @record = dashboard
+    @record = admin
   end
 
   def show?
