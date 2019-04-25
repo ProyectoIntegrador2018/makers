@@ -1,27 +1,42 @@
 require 'rails_helper'
 
 RSpec.describe UserPolicy, type: :policy do
-  let(:user) { User.new }
+  subject { described_class.new(user, accessed_user) }
 
-  subject { described_class }
+  let(:accessed_user) { create(:user) }
 
-  permissions ".scope" do
-    pending "add some examples to (or delete) #{__FILE__}"
+  context 'for a visitor' do
+    let(:user) { nil }
+    it { should forbid_actions([:index, :show, :edit, :update, :destroy]) }
+    it { should permit_actions([:new, :create]) }
   end
 
-  permissions :show? do
-    pending "add some examples to (or delete) #{__FILE__}"
+  context 'for regular user' do
+    let(:user) { accessed_user }
+    it { should forbid_actions([:index, :new, :create]) }
+    it { should permit_actions([:show, :edit, :update, :destroy]) }
   end
 
-  permissions :create? do
-    pending "add some examples to (or delete) #{__FILE__}"
+  context 'for another user' do
+    let(:user) { create(:user) }
+    it { should forbid_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
   end
 
-  permissions :update? do
-    pending "add some examples to (or delete) #{__FILE__}"
+  context 'for a superadmin' do
+    let(:user) { create(:user, role: :superadmin) }
+    it { should forbid_actions([:new, :create]) }
+    it { should permit_actions([:index, :show, :edit, :update, :destroy]) }
   end
 
-  permissions :destroy? do
-    pending "add some examples to (or delete) #{__FILE__}"
+  context 'for an admin' do
+    let(:user) { create(:user, role: :admin) }
+    it { should forbid_actions([:new, :create, :destroy]) }
+    it { should permit_actions([:index, :show, :edit, :update]) }
+  end
+
+  context 'for a lab admin' do
+    let(:user) { create(:user, role: :lab_admin) }
+    it { should forbid_actions([:new, :create,:edit, :update, :destroy]) }
+    it { should permit_actions([:index, :show]) }
   end
 end

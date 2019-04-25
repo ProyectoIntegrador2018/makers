@@ -8,7 +8,9 @@ class TagAssociationsPolicy < ApplicationPolicy
   end
 
   def new?
-    true
+    return false unless user
+
+    user.superadmin? || user.admin? || user.lab_admin?
   end
 
   def update?
@@ -19,6 +21,6 @@ class TagAssociationsPolicy < ApplicationPolicy
     return false unless user
     return false if user.user?
 
-    user.manages?(record.equipment)
+    user.superadmin? || user.manages?(record.equipment)
   end
 end

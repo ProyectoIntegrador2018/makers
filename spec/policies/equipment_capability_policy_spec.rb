@@ -1,47 +1,47 @@
 require 'rails_helper'
 
-RSpec.describe LabAdministrationPolicy, type: :policy do
-  subject { described_class.new(user, lab_administration) }
+RSpec.describe EquipmentCapabilityPolicy, type: :policy do
+  subject { described_class.new(user, equipment_capability) }
 
   let(:lab) { create :lab }
   let(:lab_space) { create :lab_space, lab: lab }
-  let(:lab_administration) { LabAdministration.new(space: lab) }
+  let(:equipment) { create :equipment, lab_space: lab_space }
+  let(:capability) { Capability.create(name: 'test') }
+  let(:equipment_capability) { EquipmentCapability.create(equipment: equipment, capability: capability) }
 
-  context 'for a visitor' do
-    let(:user) { nil }
-    it { should forbid_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
-  end
+  context 'for regular user' do
+    let(:user) { create(:user) }
 
-  context 'for a regular user' do
-    let(:user) { create :user }
     it { should forbid_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
   end
 
   context 'for a superadmin' do
-    let(:user) { create :user, role: :superadmin }
-    it { should forbid_actions([:edit, :update]) }
-    it { should permit_actions([:index, :show, :new, :create, :destroy]) }
+    let(:user) { create(:user, role: :superadmin) }
+
+    it { should forbid_actions([:index, :show, :edit, :update]) }
+    it { should permit_actions([:new, :create, :destroy]) }
   end
 
-  context 'for an admin of that lab' do
+  context 'for an admin of that equipment' do
     let(:user) do
       admin = create :user, role: :admin
       lab.admins << admin
       admin
     end
 
-    it { should forbid_actions([:edit, :update]) }
-    it { should permit_actions([:index, :show, :new, :create, :destroy]) }
+    it { should forbid_actions([:index, :show, :edit, :update]) }
+    it { should permit_actions([:new, :create, :destroy]) }
   end
 
-  context 'for a lab admin of that lab space' do
+  context 'for a lab admin of that equipment' do
     let(:user) do
       lab_admin = create(:user, role: :lab_admin)
       lab_space.admins << lab_admin
       lab_admin
     end
 
-    it { should forbid_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
+    it { should forbid_actions([:index, :show, :edit, :update]) }
+    it { should permit_actions([:new, :create, :destroy]) }
   end
 
   context 'for an admin of another lab' do
@@ -64,6 +64,7 @@ RSpec.describe LabAdministrationPolicy, type: :policy do
       new_lab_space
     end
 
-    it { should forbid_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
+    # :new omitted
+    it { should forbid_actions([:index, :show, :create, :edit, :update, :destroy]) }
   end
 end

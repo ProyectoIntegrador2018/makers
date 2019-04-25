@@ -7,19 +7,19 @@ class DashboardPolicy
   end
 
   def users?
-    true
+    !user.user?
   end
 
   def available_hours?
-    true
+    !user.user?
   end
 
   def capabilities?
-    true
+    !user.user?
   end
 
   def equipment?
-    true
+    !user.user?
   end
 
   def equipment_capabilities?
@@ -35,15 +35,15 @@ class DashboardPolicy
   end
 
   def lab_spaces?
-    true
+    !user.user?
   end
 
   def materials?
-    true
+    !user.user?
   end
 
   def reservations?
-    true
+    !user.user?
   end
 
   def lab_administrations?
