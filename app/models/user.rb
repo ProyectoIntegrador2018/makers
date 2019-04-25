@@ -19,11 +19,14 @@ class User < ApplicationRecord
   has_many :indirectly_managed_lab_spaces, through: :managed_labs, source: :lab_spaces
   has_many :indirectly_managed_equipment, through: :indirectly_managed_lab_spaces, source: :equipment
   has_many :indirectly_managed_reservations, through: :indirectly_managed_equipment, source: :reservations
+  has_many :lab_lab_administrations, through: :managed_labs, source: :lab_administrations
+  has_many :indirectly_managed_lab_administrations, through: :indirectly_managed_lab_spaces, source: :lab_administrations
 
   # All associations stemming from association with lab spaces through lab_administrations, should be used for role: lab_admin
   has_many :directly_managed_lab_spaces, through: :lab_administrations, source: :space, source_type: 'LabSpace'
   has_many :directly_managed_equipment, through: :directly_managed_lab_spaces, source: :equipment
   has_many :directly_managed_reservations, through: :directly_managed_equipment, source: :reservations
+  has_many :directly_managed_lab_administrations, through: :directly_managed_lab_spaces, source: :lab_administrations
 
   def managed_lab_spaces
     lab_spaces = LabSpace.find_by_sql("(#{directly_managed_lab_spaces.to_sql}) UNION (#{indirectly_managed_lab_spaces.to_sql})")
@@ -38,6 +41,11 @@ class User < ApplicationRecord
   def managed_reservations
     reservations = Reservation.find_by_sql("(#{directly_managed_reservations.to_sql}) UNION (#{indirectly_managed_reservations.to_sql})")
     Reservation.where(id: reservations.map(&:id))
+  end
+
+  def managed_lab_administrations
+    lab_administrations = LabAdministration.find_by_sql("(#{lab_lab_administrations.to_sql}) UNION (#{indirectly_managed_lab_administrations.to_sql}) UNION (#{directly_managed_lab_administrations.to_sql})")
+    LabAdministration.where(id: lab_administrations.map(&:id))
   end
 
   def manages?(managed)

@@ -9,7 +9,7 @@ class LabAdministrationDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     admin: Field::BelongsTo.with_options(class_name: "User"),
-    space: Field::Polymorphic.with_options(classes: [Lab, LabSpace]),
+    space: PolymorphicWithUserField.with_options(classes: [Lab, LabSpace], scope_names: { Lab: :managed_labs, LabSpace: :managed_lab_spaces }),
     id: Field::Number,
     admin_id: Field::Number,
     created_at: Field::DateTime,
@@ -32,7 +32,6 @@ class LabAdministrationDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :admin,
     :space,
-    :id,
     :created_at,
     :updated_at,
   ].freeze
