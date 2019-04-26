@@ -125,6 +125,20 @@ as well as a link to its edit page.
   </div>
 </section>
 
+<%
+  # TODO: refactor this
+  reservations = []
+  page.resource.reservations.each do | r |
+    reservations.push({
+      "id" => r.id,
+      "start" => r.start_time,
+      "end" => r.end_time,
+      "status" => r.status,
+      "title" => "#{r.user.given_name} #{r.user.last_name}"
+    })
+  end
+%>
+
 <% content_for(:javascript) do %>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/main.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.0.1/main.min.css">
@@ -133,17 +147,18 @@ as well as a link to its edit page.
   <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/main.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.0.1/main.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.0.1/main.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.0.1/main.min.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.0.1/main.min.js"></script> -->
   <script>
     let calendar;
+    const reservations = <%= raw(reservations.to_json) %>;
     document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('calendar');
 
       calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: [ 'dayGrid', 'timeGrid', 'interaction' ],
       defaultView: 'timeGridWeek',
-      // events: reservations,
-      selectable: true,
+      events: reservations,
+      // selectable: true,
       selectOverlap: false,
       // select: function(selInfo) {
       //   $modal.modal('show');
