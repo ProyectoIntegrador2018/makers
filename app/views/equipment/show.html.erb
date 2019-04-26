@@ -1,7 +1,7 @@
 <%
   # TODO: refactor this
   reservations = []
-  rev = @equipment.reservations.select { |r| r.status == "confirmed" or r.status == "blocked" }
+  rev = @equipment.reservations.confirmed.or(reservations.blocked)
   rev.each do | eq |
     reservations.push({
       "id" => eq.id,
