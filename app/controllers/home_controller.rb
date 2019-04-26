@@ -8,6 +8,8 @@ class HomeController < ApplicationController
     @materials = Material.all
     render layout: false
   end
+
   def profile
   end
+
 end
