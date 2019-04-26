@@ -19,7 +19,8 @@
                       <td><%= current_user.email %></td>
                     </tr>
                     <tr>
-                      <td>Matr&iacute;cula / n&oacute;mina:</td>
+
+                      <td><%= current_user.institutional_id.downcase.starts_with?('a')? 'Matrícula' : 'Nómina' %>:</td>
                       <td><%= current_user.institutional_id %></td>
                     </tr>
                   </tbody>
