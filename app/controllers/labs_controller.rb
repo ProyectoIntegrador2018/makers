@@ -26,7 +26,7 @@ class LabsController < ApplicationController
   # POST /labs
   # POST /labs.json
   def create
-    @lab = Lab.new(lab_params)
+    @lab = Lab.new(lab_params.merge(creator_param))
 
     respond_to do |format|
       if @lab.save
@@ -71,5 +71,11 @@ class LabsController < ApplicationController
 
   def lab_params
     params.require(:lab).permit(:name, :description, :location, :image)
+  end
+
+  def creator_param
+    {
+      creator: current_user
+    }
   end
 end

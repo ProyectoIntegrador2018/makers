@@ -3,6 +3,7 @@ class LabSpace < ApplicationRecord
   validates :name, :description, :location, :lab, presence: true
 
   belongs_to :lab
+  belongs_to :creator, class_name: 'User'
   has_many :equipment
 
   has_many :lab_administrations, as: :space

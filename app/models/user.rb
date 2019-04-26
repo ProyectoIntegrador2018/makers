@@ -11,6 +11,10 @@ class User < ApplicationRecord
 
   has_many :reservations
 
+  has_many :equipment, foreign_key: 'creator_id'
+  has_many :lab_spaces, foreign_key: 'creator_id'
+  has_many :labs, foreign_key: 'creator_id'
+
   # Aids in building queries for administration
   has_many :lab_administrations, foreign_key: 'admin_id'
 
