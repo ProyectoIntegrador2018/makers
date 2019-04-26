@@ -48,9 +48,8 @@
         </tr>
       </thead>
       <tbody>
-        <% reservations = current_user.reservations.confirmed %>
-        <% if reservations.length > 0 %>
-          <% reservations.each_with_index do | r, index | %>
+        <% if @reservations.length > 0 %>
+          <% @reservations.each_with_index do | r, index | %>
             <tr>
               <td><%= index + 1 %></td>
               <td><%= link_to r.equipment.name, equipment_index_path(r.equipment) %></td>

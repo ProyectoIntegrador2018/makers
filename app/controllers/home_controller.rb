@@ -10,5 +10,6 @@ class HomeController < ApplicationController
   end
 
   def profile
+    @reservations = current_user.reservations.confirmed
   end
 end
