@@ -74,7 +74,7 @@ class ReservationsController < ApplicationController
   def destroy
     @reservation.cancelled! # Cancel, not destroy
     respond_to do |format|
-      format.html { redirect_to reservations_url, notice: 'Reservation was successfully destroyed.' }
+      format.html { redirect_to profile_url, notice: 'Reservation was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

@@ -44,24 +44,27 @@
           <th>Prop&oacute;sito</th>
           <th>Status</th>
           <th>Creado</th>
+          <th>Cancelar</th>
         </tr>
       </thead>
       <tbody>
-        <% if current_user.reservations.length > 0 %>
-          <% current_user.reservations.each_with_index do | r, index | %>
+        <% reservations = current_user.reservations.select { |r| r.status == :confirmed } %>
+        <% if reservations.length > 0 %>
+          <% reservations.each_with_index do | r, index | %>
             <tr>
               <td><%= index + 1 %></td>
               <td><%= link_to r.equipment.name, equipment_index_path(r.equipment) %></td>
-              <td><%= r.start_time.in_time_zone('America/Monterrey').strftime("%d-%m-%Y %I:%M %p")  %></td>
-              <td><%= r.end_time.in_time_zone('America/Monterrey').strftime("%d-%m-%Y %I:%M %p")  %></td>
+              <td><%= r.start_time.localtime.strftime("%d-%m-%Y %I:%M %p")  %></td>
+              <td><%= r.end_time.localtime.strftime("%d-%m-%Y %I:%M %p")  %></td>
               <td><%= r.purpose %></td>
               <td><%= r.status %></td>
-              <td><%= r.created_at.in_time_zone('America/Monterrey').strftime("%d-%m-%Y %I:%M %p") %></td>
+              <td><%= r.created_at.localtime.strftime("%d-%m-%Y %I:%M %p") %></td>
+              <td><%= link_to 'Cancelar', r, method: :delete, data: { confirm: 'Estás seguro de que deseas cancelar esta reservación?' }, class: 'border small lp btn' %></td>
             </tr>
           <% end %>
         <% else %>
           <tr>
-            <td style="border-bottom: 0; padding: 30px 0;" colspan="7">No tienes reservaciones activas</td>
+            <td style="border-bottom: 0; padding: 30px 0;" colspan="8">No tienes reservaciones activas</td>
           </tr>
         <% end %>
       </tbody>
