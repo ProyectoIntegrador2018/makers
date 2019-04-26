@@ -33,7 +33,7 @@ class EquipmentController < ApplicationController
   # POST /lab/1/lab_spaces/1/equipment
   # POST /lab/1/lab_spaces/1/equipment.json
   def create
-    @equipment = @equipment_scope.new(equipment_params.merge(creator_param))
+    @equipment = @equipment_scope.new(equipment_params)
     respond_to do |format|
       if @equipment.save && save_relations('materials') && save_relations('capabilities') && save_availability
         format.html { redirect_to [@lab_space.lab, @lab_space, @equipment], notice: 'Equipment was successfully created.' }
@@ -86,12 +86,6 @@ class EquipmentController < ApplicationController
 
   def equipment_params
     params.require(:equipment).permit(:name, :description, :image, :technical_description)
-  end
-
-  def creator_param
-    {
-      creator: current_user
-    }
   end
 
   def update_relations(type)

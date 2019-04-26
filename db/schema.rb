@@ -61,8 +61,6 @@ ActiveRecord::Schema.define(version: 2019_04_26_061548) do
     t.datetime "updated_at", null: false
     t.bigint "lab_space_id"
     t.text "technical_description"
-    t.bigint "creator_id"
-    t.index ["creator_id"], name: "index_equipment_on_creator_id"
     t.index ["lab_space_id"], name: "index_equipment_on_lab_space_id"
   end
 
@@ -105,8 +103,6 @@ ActiveRecord::Schema.define(version: 2019_04_26_061548) do
     t.datetime "updated_at", null: false
     t.bigint "lab_id"
     t.string "image"
-    t.bigint "creator_id"
-    t.index ["creator_id"], name: "index_lab_spaces_on_creator_id"
     t.index ["lab_id"], name: "index_lab_spaces_on_lab_id"
   end
 
@@ -117,8 +113,6 @@ ActiveRecord::Schema.define(version: 2019_04_26_061548) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image"
-    t.bigint "creator_id"
-    t.index ["creator_id"], name: "index_labs_on_creator_id"
   end
 
   create_table "materials", force: :cascade do |t|
@@ -164,15 +158,12 @@ ActiveRecord::Schema.define(version: 2019_04_26_061548) do
 
   add_foreign_key "available_hours", "equipment"
   add_foreign_key "equipment", "lab_spaces"
-  add_foreign_key "equipment", "users", column: "creator_id"
   add_foreign_key "equipment_capabilities", "capabilities"
   add_foreign_key "equipment_capabilities", "equipment"
   add_foreign_key "equipment_materials", "equipment"
   add_foreign_key "equipment_materials", "materials"
   add_foreign_key "lab_administrations", "users", column: "admin_id"
   add_foreign_key "lab_spaces", "labs"
-  add_foreign_key "lab_spaces", "users", column: "creator_id"
-  add_foreign_key "labs", "users", column: "creator_id"
   add_foreign_key "reservations", "equipment"
   add_foreign_key "reservations", "users"
 end
