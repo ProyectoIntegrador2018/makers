@@ -54,11 +54,11 @@
             <tr>
               <td><%= index + 1 %></td>
               <td><%= link_to r.equipment.name, equipment_index_path(r.equipment) %></td>
-              <td><%= r.start_time.localtime.strftime("%d-%m-%Y %I:%M %p")  %></td>
-              <td><%= r.end_time.localtime.strftime("%d-%m-%Y %I:%M %p")  %></td>
+              <td><%= r.start_time.in_time_zone('America/Monterrey').strftime("%d-%m-%Y %I:%M %p")  %></td>
+              <td><%= r.end_time.in_time_zone('America/Monterrey').strftime("%d-%m-%Y %I:%M %p")  %></td>
               <td><%= r.purpose %></td>
               <td><%= r.status %></td>
-              <td><%= r.created_at.localtime.strftime("%d-%m-%Y %I:%M %p") %></td>
+              <td><%= r.created_at.in_time_zone('America/Monterrey').strftime("%d-%m-%Y %I:%M %p") %></td>
               <td><%= link_to 'Cancelar', r, method: :delete, data: { confirm: 'Estás seguro de que deseas cancelar esta reservación?' }, class: 'border small lp btn' %></td>
             </tr>
           <% end %>
