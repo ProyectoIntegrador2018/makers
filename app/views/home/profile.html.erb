@@ -48,7 +48,7 @@
         </tr>
       </thead>
       <tbody>
-        <% reservations = current_user.reservations.select { |r| r.status == :confirmed } %>
+        <% reservations = current_user.reservations.confirmed %>
         <% if reservations.length > 0 %>
           <% reservations.each_with_index do | r, index | %>
             <tr>
