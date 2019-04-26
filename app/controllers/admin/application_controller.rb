@@ -10,6 +10,7 @@ module Admin
     before_action :authenticate_user!
     before_action :authorize_admin
     before_action :set_locale
+    rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
     helper all_helpers_from_path 'app/helpers'
 
@@ -19,6 +20,10 @@ module Admin
 
     def authorize_admin
       authorize :admin, :show?
+    end
+
+    def user_not_authorized
+      redirect_to root_path
     end
 
     # Override this value to specify the number of elements to display at a time
