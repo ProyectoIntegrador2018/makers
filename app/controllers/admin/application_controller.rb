@@ -31,5 +31,15 @@ module Admin
     # def records_per_page
     #   params[:per_page] || 20
     # end
+
+    private
+
+    def read_param_value(data)
+      super(data)
+    rescue StandardError => error
+      return GlobalID::Locator.locate(data[:value]) if data[:type] == PolymorphicWithUserField.to_s
+
+      raise error
+    end
   end
 end
