@@ -51,8 +51,8 @@ end
     5.times do |i|
       eq.available_hours.create!(
         day_of_week: (i+1),
-        start_time: "08:30",
-        end_time: "17:30"
+        start_time: "08:30 CST",
+        end_time: "17:30 CST"
       )
     end
   end

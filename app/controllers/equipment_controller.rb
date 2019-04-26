@@ -73,8 +73,8 @@ class EquipmentController < ApplicationController
 
   def set_parent_lab_space
     if params[:lab_space_id]
-      lab_space = LabSpace.find(params[:lab_space_id])
-      @equipment_scope = lab_space.equipment
+      @lab_space = LabSpace.find(params[:lab_space_id])
+      @equipment_scope = @lab_space.equipment
     else
       @equipment_scope = Equipment.all
     end
