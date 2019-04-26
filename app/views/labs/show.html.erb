@@ -14,7 +14,7 @@
         <section class="Detalles">
           <h2 class="mb-3">Detalles</h2>
           <div class="section-body">
-            <div class="row">
+            <div class="row hidden">
               <div class="col-3"><strong style="color: red">Responsable:</strong></div>
               <div class="col"><p class="mb-1">Dr. Azael Cort&eacute;s Capetillo</p></div>
             </div>
@@ -31,13 +31,13 @@
         </section>
       </div>
       <div class="col offset-1">
-        <div class="row">
+        <div class="row hidden">
           <section class="Horarios">
             <h2>Horarios</h2>
             <p style="color: red">Lunes a Jueves de 9 AM a 5:30 PM</p>
           </section>
         </div>
-        <div class="row">
+        <div class="row hidden">
           <section class="Mapa">
             <h2>Mapa</h2>
             <h1 style="color: red">MAP</h1>
@@ -61,17 +61,6 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="LabSpace--listitem">
-          <td><a href="#">Espacio #1</a></td>
-          <td><a href="#">Lorem ipsum dolor sit amet...</a></td>
-          <td>Dra. Alejandra S&aacute;nchez</td>
-          <td><a href="#">Ver horarios</a></td>
-          <td>
-            <div class="d-flex justify-content-end">
-              <button class="reserve btn highlight">Reservar</button>
-            </div>
-          </td>
-        </tr>
         <% @lab.lab_spaces.each do |ls| %>
           <tr class="LabSpace--listitem">
             <td><a href="#"><%= ls.name %></a></td>
