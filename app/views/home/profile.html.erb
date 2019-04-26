@@ -1,0 +1,71 @@
+<div class="ProfilePage">
+  <h1 class="mt-0 mb-4">Mi perfil</h1>
+  <section class="Overview">
+    <div class="row">
+      <div class="col">
+        <section class="Detalles">
+          <h2 class="mt-3 mb-2 ttu">Detalles</h2>
+          <div class="section-body">
+            <div class="row">
+              <div class="col">
+                <table class="detailsTable">
+                  <tbody>
+                    <tr>
+                      <td>Nombre:</td>
+                      <td><%= "#{current_user.given_name} #{current_user.last_name}"  %></td>
+                    </tr>
+                    <tr>
+                      <td>Correo electr&oacute;nico:</td>
+                      <td><%= current_user.email %></td>
+                    </tr>
+                    <tr>
+                      <td>Matr&iacute;cula / n&oacute;mina:</td>
+                      <td><%= current_user.institutional_id %></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section class="Reservations">
+    <h2 class="ttu">Mis reservaciones</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Equipo</th>
+          <th>Fecha inicio</th>
+          <th>Fecha fin</th>
+          <th>Prop&oacute;sito</th>
+          <th>Status</th>
+          <th>Creado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if current_user.reservations.length > 0 %>
+          <% current_user.reservations.each_with_index do | r, index | %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= link_to r.equipment.name, equipment_index_path(r.equipment) %></td>
+              <td><%= r.start_time.in_time_zone('America/Monterrey').strftime("%d-%m-%Y %I:%M %p")  %></td>
+              <td><%= r.end_time.in_time_zone('America/Monterrey').strftime("%d-%m-%Y %I:%M %p")  %></td>
+              <td><%= r.purpose %></td>
+              <td><%= r.status %></td>
+              <td><%= r.created_at.in_time_zone('America/Monterrey').strftime("%d-%m-%Y %I:%M %p") %></td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td style="border-bottom: 0; padding: 30px 0;" colspan="7">No tienes reservaciones activas</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </section>
+</div>
+
