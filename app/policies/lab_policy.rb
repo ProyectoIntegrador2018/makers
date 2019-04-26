@@ -8,6 +8,8 @@ class LabPolicy < ManagedModelsPolicy
 
   class Scope < Scope
     def resolve_admin
+      return scope.all if user.superadmin?
+
       user.managed_labs
     end
   end
