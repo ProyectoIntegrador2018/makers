@@ -60,6 +60,7 @@ es:
         subject: 'Instrucciones de reinicio de contraseña'
       unlock_instructions:
         subject: 'Instrucciones de desbloqueo'
+
   activerecord:
     errors:
       messages:
@@ -68,10 +69,12 @@ es:
         user:
           attributes:
             email:
-              invalid: 'es inválido. Utiliza tu correo @itesm.mx or @tec.mx.'
+              invalid: 'El correo es inválido. Utiliza tu correo @itesm.mx or @tec.mx.'
               blank: 'El correo electrónico no puede estar en blanco.'
             password:
               blank: 'La contraseña no puede estar en blanco.'
+            password_confirmation:
+              confirmation: 'La contraseña no coincide.'
             last_name:
               blank: 'El campo de apellidos no puede estar en blanco.'
             given_name:

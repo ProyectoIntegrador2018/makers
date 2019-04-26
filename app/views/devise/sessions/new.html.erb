@@ -1,9 +1,9 @@
 <div class="devise">
   <h2>Inicia sesi&oacute;n</h2>
 
-  <%= content_tag(:div, flash[:error], :id => "flash_error") if flash[:error] %>
-  <%= content_tag(:div, flash[:notice], :id => "alert alert-primary") if flash[:notice] %>
-  <%= content_tag(:div, flash[:alert], :class => "alert alert-danger") if flash[:alert] %>
+  <%= content_tag(:div, flash[:error], class: "flash_error") if flash[:error] %>
+  <%= content_tag(:div, flash[:notice], class: "alert alert-primary") if flash[:notice] %>
+  <%= content_tag(:div, flash[:alert], class: "alert alert-danger") if flash[:alert] %>
 
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="field has-ico email-container">
