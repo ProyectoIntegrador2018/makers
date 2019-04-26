@@ -155,7 +155,7 @@
                 element.find(".removebtn").click(function() {
                   if(confirm('¿Estás seguro de que deseas cancelar esta reservación?')) {
                     cancelEvent(info.event, function() {
-                      alert('Resrevación cancelada exitosamente.');
+                      alert('Reservación cancelada exitosamente.');
                       info.event.remove();
                     });
                   }
