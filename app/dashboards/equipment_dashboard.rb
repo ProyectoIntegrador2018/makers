@@ -18,6 +18,7 @@ class EquipmentDashboard < Administrate::BaseDashboard
       remove: true,
       ),
     created_at: Field::DateTime,
+    reservations: Field::NestedHasMany,
     updated_at: Field::DateTime,
     technical_description: Field::Text,
   }.freeze
@@ -44,6 +45,7 @@ class EquipmentDashboard < Administrate::BaseDashboard
     :image,
     :materials,
     :capabilities,
+    :reservations,
     :lab_space,
     :created_at,
     :updated_at,
