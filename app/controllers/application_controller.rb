@@ -1,8 +1,9 @@
 class ApplicationController < ActionController::Base
+  protect_from_forgery
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_locale
   include Pundit
-  protect_from_forgery
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   protected
 
@@ -18,5 +19,9 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update) do |user|
       user.permit(:given_name, :last_name, :email, :institutional_id, :password, :password_confirmation, :current_password)
     end
+  end
+
+  def user_not_authorized
+    redirect_to root_path
   end
 end
