@@ -1,0 +1,176 @@
+<%#
+# Show
+
+This view is the template for the show page.
+It renders the attributes of a resource,
+as well as a link to its edit page.
+
+## Local variables:
+
+- `page`:
+  An instance of [Administrate::Page::Show][1].
+  Contains methods for accessing the resource to be displayed on the page,
+  as well as helpers for describing how each attribute of the resource
+  should be displayed.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Show
+%>
+
+<% content_for(:title) { t("administrate.actions.show_resource", name: page.page_title) } %>
+
+<header class="main-content__header" role="banner">
+  <h1 class="main-content__page-title"> <%= content_for(:title) %> </h1>
+
+  <div>
+    <%= link_to(
+      "Edit",
+      [:edit, namespace, page.resource],
+      class: "button",
+        ) if valid_action?(:edit) && show_action?(:edit, page.resource) %>
+  </div>
+</header>
+
+<section class="main-content__body EquipmentShow">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-4">
+        <div class="card ProfileCard">
+          <%= (image_tag page.resource.image.url, class: "equipment-image") unless page.resource.image.url.nil? %>
+          <div class="card-body">
+            <h1 class="main-content__page-title"><%= page.resource.name %></h1>
+            <p class="content-label" style="margin-top: 15px">Available hours</p>
+            <table class="availableHourTable">
+              <tbody>
+                <% page.resource.available_hours.each do | ah | %>
+                  <tr>
+                    <td><strong><%= ah.day_of_week %></strong></td>
+                    <td><%= ah.start_time.in_time_zone('America/Monterrey').to_formatted_s(:time) %> - <%= ah.end_time.in_time_zone('America/Monterrey').to_formatted_s(:time) %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+            <p class="content-label">Description</p>
+            <p class=""><%= page.resource.description %></p>
+            <p class="content-label">Technical description</p>
+            <p class=""><%= page.resource.technical_description %></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-8 rightContentPane">
+        <div class="row">
+          <div class="col">
+            <div class="card ComingUp">
+              <div class="card-body">
+                <h4 class="card-title">Upcoming reservations</h4>
+                <table class="ReservationTable">
+                  <tbody>
+                    <% page.resource.reservations.each do | r |  %>
+                      <tr>
+                        <td><%= link_to "#{r.user.given_name} #{r.user.last_name}", admin_user_path(r.user) %></td>
+                        <td><%= r.start_time.in_time_zone('America/Monterrey').to_formatted_s(:time) %></td>
+                        <td><%= r.end_time.in_time_zone('America/Monterrey').to_formatted_s(:time) %></td>
+                        <td>
+                          <select name="reservation_status" id="reservation_status">
+                            <option <%= r.status == "confirmed" ? 'selected' : '' %> value="confirmed">Confirmed</option>
+                            <option <%= r.status == "complete" ? 'selected' : '' %> value="complete">Complete</option>
+                            <option <%= r.status == "cancelled" ? 'selected' : '' %> value="cancelled">Cancelled</option>
+                          </select>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Materials</h5>
+                <ul class="materials-list tagslist inline">
+                  <% page.resource.materials.each do | m | %>
+                    <li><div class="pill border xsmall"><%= m.name %></div></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Capabilities</h5>
+                <ul class="materials-list tagslist inline">
+                  <% page.resource.capabilities.each do | c | %>
+                    <li><div class="pill border xsmall"><%= c.name %></div></li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <div id="calendar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<% content_for(:javascript) do %>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/main.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.0.1/main.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.0.1/main.min.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"> -->
+  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/main.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.0.1/main.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.0.1/main.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.0.1/main.min.js"></script>
+  <script>
+    let calendar;
+    document.addEventListener('DOMContentLoaded', function() {
+      var calendarEl = document.getElementById('calendar');
+
+      calendar = new FullCalendar.Calendar(calendarEl, {
+      plugins: [ 'dayGrid', 'timeGrid', 'interaction' ],
+      defaultView: 'timeGridWeek',
+      // events: reservations,
+      selectable: true,
+      selectOverlap: false,
+      // select: function(selInfo) {
+      //   $modal.modal('show');
+      //   // console.log(`Start time: ${selInfo.start.toLocaleString()} \nEnd time: ${selInfo.end.toLocaleString()}`);
+      //   // calendar.addEvent();
+      //   tmpEvent = {
+      //     title: userName,
+      //     start: selInfo.start,
+      //     end: selInfo.end,
+      //   };
+      // },
+      allDaySlot: false,
+      weekends: false,
+      eventTextColor: 'white',
+      eventBackgroundColor: 'rgba(68, 93, 252, .77)',
+      minTime: "06:00:00",
+      maxTime: "22:00:00",
+      businessHours: {
+        // days of week. an array of zero-based day of week integers (0=Sunday)
+        daysOfWeek: [ 1, 2, 3, 4,5 ], // Monday - Thursday
+
+        startTime: '08:00', // a start time (10am in this example)
+        endTime: '18:00', // an end time (6pm in this example)
+      }
+      });
+
+      calendar.render();
+    });
+  </script>
+<% end %>

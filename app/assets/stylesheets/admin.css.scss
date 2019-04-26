@@ -94,6 +94,29 @@ ul.inline li {
     max-width: 100%;
     width: 100%;
   }
+  .ReservationTable {
+    text-align: left;
+    td {
+      padding-left: 0;
+      padding-right: 0;
+      &:first-child {
+        padding-left: 10px;
+      }
+      a {
+        color: $highlight;
+      }
+    }
+  }
+  .availableHourTable {
+    td {
+      padding: 0;
+      cursor: default;
+      padding-bottom: 2px;
+    }
+    tr {
+      border: 0 none;
+    }
+  }
 }
 
 .tagslist .pill {
@@ -137,4 +160,3 @@ ul.inline li {
     padding: 3px 8px;
   }
 }
-
