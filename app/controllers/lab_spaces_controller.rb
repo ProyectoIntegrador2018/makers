@@ -25,7 +25,7 @@ class LabSpacesController < ApplicationController
   # POST /lab/1/lab_spaces
   # POST /lab/1/lab_spaces.json
   def create
-    @lab_space = @lab_spaces.new(lab_space_params.merge(creator_param))
+    @lab_space = @lab_spaces.new(lab_space_params)
 
     respond_to do |format|
       if @lab_space.save
@@ -76,9 +76,4 @@ class LabSpacesController < ApplicationController
   def lab_space_params
     params.require(:lab_space).permit(:name, :description, :hours, :location, :contact_email, :contact_phone, :image)
   end
-
-  def creator_param
-    {
-      creator: current_user
-    }
 end
