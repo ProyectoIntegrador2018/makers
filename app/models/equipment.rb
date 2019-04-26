@@ -1,4 +1,5 @@
 class Equipment < ApplicationRecord
+  audited
   mount_uploader :image, ImageUploader
 
   has_many :equipment_materials, dependent: :destroy
@@ -8,7 +9,6 @@ class Equipment < ApplicationRecord
   has_many :available_hours, dependent: :destroy
   has_many :reservations
   belongs_to :lab_space
-  belongs_to :creator, class_name: 'User'
 
   validates :name, :description, :lab_space, presence: true
 
