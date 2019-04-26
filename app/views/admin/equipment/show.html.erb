@@ -65,19 +65,25 @@ as well as a link to its edit page.
                 <h4 class="card-title">Upcoming reservations</h4>
                 <table class="ReservationTable">
                   <tbody>
-                    <% page.resource.reservations.each do | r |  %>
-                      <tr>
-                        <td><%= link_to "#{r.user.given_name} #{r.user.last_name}", admin_user_path(r.user) %></td>
-                        <td><%= r.start_time.in_time_zone('America/Monterrey').to_formatted_s(:time) %></td>
-                        <td><%= r.end_time.in_time_zone('America/Monterrey').to_formatted_s(:time) %></td>
-                        <td>
-                          <select name="reservation_status" id="reservation_status">
-                            <option <%= r.status == "confirmed" ? 'selected' : '' %> value="confirmed">Confirmed</option>
-                            <option <%= r.status == "complete" ? 'selected' : '' %> value="complete">Complete</option>
-                            <option <%= r.status == "cancelled" ? 'selected' : '' %> value="cancelled">Cancelled</option>
-                          </select>
-                        </td>
-                      </tr>
+                    <%# TODO: filtra solo las de hoy %>
+                    <% res = page.resource.reservations.select { |r| r.status == :confirmed } %>
+                    <% if res.length == 0 %>
+                      <p>No upcoming reservations</p>
+                    <% else %>
+                      <% res.each do | r |  %>
+                        <tr>
+                          <td><%= link_to "#{r.user.given_name} #{r.user.last_name}", admin_user_path(r.user) %></td>
+                          <td><%= r.start_time.in_time_zone('America/Monterrey').to_formatted_s(:time) %></td>
+                          <td><%= r.end_time.in_time_zone('America/Monterrey').to_formatted_s(:time) %></td>
+                          <td>
+                            <select name="reservation_status" id="reservation_status">
+                              <option <%= r.status == "confirmed" ? 'selected' : '' %> value="confirmed">Confirmed</option>
+                              <option <%= r.status == "complete" ? 'selected' : '' %> value="complete">Complete</option>
+                              <option <%= r.status == "cancelled" ? 'selected' : '' %> value="cancelled">Cancelled</option>
+                            </select>
+                          </td>
+                        </tr>
+                      <% end %>
                     <% end %>
                   </tbody>
                 </table>
