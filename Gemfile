@@ -76,3 +76,6 @@ gem 'faker'
 gem 'administrate'
 gem 'administrate-field-carrierwave', '~> 0.4.1'
 gem 'administrate-field-nested_has_many'
+
+# Keeping track of audits (extension that logs all changes to your models)
+gem "audited", "~> 4.7"
