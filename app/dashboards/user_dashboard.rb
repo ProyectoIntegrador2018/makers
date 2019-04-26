@@ -21,7 +21,7 @@ class UserDashboard < Administrate::BaseDashboard
     unconfirmed_email: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    role: Field::String.with_options(searchable: false),
+    role: Field::Select.with_options(collection: User.roles.keys),
     given_name: Field::String,
     last_name: Field::String,
     institutional_id: Field::String,
