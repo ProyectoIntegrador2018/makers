@@ -1,7 +1,8 @@
 <%
   # TODO: refactor this
   reservations = []
-  @equipment.reservations.each do | eq |
+  rev = @equipment.reservations.select { |r| r.status == :confirmed or r.status == :blocked }
+  rev.each do | eq |
     reservations.push({
       "id" => eq.id,
       "start" => eq.start_time,
