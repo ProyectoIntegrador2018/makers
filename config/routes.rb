@@ -13,8 +13,10 @@ Rails.application.routes.draw do
       resources :lab_administrations
 
       root to: "users#index"
-    end
-  devise_for :users
+  end
+
+  devise_for :users, controllers: { registrations: "registrations" }
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :labs do
     resources :lab_spaces do

@@ -161,6 +161,8 @@
 
     </script>
     <%= yield(:scripts) if content_for?(:scripts)  %> </body>
+
+    <% flash.discard %>
   </body>
 </html>
 
