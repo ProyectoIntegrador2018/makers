@@ -13,9 +13,7 @@ class EquipmentPolicy < ManagedModelsPolicy
   end
 
   class Scope < Scope
-    def resolve_admin
-      return scope.all if user.superadmin?
-
+    def alternative_admin_scope
       user.managed_equipment
     end
   end

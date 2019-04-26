@@ -49,5 +49,15 @@ class ApplicationPolicy
     def resolve
       scope.all
     end
+
+    def resolve_admin
+      return scope.all if user.superadmin?
+
+      alternative_admin_scope
+    end
+
+    def alternative_admin_scope
+      scope.all
+    end
   end
 end

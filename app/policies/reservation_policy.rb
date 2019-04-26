@@ -18,5 +18,9 @@ class ReservationPolicy < ApplicationPolicy
 
       user.reservations
     end
+
+    def alternative_admin_scope
+      user.managed_reservations
+    end
   end
 end
