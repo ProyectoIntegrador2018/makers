@@ -29,21 +29,29 @@ class User < ApplicationRecord
   has_many :directly_managed_lab_administrations, through: :directly_managed_lab_spaces, source: :lab_administrations
 
   def managed_lab_spaces
+    return LabSpace.all if current_user.superadmin?
+
     lab_spaces = LabSpace.find_by_sql("(#{directly_managed_lab_spaces.to_sql}) UNION (#{indirectly_managed_lab_spaces.to_sql})")
     LabSpace.where(id: lab_spaces.map(&:id))
   end
 
   def managed_equipment
+    return Equipment.all if current_user.superadmin?
+
     equipment = Equipment.find_by_sql("(#{directly_managed_equipment.to_sql}) UNION (#{indirectly_managed_equipment.to_sql})")
     Equipment.where(id: equipment.map(&:id))
   end
 
   def managed_reservations
+    return Reservation.all if current_user.superadmin?
+
     reservations = Reservation.find_by_sql("(#{directly_managed_reservations.to_sql}) UNION (#{indirectly_managed_reservations.to_sql})")
     Reservation.where(id: reservations.map(&:id))
   end
 
   def managed_lab_administrations
+    return LabAdministration.all if current_user.superadmin?
+
     lab_administrations = LabAdministration.find_by_sql("(#{lab_lab_administrations.to_sql}) UNION (#{indirectly_managed_lab_administrations.to_sql}) UNION (#{directly_managed_lab_administrations.to_sql})")
     LabAdministration.where(id: lab_administrations.map(&:id))
   end
