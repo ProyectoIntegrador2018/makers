@@ -3,15 +3,11 @@
     <nav class="userNav">
       <div class="d-flex">
         <div class="left user-avatar">
-          <a href="#">
-            <%= image_tag "icons/user-avatar.svg" %>
-          </a>
+          <%= link_to image_tag("icons/user-avatar.svg"), profile_path %>
         </div>
         <div class="right user-name">
           <p>
-            <a class="uname-link primary" href="#">
-              <strong><%= "#{current_user.given_name} #{current_user.last_name}"  %></strong>
-            </a>
+            <strong><%= link_to "#{current_user.given_name} #{current_user.last_name}", profile_path, class: 'uname-link primary'  %></strong>
           </p>
           <p><small><%= link_to raw("Cerrar sesi&oacute;n"), destroy_user_session_path, method: :delete, class: "signout-link" %></small></p>
         </div>
@@ -30,7 +26,7 @@
       <li><%= link_to "Inicio", root_path, class: 'dropdown-item' %></li>
       <li><div class="dropdown-divider"></div></li>
       <% if user_signed_in? %>
-        <li><a class="dropdown-item" href="#">Mis reservaciones</a></li>
+        <li><%= link_to "Mis reservaciones", profile_path, class: 'dropdown-item' %></li>
       <% end %>
       <li><%= link_to "Laboratorios", labs_path, class: 'dropdown-item' %></li>
       <li><%= link_to "Equipo", equipment_index_path, class: 'dropdown-item' %></li>

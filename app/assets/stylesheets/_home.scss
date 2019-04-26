@@ -78,3 +78,47 @@
     display: none;
   }
 }
+.ProfilePage {
+  h1 {
+    font-size: 2.3rem;
+  }
+  h2 {
+    font-weight: 700;
+  }
+  table.detailsTable {
+    tbody tr > td {
+      color: $gray1;
+      padding-bottom: 5px;
+      &:first-child {
+        font-weight: 600;
+        color: #777;
+        padding-right: 40px;
+      }
+    }
+  }
+  .Reservations {
+    margin: 4% 0 6%;
+    table {
+      margin-top: 30px;
+      width: 100%;
+      thead tr > th {
+        text-transform: uppercase;
+        color: $gray1;
+        padding-bottom: 6px;
+      }
+      tbody tr:hover td {
+        background-color: #fafafa;
+      }
+      tr th:first-child,
+      tr td:first-child {
+        text-align: center;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      td {
+        padding: 10px 0;
+        border-bottom: 1px solid #ccc;
+      }
+    }
+  }
+}

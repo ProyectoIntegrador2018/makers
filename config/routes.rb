@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   end
 
   get '/users', to: redirect('users/sign_up')
+  get '/profile', to: 'home#profile'
 
   root 'home#landing'
 end
