@@ -7,6 +7,6 @@ class AdminPolicy
   end
 
   def show?
-    !user.user?
+    user && !user.user?
   end
 end
