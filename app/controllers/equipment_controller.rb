@@ -87,7 +87,7 @@ class EquipmentController < ApplicationController
   end
 
   def update_relations(type)
-    @equipment.try(type).clear
+    @equipment.try(type).destroy_all
     save_relations(type)
   end
 
