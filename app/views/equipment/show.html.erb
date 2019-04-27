@@ -15,7 +15,8 @@
 %>
 <div class="LabDetail EquipmentDetail">
   <p class="m-0 entitytag"><strong><small>equipo</small></strong></p>
-  <h1 class="mt-0"><%= @equipment.name %></h1>
+  <!-- TODO: Not sure if edit should be here; move if necessary-->
+  <h1 class="mt-0"><%= @equipment.name %> <small><%= link_to '(edit)', edit_admin_equipment_path(@equipment) if policy(@equipment).update? %></small></h1>
   <section class="Overview">
     <div class="row">
       <div class="col">

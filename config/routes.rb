@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       resources :equipment_capabilities
       resources :equipment_materials
 
-      root to: "users#index"
+      root to: "equipment#index"
   end
 
   devise_for :users, controllers: { registrations: "registrations" }
