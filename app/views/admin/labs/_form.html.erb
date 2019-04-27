@@ -1,0 +1,62 @@
+<%#
+# Form Partial
+
+This partial is rendered on a resource's `new` and `edit` pages,
+and renders all form fields for a resource's editable attributes.
+
+## Local variables:
+
+- `page`:
+  An instance of [Administrate::Page::Form][1].
+  Contains helper methods to display a form,
+  and knows which attributes should be displayed in the resource's form.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Form
+%>
+
+<%= form_for([namespace, page.resource], html: { class: "LabForm" }) do |f| %>
+
+  <% if page.resource.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= t(
+          "administrate.form.errors",
+          pluralized_errors: pluralize(page.resource.errors.count, t("administrate.form.error")),
+          resource_name: display_resource_name(page.resource_name)
+        ) %>
+      </h2>
+
+      <ul>
+        <% page.resource.errors.full_messages.each do |message| %>
+          <li class="flash-error"><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row firstrow">
+    <div class="col-5">
+      <div class="uploadPhoto va-p">
+        <p class="text valign"><span class="large">+</span> <br> Agrega una imagen</p>
+      </div>
+      <%= f.file_field :image, :class => 'hidden' %>
+    </div>
+    <div class="col-7">
+      <div>
+        <%= f.text_field :name, placeholder: "Nombre del laboratorio", :class => 'txtinput large'%>
+      </div>
+      <div>
+        <%= f.text_field :description, placeholder: "Descripción", :class => 'txtinput', :id=>"desc" %>
+      </div>
+      <div>
+        <input type="text" name="technical-description" placeholder="Descripci&oacute;n t&eacute;cnica" class="txtinput" id="technical-description">
+        <%= f.text_field :location, placeholder: "Ubicación",  :class => 'txtinput' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <%= f.submit 'Guardar'%>
+  </div>
+
+<% end %>

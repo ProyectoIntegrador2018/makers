@@ -1,5 +1,6 @@
 // admin.css.scss
 
+@import "base";
 
 $primary: #191A45;
 $fromgradient: #4e73df;
@@ -159,4 +160,73 @@ ul.inline li {
     font-size: 10px;
     padding: 3px 8px;
   }
+}
+
+.LabForm {
+  position: relative;
+  form {
+    margin: 4% 0 15%;
+  }
+  a {
+    outline: 0;
+  }
+  .selectize-control.txtinput {
+    border: 0 none;
+    .selectize-input {
+      box-shadow: none;
+      border: 0 none;
+      border-radius: 0;
+      border-bottom: 1px solid #bcbcbc;
+      padding-left: 0;
+      &:focus {
+        border-color: $highlight;
+      }
+      input[type="text"] {
+        font-size: 16px;
+      }
+    }
+  }
+  .firstrow {
+    margin-bottom: 60px;
+  }
+  .uploadPhoto {
+    border: 2px dashed #ccc;
+    border-radius: 20px;
+    cursor: pointer;
+    text-align: center;
+    padding: 0 20px;
+    height: 100%;
+    img {
+      margin-top: 25px;
+    }
+    &.with-photo {
+      .text {display: none;}
+    }
+    .text {
+      color: $gray2 !important;
+      font-size: 24px;
+      font-weight: 600;
+      .large {
+        font-size: 3rem;
+        line-height: 80%;
+      }
+    }
+  }
+  .txtinput {
+    font-size: 1rem;
+    color: $primary;
+    padding-left: 0;
+    padding-right: 0;
+    transition: border 300ms;
+    &:focus {
+      border-color: $highlight;
+    }
+    &.large {
+      font-size: 2.8rem;
+    }
+  }
+  ::-webkit-input-placeholder { font-style: normal !important; }
+  :-moz-placeholder { font-style: normal !important; }
+  ::-moz-placeholder { font-style: normal !important; }
+  :-ms-input-placeholder { font-style: normal !important; }
 }
