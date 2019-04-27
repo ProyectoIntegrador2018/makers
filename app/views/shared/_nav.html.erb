@@ -25,6 +25,10 @@
     <ul class="navList dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarDropdown">
       <li><%= link_to "Inicio", root_path, class: 'dropdown-item' %></li>
       <li><div class="dropdown-divider"></div></li>
+      <% if policy(:admin).show? %>
+        <li><%= link_to "Admin Dashboard", admin_root_path, class: 'dropdown-item' %></li>
+      <% end %>
+      <li><div class="dropdown-divider"></div></li>
       <% if user_signed_in? %>
         <li><%= link_to "Mis reservaciones", profile_path, class: 'dropdown-item' %></li>
       <% end %>
