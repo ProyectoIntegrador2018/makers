@@ -31,16 +31,16 @@
         </section>
       </div>
       <div class="col offset-1">
-        <div class="row hidden">
+        <div class="row">
           <section class="Horarios">
             <h2>Horarios</h2>
-            <p style="color: red">Lunes a Jueves de 9 AM a 5:30 PM</p>
+            <p style="color: red"> <%= @lab_space.hours %> </p>
           </section>
         </div>
-        <div class="row hidden">
+        <div class="row">
           <section class="Mapa">
             <h2>Mapa</h2>
-            <h1 style="color: red">MAP</h1>
+            <h1 style="color: red"> <%= @lab_space.location %> </h1>
           </section>
         </div>
       </div>
