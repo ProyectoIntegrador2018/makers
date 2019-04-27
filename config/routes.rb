@@ -30,6 +30,8 @@ Rails.application.routes.draw do
     resources :reservations, except: [:show, :edit, :update, :destroy]
   end
 
+  resources :lab_spaces, only: [:index]
+
   authenticate :user do
     resources :reservations, except: [:new, :create]
   end

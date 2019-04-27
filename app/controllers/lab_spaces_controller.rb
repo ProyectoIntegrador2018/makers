@@ -1,6 +1,7 @@
 class LabSpacesController < ApplicationController
   before_action :set_parent_lab
   before_action :set_lab_space, only: [:show, :edit, :update, :destroy]
+  before_action { authorize(@lab_space || @lab_spaces.new) }
 
   # GET /lab/1/lab_spaces
   # GET /lab/1/lab_spaces.json
@@ -65,8 +66,12 @@ class LabSpacesController < ApplicationController
   private
 
   def set_parent_lab
-    @lab = Lab.find(params[:lab_id])
-    @lab_spaces = @lab.lab_spaces
+    if params[:lab_id]
+      @lab = Lab.find(params[:lab_id])
+      @lab_spaces = @lab.lab_spaces
+    else
+      @lab_spaces = LabSpace.all
+    end
   end
 
   def set_lab_space

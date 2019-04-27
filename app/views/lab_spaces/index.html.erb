@@ -25,8 +25,7 @@
         <td><%= lab_space.contact_email %></td>
         <td><%= lab_space.contact_phone %></td>
         <td><%= link_to 'Show', [lab_space.lab, lab_space] %></td>
-        <td><%= link_to 'Edit', edit_lab_lab_space_path(lab_space.lab, lab_space) %></td>
-        <td><%= link_to 'Destroy', [lab_space.lab, lab_space], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Edit', edit_admin_lab_space_path(lab_space) if policy(lab_space).update?%></td>
       </tr>
     <% end %>
   </tbody>
@@ -34,4 +33,4 @@
 
 <br>
 
-<%= link_to 'New Lab Space', new_lab_lab_space_path %>
+<%= link_to 'New Lab Space', new_admin_lab_space_path %>
