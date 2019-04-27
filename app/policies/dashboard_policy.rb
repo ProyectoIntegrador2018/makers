@@ -11,11 +11,11 @@ class DashboardPolicy
   end
 
   def available_hours?
-    !user.user?
+    false
   end
 
   def capabilities?
-    !user.user?
+    false
   end
 
   def equipment?
@@ -39,7 +39,7 @@ class DashboardPolicy
   end
 
   def materials?
-    !user.user?
+    false
   end
 
   def reservations?

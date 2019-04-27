@@ -16,36 +16,23 @@ RSpec.describe DashboardPolicy, type: :policy do
   context 'for a superadmin' do
     let(:user) { create(:user, role: :superadmin) }
 
-    it { should forbid_actions [:equipment_capabilities, :equipment_materials] }
-
-    it {
-      should permit_actions [:users, :available_hours, :capabilities, :equipment,
-                             :labs, :lab_spaces, :materials, :reservations, :lab_administrations]
-    }
+    it { should forbid_actions [:equipment_capabilities, :equipment_materials, :materials, :available_hours, :capabilities] }
+    it { should permit_actions [:users, :equipment, :labs, :lab_spaces, :reservations, :lab_administrations] }
   end
 
   context 'for an admin' do
     let(:user) { create(:user, role: :admin) }
 
-    it { should forbid_actions [:equipment_capabilities, :equipment_materials] }
-
-    it {
-      should permit_actions [:users, :available_hours, :capabilities, :equipment,
-                             :labs, :lab_spaces, :materials, :reservations, :lab_administrations]
-    }
+    it { should forbid_actions [:equipment_capabilities, :equipment_materials, :materials, :available_hours, :capabilities] }
+    it { should permit_actions [:users, :equipment, :labs, :lab_spaces, :reservations, :lab_administrations] }
   end
 
   context 'for a lab admin' do
     let(:user) { create(:user, role: :lab_admin) }
 
-    it { should forbid_actions [:equipment_capabilities, :equipment_materials] }
-
+    it { should forbid_actions [:equipment_capabilities, :equipment_materials, :available_hours, :capabilities, :materials] }
     it { should forbid_actions [:labs, :lab_administrations] }
-
-    it {
-      should permit_actions [:users, :available_hours, :capabilities, :equipment,
-                             :lab_spaces, :materials, :reservations]
-    }
+    it { should permit_actions [:users,  :equipment, :lab_spaces, :reservations] }
   end
 
   context 'for a lab admin that manages a lab' do
@@ -56,13 +43,12 @@ RSpec.describe DashboardPolicy, type: :policy do
       lab_admin
     end
 
-    it { should forbid_actions [:equipment_capabilities, :equipment_materials] }
+    it { should forbid_actions [:equipment_capabilities, :equipment_materials, :available_hours, :capabilities, :materials] }
 
     it { should forbid_actions [:lab_administrations] }
 
     it {
-      should permit_actions [:users, :available_hours, :capabilities, :equipment,
-                             :labs, :lab_spaces, :materials, :reservations]
+      should permit_actions [:users, :equipment, :labs, :lab_spaces, :reservations]
     }
   end
 end
