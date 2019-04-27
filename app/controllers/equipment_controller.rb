@@ -2,9 +2,7 @@ class EquipmentController < ApplicationController
   before_action :set_parent_lab_space
   before_action :set_equipment, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
-  before_action do
-    authorize @equipment || @equipment_scope.new
-  end
+  before_action { authorize(@equipment || @equipment_scope.new) }
 
   # GET /lab/1/lab_spaces/1/equipment
   # GET /equipment.json
