@@ -1,16 +1,18 @@
 Rails.application.routes.draw do
   namespace :admin do
-      resources :users
-      resources :available_hours
-      resources :capabilities
       resources :equipment
-      resources :equipment_capabilities
-      resources :equipment_materials
       resources :labs
       resources :lab_spaces
-      resources :materials
       resources :reservations
+      resources :users
       resources :lab_administrations
+
+      # Resources not shown on dashboard, but needed for forms
+      resources :available_hours
+      resources :capabilities
+      resources :materials
+      resources :equipment_capabilities
+      resources :equipment_materials
 
       root to: "users#index"
   end
