@@ -90,8 +90,6 @@ class EquipmentController < ApplicationController
 
   def update_relations(type)
     @equipment.try(type).clear
-    class_type = type.classify.safe_constantize
-    class_type.try(:orphaned).try(:destroy_all)
     save_relations(type)
   end
 
