@@ -8,8 +8,9 @@ class RolePolicy
     end
 
     def resolve
-      User.roles.keys if user.superadmin?
-      User.roles.keys - ['superadmin'] if user.admin?
+      roles = User.roles.keys.map(&:titleize)
+      roles if user.superadmin?
+      roles - ['Superadmin'] if user.admin?
     end
   end
 end
