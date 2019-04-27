@@ -12,15 +12,19 @@
     <div class="row">
       <div class="col">
         <section class="Detalles">
-          <h2 class="mb-3">Detalles</h2>
+          <h2 class="mb-3"></h2>
           <div class="section-body">
-            <div class="row hidden">
-              <div class="col-3"><strong style="color: red">Responsable:</strong></div>
-              <div class="col"><p class="mb-1">Dr. Azael Cort&eacute;s Capetillo</p></div>
+            <div class="row">
+              <div class="col-3"><strong>Responsable:</strong></div>
+              <div class="col"><p class="mb-1"><%= @lab_space.contact_email %></p></div>
+            </div>
+            <div class="row">
+              <div class="col-3"><strong>Tel&eacute;fono:</strong></div>
+              <div class="col"><p class="mb-1"><%= @lab_space.contact_phone %></p></div>
             </div>
             <div class="row">
               <div class="col-3"><strong>Ubicaci&oacute;n:</strong></div>
-              <div class="col"><p><%= @lab_space.location %></p></div>
+              <div class="col"><p class="mb-1"><%= @lab_space.location %></p></div>
             </div>
             <div class="row">
               <div class="col">
