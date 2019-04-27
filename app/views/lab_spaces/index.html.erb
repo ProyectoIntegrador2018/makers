@@ -1,36 +1,66 @@
-<p id="notice"><%= notice %></p>
+<main class="LaboratoriosList">
+  <div class="container">
+    <h1>Espacios de Laboratorio</h1>
 
-<h1>Lab Spaces</h1>
+    <p id="notice"><%= notice %></p>
+    <div class="row d-flex justify-content-end">
+      <%= link_to '+ Nuevo Espacio de laboratorio', new_admin_lab_space_path, class: 'btn highlight small' if policy(LabSpace.new).new?%>
+    </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Hours</th>
-      <th>Location</th>
-      <th>Contact email</th>
-      <th>Contact phone</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @lab_spaces.each do |lab_space| %>
-      <tr>
-        <td><%= lab_space.name %></td>
-        <td><%= lab_space.description %></td>
-        <td><%= lab_space.hours %></td>
-        <td><%= lab_space.location %></td>
-        <td><%= lab_space.contact_email %></td>
-        <td><%= lab_space.contact_phone %></td>
-        <td><%= link_to 'Show', [lab_space.lab, lab_space] %></td>
-        <td><%= link_to 'Edit', edit_admin_lab_space_path(lab_space) if policy(lab_space).update?%></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Lab Space', new_admin_lab_space_path %>
+    <section class="searchBar">
+      <input type="search" name="q" id="query" placeholder="Buscar..." class="txtinput">
+    </section>
+    <section class="labList">
+      <% if !@lab_spaces.blank? %>
+        <% @lab_spaces.each do |lab_space| %>
+          <%
+            tags = Array.new
+            lab_space.equipment.each do | e |
+              tags = tags + e.capabilities.map{|c| c.name}
+              tags = tags + e.materials.map{|m| m.name}
+            end;
+            tags.uniq!
+          %>
+          <article class="labEntry">
+            <div class="row">
+              <div class="col-10">
+                <div class="container">
+                  <div class="row pl-3">
+                    <h2 class="title"><%= lab_space.name %></h2>
+                  </div>
+                  <div class="row no-gutters semibold">
+                    <div class="col-2 pl-1">
+                      <p class="location mb-2"><%= lab_space.location %></p>
+                    </div>
+                    <% if(defined? lab_space.hours) %>
+                    <div class="col-3">
+                      <p class="horarios mb-2"><%=  lab_space.hours %></p>
+                    </div>
+                    <% end %>
+                    <% if(defined? lab_space.contact_email || defined? lab_space.contact_phone) %>
+                    <div class="col-4">
+                      <p class="location mb-2"> Contacto: <%= (defined? lab_space.contact_email) ? lab_space.contact_email : lab_space.contact_phone %></p>
+                    </div>
+                    <% end %>
+                  </div>
+                  <div class="row">
+                    <ul class="taglist inline">
+                      <% tags.each do |t| %>
+                        <li><div class="pill gray small"><%= t %></div></li>
+                      <% end %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-2">
+                <%= link_to 'Ver detalles', [lab_space.lab, lab_space], class: 'btn border hl small lp' %>
+              </div>
+            </div>
+          </article>
+        <% end %>
+      <% else %>
+        <p class="tac">No se encontraron espacios de laboratorio</p>
+      <% end %>
+    </section>
+  </div>
+</main>
