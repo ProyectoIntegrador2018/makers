@@ -116,11 +116,33 @@ Las secciones m&sacute;s importantes en el dashboard son las de "Equipment" y La
 
 ### Administrar reservaciones
 
+Para administrar y editar reservaciones ir a la secci&oacute;n de Equipment.
+
+En la parte superior izquiera aparecen las siguientes reservaciones registradas para ese equipo. Dentro de esa secci&oacute;n se puede modificar el estatus de estas reservaciones.
+
 ![Upcoming](img/upcoming.png)
 
 ### Editar equipo
+
+Para administrar y editar reservaciones:
+1. Ir a la secci&oacute;n de Equipment.
+2. Hacer click en "Edit" (esquina superior izquierda)
+3. Editar los campos que se desean modificar.
+4. Guardar cambios.
 
 ![EquipmentDashboard](img/equipmentDashboard.png)
 
 ### Agregar a un administrador
 
+Para otrogar privilegios de administrador a un usuario:
+1. Ir a la seci&oacute;n de Users en el Dashboard.
+2. Seleccionar el rol que le quiere asignar al usuario.
+3. Guardar cambios
+![UserDashboard](img/userDashboard.png)
+4. Ir a la seci&oacute; de Lab Administrations
+5. Seleccionar al usuario al que se le quieren otorgar permisos para editar laboratorios/espacios.
+6. Seleccionar el espacio/laboratorio que va a administrar el usuario.
+7. Guardar cambios
+![LabAdministrate](img/labAdministrate01.png)
+![LabAdministrate](img/labAdministrate02.png)
+![LabAdministrate](img/labAdministrate03.png)
