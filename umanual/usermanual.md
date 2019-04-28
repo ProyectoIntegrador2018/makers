@@ -34,18 +34,18 @@ Para cada laboratorio se presenta el nombre, horarios, ubicación y un set de ta
 En la parte superior de la pantalla se presenta una bárra de búsqueda con el que el usuario puede filtrar dinámicamente (instantáneamente) la lista completa basado en el título.
 
 
-### Detalle de laboratorio
+### Detalle de espacios de laboratorio
 
-En la pantalla del detalle del laboratorio se muestra toda la información registrada sobre el laboratorio, incluyendo una descripción, ubicación, horarios, encargados, espacios disponibles y equipos (maquinaria) disponible en el laboratorio.
+En la pantalla del detalle del espacio se muestra toda la información registrada sobre el espacio de laboratorio, incluyendo una descripción, ubicación, horarios, encargados, espacios disponibles y equipos (maquinaria) disponible en el espacio.
 
-Para cada uno de los espacios y equipos se puede expander el recuadro para obtener más información sobre el espacio o equipo.
+Para cada uno de los equipos se puede expander el recuadro para obtener más información sobre el espacio o equipo.
 
 ![Lab detail](img/labdetail.png)
 
 
 ### Registro de equipos
 
-Para cada laboratorio y si se tiene permisos de administrador, éste puede registrar equipos nuevos para el laboratorio. 
+Para cada espacio de laboratorio y si se tiene permisos de administrador, éste puede registrar equipos nuevos. 
 
 Una vez que se seleccione la opción de **Agregar equipo**, se despliega el siguiente formulario:
 
@@ -76,3 +76,50 @@ En dado caso que el usuario haya olvidado su contraseña, puede seleccionar, den
 ![Forgot](img/forgot.jpeg)
 
 En dado caso que el usuario aún no ha recibido las instrucciones para restablecer contraseña, puede solicitarlas de nuevo al ingresar a la liga "¿No recibiste insutrucciones de confirmación?".
+
+
+### Reservaciones de equipo
+
+Los usuarios podrán conocer y reservar los diferentes equipos que ofrece el campus a través de la plataforma.
+
+El usuario puede relizar una reservaci&oacute;n de equipo haciendo click en el bot&oacute;n de "Reservar".
+
+![EquipmentCatalog](img/equipmentCatalog.jpeg)
+
+Este bot&oacute;n lleva al usuario a una pantalla especifica del Equipo seleccionado. En la parte inferior de la pantalla aparece un calendario con el horario disponible del equipo.
+
+El usuario puede navegar en el calendario hasta encontrar un horario en el que dese&eacute; hacer su reservaci&oacute;n. 
+
+![EquipmentView](img/equipmentView.jpeg)
+
+
+Para selecionar un rango de tiempo el usaurio debe hacer "click & drag" de todas las casillas que deseé incluir en su reservaci&oacute;n. Una vez selecionadas las casillas el sistema muestra un modal pidiendo al usuario m&sacute;s informaci&oacute;n acerca de su reservaci&oacute;n.
+
+![ReservationModal](img/reservationModal.jpeg)
+
+Al dar click en "Reservar", el equipo queda reservado para el usuario.
+
+![CalendarUpdate](img/calendarUpdate.jpeg)
+
+
+### Admin Dashboard
+
+Aquellos usuarios con roles de administrador pueden acceder al "Admin Dashboard", donde se puede agregar/editar la informaci&oacute;n registrada en algun laboratorio o espacio de laboratorio. 
+
+Para ir al Dashboard el usuario debe hacer click en la opci&oacute;n de "Admin Dashboard". (Esta opci&oacute;n &uacute;nicamente est&aacute; disponible para usuarios admistradores.)
+
+![Nav](img/nav.jpeg)
+
+Las secciones m&sacute;s importantes en el dashboard son las de "Equipment" y Labdministration.
+
+### Administrar reservaciones
+
+![Upcoming](img/upcoming.jpeg)
+
+### Editar equipo
+
+![EquipmentDashboard](img/equipmentDashboard.jpeg)
+
+### Agregar a un administrador
+
+![LabAdministrate](img/LabAdministrate.jpeg)
