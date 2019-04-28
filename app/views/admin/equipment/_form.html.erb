@@ -34,8 +34,8 @@ and renders all form fields for a resource's editable attributes.
       de
       <select class="inline start_hour_select" name="start_hour">
         <% (6..22).each do |i| %>
-          <option value="<%= i %>:00"><%= i %>:00</option>
-          <option value="<%= i %>:30"><%= i %>:30</option>
+          <option value="<%= sprintf '%02d', i %>:00"><%= i %>:00</option>
+          <option value="<%= sprintf '%02d', i %>:30"><%= i %>:30</option>
         <% end %>
       </select>
       a
@@ -95,7 +95,7 @@ and renders all form fields for a resource's editable attributes.
     <script>
       const horarioTpl = $('#horarioTpl')[0];
       const $scheduleList = $('.scheduleList');
-
+      let data = false;
       const dateMap = {
         2: "monday",
         3: "tuesday",
@@ -105,25 +105,40 @@ and renders all form fields for a resource's editable attributes.
         7: "saturday",
         8: "sunday",
       };
+      const reverseDM = {
+        "monday": 2,
+        "tuesday": 3,
+        "wednesday": 4,
+        "thursday": 5,
+        "friday": 6,
+        "saturday": 7,
+        "sunday": 8,
+      };
       $(function() {
-        $('.field-unit.field-unit--nested-has-many').first().hide();
+        $('.field-unit.field-unit--nested-has-many').first().remove();
         $(".field-unit--has-many select").each(function(index, elem) {
           elem.selectize.destroy();
           $(elem).selectize({create: true});
         });
-        $('form#new_equipment').on('submit', function(e) {
+        $('form').on('submit', function(e) {
           e.preventDefault();
           $('input.start_time, input.end_time').each(function(index, item) {
             item.value = item.value + ' CST';
           });
           $(this).unbind('submit').submit();
         });
+        <% if !page.resource.id.blank? # We're editing! %>
+          // Populate the existing available hours
+          data = <%= raw(page.resource.available_hours.to_json) %>;
+          data.forEach(function(ah, index) {
+            generateAH(ah, index);
+          });
+        <% end %>
       });
-      $('#addScheduleBtn').click(function(e) {
-        e.preventDefault();
+      function generateAH(info, index) {
         const clone = document.importNode(horarioTpl.content, true);
         const $clone = $(clone);
-        const id = new Date().getTime();
+        const id = index === null || index === undefined ? new Date().getTime() : index;
         const start_input = document.createElement('input');
         start_input.classList.add("start_time");
         start_input.type = "hidden";
@@ -139,10 +154,39 @@ and renders all form fields for a resource's editable attributes.
         dow_input.type = "hidden";
         dow_input.name = `equipment[available_hours_attributes][${id}][day_of_week]`;
         dow_input.value = "monday";
-        $clone.find('.deleteBtn').click(function(e) {
-          e.preventDefault();
-          $(this).parent().remove();
-        });
+
+        if(info) {
+          let stime = new Date(info.start_time).toTimeString().substr(0, 5);
+          let etime = new Date(info.end_time).toTimeString().substr(0, 5);
+          $clone.find('.start_hour_select').val(stime);
+          $clone.find('.end_hour_select').val(etime);
+          start_input.value = stime;
+          end_input.value = etime;
+          dow_input.value = info.day_of_week;
+          const id_input = document.createElement('input');
+          id_input.type = "hidden";
+          id_input.name = `equipment[available_hours_attributes][${id}][id]`;
+          id_input.value = info.id;
+          $clone.find('li').append(id_input);
+          $clone.find('.dow_select').val(reverseDM[info.day_of_week]);
+
+          $clone.find('.deleteBtn').click(function(e) {
+            e.preventDefault();
+            const delinput = document.createElement('input');
+            delinput.type = "hidden";
+            delinput.name = `equipment[available_hours_attributes][${id}][_destroy]`;
+            delinput.value = 1;
+            $(this).parent().append(delinput);
+            $(this).parent().hide();
+          });
+
+        }
+        else {
+          $clone.find('.deleteBtn').click(function(e) {
+            e.preventDefault();
+            $(this).parent().remove();
+          });
+        }
         $clone.find('.dow_select').on('change', function(e) {
           let selectedVal = parseInt($(this).val(), 10);
           $(this).parent().parent().find('input.day_of_week').val(dateMap[selectedVal]);
@@ -155,6 +199,10 @@ and renders all form fields for a resource's editable attributes.
         });
         $clone.find('li').append([start_input, end_input, dow_input]);
         $scheduleList.append($clone);
+      }
+      $('#addScheduleBtn').click(function(e) {
+        e.preventDefault();
+        generateAH();
       });
     </script>
   <% end %>
