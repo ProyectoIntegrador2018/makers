@@ -7,6 +7,9 @@
 
   <p class="m-0 mt-5 entitytag"><strong><small>Espacio de Laboratorio</small></strong></p>
   <h1 class="mt-0"><%= @lab_space.name %></h1>
+  <div class="row d-flex justify-content-end">
+    <%= link_to 'Editar', edit_admin_lab_space_path(@lab_space), class: 'btn highlight small' if policy(LabSpace.new).new?%>
+  </div>
   <p id="notice"><%= notice %></p>
   <section class="Overview">
     <div class="row">
@@ -402,39 +405,3 @@
   </script>
 
 <% end %>
-
-
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @lab_space.name %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @lab_space.description %>
-</p>
-
-<p>
-  <strong>Hours:</strong>
-  <%= @lab_space.hours %>
-</p>
-
-<p>
-  <strong>Location:</strong>
-  <%= @lab_space.location %>
-</p>
-
-<p>
-  <strong>Contact email:</strong>
-  <%= @lab_space.contact_email %>
-</p>
-
-<p>
-  <strong>Contact phone:</strong>
-  <%= @lab_space.contact_phone %>
-</p>
-
-<%= link_to 'Edit', edit_lab_lab_space_path(@lab_space.lab, @lab_space) %> |
-<%= link_to 'Back', lab_lab_spaces_path(@lab_space.lab) %>
