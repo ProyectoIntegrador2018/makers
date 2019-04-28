@@ -5,12 +5,12 @@
     mats = @materials.map { |c| {"text" => c.name, "value" => c.name} }
   %>
 
-  <p class="m-0 mt-5 entitytag"><strong><small>Espacio de Laboratorio</small></strong></p>
-  <h1 class="mt-0"><%= @lab_space.name %></h1>
+  <p class="m-0 mt-5 entitytag"><strong><small>Laboratorio</small></strong></p>
+  <h1 class="mt-0" style="display:inline-block;"><%= @lab_space.name %></h1> <%= link_to 'Editar', edit_admin_lab_space_path(@lab_space), class: 'btn highlight small editMoveBtn' if policy(LabSpace.new).new?%>
+  <div class="clearfix"></div>
   <div class="row d-flex justify-content-end">
-    <%= link_to 'Editar', edit_admin_lab_space_path(@lab_space), class: 'btn highlight small' if policy(LabSpace.new).new?%>
   </div>
-  <p id="notice"><%= notice %></p>
+  <p id="notice" class="m-0"><%= notice %></p>
   <section class="Overview">
     <div class="row">
       <div class="col">
