@@ -230,3 +230,24 @@ ul.inline li {
   ::-moz-placeholder { font-style: normal !important; }
   :-ms-input-placeholder { font-style: normal !important; }
 }
+
+// Available hours in equipment form
+section.AvailableHours {
+  select.inline {
+    width: initial;
+    display: inline-block;
+    margin: 0 20px;
+  }
+  .scheduleList {
+    padding: 0 40px 0 20px;
+  }
+  .scheduleList-listitem {
+    .content {
+      display: inline-block;
+      margin-right: 20px;
+    }
+  }
+  .addSchedule {
+    margin: 20px 0 10px 20px;
+  }
+}
