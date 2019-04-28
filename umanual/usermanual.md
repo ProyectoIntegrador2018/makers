@@ -84,22 +84,24 @@ Los usuarios podrán conocer y reservar los diferentes equipos que ofrece el cam
 
 El usuario puede relizar una reservaci&oacute;n de equipo haciendo click en el bot&oacute;n de "Reservar".
 
-![EquipmentCatalog](img/equipmentCatalog.jpeg)
+![EquipmentCatalog](img/equipmentCatalog.png)
 
 Este bot&oacute;n lleva al usuario a una pantalla especifica del Equipo seleccionado. En la parte inferior de la pantalla aparece un calendario con el horario disponible del equipo.
 
+![EquipmentView](img/equipmentView.png)
+
 El usuario puede navegar en el calendario hasta encontrar un horario en el que dese&eacute; hacer su reservaci&oacute;n. 
 
-![EquipmentView](img/equipmentView.jpeg)
+![EquipmentView](img/calendarView.png)
 
 
 Para selecionar un rango de tiempo el usaurio debe hacer "click & drag" de todas las casillas que deseé incluir en su reservaci&oacute;n. Una vez selecionadas las casillas el sistema muestra un modal pidiendo al usuario m&sacute;s informaci&oacute;n acerca de su reservaci&oacute;n.
 
-![ReservationModal](img/reservationModal.jpeg)
+![ReservationModal](img/reservationModal.png)
 
 Al dar click en "Reservar", el equipo queda reservado para el usuario.
 
-![CalendarUpdate](img/calendarUpdate.jpeg)
+![CalendarUpdate](img/calendarUpdate.png)
 
 
 ### Admin Dashboard
@@ -108,18 +110,17 @@ Aquellos usuarios con roles de administrador pueden acceder al "Admin Dashboard"
 
 Para ir al Dashboard el usuario debe hacer click en la opci&oacute;n de "Admin Dashboard". (Esta opci&oacute;n &uacute;nicamente est&aacute; disponible para usuarios admistradores.)
 
-![Nav](img/nav.jpeg)
+![Nav](img/nav.png)
 
 Las secciones m&sacute;s importantes en el dashboard son las de "Equipment" y Labdministration.
 
 ### Administrar reservaciones
 
-![Upcoming](img/upcoming.jpeg)
+![Upcoming](img/upcoming.png)
 
 ### Editar equipo
 
-![EquipmentDashboard](img/equipmentDashboard.jpeg)
+![EquipmentDashboard](img/equipmentDashboard.png)
 
 ### Agregar a un administrador
 
-![LabAdministrate](img/LabAdministrate.jpeg)
