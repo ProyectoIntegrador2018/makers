@@ -55,14 +55,14 @@ class EquipmentDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
+    :image,
     :name,
+    :description,
+    :technical_description,
     :materials,
     :capabilities,
-    :available_hours,
     :lab_space,
-    :description,
-    :image,
-    :technical_description,
+    :available_hours,
   ].freeze
 
   # Overwrite this method to customize how equipment are displayed

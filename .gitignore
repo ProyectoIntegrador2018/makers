@@ -1,6 +1,8 @@
 .idea
 public/uploads/*
 .bash_history
+.bash_profile
+.bashrc
 
 
 # Created by https://www.gitignore.io/api/ruby,rails,macos,windows
