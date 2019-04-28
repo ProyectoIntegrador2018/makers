@@ -1,5 +1,7 @@
 <%
   # TODO: refactor this
+  available_hours = @equipment.available_hours
+
   reservations = []
   rev = @equipment.reservations
   rev = rev.confirmed.or(rev.blocked)
@@ -127,46 +129,60 @@
     <script>
       const eqid = '<%= @equipment.id %>';
       const reservations = <%= raw(reservations.to_json) %>;
+      const available_hours = <%= raw(available_hours.to_json) %>;
       let tmpEvent = null;
       let calendar;
 
+      const dateMap = {
+        "sunday": 0,
+        "monday": 1,
+        "tuesday": 2,
+        "wednesday": 3,
+        "thursday": 4,
+        "friday": 5,
+        "saturday": 6,
+      };
+      // Map hours
+      let bhours = available_hours.map(ah => {
+        return {
+          daysOfWeek: [dateMap[ah.day_of_week]],
+          startTime: new Date(ah.start_time).toTimeString().substr(0, 5),
+          endTime: new Date(ah.end_time).toTimeString().substr(0, 5),
+        };
+      });
+
+      <% if user_signed_in? %>
+        const signedInOptions = {
+          selectable: true,
+          selectOverlap: false,
+          select: function(selInfo) {
+            $modal.modal('show');
+            tmpEvent = {
+              title: userName,
+              start: selInfo.start,
+              end: selInfo.end,
+            };
+          },
+          businessHours: bhours,
+          eventRender: function(info) {
+            if(info.event.extendedProps.isUser) {
+              const element = $(info.el);
+              element.append( "<span title='Cancelar reservaci&oacute;n' class='removebtn'>&times;</span>" );
+              element.find(".removebtn").click(function() {
+                if(confirm('¿Estás seguro de que deseas cancelar esta reservación?')) {
+                  cancelEvent(info.event, function() {
+                    alert('Reservación cancelada exitosamente.');
+                    info.event.remove();
+                  });
+                }
+              });
+            }
+          }
+        };
+      <% end %>
       document.addEventListener('DOMContentLoaded', function() {
         let calendarEl = document.getElementById('calendar');
 
-        <% if user_signed_in? %>
-          const signedInOptions = {
-            selectable: true,
-            selectOverlap: false,
-            select: function(selInfo) {
-              $modal.modal('show');
-              tmpEvent = {
-                title: userName,
-                start: selInfo.start,
-                end: selInfo.end,
-              };
-            },
-            businessHours: {
-              // days of week. an array of zero-based day of week integers (0=Sunday)
-              daysOfWeek: [1, 2, 3, 4, 5], // Monday - Friday
-              startTime: '08:00', // a start time (10am in this example)
-              endTime: '18:00', // an end time (6pm in this example)
-            },
-            eventRender: function(info) {
-              if(info.event.extendedProps.isUser) {
-                const element = $(info.el);
-                element.append( "<span title='Cancelar reservaci&oacute;n' class='removebtn'>&times;</span>" );
-                element.find(".removebtn").click(function() {
-                  if(confirm('¿Estás seguro de que deseas cancelar esta reservación?')) {
-                    cancelEvent(info.event, function() {
-                      alert('Reservación cancelada exitosamente.');
-                      info.event.remove();
-                    });
-                  }
-                });
-              }
-            }
-          };
-        <% end %>
 
         calendar = new FullCalendar.Calendar(calendarEl, {
           plugins: [ 'dayGrid', 'timeGrid', 'interaction' ],

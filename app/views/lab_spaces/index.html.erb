@@ -33,13 +33,13 @@
                       <p class="location mb-2"><%= lab_space.location %></p>
                     </div>
                     <% if(defined? lab_space.hours) %>
-                    <div class="col-3">
+                    <div class="col-4">
                       <p class="horarios mb-2"><%=  lab_space.hours %></p>
                     </div>
                     <% end %>
                     <% if(defined? lab_space.contact_email || defined? lab_space.contact_phone) %>
                     <div class="col-4">
-                      <p class="location mb-2"> Contacto: <%= (defined? lab_space.contact_email) ? lab_space.contact_email : lab_space.contact_phone %></p>
+                      <p class="location mb-2"><%= (defined? lab_space.contact_email) ? lab_space.contact_email : lab_space.contact_phone %></p>
                     </div>
                     <% end %>
                   </div>
