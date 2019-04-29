@@ -42,8 +42,6 @@ class ReservationsController < ApplicationController
     @reservation = @reservations_scope.new(reservation_params)
     @reservation.user = current_user
 
-    @reservation.remove_overlapped if @reservation.blocked?
-
     respond_to do |format|
       if @reservation.save
         format.html { redirect_to @reservation, notice: 'Reservation was successfully created.' }
