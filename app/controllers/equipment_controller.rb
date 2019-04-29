@@ -95,8 +95,9 @@ class EquipmentController < ApplicationController
     tag_class = type.classify.safe_constantize
     relation_class = ('Equipment' + tag_class.name).classify.safe_constantize
     if params.require(:equipment)[type] && tag_class && relation_class
-      params.require(:equipment)[type].split(/[,\s]+/).each do |tag_name|
-        next if tag_name.empty?
+      params.require(:equipment)[type].split(/[,]+/).each do |tag_name|
+        tag_name.strip!
+        next if tag_name.blank?
 
         relation_class.find_or_create_by(
           :equipment => @equipment,
