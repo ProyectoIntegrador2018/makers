@@ -18,7 +18,7 @@
 <div class="LabDetail EquipmentDetail">
   <p class="m-0 entitytag"><strong><small>equipo</small></strong></p>
   <!-- TODO: Not sure if edit should be here; move if necessary-->
-  <h1 class="mt-0"><%= @equipment.name %> <small><%= link_to '(edit)', edit_admin_equipment_path(@equipment) if policy(@equipment).update? %></small></h1>
+  <h1 class="mt-0" style="display:inline-block;"><%= @equipment.name %></h1> <%= link_to 'Editar', edit_admin_equipment_path(@equipment), class: 'btn highlight small editMoveBtn' if policy(@equipment).update? %>
   <section class="Overview">
     <div class="row">
       <div class="col">
@@ -123,12 +123,10 @@
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.0.1/main.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.0.1/main.min.js"></script>
 
-    <% if user_signed_in? %>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-      <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.0.1/main.min.js"></script>
-    <% end %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.0.1/main.min.js"></script>
 
     <%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
 
@@ -160,7 +158,11 @@
       <% if user_signed_in? %>
         const signedInOptions = {
           selectable: true,
+          <% if policy(@lab_space.equipment.new).block? %>
+          selectOverlap: true,
+          <% else %>
           selectOverlap: false,
+          <% end %>
           select: function(selInfo) {
             $modal.modal('show');
             tmpEvent = {
@@ -185,7 +187,15 @@
             }
           }
         };
+      <% else %>
+        const visitor_options = {
+          selectable: true,
+          select: function(selInfo) {
+            alert('Tienes que iniciar sesión para reservar.');
+          },
+        };
       <% end %>
+
       document.addEventListener('DOMContentLoaded', function() {
         let calendarEl = document.getElementById('calendar');
 
@@ -199,8 +209,11 @@
           eventBackgroundColor: 'rgba(68, 93, 252, .77)',
           minTime: "06:00:00",
           maxTime: "22:00:00",
+
           <% if user_signed_in? %>
             ...signedInOptions
+          <% else %>
+            ...visitor_options
           <% end %>
         });
 
@@ -273,7 +286,7 @@
             // console.error(err);
             console.log(xhr.responseJSON)
             errMessage = "No se pudo reservar por los siguientes errores: \n"
-            Object.keys(xhr.responseJSON).map(function(key) { errMessage += "- " + key + " " + xhr.responseJSON[key] + "\n"})
+            Object.keys(xhr.responseJSON).map(function(key) { errMessage += "- " + xhr.responseJSON[key] + "\n"})
             alert(errMessage);
           });
         }

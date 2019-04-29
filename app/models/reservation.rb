@@ -22,7 +22,7 @@ class Reservation < ApplicationRecord
     if start_time.present? && end_time.present?
       remove_overlapped if blocked?
       if overlapped_reservations.exists?
-        errors.add(:date, 'is overlapping with another reservation')
+        errors.add(:date, I18n.t('activerecord.errors.models.reservation.attributes.date.overlapping'))
       end
     end
   end
@@ -49,7 +49,7 @@ class Reservation < ApplicationRecord
     begin
       first_match = get_first_available_overlap(st, et, day)
       if first_match.blank?
-        errors.add(:date, 'is not within the equipment available hours')
+        errors.add(:date, I18n.t('activerecord.errors.models.reservation.attributes.date.available_hours'))
         return
       else # change st to be the end of the first_match
         st = first_match.end_time
@@ -66,8 +66,8 @@ class Reservation < ApplicationRecord
   def date_range_valid
     return if start_time.blank?
 
-    errors.add(:start_time, "can't be in the past") if start_time < Time.now
-    errors.add(:end_time, "can't be before start time") if end_time.present? && end_time < start_time
+    errors.add(:start_time, I18n.t('activerecord.errors.models.reservation.attributes.date.past')) if start_time < Time.now
+    errors.add(:end_time, I18n.t('activerecord.errors.models.reservation.attributes.date.start_time')) if end_time.present? && end_time < start_time
   end
 
   private
