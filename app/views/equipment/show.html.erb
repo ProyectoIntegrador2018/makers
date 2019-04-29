@@ -97,6 +97,12 @@
               <label for="comment" class="ttu"><strong>Comentarios adicionales <small>(Opcional)</small></strong></label>
               <textarea name="comment" id="comment" rows="2" class="form-control" placeholder="Agrega aqu&iacute; comentarios adicionales para el laboratorista"></textarea>
             </div>
+            <% if policy(@lab_space.equipment.new).block? %>
+              <div class="form-group">
+                <input type="checkbox" id="blockStatus" name="status">
+                <label class="" for="status"><small>¿Desea cancelar y bloquear reservaciones en este rango de tiempo?</small></label>
+              </div>
+            <% end %>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
@@ -251,7 +257,10 @@
               "purpose": $modal.find('select').val(),
               "comment": $modal.find('textarea').val(),
               "start_time": event.start.toISOString(),
-              "end_time": event.end.toISOString()
+              "end_time": event.end.toISOString(),
+              <% if policy(@lab_space.equipment.new).block? %>
+                'status': $(':checkbox').is(':checked')? 'blocked': 'confirmed'
+              <% end %>
             }
           };
         }
@@ -260,9 +269,12 @@
             console.log(data, status);
             cb(data.status && data.status === "confirmed");
           }, 'json')
-          .fail(function(err) {
-            console.error(err);
-            alert('No ha sido posible guardar tu evento. Por favor, inténtalo otra vez.');
+          .fail(function(xhr, status, err) {
+            // console.error(err);
+            console.log(xhr.responseJSON)
+            errMessage = "No se pudo reservar por los siguientes errores: \n"
+            Object.keys(xhr.responseJSON).map(function(key) { errMessage += "- " + key + " " + xhr.responseJSON[key] + "\n"})
+            alert(errMessage);
           });
         }
       </script>
