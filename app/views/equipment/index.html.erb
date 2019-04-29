@@ -46,7 +46,7 @@
                 <tbody>
                   <tr>
                     <td><strong class="primary">Laboratorio:</strong></td>
-                    <td><a href="#"><%= link_to equipment.lab_space.lab.name, equipment.lab_space.lab %></a></td>
+                    <td><a href="#"><%= link_to equipment.lab_space.name, lab_lab_space_path(lab_id: equipment.lab_space.lab.id, id: equipment.lab_space.id)  %></a></td>
                   </tr>
                   <tr>
                     <td><strong class="primary">Ubicaci&oacute;n:</strong></td>

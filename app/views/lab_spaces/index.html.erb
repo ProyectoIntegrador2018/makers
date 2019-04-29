@@ -1,13 +1,13 @@
 <main class="LaboratoriosList">
   <div class="container">
-    <h1>Espacios de Laboratorio</h1>
+    <h1>Laboratorios</h1>
 
     <p id="notice"><%= notice %></p>
     <div class="row d-flex justify-content-end">
       <%= link_to '+ Nuevo Espacio de laboratorio', new_admin_lab_space_path, class: 'btn highlight small' if policy(LabSpace.new).new?%>
     </div>
 
-    <section class="searchBar">
+    <section class="searchBar" style="display: none">
       <input type="search" name="q" id="query" placeholder="Buscar..." class="txtinput">
     </section>
     <section class="labList">
