@@ -20,6 +20,7 @@ class Reservation < ApplicationRecord
 
   def not_overlapped
     if start_time.present? && end_time.present?
+      remove_overlapped if blocked?
       if overlapped_reservations.exists?
         errors.add(:date, 'is overlapping with another reservation')
       end
