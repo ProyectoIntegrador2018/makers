@@ -24,10 +24,10 @@ class Equipment < ApplicationRecord
 
   def self.search_by(relation, query)
     if query.present?
-      names = query.split(/[,\s]+/)
-      joins(relation).where(relation => { name: names }).distinct
+      names = query.split(/[,]+/).collect(&:strip)
+      joins(relation).where("#{relation}.name ILIKE ANY ( array[?] )", names).distinct
     else
-      Equipment.all
+      all
     end
   end
 
