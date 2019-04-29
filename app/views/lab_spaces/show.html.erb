@@ -6,7 +6,7 @@
   %>
 
   <p class="m-0 mt-5 entitytag"><strong><small>Laboratorio</small></strong></p>
-  <h1 class="mt-0" style="display:inline-block;"><%= @lab_space.name %></h1> <%= link_to 'Editar', edit_admin_lab_space_path(@lab_space), class: 'btn highlight small editMoveBtn' if policy(LabSpace.new).new?%>
+  <h1 class="mt-0" style="display:inline-block;"><%= @lab_space.name %></h1> <%= link_to 'Editar', edit_admin_lab_space_path(@lab_space), class: 'btn highlight small editMoveBtn' if policy(@lab_space).update? %>
   <div class="clearfix"></div>
   <div class="row d-flex justify-content-end">
   </div>
@@ -156,8 +156,8 @@
             <a href="#" id="addScheduleBtn" class="tac formcta"><span class="plusico">+</span> Agregar horario</a>
           </div>
           <div class="col offset-1">
-            <h3><strong class="bold">Capacitaciones</strong></h3>
-            <a href="#" class="tac formcta"><span class="plusico">+</span> Agregar capacitaci&oacute;n</a>
+            <!--<h3><strong class="bold">Capacitaciones</strong></h3>
+            <a href="#" class="tac formcta"><span class="plusico">+</span> Agregar capacitaci&oacute;n</a>-->
           </div>
         </div>
       </form>

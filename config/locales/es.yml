@@ -83,4 +83,12 @@ es:
               invalid: 'El token de confirmación es inválido.'
             institutional_id:
               blank: 'La matrícula no puede estar en blanco.'
+        reservation:
+          attributes:
+            date:
+              available_hours: 'El equipo no está disponible en ese horario.'
+              past: 'La reservación no puede estar en el pasado.'
+              start_time: 'La hora de terminación no puede ser antes que la hora de inicio.'
+              overlapping: 'La reservación traslapa con otra reservación.'
+
 

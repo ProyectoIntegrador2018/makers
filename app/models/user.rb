@@ -15,11 +15,11 @@ class User < ApplicationRecord
   has_many :lab_administrations, foreign_key: 'admin_id'
 
   # All associations stemming from association with labs through lab_administrations, should be used for role: admin
-  has_many :managed_labs, through: :lab_administrations, source: :space, source_type: 'Lab'
-  has_many :indirectly_managed_lab_spaces, through: :managed_labs, source: :lab_spaces
+  has_many :directly_managed_labs, through: :lab_administrations, source: :space, source_type: 'Lab'
+  has_many :indirectly_managed_lab_spaces, through: :directly_managed_labs, source: :lab_spaces
   has_many :indirectly_managed_equipment, through: :indirectly_managed_lab_spaces, source: :equipment
   has_many :indirectly_managed_reservations, through: :indirectly_managed_equipment, source: :reservations
-  has_many :lab_lab_administrations, through: :managed_labs, source: :lab_administrations
+  has_many :lab_lab_administrations, through: :directly_managed_labs, source: :lab_administrations
   has_many :indirectly_managed_lab_administrations, through: :indirectly_managed_lab_spaces, source: :lab_administrations
 
   # All associations stemming from association with lab spaces through lab_administrations, should be used for role: lab_admin
@@ -27,6 +27,12 @@ class User < ApplicationRecord
   has_many :directly_managed_equipment, through: :directly_managed_lab_spaces, source: :equipment
   has_many :directly_managed_reservations, through: :directly_managed_equipment, source: :reservations
   has_many :directly_managed_lab_administrations, through: :directly_managed_lab_spaces, source: :lab_administrations
+
+  def managed_labs
+    return Lab.all if role == 'superadmin'
+
+    directly_managed_labs
+  end
 
   def managed_lab_spaces
     return LabSpace.all if role == 'superadmin'
