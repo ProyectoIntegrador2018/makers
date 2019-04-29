@@ -123,7 +123,7 @@ and renders all form fields for a resource's editable attributes.
         $('form').on('submit', function(e) {
           e.preventDefault();
           $('input.start_time, input.end_time').each(function(index, item) {
-            item.value = item.value + ' CST';
+            item.value = item.value + ' CT';
           });
           $(this).unbind('submit').submit();
         });

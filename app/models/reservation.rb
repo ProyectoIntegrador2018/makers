@@ -6,7 +6,8 @@ class Reservation < ApplicationRecord
   belongs_to :user
 
   validates :status, :purpose, :start_time, :end_time, presence: true
-  validate :date_range_valid, :not_overlapped, :date_is_available
+  validate :date_range_valid, :not_overlapped
+  validate :date_is_available, on: :create
 
   scope :upcoming, ->(limit) { where('start_time > ?', Time.now).order(:start_time).limit(limit) }
 
