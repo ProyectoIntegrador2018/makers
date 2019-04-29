@@ -357,8 +357,8 @@
           continue;
         }
         fd.append(`equipment[available_hours][${i}][day_of_week]`, availSchedule[i]['day_of_week']);
-        fd.append(`equipment[available_hours][${i}][start_time]`, availSchedule[i]['start_time'] + ' CST');
-        fd.append(`equipment[available_hours][${i}][end_time]`, availSchedule[i]['end_time'] + ' CST');
+        fd.append(`equipment[available_hours][${i}][start_time]`, availSchedule[i]['start_time'] + ' CT');
+        fd.append(`equipment[available_hours][${i}][end_time]`, availSchedule[i]['end_time'] + ' CT');
       }
       fd.append("authenticity_token", $('meta[name=csrf-token]').attr('content'));
 
