@@ -8,10 +8,10 @@ class RolePolicy
     end
 
     def resolve
-      roles = User.roles.keys.map(&:titleize)
+      roles = User.roles.keys.map { |role| [role.titleize, role] }
       return roles if user.superadmin?
 
-      roles - ['Superadmin'] if user.admin?
+      roles - [%w[Superadmin superadmin]] if user.admin?
     end
 
     def resolve_admin

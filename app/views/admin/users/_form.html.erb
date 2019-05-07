@@ -47,12 +47,7 @@ and renders all form fields for a resource's editable attributes.
     <div class="field-unit__field">
       <%= f.select(
             page.attributes[0].attribute,
-            options_from_collection_for_select(
-              policy_scope(:role),
-              :to_s,
-              :to_s,
-              page.attributes[0].data.presence,
-              )
+            policy_scope(:role),
           ) %>
     </div>
   </div>
