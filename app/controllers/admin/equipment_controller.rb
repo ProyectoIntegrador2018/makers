@@ -15,6 +15,13 @@ module Admin
     #   Equipment.find_by!(slug: param)
     # end
 
+    def destroy
+      @equipment = Equipment.find(params[:id])
+      @equipment.update_attribute(:hidden, true)
+      flash[:notice] = 'Equipment was successfully hidden.'
+      redirect_to admin_equipment_index_path
+    end
+
     # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
     # for more information
   end
