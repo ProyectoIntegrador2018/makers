@@ -34,7 +34,7 @@ class EquipmentController < ApplicationController
   def create
     @equipment = @equipment_scope.new(equipment_params)
     respond_to do |format|
-      if @equipment.save && save_relations('materials') && save_relations('capabilities') && save_availability
+      if @equipment.save && save_availability
         format.html { redirect_to [@lab_space.lab, @lab_space, @equipment], notice: 'Equipment was successfully created.' }
         format.json { render :show, status: :created, location: [@lab_space.lab, @lab_space, @equipment] }
       else
@@ -48,7 +48,7 @@ class EquipmentController < ApplicationController
   # PATCH/PUT /lab/1/lab_spaces/1/equipment/1.json
   def update
     respond_to do |format|
-      if @equipment.update(equipment_params) && update_relations('materials') && update_relations('capabilities') && update_availability
+      if @equipment.update(equipment_params) && update_availability
         format.html { redirect_to [@lab_space.lab, @lab_space, @equipment], notice: 'Equipment was successfully updated.' }
         format.json { render :show, status: :ok, location: [@lab_space.lab, @lab_space, @equipment] }
       else
@@ -84,29 +84,9 @@ class EquipmentController < ApplicationController
   end
 
   def equipment_params
-    params.require(:equipment).permit(:name, :description, :image, :technical_description)
-  end
-
-  def update_relations(type)
-    @equipment.try(type).destroy_all
-    save_relations(type)
-  end
-
-  def save_relations(type)
-    tag_class = type.classify.safe_constantize
-    relation_class = ('Equipment' + tag_class.name).classify.safe_constantize
-    if params.require(:equipment)[type] && tag_class && relation_class
-      params.require(:equipment)[type].split(/[,]+/).each do |tag_name|
-        tag_name.strip!
-        next if tag_name.blank?
-
-        relation_class.find_or_create_by(
-          :equipment => @equipment,
-          type.singularize => tag_class.find_or_create_by(name: tag_name)
-        )
-      end
-    end
-    true
+    params[:equipment][:material_ids] = Equipment.check_for_new_tags(params[:equipment][:material_ids] || [], :material)
+    params[:equipment][:capability_ids] = Equipment.check_for_new_tags(params[:equipment][:capability_ids] || [], :capability)
+    params.require(:equipment).permit(:name, :description, :image, :technical_description, capability_ids: [], material_ids: [])
   end
 
   def schedule_params(schedule)
