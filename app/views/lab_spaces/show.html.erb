@@ -1,8 +1,8 @@
 <div class="LabDetail">
   <%= link_to '&larr; Regresar a los resultados'.html_safe, lab_spaces_path %>
   <%
-    caps = @capabilities.map { |c| {"text" => c.name, "value" => c.name} }
-    mats = @materials.map { |c| {"text" => c.name, "value" => c.name} }
+    caps = @capabilities.map { |c| {"text" => c.name, "value" => c.id} }
+    mats = @materials.map { |c| {"text" => c.name, "value" => c.id} }
   %>
 
   <p class="m-0 mt-5 entitytag"><strong><small>Laboratorio</small></strong></p>
@@ -102,10 +102,10 @@
             </div>
             <div class="row">
               <div class="col">
-                <input type="text" placeholder="Capacidades" name="capacidades" id="select-capacidad" class="txtinput">
+                <select multiple="multiple" placeholder="Capacidades" name="capacidades" id="select-capacidad" class="txtinput"></select>
               </div>
               <div class="col">
-                <input type="text" placeholder="Materiales" name="materiales" id="select-material" class="txtinput">
+                <select multiple="multiple" placeholder="Materiales" name="materiales" id="select-material" class="txtinput"></select>
               </div>
             </div>
           </div>
@@ -316,35 +316,34 @@
         imgFile = image[0].file;
       }
       let formData = {
-        name: name,
-        description: desc,
-        technical_description: techdesc,
-        capabilities: capacidades,
-        materials: materiales,
-        image: imgFile
+        equipment: {
+          name: name,
+          description: desc,
+          technical_description: techdesc,
+          capability_ids: capacidades,
+          material_ids: materiales,
+          image: imgFile,
+          available_hours: []
+        },
+        authenticity_token: $('meta[name="csrf-token"]').attr('content')
       };
-      let fd = new FormData();
-      for(var key in formData) {
-        fd.append(`equipment[${key}]`, formData[key]);
-      }
       for (var i = 0; i < availSchedule.length; i++) {
         if(availSchedule[i] === undefined) {
           continue;
         }
-        fd.append(`equipment[available_hours][${i}][day_of_week]`, availSchedule[i]['day_of_week']);
-        fd.append(`equipment[available_hours][${i}][start_time]`, availSchedule[i]['start_time'] + ' CT');
-        fd.append(`equipment[available_hours][${i}][end_time]`, availSchedule[i]['end_time'] + ' CT');
+        formData.equipment.available_hours.push({
+          day_of_week: availSchedule[i]['day_of_week'],
+          start_time: availSchedule[i]['start_time'] + ' CT',
+          end_time: availSchedule[i]['end_time'] + ' CT'
+        });
       }
-      fd.append("authenticity_token", $('meta[name=csrf-token]').attr('content'));
 
       // Get horarios
       // Get photo
       $.ajax({
         url: "<%= lab_lab_space_equipment_index_path lab_id: @lab_space.lab.id, lab_space_id: @lab_space.id %>", // TODO: change this!
-        contentType: false,
-        processData: false,
         cache: false,
-        data: fd,
+        data: formData,
         dataType: 'json',
         method: 'POST',
         success: function(data) {
@@ -362,7 +361,7 @@
           // Add the new equipment card
           const clone = document.importNode($equipoCardTpl[0].content, true);
           const $clone = $(clone);
-          $clone.find('.EquipoCard').data('id', newid).data('lsid', _lsid).data('lid', _lid);
+          $clone.find('.EquipoCard').attr('data-id', newid).attr('data-lsid', _lsid).attr('data-lid', _lid);
           $clone.find('.name').html(name);
           // Bind
           $clone.click(bindEquipment);
@@ -393,12 +392,10 @@
     let materials = <%= raw(mats.to_json) %>; // <%# @capabilities %>
 
     $('#select-material').selectize({
-      sortField: 'text',
       options: materials,
       create: true
     });
     $('#select-capacidad').selectize({
-      sortField: 'text',
       options: capabilities,
       create: true
     });
