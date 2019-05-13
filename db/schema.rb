@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_26_061548) do
+ActiveRecord::Schema.define(version: 2019_05_13_160249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 2019_04_26_061548) do
     t.datetime "updated_at", null: false
     t.bigint "lab_space_id"
     t.text "technical_description"
+    t.boolean "hidden", default: false
     t.index ["lab_space_id"], name: "index_equipment_on_lab_space_id"
   end
 
