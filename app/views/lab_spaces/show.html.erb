@@ -59,7 +59,7 @@
     <h2>Equipo</h2>
     <div class="EquipoGrid">
       <div class="row">
-        <% @lab_space.equipment.each do |e| %>
+        <% @lab_space.equipment.visible.each do |e| %>
             <div class="col-4">
               <div class="EquipoCard" data-id="<%= e.id %>" data-lid="<%= @lab_space.lab.id %>" data-lsid="<%= @lab_space.id %>">
                 <div class="icon printer"></div>

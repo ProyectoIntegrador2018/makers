@@ -7,14 +7,15 @@ class EquipmentController < ApplicationController
   # GET /lab/1/lab_spaces/1/equipment
   # GET /equipment.json
   def index
-    @equipment_scope = @equipment_scope.search(params[:equipment_query])
-    @equipment_scope = @equipment_scope.search_by(:materials, params[:materials_query])
-    @equipment_scope = @equipment_scope.search_by(:capabilities, params[:capabilities_query])
+    @equipment_scope = @equipment_scope.visible.search(params[:equipment_query])
+    @equipment_scope = @equipment_scope.visible.search_by(:materials, params[:materials_query])
+    @equipment_scope = @equipment_scope.visible.search_by(:capabilities, params[:capabilities_query])
   end
 
   # GET /lab/1/lab_spaces/1/equipment/1
   # GET /lab/1/lab_spaces/1/equipment/1.json
   def show
+    redirect_to root_path if @equipment.hidden
   end
 
   # GET /lab/1/lab_spaces/1/equipment/new

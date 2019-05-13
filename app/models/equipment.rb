@@ -1,5 +1,6 @@
 class Equipment < ApplicationRecord
   audited
+
   mount_uploader :image, ImageUploader
 
   has_many :equipment_materials, dependent: :destroy
@@ -13,6 +14,8 @@ class Equipment < ApplicationRecord
   validates :name, :description, :lab_space, presence: true
 
   accepts_nested_attributes_for :available_hours
+
+  scope :visible, -> {where(:hidden => false)}
 
   def self.search(name)
     if name.present?
