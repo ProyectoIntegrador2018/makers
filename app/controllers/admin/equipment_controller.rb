@@ -17,8 +17,8 @@ module Admin
 
     def destroy
       @equipment = Equipment.find(params[:id])
-      @equipment.update_attribute(:hidden, true)
-      flash[:notice] = 'Equipment was successfully hidden.'
+      @equipment.update_attribute(:hidden, !@equipment.hidden)
+      flash[:notice] = "Equipment was successfully #{@equipment.hidden ? 'hidden' : 'unhidden'}."
       redirect_to admin_equipment_index_path
     end
 
