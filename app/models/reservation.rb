@@ -12,7 +12,7 @@ class Reservation < ApplicationRecord
   scope :upcoming, ->(limit) { where('start_time > ?', Time.now).order(:start_time).limit(limit) }
   scope :future, -> { where('start_time > ?', Time.now).order(:start_time) }
 
-  after_save :check_cancellation
+  after_save :check_cancellation, if: -> { previous_changes.include?(:status) }
 
   def overlapped_reservations
     equipment.reservations
