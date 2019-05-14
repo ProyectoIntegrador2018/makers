@@ -6,10 +6,12 @@ class Reservation < ApplicationRecord
   belongs_to :user
 
   validates :status, :purpose, :start_time, :end_time, presence: true
-  validate :date_range_valid, :not_overlapped
+  validate :date_range_valid, :not_overlapped, if: -> { start_time_changed? || end_time_changed? }
   validate :date_is_available, on: :create
 
   scope :upcoming, ->(limit) { where('start_time > ?', Time.now).order(:start_time).limit(limit) }
+
+  after_save :check_cancellation
 
   def overlapped_reservations
     equipment.reservations
@@ -74,5 +76,9 @@ class Reservation < ApplicationRecord
 
   def bigger(time_a, time_b)
     time_a.to_formatted_s(:time) > time_b.to_formatted_s(:time)
+  end
+
+  def check_cancellation
+    MakersMailer.cancellation_email(self).deliver if cancelled?
   end
 end
