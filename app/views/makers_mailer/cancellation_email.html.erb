@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+</head>
+<body>
+<p>Hola <%= @reservation.user.given_name %>,</p>
+<p>
+  Tu reservación del equipo <%= @reservation.equipment.name %>
+  para el día <%= @reservation.start_time.in_time_zone('America/Monterrey').strftime('%d/%m/%y') %>
+  a las <%= @reservation.start_time.in_time_zone('America/Monterrey').to_formatted_s(:time) %>
+  en el laboratorio <%= @reservation.equipment.lab_space.name %>
+  ha sido cancelada.
+</p>
+<p>
+  Para cualquier aclaración, puedes comunicarte con el encargado del
+  <%= link_to 'laboratorio', [@reservation.equipment.lab_space.lab, @reservation.equipment.lab_space] %>.
+</p>
+<p>Saludos,
+<br> Makers Program</p>
+</body>
+</html>
