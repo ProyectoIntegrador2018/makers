@@ -22,9 +22,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def destroy?
-    return false unless user
-
-    user.id == record.id || user.superadmin?
+    false
   end
 
   class Scope < Scope
