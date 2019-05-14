@@ -316,34 +316,35 @@
         imgFile = image[0].file;
       }
       let formData = {
-        equipment: {
-          name: name,
-          description: desc,
-          technical_description: techdesc,
-          capability_ids: capacidades,
-          material_ids: materiales,
-          image: imgFile,
-          available_hours: []
-        },
-        authenticity_token: $('meta[name="csrf-token"]').attr('content')
+        name: name,
+        description: desc,
+        technical_description: techdesc,
+        capability_ids: capacidades,
+        material_ids: materiales,
+        image: imgFile
       };
+      let fd = new FormData();
+      for(var key in formData) {
+        fd.append(`equipment[${key}]`, formData[key]);
+      }
       for (var i = 0; i < availSchedule.length; i++) {
         if(availSchedule[i] === undefined) {
           continue;
         }
-        formData.equipment.available_hours.push({
-          day_of_week: availSchedule[i]['day_of_week'],
-          start_time: availSchedule[i]['start_time'] + ' CT',
-          end_time: availSchedule[i]['end_time'] + ' CT'
-        });
+        fd.append(`equipment[available_hours][${i}][day_of_week]`, availSchedule[i]['day_of_week']);
+        fd.append(`equipment[available_hours][${i}][start_time]`, availSchedule[i]['start_time'] + ' CT');
+        fd.append(`equipment[available_hours][${i}][end_time]`, availSchedule[i]['end_time'] + ' CT');
       }
+      fd.append("authenticity_token", $('meta[name=csrf-token]').attr('content'));
 
       // Get horarios
       // Get photo
       $.ajax({
         url: "<%= lab_lab_space_equipment_index_path lab_id: @lab_space.lab.id, lab_space_id: @lab_space.id %>", // TODO: change this!
+        contentType: false,
+        processData: false,
         cache: false,
-        data: formData,
+        data: fd,
         dataType: 'json',
         method: 'POST',
         success: function(data) {

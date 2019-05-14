@@ -47,12 +47,20 @@ class Equipment < ApplicationRecord
   end
 
   def self.check_for_new_tags(tags, tag_class)
+    tags = check_for_array(tags)
+
     tags.each_with_index do |tag, index|
       next unless tag.present? && !tag.match?(/\A\d+\Z/) # Skip if tag is an ID
 
       tags[index] = get_tag_id(tag, tag_class)
     end
     tags
+  end
+
+  def self.check_for_array(tags)
+    return tags if tags.instance_of? Array
+
+    tags.split(/[,]+/).collect(&:strip)
   end
 
   def self.get_tag_id(tag, tag_class)
