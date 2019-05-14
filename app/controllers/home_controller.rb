@@ -2,6 +2,7 @@
 class HomeController < ApplicationController
   config.cache_store = :null_store
   before_action :authenticate_user!, except: [:landing]
+
   def landing
     @body_class = 'Home'
     @capabilities = Capability.all
@@ -10,6 +11,6 @@ class HomeController < ApplicationController
   end
 
   def profile
-    @reservations = current_user.reservations.confirmed
+    @reservations = current_user.reservations.confirmed.future
   end
 end
