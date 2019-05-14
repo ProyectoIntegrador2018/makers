@@ -11,7 +11,7 @@ class ReservationDashboard < Administrate::BaseDashboard
     equipment: Field::BelongsToSearch.with_options(searchable: true, searchable_field: 'name'),
     user: Field::BelongsToSearch.with_options(searchable: true, searchable_field: 'given_name'),
     id: Field::Number,
-    status: Field::Select.with_options(searchable: false, collection: Reservation.statuses.keys),
+    status: Field::Select.with_options(searchable: false, collection: Reservation.statuses.keys - ['blocked']),
     purpose: Field::Select.with_options(searchable: false, collection: Reservation.purposes.keys),
     comment: Field::Text,
     start_time: Field::DateTime,
@@ -37,14 +37,11 @@ class ReservationDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :equipment,
     :user,
-    :id,
     :status,
     :purpose,
     :comment,
     :start_time,
-    :end_time,
-    :created_at,
-    :updated_at,
+    :end_time
   ].freeze
 
   # FORM_ATTRIBUTES

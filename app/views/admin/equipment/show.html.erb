@@ -65,23 +65,17 @@ as well as a link to its edit page.
                 <h4 class="card-title">Upcoming reservations</h4>
                 <table class="ReservationTable">
                   <tbody>
-                    <%# TODO: filtra solo las de hoy %>
-                    <% res = page.resource.reservations.confirmed %>
+                    <% res = page.resource.reservations.confirmed.upcoming(5) %>
                     <% if res.length == 0 %>
                       <p>No upcoming reservations</p>
                     <% else %>
                       <% res.each do | r |  %>
-                        <tr>
+                        <tr onclick="window.location='<%= admin_reservation_path(r) %>';">
                           <td><%= link_to "#{r.user.given_name} #{r.user.last_name}", admin_user_path(r.user) %></td>
+                          <td><%= r.start_time.strftime("%A %d/%m") %></td>
                           <td><%= r.start_time.in_time_zone('America/Monterrey').to_formatted_s(:time) %></td>
                           <td><%= r.end_time.in_time_zone('America/Monterrey').to_formatted_s(:time) %></td>
-                          <td>
-                            <select name="reservation_status" id="reservation_status">
-                              <option <%= r.status == "confirmed" ? 'selected' : '' %> value="confirmed">Confirmed</option>
-                              <option <%= r.status == "complete" ? 'selected' : '' %> value="complete">Complete</option>
-                              <option <%= r.status == "cancelled" ? 'selected' : '' %> value="cancelled">Cancelled</option>
-                            </select>
-                          </td>
+                          <td><%= r.status %></td>
                         </tr>
                       <% end %>
                     <% end %>
