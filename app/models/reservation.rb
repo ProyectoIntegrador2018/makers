@@ -10,6 +10,7 @@ class Reservation < ApplicationRecord
   validate :date_is_available, on: :create
 
   scope :upcoming, ->(limit) { where('start_time > ?', Time.now).order(:start_time).limit(limit) }
+  scope :future, -> { where('start_time > ?', Time.now).order(:start_time) }
 
   after_save :check_cancellation
 
