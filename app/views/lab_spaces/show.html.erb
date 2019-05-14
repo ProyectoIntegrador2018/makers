@@ -125,7 +125,7 @@
                   <select name="day" id="day" value="0"> <%# TODO: make this multiple! %>
                     <option value="0">d&iacute;as (diario)</option>
                     <option value="1">d&iacute;as (Lu-Vie)</option>
-                    <option value="2">Lunes</option>
+                    <option selected value="2">Lunes</option>
                     <option value="3">Martes</option>
                     <option value="4">Mi&eacute;rcoles</option>
                     <option value="5">Jueves</option>
@@ -243,6 +243,8 @@
     $EquipoForm = $('.EquipoForm');
 
     const dateMap = {
+      0: "diario",
+      1: "luvi",
       2: "monday",
       3: "tuesday",
       4: "wednesday",
@@ -267,12 +269,11 @@
       const dayindex = parseInt($selectDay.val(), 10);
       const days = dayOptions[dayindex];
 
-      if(dayindex === 0 || dayindex === 1) {
-        console.log("Can't handle that option yet");
+      // TODO: validate that endTime is > startTime
+      if(startTime == endTime) {
+        alert("La hora de inicio no puede ser igual que la hora de fin.");
         return false;
       }
-      // TODO: validate that endTime is > startTime
-      console.log(startTime, endTime);
 
       const dayObj = {
         start_time: startTime,
@@ -280,7 +281,18 @@
         day_of_week: dateMap[dayindex]
       };
 
-      let scheduleStr = `Todos los <strong>${days}</strong> de <strong>${startTime} a ${endTime}</strong>`;
+      let scheduleStr = "";
+      if(dayObj.day_of_week === "diario") {
+        scheduleStr = 'Diario (Lun.-Dom.) ';
+      }
+      else if(dayObj.day_of_week === "luvi") {
+        scheduleStr = "Lunes a viernes ";
+      }
+      else {
+        scheduleStr = `Todos los <strong>${days}</strong> `;
+      }
+      scheduleStr += `de <strong>${startTime} a ${endTime}</strong>`;
+
       let $listItem = $('.scheduleList-listitem').first().clone();
       $listItem.data('index', availSchedule.length);
       $listItem.css('display', 'block');
@@ -327,13 +339,33 @@
       for(var key in formData) {
         fd.append(`equipment[${key}]`, formData[key]);
       }
+      var n = 0;
       for (var i = 0; i < availSchedule.length; i++) {
         if(availSchedule[i] === undefined) {
           continue;
         }
-        fd.append(`equipment[available_hours][${i}][day_of_week]`, availSchedule[i]['day_of_week']);
-        fd.append(`equipment[available_hours][${i}][start_time]`, availSchedule[i]['start_time'] + ' CT');
-        fd.append(`equipment[available_hours][${i}][end_time]`, availSchedule[i]['end_time'] + ' CT');
+        if(availSchedule[i]['day_of_week'] == 'luvi') {
+          for(let j = 0; j < 5; j++) {
+            fd.append(`equipment[available_hours][${n+j}][day_of_week]`, dateMap[j+2]);
+            fd.append(`equipment[available_hours][${n+j}][start_time]`, availSchedule[i]['start_time'] + ' CT');
+            fd.append(`equipment[available_hours][${n+j}][end_time]`, availSchedule[i]['end_time'] + ' CT');
+          }
+          n += 4;
+        }
+        if(availSchedule[i]['day_of_week'] == 'diario') {
+          for(let j = 0; j < 7; j++) {
+            fd.append(`equipment[available_hours][${n+j}][day_of_week]`, dateMap[j+2]);
+            fd.append(`equipment[available_hours][${n+j}][start_time]`, availSchedule[i]['start_time'] + ' CT');
+            fd.append(`equipment[available_hours][${n+j}][end_time]`, availSchedule[i]['end_time'] + ' CT');
+          }
+          n += 6;
+        }
+        else {
+          fd.append(`equipment[available_hours][${n}][day_of_week]`, availSchedule[i]['day_of_week']);
+          fd.append(`equipment[available_hours][${n}][start_time]`, availSchedule[i]['start_time'] + ' CT');
+          fd.append(`equipment[available_hours][${n}][end_time]`, availSchedule[i]['end_time'] + ' CT');
+        }
+        n++;
       }
       fd.append("authenticity_token", $('meta[name=csrf-token]').attr('content'));
 
@@ -362,10 +394,9 @@
           // Add the new equipment card
           const clone = document.importNode($equipoCardTpl[0].content, true);
           const $clone = $(clone);
-          $clone.find('.EquipoCard').attr('data-id', newid).attr('data-lsid', _lsid).attr('data-lid', _lid);
+          $clone.find('.EquipoCard').data('id', newid).data('lsid', _lsid).data('lid', _lid).click(bindEquipment);
           $clone.find('.name').html(name);
           // Bind
-          $clone.click(bindEquipment);
           $('#addEquip').parent().before($clone);
           $('.EquipoForm').fadeOut(function() {
             $('.EquipoGrid').fadeIn();
