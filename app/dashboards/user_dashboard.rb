@@ -37,26 +37,17 @@ class UserDashboard < Administrate::BaseDashboard
     :given_name,
     :last_name,
     :email,
-    :role,
-    :created_at,
-    :updated_at,
+    :role
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :institutional_id,
     :given_name,
     :last_name,
     :email,
+    :institutional_id,
     :role,
-    :reset_password_sent_at,
-    :remember_created_at,
-    :confirmation_token,
-    :confirmed_at,
-    :confirmation_sent_at,
-    :created_at,
-    :updated_at,
     :reservations,
   ].freeze
 

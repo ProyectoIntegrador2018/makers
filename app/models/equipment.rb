@@ -41,4 +41,8 @@ class Equipment < ApplicationRecord
   def self.capabilities
     Capability.joins(:equipment).where(equipment: { id: ids })
   end
+
+  def upcoming_reservations
+    reservations.future.count
+  end
 end
