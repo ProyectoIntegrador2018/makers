@@ -82,7 +82,7 @@ to display a collection of resources in an HTML table.
 
         <% if valid_action? :destroy, collection_presenter.resource_name %>
           <td><%= link_to(
-            t(resource.hidden ? "Un Hide" : "Hide"),
+            t(resource.hidden ? "Unhide" : "Hide"),
             [namespace, resource],
             class: "text-color-red",
             method: :delete,
