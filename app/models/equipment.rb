@@ -15,7 +15,7 @@ class Equipment < ApplicationRecord
 
   accepts_nested_attributes_for :available_hours
 
-  scope :visible, -> {where(:hidden => false)}
+  scope :visible, -> { where(hidden: false) }
 
   def self.search(name)
     if name.present?

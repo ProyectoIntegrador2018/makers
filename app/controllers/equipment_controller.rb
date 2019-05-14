@@ -7,9 +7,9 @@ class EquipmentController < ApplicationController
   # GET /lab/1/lab_spaces/1/equipment
   # GET /equipment.json
   def index
-    @equipment_scope = @equipment_scope.visible.search(params[:equipment_query])
-    @equipment_scope = @equipment_scope.visible.search_by(:materials, params[:materials_query])
-    @equipment_scope = @equipment_scope.visible.search_by(:capabilities, params[:capabilities_query])
+    @equipment_scope = @equipment_scope.search(params[:equipment_query])
+    @equipment_scope = @equipment_scope.search_by(:materials, params[:materials_query])
+    @equipment_scope = @equipment_scope.search_by(:capabilities, params[:capabilities_query])
   end
 
   # GET /lab/1/lab_spaces/1/equipment/1
@@ -73,9 +73,9 @@ class EquipmentController < ApplicationController
   def set_parent_lab_space
     if params[:lab_space_id]
       @lab_space = LabSpace.find(params[:lab_space_id])
-      @equipment_scope = @lab_space.equipment
+      @equipment_scope = @lab_space.equipment.visible
     else
-      @equipment_scope = Equipment.all
+      @equipment_scope = Equipment.all.visible
     end
   end
 
