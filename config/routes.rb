@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
   namespace :admin do
-      resources :equipment
       resources :labs
       resources :lab_spaces
+      resources :equipment
       resources :reservations
       resources :users
       resources :lab_administrations

@@ -21,6 +21,7 @@ class EquipmentDashboard < Administrate::BaseDashboard
     reservations: Field::NestedHasMany,
     updated_at: Field::DateTime,
     technical_description: Field::Text,
+    upcoming_reservations: Field::Number,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -31,6 +32,7 @@ class EquipmentDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :name,
     :lab_space,
+    :upcoming_reservations,
     :created_at,
     :updated_at,
   ].freeze

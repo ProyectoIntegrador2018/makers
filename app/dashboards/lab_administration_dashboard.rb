@@ -24,7 +24,6 @@ class LabAdministrationDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :admin,
     :space,
-    :id,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
