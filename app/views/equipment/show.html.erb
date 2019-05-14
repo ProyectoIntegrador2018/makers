@@ -85,6 +85,10 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
+              <p>Horario de reservaci&oacute;n:</br>
+                <small id="tmpEventStartDisplay"></small></br>
+                <small id="tmpEventEndDisplay"></small>
+              </p>
               <label class="ttu" for="purpose"><strong>Prop&oacute;sito del proyecto <small>(Requerido)</small></strong></label>
               <select name="purpose" class="form-control" id="purpose">
                 <option value="academic">Academia</option>
@@ -170,6 +174,8 @@
               start: selInfo.start,
               end: selInfo.end,
             };
+            $('#tmpEventStartDisplay').html(selInfo.start.toDateString() +" "+ selInfo.start.toLocaleTimeString())
+            $('#tmpEventEndDisplay').html(selInfo.end.toDateString() +" "+ selInfo.end.toLocaleTimeString())
           },
           businessHours: bhours,
           eventRender: function(info) {
