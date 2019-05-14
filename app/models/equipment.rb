@@ -50,12 +50,15 @@ class Equipment < ApplicationRecord
     tags.each_with_index do |tag, index|
       next unless tag.present? && !tag.match?(/\A\d+\Z/) # Skip if tag is an ID
 
-      new_tag = 'FAIL' # Should never happen if called function is called correctly
-      new_tag = Material.find_or_create_by(name: tag) if tag_class == :material
-      new_tag = Capability.find_or_create_by(name: tag) if tag_class == :capability
-      tags[index] = new_tag.id
+      tags[index] = get_tag_id(tag, tag_class)
     end
     tags
+  end
+
+  def self.get_tag_id(tag, tag_class)
+    return Material.find_or_create_by(name: tag).id if tag_class == :material
+
+    Capability.find_or_create_by(name: tag).id
   end
 
   private
