@@ -432,3 +432,10 @@ h1 {
   font-size: 1.45rem;
   width: 100%;
 }
+
+.fc-unthemed td.fc-today {
+  background: #fff !important;
+}
+.fc-unthemed th.fc-today {
+  background-color: #fcf8e3;
+}

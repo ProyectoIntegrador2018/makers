@@ -20,10 +20,10 @@ and renders all form fields for a resource's editable attributes.
     <i class="ico calendar"></i>
     <p class="content">
       Todos los
-      <select class="inline dow_select" name="day" id="day" value="0"> <%# TODO: make this multiple! %>
+      <select class="inline dow_select" name="day" id="day">
         <option value="0">d&iacute;as (diario)</option>
         <option value="1">d&iacute;as (Lu-Vie)</option>
-        <option value="2">Lunes</option>
+        <option selected value="2">Lunes</option>
         <option value="3">Martes</option>
         <option value="4">Mi&eacute;rcoles</option>
         <option value="5">Jueves</option>
@@ -97,6 +97,8 @@ and renders all form fields for a resource's editable attributes.
       const $scheduleList = $('.scheduleList');
       let data = false;
       const dateMap = {
+        0: "diario",
+        1: "luvi",
         2: "monday",
         3: "tuesday",
         4: "wednesday",
@@ -122,6 +124,8 @@ and renders all form fields for a resource's editable attributes.
         });
         $('form').on('submit', function(e) {
           e.preventDefault();
+          console.log(document);
+          checkDOW();
           $('input.start_time, input.end_time').each(function(index, item) {
             item.value = item.value + ' CT';
           });
@@ -139,6 +143,7 @@ and renders all form fields for a resource's editable attributes.
         const clone = document.importNode(horarioTpl.content, true);
         const $clone = $(clone);
         const id = index === null || index === undefined ? new Date().getTime() : index;
+
         const start_input = document.createElement('input');
         start_input.classList.add("start_time");
         start_input.type = "hidden";
@@ -204,6 +209,49 @@ and renders all form fields for a resource's editable attributes.
         e.preventDefault();
         generateAH();
       });
+
+      function checkDOW() {
+        $('.scheduleList-listitem').each((index, item) => {
+          const $item = $(item);
+          let $dow = $item.find('input.day_of_week');
+          if($dow.length <= 0) return false;
+          let val = $dow.val();
+          if(val != 'luvi' && val != 'diario') {
+            return true;
+          }
+          let st = $item.find('input.start_time').val();
+          let et = $item.find('input.end_time').val();
+          $item.find('input[type="hidden"]').remove();
+          let top = 0;
+          if(val == "luvi") {
+            top = 5;
+          }
+          else if(val == "diario") {
+            top = 7;
+          }
+          for(let i = 0; i < top; i++) {
+            let id = new Date().getTime();
+            const start_input = document.createElement('input');
+            start_input.classList.add("start_time");
+            start_input.type = "hidden";
+            start_input.name = `equipment[available_hours_attributes][${id}][start_time]`;
+            start_input.value = st;
+
+            const end_input = document.createElement('input');
+            end_input.classList.add("end_time");
+            end_input.type = "hidden";
+            end_input.name = `equipment[available_hours_attributes][${id}][end_time]`;
+            end_input.value = et;
+
+            const dow_input = document.createElement('input');
+            dow_input.classList.add("day_of_week");
+            dow_input.type = "hidden";
+            dow_input.name = `equipment[available_hours_attributes][${id}][day_of_week]`;
+            dow_input.value = dateMap[i+2];
+            $item.append([start_input, dow_input, end_input]);
+          }
+        });
+      }
     </script>
   <% end %>
 <% end %>
