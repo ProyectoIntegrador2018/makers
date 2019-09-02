@@ -1,72 +1,40 @@
-version: '3.4'
+version: "2"
 
-# volumes:
-#   postgres_data:
-
-# networks:
-#   backend:
-#   frontend:
+volumes:
+  postgres-data:
+    driver: local
+  gems:
+    driver: local
 
 services:
   db:
-    image: postgres
-    # ports:
-    #   # We'll bind our host's port 5432 to postgres's port 5432, so we can use our database IDEs
-    #   # with it:
-    #   - published: ${DEMO_POSTGRES_PORT:-5432}
-    #     target: 5432
-    # volumes:
-    #   - postgres_data:/var/lib/postgresql/data      # Mount the postgres data volume
-    # networks:
-    #   - backend
+    image: postgres:9.6
+    ports:
+      - 5433:5432
+    volumes:
+      - .:/code
+      - postgres-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: postgres
-    #   POSTGRES_DB: 'makersprogram'
+      LC_ALL: C.UTF-8
+      POSTGRES_PASSWORD: P4Ssw0rD!
 
   web:
-  # test: &app
-    build: .
-    image: vovimayhem/rails-demo:development
-    entrypoint: /usr/src/bin/dev-entrypoint
-    volumes:
-      # Mount our app code directory ("./oauth-provider") into our app containers at the
-      # "/usr/src" folder:
-      - .:/usr/src
-
-    # networks: [ "backend" ]
-
-    # Keep the stdin open, so we can attach to our app container's process
-    # and do things such as byebug, etc:
-    stdin_open: true
-
-    # Enable sending signals (CTRL+C, CTRL+P + CTRL+Q) into the container:
-    tty: true
-
-    depends_on:
-      - db
-
-    # command: guard
-
-    environment: &app_env
-      # URL to connect to the database:
-      DATABASE_URL: postgres://postgres:postgres@db
-
-      # RAILS_ENV: test
-      # RACK_ENV: test
-      RAILS_ENV: development
-      RACK_ENV: development
-      RAILS_LOG_TO_STDOUT: "true"
-
-  # web:
-    # <<: *app
-    labels:
-      com.icalialabs.plis.group: demo backend
+    image: integrador/makers:development
+    entrypoint: bin/dev-entrypoint
     command: rails server -p 3000 -b 0.0.0.0
     ports:
-      - published: ${DEMO_WEB_PORT:-3000}
-        target: 3000
-    # environment:
-    #   <<: *app_env
-      # Override the URL for the development database - we'll use oauth_provider_development:
-      # DATABASE_URL: postgres://postgres:3x4mpl3@0.0.0.0:5432/makersprogram_dev
-      # DATABASE_PASSWORD: 3x4mpl3
+      - 3000:3000
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /code
+    volumes:
+      - .:/code
+      - gems:/usr/local/bundle
+    tty: false
+    stdin_open: true
+    environment:
+      DATABASE_URL: "postgres://postgres:P4Ssw0rD!@db:5432/makers_dev"
+      LC_ALL: C.UTF-8
+    links:
+      - db
