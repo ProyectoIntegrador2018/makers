@@ -14,7 +14,6 @@ This is the repository for "Makers Program" for Tec de Monterrey. This project w
 * [Stop the project](#stop-the-project)
 * [Running specs](#running-specs)
 
-
 ### Client Details
 
 | Nombre                         | Email                    | Rol                 |
@@ -33,10 +32,10 @@ This is the repository for "Makers Program" for Tec de Monterrey. This project w
 
 | Name                              | Email              | Rol        |
 | --------------------------------- | ------------------ | ---------- |
-| Hector Rincón de Alba             | A01088760@itesm.mx | Desarrollo |
-| Jesús Alejandro Galván Villarreal | A01192562@itesm.mx | Desarrollo |
-| Ana Karen Beltrán Murillo         | A01192508@itesm.mx | Desarrollo |
-| Abraham Pineda García             | A00759440@itesm.mx | Desarrollo |
+| Aldo Cervantes             | A01039261@itesm.mx | Desarrollo |
+| Diego Astiazarán | A01243969@itesm.mx | Desarrollo |
+| Erik Torres         | A01196362@itesm.mx | Desarrollo |
+| Héctor Morales             | A01193139@itesm.mx | Desarrollo |
 
 ### Management tools
 
@@ -49,9 +48,9 @@ You should ask for access to this tools if you don't have it already:
 
 ## Development
 
-### Setup the project
+### Setup the project locally
 
-To run the project, you will need to make sure you have [Ruby](http://www.ruby-lang.org/en/) 2.5.3 and [Ruby on Rails](https://rubyonrails.org) 5.2.2 or later installed on your development environment. You can find instructions to install both of them in [ GoRails ](https://gorails.com/setup/). You will also need [PostgreSQL](https://www.postgresql.org) for the database.
+To run the project, you will need to make sure you have [Docker](https://docker.com) installed on your machine.
 
 After installing, you can follow this simple steps:
 
@@ -61,25 +60,36 @@ After installing, you can follow this simple steps:
 $ git clone git@github.com:ProyectoIntegrador2018/makers.git
 ```
 
-2. Fire up a terminal and run:
+2. Navigate to the `makers/` directory and run:
 
 ```bash
-$ bundle install
+$ docker-compose build
 ```
 
-3. You will need to setup and migrate the database:
+3. Once the Docker image is built:
 
 ```bash
-$ rails db:setup
+$ docker-compose run web bash
+```
+
+This command will open a bash session inside the container, from which you can interact directly with the rails application.
+
+4. Set up the database inside the web container
+
+```bash
+$ rails db:create
 $ rails db:migrate
+$ rails db:seed
 ```
+
+You only need to follow the previous steps the first time you build the app locally, but some of the steps can and should be reused when configuration and database schema changes.
 
 ### Running the stack for Development
 
-1. Fire up a terminal and run:
+1. Once the database is setup and populated, you can exit the web container with `Ctrl + z` and run the following command to start the rails application:
 
 ```bash
-$ rails server
+$ docker-compose up
 ```
 
 It may take a while before you see anything. Once you see an output like this:
@@ -92,19 +102,21 @@ web_1   | => Ctrl-C to shutdown server
 web_1   | Listening on 0.0.0.0:3000, CTRL+C to stop
 ```
 
-This means the project is up and running.
+This means the project is up and running and the web app can be used at `localhost:3000`.
 
 ### Stop the project
 
-In order to stop crowdfront as a whole you can run:
+Use `Ctrl + c` on the terminal window in which the rails server is open to stop the project.
 
-```
-% CTRL+C
+If you want to stop every docker process related to the project, you can run the following command from the root (`makers/`) directory:
+
+```bash
+$ docker-compose stop
 ```
 
 ### Running specs
 
-To run specs, you can do:
+To run specs, you can enter the web container with `docker-compose run web bash` and then:
 
 ```bash
 $ rspec
