@@ -1,25 +1,25 @@
 ---
 name: Bug
-about: Crea un reporte sobre un bug.
+about: Create a report about a bug.
 title: ''
 labels: bug
 assignees: ''
 
 ---
 
-< Descripción breve del bug encontrado >
+< Brief description of found bug.>
 
-## Conversación
-< Detalles adicionales >
+## Conversation
+< Aditional details >
 
-## Pasos para reproducirse
-1. < Paso 1 para reproducirse >
+## Steps for reproducing bug
+1. < Step 1 for reproducing >
 
-## Comportamiento esperado
-Al < acción >, el sistema debería < comportamiento esperado >
+## Expected behaviour
+By doing < action >, the system should < expected behaviour >
 
-## Comportamiento actual
-Al < acción >, el sistema < comportamiento actual >
+## Current behaviour
+By doing < action >, the system should < current behaviour >
 
-## Relaciones
-- #< id de la historia de usuario relacionada >
+## Relations
+- #< Related user story id >
