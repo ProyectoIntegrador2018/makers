@@ -1,5 +1,7 @@
 class LabsController < ApplicationController
   before_action :set_lab, only: [:show, :edit, :update, :destroy]
+  before_action :check_if_valid_user, only: [:edit, :update, :destroy]
+  before_action :check_if_super_admin, only: [:new]
 
   # GET /labs
   # GET /labs.json
@@ -67,6 +69,20 @@ class LabsController < ApplicationController
 
   def set_lab
     @lab = Lab.find(params[:id])
+  end
+
+  def check_if_super_admin
+    unless user_signed_in? && current_user.role == "superadmin"
+      flash[:error] = "You must be a super admin to access this section"
+      redirect_to root_path # halts request cycle
+    end
+  end
+
+  def check_if_valid_user
+    unless user_signed_in? && ( current_user.role == "superadmin" || ( current_user.role == "lab_admin" && current_user.id == @lab.user.id) )
+      flash[:error] = "You must be a super admin to access this section"
+      redirect_to root_path # halts request cycle
+    end
   end
 
   def lab_params

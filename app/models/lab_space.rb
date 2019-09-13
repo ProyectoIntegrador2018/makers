@@ -5,6 +5,8 @@ class LabSpace < ApplicationRecord
 
   belongs_to :lab
   has_many :equipment
+  belongs_to :user
+  
 
   has_many :lab_administrations, as: :space
   has_many :admins, through: :lab_administrations

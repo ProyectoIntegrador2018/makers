@@ -6,10 +6,13 @@ class User < ApplicationRecord
          :confirmable
 
   # default is 0 (:user)
-  enum role: [:user, :superadmin, :admin, :lab_admin]
+  enum role: [:user, :superadmin, :lab_space_admin, :lab_admin]
+
   validates :given_name, :institutional_id, presence: true
 
   has_many :reservations
+  has_many :labs
+  has_many :lab_spaces
 
   # Aids in building queries for administration
   has_many :lab_administrations, foreign_key: 'admin_id'
