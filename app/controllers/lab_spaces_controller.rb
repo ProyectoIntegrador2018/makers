@@ -1,7 +1,9 @@
 class LabSpacesController < ApplicationController
   before_action :set_parent_lab
   before_action :set_lab_space, only: [:show, :edit, :update, :destroy]
-  before_action { authorize(@lab_space || @lab_spaces.new) }
+  # before_action { authorize(@lab_space || @lab_spaces.new) }
+  before_action :check_if_valid_user, only: [:edit, :update, :destroy]
+  before_action :check_if_super_admin_or_lab_admin, only: [:new]
 
   # GET /lab/1/lab_spaces
   # GET /lab/1/lab_spaces.json
@@ -78,6 +80,20 @@ class LabSpacesController < ApplicationController
 
   def set_lab_space
     @lab_space = @lab_spaces.find(params[:id])
+  end
+
+  def check_if_super_admin_or_lab_admin
+    unless user_signed_in? && ( (current_user.role == "lab_admin" && current_user.id == @lab.user.id) || current_user.role == "superadmin")
+      flash[:error] = "You must be a lab admin to access this section"
+      redirect_to root_path # halts request cycle
+    end
+  end
+
+  def check_if_valid_user
+    unless user_signed_in? && ( current_user.role == "superadmin" || (current_user.role == "lab_admin" && current_user.id == @lab.user.id) || (current_user.role == "lab_space_admin" && current_user.id == @lab_space.user.id ))
+      flash[:error] = "You must be a lab admin to access this section"
+      redirect_to root_path # halts request cycle
+    end
   end
 
   def lab_space_params

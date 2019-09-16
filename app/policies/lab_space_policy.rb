@@ -2,7 +2,7 @@ class LabSpacePolicy < ManagedModelsPolicy
   def new?
     return false unless user
 
-    user.superadmin? || user.admin?
+    user.superadmin? || user.lab_admin?
   end
 
   def create?
