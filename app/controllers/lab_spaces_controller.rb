@@ -90,7 +90,6 @@ class LabSpacesController < ApplicationController
   end
 
   def check_if_valid_user
-    binding.pry
     unless user_signed_in? && ( current_user.role == "superadmin" || (current_user.role == "lab_admin" && current_user.id == @lab.user.id) || (current_user.role == "lab_space_admin" && current_user.id == @lab_space.user.id ))
       flash[:error] = "You must be a lab admin to access this section"
       redirect_to root_path # halts request cycle
