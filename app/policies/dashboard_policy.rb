@@ -31,7 +31,7 @@ class DashboardPolicy
   end
 
   def labs?
-    user.superadmin? || user.admin? || user.managed_labs.count.positive?
+    user.superadmin? || user.lab_space_admin? || user.managed_labs.count.positive?
   end
 
   def lab_spaces?
@@ -47,6 +47,6 @@ class DashboardPolicy
   end
 
   def lab_administrations?
-    user.superadmin? || user.admin?
+    user.superadmin? || user.lab_space_admin?
   end
 end

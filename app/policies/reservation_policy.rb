@@ -6,7 +6,7 @@ class ReservationPolicy < ApplicationPolicy
   def default_authorization
     return false unless user
     return true if record.user == user
-    return user.manages?(record) if user.admin? || user.lab_admin?
+    return user.manages?(record) if user.lab_space_admin? || user.lab_admin?
 
     user.superadmin?
   end
@@ -14,7 +14,7 @@ class ReservationPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       return scope.all if user.superadmin?
-      return user.managed_reservations if user.admin? || user.lab_admin?
+      return user.managed_reservations if user.lab_space_admin? || user.lab_admin?
 
       user.reservations
     end

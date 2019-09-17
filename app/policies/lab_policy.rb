@@ -3,7 +3,7 @@ class LabPolicy < ManagedModelsPolicy
     return false unless user
     return false if user.user?
 
-    user.superadmin? || user.admin?
+    user.superadmin?
   end
 
   class Scope < Scope
