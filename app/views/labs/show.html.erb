@@ -61,10 +61,10 @@
         </tr>
       </thead>
       <tbody>
-        <% @lab.lab_spaces.each do |ls| %>
+        <% @lab.lab_spaces.each do |lab_space| %>
           <tr class="LabSpace--listitem">
-            <td><a href="#"><%= ls.name %></a></td>
-            <td><a href="#"><%= ls.description[0..30] %>&hellip;</a></td>
+            <td><%= link_to lab_space.name, lab_lab_space_path(lab_space) %></td>
+            <td><a href="#"><%= lab_space.description[0..30] %>&hellip;</a></td>
             <td>Dra. Alejandra S&aacute;nchez</td>
             <td><a href="#">Ver horarios</a></td>
             <td>
