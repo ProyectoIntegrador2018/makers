@@ -54,7 +54,6 @@
       <thead>
         <tr>
           <th>Espacio</th>
-          <th>Descripci&oacute;n</th>
           <th>Responsable</th>
           <th>Horarios</th>
           <th>Reservar</th>
@@ -63,13 +62,12 @@
       <tbody>
         <% @lab.lab_spaces.each do |lab_space| %>
           <tr class="LabSpace--listitem">
-            <td><%= link_to lab_space.name, lab_lab_space_path(lab_space) %></td>
-            <td><a href="#"><%= lab_space.description[0..30] %>&hellip;</a></td>
+            <td><%= lab_space.name %></td>
             <td>Dra. Alejandra S&aacute;nchez</td>
-            <td><a href="#">Ver horarios</a></td>
+            <td><%= lab_space.hours %></td>
             <td>
               <div class="d-flex justify-content-end">
-                <button class="reserve btn highlight">Reservar</button>
+                <%= link_to 'Reservar', [lab_space.lab, lab_space] , class: 'reserve btn highlight' %>
               </div>
             </td>
           </tr>
@@ -78,7 +76,7 @@
     </table>
   </section>
   <section class="Equipos">
-    <h2>Equipo</h2>
+    <h2>Equipos</h2>
     <div class="EquipoGrid">
       <div class="row">
         <% @lab.lab_spaces.each do |ls| %>
