@@ -131,7 +131,7 @@ and renders all form fields for a resource's editable attributes.
           });
           $(this).unbind('submit').submit();
         });
-        <% if !page.resource.id.blank? # We're editing! %>
+        <% if !page.resource.id.blank? # Were editing! %>
           // Populate the existing available hours
           data = <%= raw(page.resource.available_hours.to_json) %>;
           data.forEach(function(ah, index) {

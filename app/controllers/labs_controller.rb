@@ -86,6 +86,6 @@ class LabsController < ApplicationController
   end
 
   def lab_params
-    params.require(:lab).permit(:name, :description, :location, :image)
+    params.require(:lab).permit(:name, :description, :location, :image, :user_id)
   end
 end
