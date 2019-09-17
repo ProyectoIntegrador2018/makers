@@ -8,20 +8,6 @@
 
 require 'faker'
 
-puts "Deleting all tables..."
-
-EquipmentCapability.delete_all
-EquipmentMaterial.delete_all
-Reservation.delete_all
-AvailableHour.delete_all
-Equipment.delete_all
-LabSpace.delete_all
-LabAdministration.delete_all
-Lab.delete_all
-Capability.delete_all
-Material.delete_all
-User.delete_all
-
 puts "Seeding the database..."
 
 ## Seed capabilities
@@ -353,14 +339,14 @@ eq.available_hours.create!(
 ## Seed users
 puts "\tSeeding users..."
 
-testu = User.create!(
+test_user = User.create!(
   email: "test@itesm.mx",
   password: "test123",
   given_name: "Test",
   last_name: "User",
-  institutional_id: "A00000002"
+  institutional_id: "A00000001"
 )
-testu.confirm
+test_user.confirm
 
 
 # Super admin
