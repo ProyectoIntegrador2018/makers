@@ -8,7 +8,50 @@
 
 require 'faker'
 
-puts "Seeding the database..."
+# Super admin
+
+superadmin = User.create!(
+  email: "admin@itesm.mx",
+  password: "admin123",
+  role: :superadmin,
+  given_name: "Admin",
+  institutional_id: "A00000000"
+)
+superadmin.confirm
+
+# Lab Admin
+
+lab_admin = User.create!(
+  email: "labadmin@itesm.mx",
+  password: "labadmin",
+  role: :lab_admin,
+  given_name: "Lab Admin",
+  institutional_id: "A02938460"
+)
+lab_admin.confirm
+
+# Lab Admin
+
+lab_space_admin = User.create!(
+  email: "labspaceadmin@itesm.mx",
+  password: "labspaceadmin",
+  role: :lab_space_admin,
+  given_name: "Lab Space Admin",
+  institutional_id: "A02938360"
+)
+
+lab_space_admin.confirm
+
+## User
+
+test_user = User.create!(
+  email: "test@itesm.mx",
+  password: "test123",
+  given_name: "Test",
+  last_name: "User",
+  institutional_id: "A00000001"
+)
+test_user.confirm
 
 ## Seed capabilities
 Capability.create!(name: "Construye")     #0
@@ -41,7 +84,8 @@ lab = Lab.create!(
   name: "InnovactionGYM",
   description: "El INNOVaction GYM es un gimnasio de innovación y un “makerspace” del Instituto Tecnológico de Monterrey creado con el fin de fomentar la cultura interdisciplinaria de innovación entre los estudiantes, facultad del TEC de Monterrey y la comunidad externa, poniendo a disposición de sus colaboradores un área de 1,100 metros cuadrados de espacio co-work, makerspace, área de juntas, y una área de exposiciones, donde el juego-acción es la base para dar origen a la creación de ideas y proyectos innovadores.",
   location: "CETEC piso 2",
-  remote_image_url: "http://lorempixel.com/600/440"
+  remote_image_url: "http://lorempixel.com/600/440",
+  user_id: lab_admin.id
 )
 
 ls = lab.lab_spaces.create!(
@@ -51,7 +95,8 @@ ls = lab.lab_spaces.create!(
   location: "Innovaction Gym",
   contact_email: "azael.capetillo@tec.mx",
   contact_phone: "81830020",
-  remote_image_url: "http://lorempixel.com/600/440"
+  remote_image_url: "http://lorempixel.com/600/440",
+  user_id: lab_space_admin.id
 )
 
 eq = ls.equipment.create!(
@@ -260,7 +305,8 @@ lab = Lab.create!(
   name: "Laboratorio de Mecatronica",
   description: "Laboratorio de Mecatronica abierto a todas las carreras, util para crear e inovar.",
   location: "Aulas 7 3er Piso",
-  remote_image_url: "http://lorempixel.com/600/440"
+  remote_image_url: "http://lorempixel.com/600/440",
+  user_id: lab_admin.id
 )
 
 ls = lab.lab_spaces.create!(
@@ -270,7 +316,8 @@ ls = lab.lab_spaces.create!(
   location: "Aulas 7 3er Piso",
   contact_email: "mecatronica@itesm.mx",
   contact_phone: "8111342200",
-  remote_image_url: "http://lorempixel.com/600/440"
+  remote_image_url: "http://lorempixel.com/600/440",
+  user_id: lab_space_admin.id
 )
 
 eq = ls.equipment.create!(
@@ -335,28 +382,5 @@ eq.available_hours.create!(
   start_time: "8:00 CT",
   end_time: "14:00 CT"
 )
-
-## Seed users
-puts "\tSeeding users..."
-
-test_user = User.create!(
-  email: "test@itesm.mx",
-  password: "test123",
-  given_name: "Test",
-  last_name: "User",
-  institutional_id: "A00000001"
-)
-test_user.confirm
-
-
-# Super admin
-admin_user = User.create!(
-  email: "admin@itesm.mx",
-  password: "admin123",
-  role: :superadmin,
-  given_name: "Admin",
-  institutional_id: "A00000000"
-)
-admin_user.confirm
 
 puts "Success! Inserted records into the database"
