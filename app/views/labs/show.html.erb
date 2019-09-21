@@ -54,8 +54,8 @@
       <thead>
         <tr>
           <th>Espacio</th>
-          <th>Responsable</th>
-          <th>Horarios</th>
+          <th>Contacto</th>
+          <th>Horario</th>
           <th>Reservar</th>
         </tr>
       </thead>
@@ -63,7 +63,7 @@
         <% @lab.lab_spaces.each do |lab_space| %>
           <tr class="LabSpace--listitem">
             <td><%= lab_space.name %></td>
-            <td>Dra. Alejandra S&aacute;nchez</td>
+            <td><%= lab_space.contact_email %></td>
             <td><%= lab_space.hours %></td>
             <td>
               <div class="d-flex justify-content-end">
@@ -85,7 +85,7 @@
               <div class="EquipoCard" data-id="<%= e.id %>" data-lid="<%= @lab.id %>" data-lsid="<%= ls.id %>">
                 <div class="icon printer"></div>
                 <p class="name"><%= e.name %></p>
-                <p class="horario">LuJu 12PM - 4PM</p>
+                <p class="horario"><%= ls.name %></p>
               </div>
             </div>
           <% end %>
@@ -122,7 +122,7 @@
               <input type="text" name="desc" placeholder="Descripci&oacute;n" class="txtinput" id="desc">
             </div>
             <div>
-              <input type="text" name="technical-description" placeholder="Descripci&oacute;n t&eacute;cnica" class="txtinput" id="technical-description">
+              <input type="text" name="technical-description" placeholder="Especificaciones t&eacute;cnicas" class="txtinput" id="technical-description">
             </div>
             <div class="row">
               <div class="col">
