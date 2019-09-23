@@ -1,4 +1,4 @@
-version: "2"
+version: "3.3"
 
 volumes:
   postgres-data:
@@ -17,24 +17,38 @@ services:
     environment:
       LC_ALL: C.UTF-8
       POSTGRES_PASSWORD: P4Ssw0rD!
-
-  web:
+  
+  test: &app
     image: integrador/makers:development
-    entrypoint: bin/dev-entrypoint
-    command: rails server -p 3000 -b 0.0.0.0
-    ports:
-      - 3000:3000
     build:
       context: .
       dockerfile: Dockerfile
-    working_dir: /code
+    entrypoint: bin/dev-entrypoint
     volumes:
       - .:/code
       - gems:/usr/local/bundle
+    working_dir: /code
     tty: false
     stdin_open: true
-    environment:
-      DATABASE_URL: "postgres://postgres:P4Ssw0rD!@db:5432/makers_dev"
+    depends_on:
+      - db
+    command: rspec
+    environment: &app_environment
+      DATABASE_URL: ${TEST_DB_URL:-""}
       LC_ALL: C.UTF-8
-    links:
+      RAILS_ENV: ${TEST_RAILS_ENV}
+      RACK_ENV: ${TEST_RACK_ENV}
+      RAILS_LOG_TO_STDOUT: "true"
+
+  web:
+    <<: *app
+    command: rails server -p 3000 -b 0.0.0.0
+    ports:
+      - ${MAKERS_WEB_PORT:-3000}:3000
+    environment:
+      <<: *app_environment
+      DATABASE_URL: ${DEV_DB_URL:-""}
+      RAILS_ENV: ${DEV_RAILS_ENV}
+      RACK_ENV: ${DEV_RACK_ENV}
+    depends_on:
       - db
