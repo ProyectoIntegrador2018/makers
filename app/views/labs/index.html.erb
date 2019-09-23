@@ -12,9 +12,11 @@
         <% @labs.each do |lab| %>
           <%
             tags = Array.new
-            lab.lab_spaces.each do | ls | ls.equipment.each do | e |
-              tags = tags + e.capabilities.map{|c| c.name}
-            end; end;
+            lab.lab_spaces.each do | ls | 
+              ls.equipment.each do | e |
+                tags = tags + e.capabilities.map{|c| c.name}
+              end; 
+            end;
             tags.uniq!
           %>
           <article class="labEntry">
