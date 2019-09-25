@@ -1,41 +1,40 @@
 ---
 name: User story
-about: Describe una historia de usuario.
+about: Describes a user story/feature
 title: SXX As a user...
 labels: user story
 assignees: ''
 
 ---
 
-## Título de la historia de usuario
+## User Story Title
 
-Como < tipo de usuario > puedo < descripción de la funcionalidad > para < objetivo >
+As a < user role/type > I can < describe the feature > in order to < objective >
 
-### Puntos de complejidad
 
-< # de puntos de complejidad >
+### Story points
 
-### Conversación
+< # of story points >
 
-Este bloque de texto debe ser utilizado para dar un poco más de contexto para la funcionalidad. Asi mismo puedes
-mencionar la existencia o uso de un plugin o solución de algún tercero que se vaya a implementar o ya este ejecutandose actualmente.
+### Conversation
 
-### Criterios de aceptación
+This section should be used to provide context for the feature. It can also be used to mention the existence, current use or proposed use of a certain plugin/gem/third-party solution to the feature.
 
-- [ ] Criterio de aceptación 1
-- [ ] Criterio de aceptación 2
-- [ ] Criterio de aceptación 3
+### Acceptance Criteria
+
+- [ ] Acceptance Criterion 1
+- [ ] Acceptance Criterion 2
+- [ ] Acceptance Criterion 3
 
 ### Definition of Done
 
-- [ ] ¿Las pruebas están pasando?
-- [ ] ¿Recibiste revisión de código?
+- [ ] All manual tests have passed (it works)
+- [ ] Any new bugs caused by the addition of this feature have been addressed and solved
 
 ### Definition of Ready
 
-- [ ] Elemento 1
-- [ ] Elemento 2
+- [ ] Code Climate GPA is maintained at Grade A
+- [ ] Any relevant changes in documentation have been added to the Pull Request
 
-## Issues relacionados, Pull Requests y/o recursos
-
-Un listado de referencias dentro del código que puedan ser valiosas para otro desarrollador, alguna liga, plugin, referencia de diseño. 
+## Related Issues, Pull Requests and/or Resources
+A list of references within the code that can be valuable to other developers, a reference link, a plugin, a design reference.
