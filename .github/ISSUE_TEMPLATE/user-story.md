@@ -7,19 +7,35 @@ assignees: ''
 
 ---
 
-# < id de la historia de usuario >
-Prioridad < # >
+## Título de la historia de usuario
 
-Como < tipo de usuario > se podrá < descripción de la funcionalidad > para < objetivo >
+Como < tipo de usuario > puedo < descripción de la funcionalidad > para < objetivo >
 
-## Conversación
-< Detalles adicionales >
+### Puntos de complejidad
 
-## To Do
-- [ ] < Tareas por realizar >
+< # de puntos de complejidad >
 
-## Criterios de aceptación
-- < Criterios a completar para asegurar que la historia es aceptada >
+### Conversación
 
-## Relaciones
-- #< id del issue relacionado >
+Este bloque de texto debe ser utilizado para dar un poco más de contexto para la funcionalidad. Asi mismo puedes
+mencionar la existencia o uso de un plugin o solución de algún tercero que se vaya a implementar o ya este ejecutandose actualmente.
+
+### Criterios de aceptación
+
+- [ ] Criterio de aceptación 1
+- [ ] Criterio de aceptación 2
+- [ ] Criterio de aceptación 3
+
+### Definition of Done
+
+- [ ] ¿Las pruebas están pasando?
+- [ ] ¿Recibiste revisión de código?
+
+### Definition of Ready
+
+- [ ] Elemento 1
+- [ ] Elemento 2
+
+## Issues relacionados, Pull Requests y/o recursos
+
+Un listado de referencias dentro del código que puedan ser valiosas para otro desarrollador, alguna liga, plugin, referencia de diseño. 
