@@ -1,19 +1,21 @@
 ---
 name: Task
-about: Crea un reporte sobre una tarea técnica.
-title: ''
-labels: todo
-assignees: ''
-
+about: This template is intended for technical tasks, such as optimizations, refactorizations and database chores
 ---
 
-< Descripción breve de la tarea >
+## Task Title
 
-## Conversación
-< Detalles adicionales >
+### Description
 
-## Criterios de terminación
-- < Criterios a completar para asegurar que la tarea esta terminada >
+Please replace this text with a complete description of the TASK. You should be as explicit and detailed as if you were building the task while describing it. If appropriate, use the description to answer the question: "what is the purpose of the task?"
 
-## Relaciones
-- #< id de la historia de usuario relacionada>
+### List of sub-tasks
+
+- [ ] Sub-task 1
+- [ ] Sub-task 2
+- [ ] Sub-task 3
+
+### Definition of Done
+
+- [ ] The general quality of the project has been improved
+- [ ] The task's description has been accomplished
