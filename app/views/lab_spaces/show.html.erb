@@ -68,7 +68,7 @@
               </div>
             </div>
         <% end %>
-        <% if user_signed_in? %>
+        <% if policy(:equipment).new? %>
         <div class="col-4">
           <div class="EquipoCard" id="addEquip" style="border: 2px dashed #ACACBC">
             <p class="name tac" style="margin-top: 50px; margin-left: -10px; color: #8E8E9D">+ Agregar un equipo</p>
