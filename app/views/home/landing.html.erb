@@ -125,9 +125,19 @@
         console.log('onpillclick');
         let $pill = $(this).remove();
         if($pill.data('type') == 'capabilities') {
+          let $oldpill = $("#capabilities").children().first();
+          if ($oldpill) {
+            $('.queryOptionsContainer').filter(':visible').append($oldpill);
+          }
+          $("#capabilities").empty();
           $("#capabilities").append($pill);
         }
         else {
+          let $oldpill = $("#materials").children().first();
+          if ($oldpill) {
+            $('.queryOptionsContainer').filter(':visible').append($oldpill);
+          }
+          $("#materials").empty();
           $("#materials").append($pill);
         }
         $pill.on('click', onSelectedOptionClick);
@@ -165,4 +175,3 @@
     <% flash.discard %>
   </body>
 </html>
-
