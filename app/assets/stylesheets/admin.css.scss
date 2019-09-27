@@ -2,14 +2,14 @@
 
 @import "base";
 
-$primary: #191A45;
+$primary: #191a45;
 $fromgradient: #4e73df;
 $togradient: #224abe;
-$gray1: #8E8E9D;
-$highlight: #445BFC;
+$gray1: #8e8e9d;
+$highlight: #445bfc;
 
-$light-blue: #F2F4F8;
-$gray2: #ACACBC;
+$light-blue: #f2f4f8;
+$gray2: #acacbc;
 $text: $gray2;
 
 html {
@@ -21,10 +21,7 @@ html {
 body {
   background: transparent;
 }
-.navigation .navigation__link {
-  color: white;
-  text-decoration: none;
-}
+
 ul.inline li {
   display: inline-block;
 }
@@ -34,7 +31,7 @@ ul.inline li {
 }
 
 .main-content {
-  background-color: #F8F9FC;
+  background-color: #f8f9fc;
 }
 .navigation {
   .logo {
@@ -44,6 +41,8 @@ ul.inline li {
   }
   .navigation__link {
     opacity: .8;
+    color: white;
+    text-decoration: none;
     &.navigation__link--active {
       font-weight: 600;
       opacity: 1;
@@ -131,23 +130,23 @@ ul.inline li {
   padding: 5px 15px;
   &.white {
     background-color: #fff;
-    box-shadow: 0 2px 8px rgba(#7C86CC,.3);
+    box-shadow: 0 2px 8px rgba(#7c86cc,.3);
     color: $highlight;
     transition: box-shadow 300ms;
     &:hover {
-      box-shadow: 0 2px 15px rgba(#7C86CC, .5);
+      box-shadow: 0 2px 15px rgba(#7c86cc, .5);
     }
   }
   &.gray {
     background-color: $light-blue;
-    color: #A4A5AA;
+    color: #a4a5aa;
   }
   &.border {
     border: 1px solid $primary;
     color: $primary;
     &.with-cross::after {
       content: '×';
-      color: #A4A5C1;
+      color: #a4a5c1;
       font-weight: 800;
       margin-left: 5px;
     }
