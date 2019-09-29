@@ -9,7 +9,7 @@ class AvailableHourPolicy < ApplicationPolicy
 
   def default_authorization
     return false unless user
-    return user.manages?(record.equipment) if user.admin? || user.lab_admin?
+    return user.manages?(record.equipment) if user.superadmin? || user.lab_admin?
 
     user.superadmin?
   end

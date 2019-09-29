@@ -11,7 +11,7 @@ class RolePolicy
       roles = User.roles.keys.map { |role| [role.titleize, role] }
       return roles if user.superadmin?
 
-      roles - [%w[Superadmin superadmin]] if user.admin?
+      roles - [%w[Superadmin superadmin]] if user.superadmin?
     end
 
     def resolve_admin
