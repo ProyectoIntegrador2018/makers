@@ -9,7 +9,8 @@ This is the repository for "Makers Program" for Tec de Monterrey. This project w
 * [Client Details](#client-details)
 * [Environment URLS](#environment-urls)
 * [Team](#team)
-* [Setup the project](#setup-the-project)
+* [Technology Stack](#technology-stack)
+* [Setup the project](#setup-the-project-locally)
 * [Running the stack for development](#running-the-stack-for-development)
 * [Stop the project](#stop-the-project)
 * [Running specs](#running-specs)
@@ -36,6 +37,14 @@ This is the repository for "Makers Program" for Tec de Monterrey. This project w
 | Diego Astiazarán | A01243969@itesm.mx | Desarrollo |
 | Erik Torres         | A01196362@itesm.mx | Desarrollo |
 | Héctor Morales             | A01193139@itesm.mx | Desarrollo |
+
+### Technology Stack
+| Technology    | Version      |
+| ------------- | -------------|
+| Docker        | 19.03.2      |
+| Ruby          | 2.5.3        |
+| Rails         |  5.2.3       |
+| PostgreSQL    |  9.6.15      |
 
 ### Management tools
 
