@@ -26,8 +26,7 @@ This is the repository for "Makers Program" for Tec de Monterrey. This project w
 
 ### Environment URLS
 
-* **Production** - [Heroku Production](https://makers-program.herokuapp.com/)
-* **Development** - [Heroku Staging](https://makers-program-staging.herokuapp.com/)
+* **Production** - [Heroku Production](https://makersprogram.herokuapp.com/)
 
 ### Team
 
@@ -52,7 +51,7 @@ You should ask for access to this tools if you don't have it already:
 
 * [Github repo](https://github.com/ProyectoIntegrador2018/makers)
 * [Backlog](https://github.com/ProyectoIntegrador2018/makers/projects)
-* [Heroku](https://makers-program.herokuapp.com/)
+* [Heroku](https://makersprogram.herokuapp.com/)
 * [Documentation](https://drive.google.com/open?id=18KPPQ1VZwSyOb2UREPyWXmzGm2MxcWDy)
 
 ## Development
