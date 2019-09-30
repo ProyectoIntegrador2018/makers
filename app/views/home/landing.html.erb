@@ -79,7 +79,6 @@
           return `<div data-id="${r.id}" data-type="${type}" class="pill white">${r.name}</div>`;
         });
         $pillBox.html(resultDivs);
-        bindPills();
       }
       const processQueryOnCollection = function(collection) {
         return function() {
@@ -116,10 +115,7 @@
       $queryCap.on('input', filterCapabilities);
       $queryMat.on('input', filterMaterials);
 
-      function bindPills() {
-        $('.queryOptionsContainer .pill.white').click(onOptionClick);
-      }
-      bindPills();
+      $('.queryOptionsContainer').on('click', '.pill.white', onOptionClick);
 
       function onOptionClick() {
         console.log('onpillclick');
@@ -165,4 +161,3 @@
     <% flash.discard %>
   </body>
 </html>
-
