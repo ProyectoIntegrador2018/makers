@@ -31,12 +31,14 @@ class Reservation < ApplicationRecord
   end
 
   def get_first_available_overlap(st, et, day)
-    equipment.available_hours
-             .where(day_of_week: day)
-             .where('start_time < ? AND ? < end_time', et.to_formatted_s(:time), st.to_formatted_s(:time))
-             .where('start_time <= ?', st.to_formatted_s(:time))
-             .order(start_time: :asc)
-             .first
+    availabilities_on_selected_day = equipment.available_hours.where(day_of_week: day)
+    availabilities_on_selected_day.each do |availability|
+      lower_limit = availability.start_time.strftime("%H:%M")
+      upper_limit = availability.end_time.strftime("%H:%M") 
+      lower_value = st.strftime("%H:%M")
+      upper_value = et.strftime("%H:%M")
+      return (lower_limit < lower_value && upper_limit > upper_value) ? availability : nil
+    end
   end
 
   def date_is_available
