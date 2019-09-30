@@ -54,24 +54,13 @@
       <thead>
         <tr>
           <th>Espacio</th>
-          <th>Responsable</th>
-          <th>Horarios</th>
+          <th>Contacto</th>
+          <th>Horario</th>
           <th>Reservar</th>
         </tr>
       </thead>
       <tbody>
-        <% @lab.lab_spaces.each do |lab_space| %>
-          <tr class="LabSpace--listitem">
-            <td><%= lab_space.name %></td>
-            <td>Dra. Alejandra S&aacute;nchez</td>
-            <td><%= lab_space.hours %></td>
-            <td>
-              <div class="d-flex justify-content-end">
-                <%= link_to 'Reservar', [lab_space.lab, lab_space] , class: 'reserve btn highlight' %>
-              </div>
-            </td>
-          </tr>
-        <% end %>
+        <%= render "lab_spaces_tables" %>
       </tbody>
     </table>
   </section>
@@ -79,18 +68,7 @@
     <h2>Equipos</h2>
     <div class="EquipoGrid">
       <div class="row">
-        <% @lab.lab_spaces.each do |ls| %>
-          <% ls.equipment.each do |e| %>
-            <div class="col-4">
-              <div class="EquipoCard" data-id="<%= e.id %>" data-lid="<%= @lab.id %>" data-lsid="<%= ls.id %>">
-                <div class="icon printer"></div>
-                <p class="name"><%= e.name %></p>
-                <p class="horario">LuJu 12PM - 4PM</p>
-              </div>
-            </div>
-          <% end %>
-        <% end %>
-
+      <%= render "lab_equipment_tables" %>
         <%# TODO: should be: if policy(@lab_space.equipment.new).create? %>
         <% if policy(:equipment).new? %>
         <div class="col-4">
@@ -119,10 +97,10 @@
               <input type="text" name="name" placeholder="Nombre del equipo" class="txtinput large" id="name">
             </div>
             <div>
-              <input type="text" name="desc" placeholder="Descripci&oacute;n" class="txtinput" id="desc">
+              <input type="text" name="desc" placeholder="Descripción" class="txtinput" id="desc">
             </div>
             <div>
-              <input type="text" name="technical-description" placeholder="Descripci&oacute;n t&eacute;cnica" class="txtinput" id="technical-description">
+              <input type="text" name="technical-description" placeholder="Especificaciones técnicas" class="txtinput" id="technical-description">
             </div>
             <div class="row">
               <div class="col">
@@ -193,7 +171,7 @@
     <div class="EquipoCard" data-id="" data-lid="" data-lsid="">
       <div class="icon printer"></div>
       <p class="name"></p>
-      <p class="horario">LuJu 12PM - 4PM</p>
+      <p class="labOrigin"></p>
     </div>
   </div>
 </template>

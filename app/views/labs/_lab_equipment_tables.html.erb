@@ -1,0 +1,11 @@
+<% @lab.lab_spaces.each do |ls| %>
+    <% ls.equipment.each do |e| %>
+      <div class="col-4">
+        <div class="EquipoCard" data-id="<%= e.id %>" data-lid="<%= @lab.id %>" data-lsid="<%= ls.id %>">
+          <div class="icon printer"></div>
+          <p class="name"><%= e.name %></p>
+          <p class="labOrigin"><%= ls.name %></p>
+        </div>
+      </div>
+    <% end %>
+<% end %>

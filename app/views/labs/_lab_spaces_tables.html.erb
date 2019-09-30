@@ -1,0 +1,12 @@
+<% @lab.lab_spaces.each do |lab_space| %>
+    <tr class="LabSpace--listitem">
+        <td><%= lab_space.name %></td>
+        <td><%= lab_space.contact_email %></td>
+        <td><%= lab_space.hours %></td>
+        <td>
+            <div class="d-flex justify-content-end">
+                <%= link_to 'Reservar', [lab_space.lab, lab_space] , class: 'reserve btn highlight' %>
+            </div>
+        </td>
+    </tr>
+<% end %>
