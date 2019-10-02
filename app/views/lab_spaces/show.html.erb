@@ -56,7 +56,7 @@
   <div class="row"></div>
 
   <section class="Equipos">
-    <h2>Equipo</h2>
+    <h2>Equipos</h2>
     <div class="EquipoGrid">
       <div class="row">
         <% @lab_space.equipment.visible.each do |e| %>
@@ -64,11 +64,11 @@
               <div class="EquipoCard" data-id="<%= e.id %>" data-lid="<%= @lab_space.lab.id %>" data-lsid="<%= @lab_space.id %>">
                 <div class="icon printer"></div>
                 <p class="name"><%= e.name %></p>
-                <p class="horario">LuJu 12PM - 4PM</p>
+                <p class="labOrigin"><%= @lab_space.name %></p>
               </div>
             </div>
         <% end %>
-        <% if user_signed_in? %>
+        <% if policy(:equipment).new? %>
         <div class="col-4">
           <div class="EquipoCard" id="addEquip" style="border: 2px dashed #ACACBC">
             <p class="name tac" style="margin-top: 50px; margin-left: -10px; color: #8E8E9D">+ Agregar un equipo</p>
@@ -95,10 +95,10 @@
               <input type="text" name="name" placeholder="Nombre del equipo" class="txtinput large" id="name">
             </div>
             <div>
-              <input type="text" name="desc" placeholder="Descripci&oacute;n" class="txtinput" id="desc">
+              <input type="text" name="desc" placeholder="Descripción" class="txtinput" id="desc">
             </div>
             <div>
-              <input type="text" name="technical-description" placeholder="Descripci&oacute;n t&eacute;cnica" class="txtinput" id="technical-description">
+              <input type="text" name="technical-description" placeholder="Especificaciones técnicas" class="txtinput" id="technical-description">
             </div>
             <div class="row">
               <div class="col">
@@ -169,7 +169,7 @@
     <div class="EquipoCard" data-id="" data-lid="" data-lsid="">
       <div class="icon printer"></div>
       <p class="name"></p>
-      <p class="horario">LuJu 12PM - 4PM</p>
+      <p class="labOrigin"></p>
     </div>
   </div>
 </template>

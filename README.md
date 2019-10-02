@@ -1,6 +1,6 @@
 # Makers Program
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/3faf1e5fc78d2ea309b6/maintainability)](https://codeclimate.com/github/ProyectoIntegrador2018/makers/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/2c16e29a1eaf6d9f81f0/maintainability)](https://codeclimate.com/github/ProyectoIntegrador2018/makers/maintainability)
 
 This is the repository for "Makers Program" for Tec de Monterrey. This project will aid in promoting and incrementing the protoyping capabilities for the Tec community. It provides a platform to consult shared spaces and devices within the Monterrey campus for prototype fabrication.
 
@@ -9,7 +9,8 @@ This is the repository for "Makers Program" for Tec de Monterrey. This project w
 * [Client Details](#client-details)
 * [Environment URLS](#environment-urls)
 * [Team](#team)
-* [Setup the project](#setup-the-project)
+* [Technology Stack](#technology-stack)
+* [Setup the project](#setup-the-project-locally)
 * [Running the stack for development](#running-the-stack-for-development)
 * [Stop the project](#stop-the-project)
 * [Running specs](#running-specs)
@@ -25,8 +26,7 @@ This is the repository for "Makers Program" for Tec de Monterrey. This project w
 
 ### Environment URLS
 
-* **Production** - [Heroku Production](https://makers-program.herokuapp.com/)
-* **Development** - [Heroku Staging](https://makers-program-staging.herokuapp.com/)
+* **Production** - [Heroku Production](https://makersprogram.herokuapp.com/)
 
 ### Team
 
@@ -37,13 +37,21 @@ This is the repository for "Makers Program" for Tec de Monterrey. This project w
 | Erik Torres         | A01196362@itesm.mx | Desarrollo |
 | Héctor Morales             | A01193139@itesm.mx | Desarrollo |
 
+### Technology Stack
+| Technology    | Version      |
+| ------------- | -------------|
+| Docker        | 19.03.2      |
+| Ruby          | 2.5.3        |
+| Rails         |  5.2.3       |
+| PostgreSQL    |  9.6.15      |
+
 ### Management tools
 
 You should ask for access to this tools if you don't have it already:
 
 * [Github repo](https://github.com/ProyectoIntegrador2018/makers)
 * [Backlog](https://github.com/ProyectoIntegrador2018/makers/projects)
-* [Heroku](https://makers-program.herokuapp.com/)
+* [Heroku](https://makersprogram.herokuapp.com/)
 * [Documentation](https://drive.google.com/open?id=18KPPQ1VZwSyOb2UREPyWXmzGm2MxcWDy)
 
 ## Development
