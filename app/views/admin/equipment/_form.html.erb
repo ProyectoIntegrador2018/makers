@@ -124,11 +124,9 @@ and renders all form fields for a resource's editable attributes.
         });
         $('form').on('submit', function(e) {
           e.preventDefault();
-          console.log(document);
           checkDOW();
           $('input.start_time, input.end_time').each(function(index, item) {
             item.value = item.value + ' CT';
-            console.log(item.value);
           });
           $(this).unbind('submit').submit();
         });
