@@ -285,7 +285,6 @@
         }
         function registerEvent(eventData, cb) {
           $.post(`/equipment/${eqid}/reservations.json`, eventData, function(data, status, xhr) {
-            console.log(data, status);
             cb(data.status && data.status === "confirmed");
           }, 'json')
           .fail(function(xhr, status, err) {
