@@ -18,6 +18,6 @@ class MaterialPolicy < ApplicationPolicy
   def default_authorization
     return false unless user
 
-    user.superadmin? || user.lab_admin? || user.lab_space_admin? 
+    user.superadmin? || user.lab_admin? || user.lab_space_admin?
   end
 end
