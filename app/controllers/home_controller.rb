@@ -7,6 +7,7 @@ class HomeController < ApplicationController
     @body_class = 'Home'
     @capabilities = Capability.all
     @materials = Material.all
+    @equipments = Equipment.all
     render layout: false
   end
 
