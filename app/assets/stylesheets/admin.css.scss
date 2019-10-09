@@ -47,8 +47,25 @@ ul.inline li {
       font-weight: 600;
       opacity: 1;
     }
+    &:hover{
+      color: #293f54 !important;
+    }
   }
 }
+
+.nav-line{
+  margin-bottom: 8px;
+  border-top: 1.5px solid #eaebeb;
+  border-bottom: 1.5px solid #eaebeb;
+
+  .nav-title{
+    text-align: center;
+    color: #eaebeb;
+    font-weight: 700;
+    margin: 6px 0;
+  }
+}
+
 .card {
   background-clip: border-box;
   background-color: #fff;
