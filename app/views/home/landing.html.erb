@@ -120,24 +120,20 @@
       function onOptionClick() {
         console.log('onpillclick');
         let $pill = $(this).remove();
-        if($pill.data('type') == 'capabilities') {
-          let $oldpill = $("#capabilities").children().first();
-          if ($oldpill) {
-            $('.queryOptionsContainer').filter(':visible').append($oldpill);
-          }
-          $("#capabilities").empty();
-          $("#capabilities").append($pill);
+        let pill_type;
+        if ($pill.data('type') == 'capabilities')
+          pill_type = '#capabilities';
+        else
+          pill_type = '#materials';
+        let $oldpill = $(pill_type).children().first();
+        if ($oldpill) {
+          $('.queryOptionsContainer').filter(':visible').append($oldpill);
         }
-        else {
-          let $oldpill = $("#materials").children().first();
-          if ($oldpill) {
-            $('.queryOptionsContainer').filter(':visible').append($oldpill);
-          }
-          $("#materials").empty();
-          $("#materials").append($pill);
-        }
+        $(pill_type).empty();
+        $(pill_type).append($pill);
         $pill.on('click', onSelectedOptionClick);
       }
+
       function onSelectedOptionClick() {
         let $pill = $(this).remove();
         $('.queryOptionsContainer').filter(':visible').append($pill);
