@@ -31,12 +31,10 @@ class Reservation < ApplicationRecord
   end
 
   def get_first_available_overlap(st, et, day)
-    equipment.available_hours
-             .where(day_of_week: day)
-             .where('start_time < ? AND ? < end_time', et.to_formatted_s(:time), st.to_formatted_s(:time))
-             .where('start_time <= ?', st.to_formatted_s(:time))
-             .order(start_time: :asc)
-             .first
+    chosen_time_slot = { start: TimeUtils.extract_time(st),
+                         end:  TimeUtils.extract_time(et) }
+    availabilities_on_selected_day = equipment.available_hours.where(day_of_week: day)
+    availabilities_on_selected_day.find { |availability| TimeSlotComparison.overlap?(chosen_time_slot, availability) }
   end
 
   def date_is_available

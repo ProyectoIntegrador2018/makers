@@ -17,7 +17,6 @@
             tags = Array.new
             lab_space.equipment.each do | e |
               tags = tags + e.capabilities.map{|c| c.name}
-              tags = tags + e.materials.map{|m| m.name}
             end;
             tags.uniq!
           %>

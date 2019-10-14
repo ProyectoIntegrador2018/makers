@@ -45,10 +45,10 @@
         </div>
       </div>
       <section class="queryOptionsContainer" id="default">
-        <% @capabilities.to_a.sample(5).each do |c| %>
+        <% @capabilities.to_a.each do |c| %>
           <div data-type="capabilities" class="pill white"><%= c.name %></div>
         <% end %>
-        <% @materials.to_a.sample(5).each do |m| %>
+        <% @materials.to_a.each do |m| %>
           <div data-type="materials" class="pill white"><%= m.name %></div>
         <% end %>
       </section>
@@ -79,7 +79,6 @@
           return `<div data-id="${r.id}" data-type="${type}" class="pill white">${r.name}</div>`;
         });
         $pillBox.html(resultDivs);
-        bindPills();
       }
       const processQueryOnCollection = function(collection) {
         return function() {
@@ -104,7 +103,7 @@
             return handler();
           }
           $defaultPillBox.hide();
-          draw(window[collection].slice(0,10), collection);
+          draw(window[collection], collection);
           $pillBox.show();
         };
       };
@@ -116,10 +115,7 @@
       $queryCap.on('input', filterCapabilities);
       $queryMat.on('input', filterMaterials);
 
-      function bindPills() {
-        $('.queryOptionsContainer .pill.white').click(onOptionClick);
-      }
-      bindPills();
+      $('.queryOptionsContainer').on('click', '.pill.white', onOptionClick);
 
       function onOptionClick() {
         console.log('onpillclick');

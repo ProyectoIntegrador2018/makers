@@ -63,7 +63,7 @@
     </div>
     <div class="row">
       <div class="col">
-        <h2 class="mb-2">Descripci&oacute;n t&eacute;cnica</h2>
+        <h2 class="mb-2">Especificaciones técnicas</h2>
         <p><%= @equipment.technical_description %></p>
       </div>
     </div>
@@ -285,7 +285,6 @@
         }
         function registerEvent(eventData, cb) {
           $.post(`/equipment/${eqid}/reservations.json`, eventData, function(data, status, xhr) {
-            console.log(data, status);
             cb(data.status && data.status === "confirmed");
           }, 'json')
           .fail(function(xhr, status, err) {

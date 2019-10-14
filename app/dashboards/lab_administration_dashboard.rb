@@ -8,7 +8,7 @@ class LabAdministrationDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    admin: Field::BelongsTo.with_options(class_name: "User", scope: -> { User.admin.or(User.lab_admin) }),
+    admin: Field::BelongsTo.with_options(class_name: "User", scope: -> { User.superadmin.or(User.lab_admin) }),
     space: PolymorphicWithUserField.with_options(classes: [Lab, LabSpace], scope_names: { Lab: :managed_labs, LabSpace: :managed_lab_spaces }),
     id: Field::Number,
     admin_id: Field::Number,
