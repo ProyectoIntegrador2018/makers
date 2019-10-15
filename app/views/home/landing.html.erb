@@ -120,14 +120,20 @@
       function onOptionClick() {
         console.log('onpillclick');
         let $pill = $(this).remove();
-        if($pill.data('type') == 'capabilities') {
-          $("#capabilities").append($pill);
+        let pill_type;
+        if ($pill.data('type') == 'capabilities')
+          pill_type = '#capabilities';
+        else
+          pill_type = '#materials';
+        let $oldpill = $(pill_type).children().first();
+        if ($oldpill) {
+          $('.queryOptionsContainer').filter(':visible').append($oldpill);
         }
-        else {
-          $("#materials").append($pill);
-        }
+        $(pill_type).empty();
+        $(pill_type).append($pill);
         $pill.on('click', onSelectedOptionClick);
       }
+
       function onSelectedOptionClick() {
         let $pill = $(this).remove();
         $('.queryOptionsContainer').filter(':visible').append($pill);
