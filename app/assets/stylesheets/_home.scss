@@ -38,10 +38,10 @@
       width: 100%;
       position: relative;
       top: 5px;
-      &#query-materiales {
+      &[name="material"] {
         border-bottom: 1px solid red;
       }
-      &#query-capacidades {
+      &[name="capacidad"] {
         border-bottom: 1px solid blue;
       }
     }
