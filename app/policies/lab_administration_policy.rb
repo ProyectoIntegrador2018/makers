@@ -11,7 +11,7 @@ class LabAdministrationPolicy < ApplicationPolicy
 
   def default_authorization
     return false unless user
-    return user.manages?(record.space) if user.admin?
+    return user.manages?(record.space) if user.lab_admin?
 
     user.superadmin?
   end
