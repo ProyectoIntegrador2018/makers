@@ -2,7 +2,7 @@ class LabAdministrationPolicy < ApplicationPolicy
   def new?
     return false unless user
 
-    user.superadmin? || user.admin?
+    user.superadmin? || user.lab_admin?
   end
 
   def update?
