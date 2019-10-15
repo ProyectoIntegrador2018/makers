@@ -30,14 +30,14 @@
           </div>
           <div class="col">
             <div class="tagBox" id="capabilities"></div>
-            <input type="text" name="capacidades" placeholder="capacidades" id="query-capacidades" class="fuzzy-input">
+            <input type="text" name="capacidad" placeholder="capacidades" id="query-capacidades" class="fuzzy-input">
           </div>
           <div class="col">
             <p class="stmt">usando</p>
           </div>
           <div class="col">
             <div class="tagBox" id="materials"></div>
-            <input type="text" name="materiales" placeholder="materiales" id="query-materiales" class="fuzzy-input">
+            <input type="text" name="material" placeholder="materiales" id="query-materiales" class="fuzzy-input">
           </div>
           <div class="col">
             <a href="#" class="highlight large btn searchBtn" role="button">Buscar</a>
@@ -73,13 +73,13 @@
       const $queryCap = $("#query-capacidades");
       const $queryMat = $("#query-materiales");
 
-
       function draw(results, type) {
         const resultDivs = results.map(r => {
           return `<div data-id="${r.id}" data-type="${type}" class="pill white">${r.name}</div>`;
         });
         $pillBox.html(resultDivs);
       }
+
       const processQueryOnCollection = function(collection) {
         return function() {
           const query = $(this).val().trim().toLowerCase();
