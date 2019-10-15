@@ -26,16 +26,8 @@ as defined by the routes in the `admin/` namespace
   <div class="nav-line">
     <p class="nav-title">User Views</p>
   </div>
-  <a href="/profile" class="navigation__link">
-    Mis Reservaciones
-  </a>
-  <a href="/labs" class="navigation__link">
-    Laboratorios
-  </a>
-  <a href="/lab_spaces" class="navigation__link">
-    Espacios
-  </a>
-  <a href="/equipment" class="navigation__link">
-    Equipos
-  </a>
+  <%= link_to("Mis Reservaciones", "/profile", class: "navigation__link") %>
+  <%= link_to("Laboratorios", "/labs", class: "navigation__link") %>
+  <%= link_to("Espacios", "/lab_spaces", class: "navigation__link") %>
+  <%= link_to("Equipos", "/equipment", class: "navigation__link") %>
 </nav>
