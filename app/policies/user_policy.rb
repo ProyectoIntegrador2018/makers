@@ -8,7 +8,7 @@ class UserPolicy < ApplicationPolicy
   def show?
     return false unless user
 
-    user.id == record.id || user.superadmin? || user.admin? || user.lab_admin?
+    user.id == record.id || user.superadmin? || user.lab_admin? || user.lab_space_admin?
   end
 
   def create?
@@ -18,7 +18,7 @@ class UserPolicy < ApplicationPolicy
   def update?
     return false unless user
 
-    user.id == record.id || user.superadmin? || user.admin?
+    user.id == record.id || user.superadmin? || user.lab_admin?
   end
 
   def destroy?
