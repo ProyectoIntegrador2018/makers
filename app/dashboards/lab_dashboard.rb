@@ -18,7 +18,6 @@ class LabDashboard < Administrate::BaseDashboard
     image: Field::Carrierwave.with_options(
       remove: true,
       ),
-    user_id: Field::Number,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -54,7 +53,6 @@ class LabDashboard < Administrate::BaseDashboard
     :description,
     :location,
     :image,
-    :user_id,
   ].freeze
 
   # Overwrite this method to customize how labs are displayed
