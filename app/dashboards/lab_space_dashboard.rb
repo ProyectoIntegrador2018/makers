@@ -36,7 +36,6 @@ class LabSpaceDashboard < Administrate::BaseDashboard
     :location,
     :hours,
     :contact_email,
-    :user,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -53,7 +52,6 @@ class LabSpaceDashboard < Administrate::BaseDashboard
     :created_at,
     :updated_at,
     :image,
-    :user,
   ].freeze
 
   # FORM_ATTRIBUTES
