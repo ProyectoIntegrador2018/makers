@@ -73,13 +73,13 @@
       const $queryCap = $("#query-capacidades");
       const $queryMat = $("#query-materiales");
 
-
       function draw(results, type) {
         const resultDivs = results.map(r => {
           return `<div data-id="${r.id}" data-type="${type}" class="pill white">${r.name}</div>`;
         });
         $pillBox.html(resultDivs);
       }
+
       const processQueryOnCollection = function(collection) {
         return function() {
           const query = $(this).val().trim().toLowerCase();

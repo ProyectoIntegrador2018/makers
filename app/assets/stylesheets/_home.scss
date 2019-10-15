@@ -33,12 +33,17 @@
     .fuzzy-input {
       background: transparent;
       border: 0 none;
-      border-bottom: 1px solid #bcbcbc;
       display: block;
       font-size: 2.15rem;
       width: 100%;
       position: relative;
       top: 5px;
+      &#query-materiales {
+        border-bottom: 1px solid red;
+      }
+      &#query-capacidades {
+        border-bottom: 1px solid blue;
+      }
     }
     .large.btn {
       position: relative;
@@ -62,6 +67,14 @@
     .pill {
       margin: 0 4px 4px;
 
+    }
+  }
+  .pill {
+    &[data-type="materials"] {
+      border: 2px solid red;
+    }
+    &[data-type="capabilities"] {
+      border: 2px solid blue;
     }
   }
   .homeFooter p {
