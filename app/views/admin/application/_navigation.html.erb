@@ -11,7 +11,9 @@ as defined by the routes in the `admin/` namespace
   <a href="/" class="logo">
     <%= image_tag "logo_white.svg", alt: "Makers program" %>
   </a>
-
+  <div class="nav-line">
+    <p class="nav-title">Admin Tools</p>
+  </div>
   <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
     <% if show_action?(resource, :dashboard)  %>
       <%= link_to(
@@ -21,4 +23,11 @@ as defined by the routes in the `admin/` namespace
       ) %>
     <% end %>
   <% end %>
+  <div class="nav-line">
+    <p class="nav-title">User Views</p>
+  </div>
+  <%= link_to("Mis Reservaciones", "/profile", class: "navigation__link") %>
+  <%= link_to("Laboratorios", "/labs", class: "navigation__link") %>
+  <%= link_to("Espacios", "/lab_spaces", class: "navigation__link") %>
+  <%= link_to("Equipos", "/equipment", class: "navigation__link") %>
 </nav>
