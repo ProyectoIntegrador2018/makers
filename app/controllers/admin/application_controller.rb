@@ -31,9 +31,9 @@ module Admin
       if string_name == 'edit' && current_user.role == 'lab_space_admin'
         return false
       end
-      !!routes.detect do |controller, action|
+      routes.detect do |controller, action|
         controller == resource.to_s.underscore.pluralize && action == string_name
-      end
+      end.present?
     end
 
     # Override this value to specify the number of elements to display at a time
