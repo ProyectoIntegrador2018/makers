@@ -10,7 +10,7 @@ class TagAssociationsPolicy < ApplicationPolicy
   def new?
     return false unless user
 
-    user.superadmin? || user.admin? || user.lab_admin?
+    user.superadmin? || user.lab_admin? || user.lab_space_admin?
   end
 
   def update?

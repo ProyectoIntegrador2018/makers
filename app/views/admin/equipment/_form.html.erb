@@ -21,14 +21,14 @@ and renders all form fields for a resource's editable attributes.
     <p class="content">
       Todos los
       <select class="inline dow_select" name="day" id="day">
-        <option value="0">d&iacute;as (diario)</option>
-        <option value="1">d&iacute;as (Lu-Vie)</option>
+        <option value="0">días (diario)</option>
+        <option value="1">días (Lu-Vie)</option>
         <option selected value="2">Lunes</option>
         <option value="3">Martes</option>
-        <option value="4">Mi&eacute;rcoles</option>
+        <option value="4">Miércoles</option>
         <option value="5">Jueves</option>
         <option value="6">Viernes</option>
-        <option value="7">S&aacute;bados</option>
+        <option value="7">Sábados</option>
         <option value="8">Domingos</option>
       </select>
       de
@@ -124,7 +124,6 @@ and renders all form fields for a resource's editable attributes.
         });
         $('form').on('submit', function(e) {
           e.preventDefault();
-          console.log(document);
           checkDOW();
           $('input.start_time, input.end_time').each(function(index, item) {
             item.value = item.value + ' CT';
