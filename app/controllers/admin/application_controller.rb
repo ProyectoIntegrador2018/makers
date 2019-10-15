@@ -27,11 +27,12 @@ module Admin
     end
 
     def valid_action?(name, resource = resource_class)
-      if name.to_s == 'edit' && current_user.role == 'lab_space_admin'
+      string_name = name.to_s
+      if string_name == 'edit' && current_user.role == 'lab_space_admin'
         return false
       end
       !!routes.detect do |controller, action|
-        controller == resource.to_s.underscore.pluralize && action == name.to_s
+        controller == resource.to_s.underscore.pluralize && action == string_name
       end
     end
 
