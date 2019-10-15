@@ -165,7 +165,7 @@ h1 {
 
 @each $color in $colors {
   .#{""+nth($color,1)} {
-    color: #{nth($color,2)} !important;
+    color: #{nth($color,2)};
   }
   a.#{""+nth($color,1)}:hover {
     color: darken(nth($color,2),10%);
@@ -200,7 +200,7 @@ h1 {
   &.white {
     background-color: white;
     box-shadow: 0 2px 8px rgba(#7c86cc,.3);
-    color: $highlight !important;
+    color: $highlight;
     transition: box-shadow 300ms;
     &:hover {
       box-shadow: 0 2px 15px rgba(#7c86cc, .5);

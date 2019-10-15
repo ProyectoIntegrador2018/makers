@@ -26,6 +26,16 @@ module Admin
       redirect_to root_path
     end
 
+    def valid_action?(name, resource = resource_class)
+      string_name = name.to_s
+      if string_name == 'edit' && current_user.role == 'lab_space_admin'
+        return false
+      end
+      routes.detect do |controller, action|
+        controller == resource.to_s.underscore.pluralize && action == string_name
+      end.present?
+    end
+
     # Override this value to specify the number of elements to display at a time
     # on index pages. Defaults to 20.
     # def records_per_page

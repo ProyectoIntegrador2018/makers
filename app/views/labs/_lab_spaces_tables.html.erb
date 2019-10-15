@@ -1,6 +1,6 @@
 <% @lab.lab_spaces.each do |lab_space| %>
     <tr class="LabSpace--listitem">
-        <td><%= lab_space.name %></td>
+        <td><%= link_to lab_space.name, [lab_space.lab, lab_space] %></td>
         <td><%= lab_space.contact_email %></td>
         <td><%= lab_space.hours %></td>
         <td>
