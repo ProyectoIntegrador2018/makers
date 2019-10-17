@@ -41,7 +41,7 @@ class HomeController < ApplicationController
       # Get the name of the items selected
       results = results.where(id: item_ids)
     end
-    return results
+    results
   end
 
   def related

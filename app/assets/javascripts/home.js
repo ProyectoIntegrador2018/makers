@@ -13,6 +13,13 @@ $(document).on('ready', function () {
   // Container for selected material
   const $selectedMat = $(".tagBox#materials");
 
+  function getSelectedPill(type) {
+    if (type == "capabilities")
+      return $(":first-child", $selectedCap);
+    else
+      return $(":first-child", $selectedMat)
+  }
+
   // Retuns the HTML to render pills
   function getHTMLForPills(results, type) {
     return results.map(r => {
@@ -34,11 +41,11 @@ $(document).on('ready', function () {
       const query = $(this).val().trim().toLowerCase();
       // Get the item selected for the other type
       let selectedItem;
-      if (type == "capabilities") {
-        selectedItem = $(":first-child", $selectedMat).attr('data-id');
-      } else {
-        selectedItem = $(":first-child", $selectedCap).attr('data-id');
-      }
+      if (type == "capabilities")
+        selectedItem = getSelectedPill("materials");
+      else
+        selectedItem = getSelectedPill("capabilities")
+      selectedItem = selectedItem.attr('data-id');
       $.ajax({
         url: "/home/related",
         method: "GET",
@@ -57,6 +64,12 @@ $(document).on('ready', function () {
   const filterCapabilities = processQueryOnCollection('capabilities').bind($queryCap);
   const filterMaterials = processQueryOnCollection('materials').bind($queryMat);
 
+  function removeSelectedPill(pills, container) {
+    return $.grep(pills, function(r) {
+      return r.id != $(":first-child", container).attr('data-id');
+    });
+  }
+
   // Creates pills for capabilities and materials
   function showAllPills() {
     $.ajax({
@@ -69,13 +82,9 @@ $(document).on('ready', function () {
       },
       success: function (response) {
         // Removes the selected capability if there's one
-        capabilities_results = $.grep(response.capabilities, function(r) {
-          return r.id != $(":first-child", $selectedCap).attr('data-id');
-        });
+        capabilities_results = removeSelectedPill(response.capabilities, $selectedCap);
         // Removes the selected material if there's one
-        materials_results = $.grep(response.materials, function(r) {
-          return r.id != $(":first-child", $selectedMat).attr('data-id');
-        });
+        materials_results = removeSelectedPill(response.materials, $selectedMat);
         capabilitiesHTML = getHTMLForPills(capabilities_results, "capabilities");
         materialsHTML = getHTMLForPills(materials_results, "materials");
         $pillBox.html(capabilitiesHTML.concat(materialsHTML));
@@ -123,11 +132,11 @@ $(document).on('ready', function () {
   }
 
   function submitForm() {
-    const capabilities = $('.tagBox#capabilities .pill').toArray().map(p => p.textContent.trim()).join(',');
-    const materials = $('.tagBox#materials .pill').toArray().map(p => p.textContent.trim()).join(',');
-    $('#materials_query').val(materials);
+    const capabilities = getSelectedPill("materials").text();
+    const materials = getSelectedPill("materials").text();
     $('#capabilities_query').val(capabilities);
-    $('.search-form').submit();
+    $('#materials_query').val(materials);
+    // $('.search-form').submit();
   }
 
   $('.searchBtn').click(function(e) {
