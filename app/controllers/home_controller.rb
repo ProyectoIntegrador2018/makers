@@ -1,7 +1,7 @@
 # Home controller for static views
 class HomeController < ApplicationController
   config.cache_store = :null_store
-  before_action :authenticate_user!, except: [:landing, :capabilities, :materials]
+  before_action :authenticate_user!, except: [:landing, :related]
 
   def landing
     @body_class = 'Home'
@@ -12,50 +12,50 @@ class HomeController < ApplicationController
     @reservations = current_user.reservations.confirmed.future
   end
 
-  def capabilities
-    # Check if an item of the other category was chosen
-    if params[:selectedItem].present?
-      # Get equipment ids that use the selected material
-      equipments = EquipmentMaterial.select(:equipment_id).where(material_id: params[:selectedItem]).map(&:equipment_id)
-      # Get the capabilities of the equipments selected
-      capabilities = EquipmentCapability.select(:capability_id).where(equipment_id: equipments).map(&:capability_id)
-      # Get the name of the capabilities selected
-      @capabilities = Capability.select(:id, :name).where(id: capabilities)
-    else
-      # Get all the capabilities
-      @capabilities = Capability.select(:id, :name)
-    end
-    query = params[:query]
-    if query.present?
-      # Filter capabilities by query written
-      @capabilities = @capabilities.where('name ILIKE ?', "%#{query}%").as_json
-    end
-    respond_to do |format|
-      format.json { render json: { results: @capabilities } }
-    end if request.xhr?
-  end
+  def related
+    type = params[:type]
 
-  def materials
-    # Check if an item of the other category was chosen
-    if params[:selectedItem].present?
-      # Get equipment ids that use the selected capability
-      equipments = EquipmentCapability.select(:equipment_id).where(capability_id: params[:selectedItem]).map(&:equipment_id)
-      # Get the materials of the equipments selected
-      materials = EquipmentMaterial.select(:material_id).where(equipment_id: equipments).map(&:material_id)
-      # Get the name of the capabilities selected
-      @materials = Material.select(:id, :name).where(id: materials)
+    if type != 'capabilities' && type != 'materials'
+      @capabilities = Capability.select(:id, :name).as_json
+      @materials = Material.select(:id, :name).as_json
     else
-      # Get all the capabilities
-      @materials = Material.select(:id, :name)
+      type_table = type == 'capabilities' ? Capability : Material
+      selected_item = params[:selectedItem]
+      # Check if an item of the other category was chosen
+      if selected_item.present?
+        # Define some variables
+        other_type = type == 'capabilities' ? 'materials' : 'capabilities'
+        type_id = type.singularize() + '_id'
+        other_type_id = other_type.singularize() + '_id'
+        equipment_type_table = type == 'capabilities' ? EquipmentCapability : EquipmentMaterial
+        other_equipment_type_table = type == 'capabilities' ? EquipmentMaterial : EquipmentCapability
+
+        # Get equipment ids that use the selected item
+        equipments = other_equipment_type_table.select(:equipment_id).where("#{other_type_id} = ?", selected_item).map(&:equipment_id)
+        # Get the desired items of the equipments selected
+        item_ids = equipment_type_table.select(type_id).where(equipment_id: equipments).map{|i| i[type_id]}
+        # Get the name of the items selected
+        @results = type_table.select(:id, :name).where(id: item_ids)
+      else
+        # Get all the results
+        @results = type_table.select(:id, :name)
+      end
+
+      query = params[:query]
+      if query.present?
+        # Filter results by query written
+        @results = @results.where('name ILIKE ?', "%#{query}%").as_json
+      end
     end
-    query = params[:query]
-    if query.present?
-      # Filter capabilities by query written
-      @materials = @materials.where('name ILIKE ?', "%#{query}%").as_json
-    end
+
     respond_to do |format|
-      format.json { render json: { results: @materials } }
-    end if request.xhr?
+      format.json { render json: {
+        results: @results,
+        capabilities: @capabilities,
+        materials: @materials
+        }
+      }
+    end
   end
 
 end

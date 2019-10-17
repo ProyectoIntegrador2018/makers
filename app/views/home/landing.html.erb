@@ -94,10 +94,10 @@
             selectedItem = $(":first-child", $selectedCap).attr('data-id');
           }
           $.ajax({
-            url: "/home/" + type,
+            url: "/home/related",
             method: "GET",
             dataType: "json",
-            data: {query: query, selectedItem: selectedItem},
+            data: {query: query, selectedItem: selectedItem, type: type},
             error: function (xhr, status, error) {
               console.error('AJAX Error: ' + status + error);
             },
@@ -113,43 +113,28 @@
 
       // Creates pills for capabilities and materials
       function showAllPills() {
-        // Get all capabilities
-        let capabilities_request = $.ajax({
-          url: "/home/capabilities",
+        $.ajax({
+          url: "/home/related",
           method: "GET",
           dataType: "json",
+          data: {type : 'all'},
           error: function (xhr, status, error) {
             console.error('AJAX Error: ' + status + error);
           },
           success: function (response) {
             // Removes the selected capability if there's one
-            capabilities_results = $.grep(response.results, function(r) {
+            capabilities_results = $.grep(response.capabilities, function(r) {
               return r.id != $(":first-child", $selectedCap).attr('data-id');
             });
-          }
-        });
-        // Get all materials
-        let materials_request = $.ajax({
-          url: "/home/materials",
-          method: "GET",
-          dataType: "json",
-          error: function (xhr, status, error) {
-            console.error('AJAX Error: ' + status + error);
-          },
-          success: function (response) {
             // Removes the selected material if there's one
-            materials_results = $.grep(response.results, function(r) {
+            materials_results = $.grep(response.materials, function(r) {
               return r.id != $(":first-child", $selectedMat).attr('data-id');
             });
-          }
-        });
-        // Render all pills after both ajax requests are done
-        $.when(capabilities_request, materials_request).done(function() {
             capabilitiesHTML = getHTMLForPills(capabilities_results, "capabilities");
             materialsHTML = getHTMLForPills(materials_results, "materials");
             $pillBox.html(capabilitiesHTML.concat(materialsHTML));
           }
-        );
+        });
       }
 
       // Render all pills when the page first loads
