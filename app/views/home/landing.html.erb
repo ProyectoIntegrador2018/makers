@@ -22,7 +22,7 @@
         <%= image_tag "logo.svg", alt: "Makers Program" %>
         <p class="tecbrand">sponsored by Innovaction Gym</p>
       </a>
-      <h2 class="tagline">&iquest;Qu&eacute; quieres crear hoy?</h2>
+      <h2 class="tagline">¿Qué quieres crear hoy?</h2>
       <div class="QueryBuilder">
         <div class="row no-gutters">
           <div class="col">
@@ -30,33 +30,25 @@
           </div>
           <div class="col">
             <div class="tagBox" id="capabilities"></div>
-            <input type="text" name="capacidad" placeholder="capacidades" id="query-capacidades" class="fuzzy-input">
+            <input type="text" name="capacidad" placeholder="capacidad" id="query-capacidades" class="fuzzy-input">
           </div>
           <div class="col">
             <p class="stmt">usando</p>
           </div>
           <div class="col">
             <div class="tagBox" id="materials"></div>
-            <input type="text" name="material" placeholder="materiales" id="query-materiales" class="fuzzy-input">
+            <input type="text" name="material" placeholder="material" id="query-materiales" class="fuzzy-input">
           </div>
           <div class="col">
             <a href="#" class="highlight large btn searchBtn" role="button">Buscar</a>
           </div>
         </div>
       </div>
-      <section class="queryOptionsContainer" id="default">
-        <% @capabilities.to_a.each do |c| %>
-          <div data-type="capabilities" class="pill white"><%= c.name %></div>
-        <% end %>
-        <% @materials.to_a.each do |m| %>
-          <div data-type="materials" class="pill white"><%= m.name %></div>
-        <% end %>
-      </section>
-      <section class="queryOptionsContainer" id="results" style="display:none;"> </section>
+      <section class="queryOptionsContainer" id="results"> </section>
       <footer class="homeFooter">
         <p>
           o consulta el <%= link_to equipment_index_path do %>
-            <%= content_tag :strong, "cat&aacute;logo de equipos".html_safe, :class => "bold" %>
+            <%= content_tag :strong, "catálogo de equipos".html_safe, :class => "bold" %>
           <% end %>
         </p>
       </footer>
@@ -64,79 +56,139 @@
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
-      const $pillBox = $('.queryOptionsContainer#results');
-      const $defaultPillBox = $('.queryOptionsContainer#default');
-
-      window.capabilities = <%= raw(@capabilities.as_json(only: [:id, :name]).to_json) %>;
-      window.materials = <%= raw(@materials.as_json(only: [:id, :name]).to_json) %>;
-
+      // Container for pills returned from a query
+      const $pillBox = $('.queryOptionsContainer');
+      // Input box for capacities
       const $queryCap = $("#query-capacidades");
+      // Input box for materials
       const $queryMat = $("#query-materiales");
+      // Container for selected capacity
+      const $selectedCap = $(".tagBox#capabilities");
+      // Container for selected material
+      const $selectedMat = $(".tagBox#materials");
 
-      function draw(results, type) {
-        const resultDivs = results.map(r => {
+      // Retuns the HTML to render pills
+      function getHTMLForPills(results, type) {
+        return results.map(r => {
           return `<div data-id="${r.id}" data-type="${type}" class="pill white">${r.name}</div>`;
         });
-        $pillBox.html(resultDivs);
       }
 
-      const processQueryOnCollection = function(collection) {
+      // Creates the pills for the items in results (array)
+      function draw(results, type) {
+        let pillsHTML = getHTMLForPills(results, type);
+        $pillBox.html(pillsHTML);
+      }
+
+      // Returns a function that makes a query for the type specified
+      // ("capabilities" or "materials")
+      const processQueryOnCollection = function(type) {
         return function() {
+          // Get the value to query
           const query = $(this).val().trim().toLowerCase();
-          if(query == "") {
-            console.log(query);
-            $pillBox.hide();
-            $defaultPillBox.show();
-            return false;
+          // Get the item selected for the other type
+          let selectedItem;
+          if (type == "capabilities") {
+            selectedItem = $(":first-child", $selectedMat).attr('data-id');
+          } else {
+            selectedItem = $(":first-child", $selectedCap).attr('data-id');
           }
-
-          const results = window[collection].filter(c => c.name.toLowerCase().indexOf(query) > -1);
-          $defaultPillBox.hide();
-          $pillBox.show();
-          draw(results, collection);
-        };
-      };
-
-      const tagFocus = function(collection, handler) {
-        return function() {
-          if($(this).val().trim() !== "") {
-            return handler();
-          }
-          $defaultPillBox.hide();
-          draw(window[collection], collection);
-          $pillBox.show();
+          $.ajax({
+            url: "/home/" + type,
+            method: "GET",
+            dataType: "json",
+            data: {query: query, selectedItem: selectedItem},
+            error: function (xhr, status, error) {
+              console.error('AJAX Error: ' + status + error);
+            },
+            success: function (response) {
+              draw(response.results, type);
+            }
+          });
         };
       };
 
       const filterCapabilities = processQueryOnCollection('capabilities').bind($queryCap);
       const filterMaterials = processQueryOnCollection('materials').bind($queryMat);
 
+      // Creates pills for capabilities and materials
+      function showAllPills() {
+        // Get all capabilities
+        let capabilities_request = $.ajax({
+          url: "/home/capabilities",
+          method: "GET",
+          dataType: "json",
+          error: function (xhr, status, error) {
+            console.error('AJAX Error: ' + status + error);
+          },
+          success: function (response) {
+            // Removes the selected capability if there's one
+            capabilities_results = $.grep(response.results, function(r) {
+              return r.id != $(":first-child", $selectedCap).attr('data-id');
+            });
+          }
+        });
+        // Get all materials
+        let materials_request = $.ajax({
+          url: "/home/materials",
+          method: "GET",
+          dataType: "json",
+          error: function (xhr, status, error) {
+            console.error('AJAX Error: ' + status + error);
+          },
+          success: function (response) {
+            // Removes the selected material if there's one
+            materials_results = $.grep(response.results, function(r) {
+              return r.id != $(":first-child", $selectedMat).attr('data-id');
+            });
+          }
+        });
+        // Render all pills after both ajax requests are done
+        $.when(capabilities_request, materials_request).done(function() {
+            capabilitiesHTML = getHTMLForPills(capabilities_results, "capabilities");
+            materialsHTML = getHTMLForPills(materials_results, "materials");
+            $pillBox.html(capabilitiesHTML.concat(materialsHTML));
+          }
+        );
+      }
+
+      // Render all pills when the page first loads
+      showAllPills();
+
       // Event handlers
       $queryCap.on('input', filterCapabilities);
       $queryMat.on('input', filterMaterials);
+      $queryCap.on('focus', filterCapabilities);
+      $queryMat.on('focus', filterMaterials);
+      $pillBox.on('click', '.pill.white', onOptionClick);
 
-      $('.queryOptionsContainer').on('click', '.pill.white', onOptionClick);
-
+      // Removes the clicked pill from the options and puts it in the container of selected pill
       function onOptionClick() {
-        console.log('onpillclick');
         let $pill = $(this).remove();
-        let pill_type;
-        if ($pill.data('type') == 'capabilities')
-          pill_type = '#capabilities';
-        else
-          pill_type = '#materials';
-        let $oldpill = $(pill_type).children().first();
-        if ($oldpill) {
-          $('.queryOptionsContainer').filter(':visible').append($oldpill);
+        if ($pill.data('type') == 'capabilities') {
+          $selectedCap.empty();
+          $selectedCap.append($pill);
+          $queryMat.focus();
+          $queryCap.hide();
         }
-        $(pill_type).empty();
-        $(pill_type).append($pill);
+        else {
+          $selectedMat.empty();
+          $selectedMat.append($pill);
+          $queryCap.focus();
+          $queryMat.hide();
+        }
         $pill.on('click', onSelectedOptionClick);
+        // If a pill has been selected for materials and capabilities, show all pills again
+        if ($selectedMat.children().length > 0 && $selectedCap.children().length > 0) {
+          showAllPills();
+        }
       }
 
+      // Removes the clicked pill from the container
       function onSelectedOptionClick() {
+        $(this).parent().next().show();
+        $(this).parent().next().focus();
         let $pill = $(this).remove();
-        $('.queryOptionsContainer').filter(':visible').append($pill);
       }
 
       function submitForm() {
@@ -146,20 +198,11 @@
         $('#capabilities_query').val(capabilities);
         $('.search-form').submit();
       }
+
       $('.searchBtn').click(function(e) {
         e.preventDefault();
         submitForm();
       });
-
-
-      // On focus, show a sample of 10 tags
-      $queryCap.on('focus', tagFocus('capabilities', filterCapabilities));
-      $queryMat.on('focus', tagFocus('materials', filterMaterials));
-
-//      $([$queryCap[0], $queryMat[0]]).on('blur', function() {
-//        $pillBox.hide();
-//        $defaultPillBox.show();
-//      });
 
     </script>
     <%= yield(:scripts) if content_for?(:scripts)  %> </body>

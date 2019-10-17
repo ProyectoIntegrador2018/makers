@@ -38,6 +38,8 @@ Rails.application.routes.draw do
 
   get '/users', to: redirect('users/sign_up')
   get '/profile', to: 'home#profile'
+  get '/home/capabilities', to: 'home#capabilities'
+  get '/home/materials', to: 'home#materials'
 
   root 'home#landing'
 end
