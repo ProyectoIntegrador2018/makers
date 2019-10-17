@@ -12,7 +12,10 @@ class HomeController < ApplicationController
     @reservations = current_user.reservations.confirmed.future
   end
 
-  def apply_query(selected_item, type_table, type_id, other_type_id, equipment_type_table, other_equipment_type_table)
+  def apply_query(type_table, equipment_type_table, other_equipment_type_table, other_type_id)
+    # Define some variables
+    type_id = params[:type].singularize + '_id'
+    selected_item = params[:selectedItem]
     # Get all the results
     results = type_table.select(:id, :name)
     # Check if an item of the other category was chosen
@@ -28,24 +31,11 @@ class HomeController < ApplicationController
   end
 
   def queried_items
-    # Define some variables
-    type = params[:type]
-    if type == 'capabilities'
-      other_type = 'materials'
-      type_table = Capability
-      equipment_type_table = EquipmentCapability
-      other_equipment_type_table = EquipmentMaterial
+    if params[:type] == 'capabilities'
+      apply_query(Capability, EquipmentCapability, EquipmentMaterial, 'material_id')
     else
-      other_type = 'capabilities'
-      type_table = Material
-      equipment_type_table = EquipmentMaterial
-      other_equipment_type_table = EquipmentCapability
+      apply_query(Material, EquipmentMaterial, EquipmentCapability, 'capability_id')
     end
-    type_id = type.singularize + '_id'
-    other_type_id = other_type.singularize + '_id'
-    selected_item = params[:selectedItem]
-
-    apply_query(selected_item, type_table, type_id, other_type_id, equipment_type_table, other_equipment_type_table)
   end
 
   def related
