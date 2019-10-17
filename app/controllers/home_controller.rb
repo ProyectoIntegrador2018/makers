@@ -13,25 +13,26 @@ class HomeController < ApplicationController
   end
 
   def queried_items
+    # Define some variables
     type = params[:type]
     type_is_capability = type == 'capabilities'
-    type_table = type_is_capability ? Capability : Material
+    if type_is_capability
+      other_type = 'materials'
+      type_table = Capability
+      equipment_type_table = EquipmentCapability
+      other_equipment_type_table = EquipmentMaterial
+    else
+      other_type = 'capabilities'
+      type_table = Material
+      equipment_type_table = EquipmentMaterial
+      other_equipment_type_table = EquipmentCapability
+    end
+    type_id = type.singularize + '_id'
+    other_type_id = other_type.singularize + '_id'
     selected_item = params[:selectedItem]
+
     # Check if an item of the other category was chosen
     if selected_item.present?
-      # Define some variables
-      if type_is_capability
-        other_type = 'materials'
-        equipment_type_table = EquipmentCapability
-        other_equipment_type_table = EquipmentMaterial
-      else
-        other_type = 'capabilities'
-        equipment_type_table = EquipmentMaterial
-        other_equipment_type_table = EquipmentCapability
-      end
-      type_id = type.singularize + '_id'
-      other_type_id = other_type.singularize + '_id'
-
       # Get equipment ids that use the selected item
       equipments = other_equipment_type_table.select(:equipment_id).where("#{other_type_id} = ?", selected_item).map(&:equipment_id)
       # Get the desired items of the equipments selected
@@ -42,13 +43,6 @@ class HomeController < ApplicationController
       # Get all the results
       results = type_table.select(:id, :name)
     end
-
-    query = params[:query]
-    if query.present?
-      # Filter results by query written
-      results = results.where('name ILIKE ?', "%#{query}%").as_json
-    end
-    return results
   end
 
   def related
@@ -59,6 +53,11 @@ class HomeController < ApplicationController
       materials = Material.select(:id, :name).as_json
     else
       results = queried_items
+      query = params[:query]
+      if query.present?
+        # Filter results by query written
+        results = results.where('name ILIKE ?', "%#{query}%").as_json
+      end
     end
 
     respond_to do |format|
@@ -67,8 +66,8 @@ class HomeController < ApplicationController
           results: results,
           capabilities: capabilities,
           materials: materials
+        }
       }
-    }
     end
   end
 end
