@@ -14,7 +14,8 @@ class HomeController < ApplicationController
 
   def queried_items
     # Define some variables
-    if params[:type] == 'capabilities'
+    type = params[:type]
+    if type == 'capabilities'
       other_type = 'materials'
       type_table = Capability
       equipment_type_table = EquipmentCapability
