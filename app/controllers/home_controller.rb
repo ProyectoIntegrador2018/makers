@@ -14,9 +14,7 @@ class HomeController < ApplicationController
 
   def queried_items
     # Define some variables
-    type = params[:type]
-    type_is_capability = type == 'capabilities'
-    if type_is_capability
+    if params[:type] == 'capabilities'
       other_type = 'materials'
       type_table = Capability
       equipment_type_table = EquipmentCapability
@@ -31,6 +29,8 @@ class HomeController < ApplicationController
     other_type_id = other_type.singularize + '_id'
     selected_item = params[:selectedItem]
 
+    # Get all the results
+    results = type_table.select(:id, :name)
     # Check if an item of the other category was chosen
     if selected_item.present?
       # Get equipment ids that use the selected item
@@ -38,11 +38,9 @@ class HomeController < ApplicationController
       # Get the desired items of the equipments selected
       item_ids = equipment_type_table.select(type_id).where(equipment_id: equipments).map { |item| item[type_id] }
       # Get the name of the items selected
-      results = type_table.select(:id, :name).where(id: item_ids)
-    else
-      # Get all the results
-      results = type_table.select(:id, :name)
+      results = results.where(id: item_ids)
     end
+    return results
   end
 
   def related
@@ -61,13 +59,13 @@ class HomeController < ApplicationController
     end
 
     respond_to do |format|
-      format.json {
+      format.json do
         render json: {
           results: results,
           capabilities: capabilities,
           materials: materials
         }
-      }
+      end
     end
   end
 end
