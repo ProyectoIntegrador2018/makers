@@ -25,17 +25,14 @@ class HomeController < ApplicationController
       # Get all the capabilities
       @capabilities = Capability.select(:id, :name)
     end
-    if params[:query].present?
+    query = params[:query]
+    if query.present?
       # Filter capabilities by query written
-      @capabilities = @capabilities.select(:id, :name).where("name ILIKE ?", "%#{params[:query]}%").as_json()
+      @capabilities = @capabilities.where('name ILIKE ?', "%#{query}%").as_json
     end
-    if request.xhr?
-      respond_to do |format|
-        format.json {
-          render json: {results: @capabilities}
-        }
-      end
-    end
+    respond_to do |format|
+      format.json { render json: { results: @capabilities } }
+    end if request.xhr?
   end
 
   def materials
@@ -51,17 +48,14 @@ class HomeController < ApplicationController
       # Get all the capabilities
       @materials = Material.select(:id, :name)
     end
-    if params[:query].present?
+    query = params[:query]
+    if query.present?
       # Filter capabilities by query written
-      @materials = @materials.select(:id, :name).where("name ILIKE ?", "%#{params[:query]}%").as_json()
+      @materials = @materials.where('name ILIKE ?', "%#{query}%").as_json
     end
-    if request.xhr?
-      respond_to do |format|
-        format.json {
-          render json: {results: @materials}
-        }
-      end
-    end
+    respond_to do |format|
+      format.json { render json: { results: @materials } }
+    end if request.xhr?
   end
 
 end
