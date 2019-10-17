@@ -102,6 +102,33 @@ $(document).on('ready', function () {
   $queryMat.on('focus', filterMaterials);
   $pillBox.on('click', '.pill.white', onOptionClick);
 
+  function checkCapabilityMaterialRelation(type) {
+    $.ajax({
+      url: "/home/equipment_relation",
+      method: "GET",
+      dataType: "json",
+      data: {capability: getSelectedPill("capabilities").attr('data-id'), material: getSelectedPill("materials").attr('data-id')},
+      error: function (xhr, status, error) {
+        console.error('AJAX Error: ' + status + error);
+      },
+      success: function (response) {
+        if (!response.are_related) {
+          if (type == 'capabilities') {
+            $selectedMat.empty();
+            $queryMat.show();
+            $queryMat.focus();
+          } else {
+            $selectedCap.empty();
+            $queryCap.show();
+            $queryCap.focus();
+          }
+        } else {
+          showAllPills();
+        }
+      }
+    });
+  }
+
   // Removes the clicked pill from the options and puts it in the container of selected pill
   function onOptionClick() {
     let $pill = $(this).remove();
@@ -120,29 +147,7 @@ $(document).on('ready', function () {
     $pill.on('click', onSelectedOptionClick);
     // If a pill has been selected for materials and capabilities, show all pills again
     if ($selectedMat.children().length > 0 && $selectedCap.children().length > 0) {
-      $.ajax({
-        url: "/home/equipment_relation",
-        method: "GET",
-        dataType: "json",
-        data: {capability: getSelectedPill("capabilities").attr('data-id'), material: getSelectedPill("materials").attr('data-id')},
-        error: function (xhr, status, error) {
-          console.error('AJAX Error: ' + status + error);
-        },
-        success: function (response) {
-          if (!response.are_related) {
-            if ($pill.data('type') == 'capabilities') {
-              $selectedMat.empty();
-              $queryMat.show();
-              $queryMat.focus();
-            } else {
-              $selectedCap.empty();
-              $queryCap.show();
-              $queryCap.focus();
-            }
-          }
-        }
-      });
-      showAllPills();
+      checkCapabilityMaterialRelation($pill.data('type'));
     }
   }
 
@@ -158,7 +163,7 @@ $(document).on('ready', function () {
     const materials = getSelectedPill("materials").text();
     $('#capabilities_query').val(capabilities);
     $('#materials_query').val(materials);
-    // $('.search-form').submit();
+    $('.search-form').submit();
   }
 
   $('.searchBtn').click(function(e) {
