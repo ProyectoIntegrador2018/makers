@@ -1,7 +1,7 @@
 # Home controller for static views
 class HomeController < ApplicationController
   config.cache_store = :null_store
-  before_action :authenticate_user!, except: [:landing, :related]
+  before_action :authenticate_user!, except: [:landing, :related, :equipment_relation]
 
   def landing
     @body_class = 'Home'
@@ -59,6 +59,18 @@ class HomeController < ApplicationController
           results: results,
           capabilities: capabilities,
           materials: materials
+        }
+      end
+    end
+  end
+
+  def equipment_relation
+    equipments_capabilities = EquipmentCapability.select(:equipment_id).where(capability_id: params[:capability]).map(&:equipment_id)
+    equipments_materials = EquipmentMaterial.select(:equipment_id).where(material_id: params[:material]).map(&:equipment_id)
+    respond_to do |format|
+      format.json do
+        render json: {
+          are_related: !(equipments_capabilities & equipments_materials).empty?
         }
       end
     end
