@@ -36,9 +36,14 @@
       border-bottom: 1px solid #bcbcbc;
       display: block;
       font-size: 2.15rem;
-      width: 100%;
       position: relative;
       top: 5px;
+      width: 100%;
+
+      &:focus {
+        outline: none;
+      }
+
     }
     .large.btn {
       position: relative;
