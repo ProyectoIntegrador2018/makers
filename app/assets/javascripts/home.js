@@ -159,7 +159,7 @@ $(document).on('ready', function () {
   }
 
   function submitForm() {
-    const capabilities = getSelectedPill("materials").text();
+    const capabilities = getSelectedPill("capabilities").text();
     const materials = getSelectedPill("materials").text();
     $('#capabilities_query').val(capabilities);
     $('#materials_query').val(materials);
