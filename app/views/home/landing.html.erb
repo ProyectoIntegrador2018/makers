@@ -30,138 +30,30 @@
           </div>
           <div class="col">
             <div class="tagBox" id="capabilities"></div>
-            <input type="text" name="capacidad" placeholder="capacidades" id="query-capacidades" class="fuzzy-input">
+            <input type="text" name="capacidad" placeholder="capacidad" id="query-capacidades" class="fuzzy-input">
           </div>
           <div class="col">
             <p class="stmt">usando</p>
           </div>
           <div class="col">
             <div class="tagBox" id="materials"></div>
-            <input type="text" name="material" placeholder="materiales" id="query-materiales" class="fuzzy-input">
+            <input type="text" name="material" placeholder="material" id="query-materiales" class="fuzzy-input">
           </div>
           <div class="col">
             <a href="#" class="highlight large btn searchBtn" role="button">Buscar</a>
           </div>
         </div>
       </div>
-      <section class="queryOptionsContainer" id="default">
-        <% @capabilities.to_a.each do |c| %>
-          <div data-type="capabilities" class="pill white"><%= c.name %></div>
-        <% end %>
-        <% @materials.to_a.each do |m| %>
-          <div data-type="materials" class="pill white"><%= m.name %></div>
-        <% end %>
-      </section>
-      <section class="queryOptionsContainer" id="results" style="display:none;"> </section>
+      <section class="queryOptionsContainer" id="results"> </section>
       <footer class="homeFooter">
         <p>
           o consulta el <%= link_to equipment_index_path do %>
-            <%= content_tag :strong, "cat&aacute;logo de equipos".html_safe, :class => "bold" %>
+            <%= content_tag :strong, "catálogo de equipos".html_safe, :class => "bold" %>
           <% end %>
         </p>
       </footer>
       <%= render partial: 'shared/search' %>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script>
-      const $pillBox = $('.queryOptionsContainer#results');
-      const $defaultPillBox = $('.queryOptionsContainer#default');
-
-      window.capabilities = <%= raw(@capabilities.as_json(only: [:id, :name]).to_json) %>;
-      window.materials = <%= raw(@materials.as_json(only: [:id, :name]).to_json) %>;
-
-      const $queryCap = $("#query-capacidades");
-      const $queryMat = $("#query-materiales");
-
-      function draw(results, type) {
-        const resultDivs = results.map(r => {
-          return `<div data-id="${r.id}" data-type="${type}" class="pill white">${r.name}</div>`;
-        });
-        $pillBox.html(resultDivs);
-      }
-
-      const processQueryOnCollection = function(collection) {
-        return function() {
-          const query = $(this).val().trim().toLowerCase();
-          if(query == "") {
-            console.log(query);
-            $pillBox.hide();
-            $defaultPillBox.show();
-            return false;
-          }
-
-          const results = window[collection].filter(c => c.name.toLowerCase().indexOf(query) > -1);
-          $defaultPillBox.hide();
-          $pillBox.show();
-          draw(results, collection);
-        };
-      };
-
-      const tagFocus = function(collection, handler) {
-        return function() {
-          if($(this).val().trim() !== "") {
-            return handler();
-          }
-          $defaultPillBox.hide();
-          draw(window[collection], collection);
-          $pillBox.show();
-        };
-      };
-
-      const filterCapabilities = processQueryOnCollection('capabilities').bind($queryCap);
-      const filterMaterials = processQueryOnCollection('materials').bind($queryMat);
-
-      // Event handlers
-      $queryCap.on('input', filterCapabilities);
-      $queryMat.on('input', filterMaterials);
-
-      $('.queryOptionsContainer').on('click', '.pill.white', onOptionClick);
-
-      function onOptionClick() {
-        console.log('onpillclick');
-        let $pill = $(this).remove();
-        let pill_type;
-        if ($pill.data('type') == 'capabilities')
-          pill_type = '#capabilities';
-        else
-          pill_type = '#materials';
-        let $oldpill = $(pill_type).children().first();
-        if ($oldpill) {
-          $('.queryOptionsContainer').filter(':visible').append($oldpill);
-        }
-        $(pill_type).empty();
-        $(pill_type).append($pill);
-        $pill.on('click', onSelectedOptionClick);
-      }
-
-      function onSelectedOptionClick() {
-        let $pill = $(this).remove();
-        $('.queryOptionsContainer').filter(':visible').append($pill);
-      }
-
-      function submitForm() {
-        const capabilities = $('.tagBox#capabilities .pill').toArray().map(p => p.textContent.trim()).join(',');
-        const materials = $('.tagBox#materials .pill').toArray().map(p => p.textContent.trim()).join(',');
-        $('#materials_query').val(materials);
-        $('#capabilities_query').val(capabilities);
-        $('.search-form').submit();
-      }
-      $('.searchBtn').click(function(e) {
-        e.preventDefault();
-        submitForm();
-      });
-
-
-      // On focus, show a sample of 10 tags
-      $queryCap.on('focus', tagFocus('capabilities', filterCapabilities));
-      $queryMat.on('focus', tagFocus('materials', filterMaterials));
-
-//      $([$queryCap[0], $queryMat[0]]).on('blur', function() {
-//        $pillBox.hide();
-//        $defaultPillBox.show();
-//      });
-
-    </script>
     <%= yield(:scripts) if content_for?(:scripts)  %> </body>
 
     <% flash.discard %>
