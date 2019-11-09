@@ -16,6 +16,7 @@ class LabSpaceDashboard < Administrate::BaseDashboard
     description: Field::Text,
     hours: Field::String,
     location: Field::String,
+    user: Field::BelongsTo,
     contact_email: Field::String,
     contact_phone: Field::String,
     created_at: Field::DateTime,
