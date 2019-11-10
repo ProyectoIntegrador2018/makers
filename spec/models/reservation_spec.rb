@@ -7,13 +7,9 @@ RSpec.describe Reservation, type: :model do
   let(:ls) { create :lab_space, lab: lab }
   let(:equipment) { create :equipment, lab_space: ls }
 
-  it 'has none to begin with' do
-    expect(Reservation.count).to eq 0
-  end
-
   it 'accepts reservations inside an available block' do
     create(:available_hour, day_of_week: 1, start_time: '08:30 CT', end_time: '17:30 CT', equipment: equipment)
-
+    binding.pry
     res = build(:reservation,
                 start_time: Time.parse('2019-10-07 14:30:00 CT'), # Monday, 14:30
                 end_time: Time.parse('2019-10-07 16:30:00 CT'), # Monday, 16:30
