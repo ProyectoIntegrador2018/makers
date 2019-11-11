@@ -50,9 +50,11 @@
           o consulta el <%= link_to equipment_index_path do %>
             <%= content_tag :strong, "catálogo de equipos".html_safe, :class => "bold" %>
           <% end %>
+
         </p>
       </footer>
       <%= render partial: 'shared/search' %>
+      <%= render partial: 'shared/equipment_pills', equipments: @equipments %>
     </div>
     <%= yield(:scripts) if content_for?(:scripts)  %> </body>
 
