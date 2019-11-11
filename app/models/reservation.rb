@@ -1,5 +1,5 @@
 class Reservation < ApplicationRecord
-  enum status: [:confirmed, :complete, :cancelled, :blocked]
+  enum status: [:confirmed, :pending, :rejected, :complete, :cancelled, :blocked]
   enum purpose: [:academic, :entrepreneurship, :research, :personal]
 
   belongs_to :equipment

@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :reservation do
-    status { :confirmed }
+    status { :pending }
     purpose { :academic }
     comment { 'Some comment' }
     start_time { DateTime.tomorrow.beginning_of_day + 1.hour }
