@@ -19,6 +19,7 @@ class Reservation < ApplicationRecord
              .where.not(id: id)
              .where('start_time < ? AND ? < end_time', end_time, start_time)
              .where.not('status = ?', Reservation.statuses[:cancelled])
+             .where.not('status = ?', Reservation.statuses[:rejected])
   end
 
   def not_overlapped
@@ -78,6 +79,6 @@ class Reservation < ApplicationRecord
   end
 
   def check_cancellation
-    MakersMailer.cancellation_email(self).deliver if cancelled?
+    MakersMailer.cancellation_email(self).deliver if (cancelled? || rejected?)
   end
 end

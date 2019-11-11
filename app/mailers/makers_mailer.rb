@@ -3,6 +3,6 @@ class MakersMailer < ApplicationMailer
 
   def cancellation_email(reservation)
     @reservation = reservation
-    mail(to: @reservation.user.email, subject: 'Tu reservación ha sido cancelada.')
+    mail(to: @reservation.user.email, subject: 'Tu reservación ha sido rechazada.')
   end
 end
