@@ -129,7 +129,9 @@ as well as a link to its edit page.
   # TODO: refactor this
   available_hours = @equipment.available_hours
   reservations = []
-  page.resource.reservations.each do | r |
+  res = @equipment.reservations
+  res = res.confirmed.or(res.blocked)
+  res.each do | r |
     reservations.push({
       "id" => r.id,
       "start" => r.start_time,
