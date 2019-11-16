@@ -66,7 +66,6 @@ class Reservation < ApplicationRecord
 
   def date_range_valid
     return if start_time.blank?
-
     errors.add(:start_time, I18n.t('activerecord.errors.models.reservation.attributes.date.past')) if start_time < Time.now
     errors.add(:end_time, I18n.t('activerecord.errors.models.reservation.attributes.date.start_time')) if end_time.present? && end_time < start_time
   end
