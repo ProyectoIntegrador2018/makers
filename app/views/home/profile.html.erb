@@ -59,7 +59,11 @@
               <td><%= r.purpose %></td>
               <td><%= r.status %></td>
               <td><%= r.created_at.in_time_zone('America/Monterrey').strftime("%d-%m-%Y %I:%M %p") %></td>
-              <td><%= link_to 'Cancelar', r, method: :delete, data: { confirm: 'Estás seguro de que deseas cancelar esta reservación?' }, class: 'border small lp btn' %></td>
+              <td>
+                <% if r.status != "rejected" %>
+                  <%= link_to 'Cancelar', r, method: :delete, data: { confirm: 'Estás seguro de que deseas cancelar esta reservación?' }, class: 'border small lp btn' %>
+                <% end %>
+              </td>
             </tr>
           <% end %>
         <% else %>
