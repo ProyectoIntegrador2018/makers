@@ -1,5 +1,5 @@
 class Reservation < ApplicationRecord
-  enum status: [:confirmed, :complete, :cancelled, :blocked]
+  enum status: [:confirmed, :pending, :rejected, :complete, :cancelled, :blocked]
   enum purpose: [:academic, :entrepreneurship, :research, :personal]
 
   belongs_to :equipment
@@ -15,10 +15,11 @@ class Reservation < ApplicationRecord
   after_save :check_cancellation, if: -> { previous_changes.include?(:status) }
 
   def overlapped_reservations
+    statuses = Reservation.statuses
     equipment.reservations
              .where.not(id: id)
              .where('start_time < ? AND ? < end_time', end_time, start_time)
-             .where.not('status = ?', Reservation.statuses[:cancelled])
+             .where.not('status = ? OR status = ?', statuses[:cancelled], statuses[:rejected])
   end
 
   def not_overlapped
@@ -78,6 +79,6 @@ class Reservation < ApplicationRecord
   end
 
   def check_cancellation
-    MakersMailer.cancellation_email(self).deliver if cancelled?
+    MakersMailer.cancellation_email(self).deliver if rejected?
   end
 end

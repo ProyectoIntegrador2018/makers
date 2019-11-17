@@ -4,7 +4,7 @@
 
   reservations = []
   res = @equipment.reservations
-  res = res.confirmed.or(res.blocked)
+  res = res.confirmed.or(res.blocked).or(res.pending)
   res.each do | r |
     reservations.push({
       "id" => r.id,
@@ -278,14 +278,14 @@
               "start_time": event.start.toISOString(),
               "end_time": event.end.toISOString(),
               <% if policy(@lab_space.equipment.new).block? %>
-                'status': $(':checkbox').is(':checked')? 'blocked': 'confirmed'
+                'status': $(':checkbox').is(':checked')? 'blocked': 'pending'
               <% end %>
             }
           };
         }
         function registerEvent(eventData, cb) {
           $.post(`/equipment/${eqid}/reservations.json`, eventData, function(data, status, xhr) {
-            cb(data.status && data.status === "confirmed");
+            cb(data.status && (data.status === "pending" || data.status === "confirmed" || data.status === "blocked"));
           }, 'json')
           .fail(function(xhr, status, err) {
             // console.error(err);

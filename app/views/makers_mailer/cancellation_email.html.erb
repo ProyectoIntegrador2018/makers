@@ -10,7 +10,7 @@
   para el día <%= @reservation.start_time.in_time_zone('America/Monterrey').strftime('%d/%m/%y') %>
   a las <%= @reservation.start_time.in_time_zone('America/Monterrey').to_formatted_s(:time) %>
   en el laboratorio <%= @reservation.equipment.lab_space.name %>
-  ha sido cancelada.
+  ha sido rechazada.
 </p>
 <p>
   Para cualquier aclaración, puedes comunicarte con el encargado del

@@ -9,7 +9,8 @@ class HomeController < ApplicationController
   end
 
   def profile
-    @reservations = current_user.reservations.confirmed.future
+    @all_reservations = current_user.reservations
+    @reservations = @all_reservations.rejected.future + @all_reservations.pending.future + @all_reservations.confirmed.future
   end
 
   def apply_query(type_table, equipment_type_table, other_equipment_type_table, other_type_id)
