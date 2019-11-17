@@ -47,12 +47,14 @@
       <section class="queryOptionsContainer" id="results"> </section>
       <footer class="homeFooter">
         <p>
-          o consulta el <%= link_to equipment_index_path do %>
+          consulta el <%= link_to equipment_index_path do %>
             <%= content_tag :strong, "catálogo de equipos".html_safe, :class => "bold" %>
           <% end %>
+          o ve algunos de nuestros equipos justo aquí!
         </p>
       </footer>
       <%= render partial: 'shared/search' %>
+      <%= render partial: 'shared/equipment_landing', equipments: @equipments %>
     </div>
     <%= yield(:scripts) if content_for?(:scripts)  %> </body>
 
