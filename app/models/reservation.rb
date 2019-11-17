@@ -15,10 +15,11 @@ class Reservation < ApplicationRecord
   after_save :check_cancellation, if: -> { previous_changes.include?(:status) }
 
   def overlapped_reservations
+    statuses = Reservation.statuses
     equipment.reservations
              .where.not(id: id)
              .where('start_time < ? AND ? < end_time', end_time, start_time)
-             .where.not('status = ? OR status = ?', Reservation.statuses[:cancelled], Reservation.statuses[:rejected])
+             .where.not('status = ? OR status = ?', statuses[:cancelled], statuses[:rejected])
   end
 
   def not_overlapped
