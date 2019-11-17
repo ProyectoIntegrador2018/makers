@@ -52,7 +52,7 @@ as well as a link to its edit page.
 
             <p class="content-label">Description</p>
             <p class=""><%= page.resource.description %></p>
-            <p class="content-label">Technical specification</p>
+            <p class="content-label">Technical Specification</p>
             <p class=""><%= page.resource.technical_description %></p>
           </div>
         </div>
@@ -62,12 +62,12 @@ as well as a link to its edit page.
           <div class="col">
             <div class="card ComingUp">
               <div class="card-body">
-                <h4 class="card-title">Upcoming reservations</h4>
+                <h4 class="card-title">Upcoming Reservations</h4>
                 <table class="ReservationTable">
                   <tbody>
                     <% res = page.resource.reservations.confirmed.upcoming(5) %>
                     <% if res.length == 0 %>
-                      <p>No upcoming reservations</p>
+                      <p>No upcoming reservations.</p>
                     <% else %>
                       <% res.each do | r |  %>
                         <tr onclick="window.location='<%= admin_reservation_path(r) %>';">
@@ -127,8 +127,11 @@ as well as a link to its edit page.
 
 <%
   # TODO: refactor this
+  available_hours = @equipment.available_hours
   reservations = []
-  page.resource.reservations.each do | r |
+  res = @equipment.reservations
+  res = res.confirmed.or(res.blocked)
+  res.each do | r |
     reservations.push({
       "id" => r.id,
       "start" => r.start_time,
@@ -151,6 +154,28 @@ as well as a link to its edit page.
   <script>
     let calendar;
     const reservations = <%= raw(reservations.to_json) %>;
+    const available_hours = <%= raw(available_hours.to_json) %>;
+   
+    // Map business (available) hours
+
+    const dateMap = {
+        "sunday": 0,
+        "monday": 1,
+        "tuesday": 2,
+        "wednesday": 3,
+        "thursday": 4,
+        "friday": 5,
+        "saturday": 6,
+      };
+    
+    let bhours = available_hours.map(ah => {
+        return {
+          daysOfWeek: [dateMap[ah.day_of_week]],
+          startTime: new Date(ah.start_time).toTimeString().substr(0, 5),
+          endTime: new Date(ah.end_time).toTimeString().substr(0, 5),
+        };
+      });
+
     document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('calendar');
 
@@ -176,13 +201,7 @@ as well as a link to its edit page.
       eventBackgroundColor: 'rgba(68, 93, 252, .77)',
       minTime: "06:00:00",
       maxTime: "22:00:00",
-      businessHours: {
-        // days of week. an array of zero-based day of week integers (0=Sunday)
-        daysOfWeek: [ 1, 2, 3, 4,5 ], // Monday - Thursday
-
-        startTime: '08:00', // a start time (10am in this example)
-        endTime: '18:00', // an end time (6pm in this example)
-      }
+      businessHours: bhours
       });
 
       calendar.render();

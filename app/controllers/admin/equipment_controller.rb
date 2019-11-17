@@ -22,6 +22,11 @@ module Admin
       redirect_to admin_equipment_index_path
     end
 
+    def show
+      @equipment = Equipment.find(params[:id])
+      super
+    end
+
     # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
     # for more information
 

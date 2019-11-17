@@ -3,15 +3,15 @@
   available_hours = @equipment.available_hours
 
   reservations = []
-  rev = @equipment.reservations
-  rev = rev.confirmed.or(rev.blocked).or(rev.pending)
-  rev.each do | eq |
+  res = @equipment.reservations
+  res = res.confirmed.or(res.blocked).or(res.pending)
+  res.each do | r |
     reservations.push({
-      "id" => eq.id,
-      "start" => eq.start_time,
-      "end" => eq.end_time,
-      "title" => (user_signed_in? and current_user.id == eq.user_id) ? "#{current_user.given_name} #{current_user.last_name}" : "Reservación",
-      "isUser" => (user_signed_in? and current_user.id == eq.user_id)
+      "id" => r.id,
+      "start" => r.start_time,
+      "end" => r.end_time,
+      "title" => (user_signed_in? and current_user.id == r.user_id) ? "#{current_user.given_name} #{current_user.last_name}" : "Reservación",
+      "isUser" => (user_signed_in? and current_user.id == r.user_id)
     })
   end
 %>
