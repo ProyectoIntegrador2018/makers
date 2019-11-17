@@ -1,38 +1,32 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create!([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create!(name: 'Luke', movie: movies.first)
-
 require 'faker'
 
 # Super admin
 
-superadmin = User.create!(
+superadmin = User.new(
   email: "admin@itesm.mx",
   password: "admin123",
   role: :superadmin,
   given_name: "Admin",
   institutional_id: "A00000000"
 )
-superadmin.confirm
+superadmin.skip_confirmation!
+superadmin.save!
 
 # Lab Admin
 
-lab_admin = User.create!(
+lab_admin = User.new(
   email: "labadmin@itesm.mx",
   password: "labadmin",
   role: :lab_admin,
   given_name: "Lab Admin",
   institutional_id: "A02938460"
 )
-lab_admin.confirm
+lab_admin.skip_confirmation!
+lab_admin.save!
 
 # Lab Admin
 
-lab_space_admin = User.create!(
+lab_space_admin = User.new(
   email: "labspaceadmin@itesm.mx",
   password: "labspaceadmin",
   role: :lab_space_admin,
@@ -40,23 +34,23 @@ lab_space_admin = User.create!(
   institutional_id: "A02938360"
 )
 
-lab_space_admin.confirm
+lab_space_admin.skip_confirmation!
+lab_admin.save!
 
-## User
+# ## User
 
-test_user = User.create!(
-  email: "test@itesm.mx",
-  password: "test123",
-  given_name: "Test",
-  last_name: "User",
-  institutional_id: "A00000001"
-)
-test_user.confirm
+# test_user = User.create!(
+#   email: "test@itesm.mx",
+#   password: "test123",
+#   given_name: "Test",
+#   last_name: "User",
+#   institutional_id: "A00000001"
+# )
+# test_user.confirm
 
 ## Seed capabilities
 Capability.create!(name: "Construye")     #0
 Capability.create!(name: "Imprimir")      #1
-Capability.create!(name: "Imprimir3D")    #2
 Capability.create!(name: "Cortar")        #3
 Capability.create!(name: "Grabar")        #4
 Capability.create!(name: "Bordado")       #5
