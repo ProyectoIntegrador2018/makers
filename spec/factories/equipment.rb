@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :equipment do
     name {Faker::App.name}
-    description {Faker::Lorem.sentence(100, true, 10)}
+    description {Faker::Lorem.sentence(word_count: 100, supplemental: true, random_words_to_add: 10)}
     image {}
     technical_description {}
     lab_space { nil }
