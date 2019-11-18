@@ -81,7 +81,7 @@ and renders all form fields for a resource's editable attributes.
     <% page.attributes[4,2].each do |attribute| -%>
       <div class="field-unit field-unit--<%= attribute.html_class %> create-labels">
         <% check_attribute attribute  %>
-          <%= render_field attribute, f: f %>
+        <%= render_field attribute, f: f %>
       </div>
     <% end -%>
   </div>
@@ -89,7 +89,7 @@ and renders all form fields for a resource's editable attributes.
   <% page.attributes[-2,2].each do |attribute| -%>
     <div class="field-unit field-unit--<%= attribute.html_class %>">
       <% check_attribute attribute  %>
-        <%= render_field attribute, f: f %>
+      <%= render_field attribute, f: f %>
     </div>
   <% end -%>
 
