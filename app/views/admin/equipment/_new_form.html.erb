@@ -1,0 +1,279 @@
+<%#
+# Form Partial
+
+This partial is rendered on a resource's `new` and `edit` pages,
+and renders all form fields for a resource's editable attributes.
+
+## Local variables:
+
+- `page`:
+  An instance of [Administrate::Page::Form][1].
+  Contains helper methods to display a form,
+  and knows which attributes should be displayed in the resource's form.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Form
+%>
+
+<template id="horarioTpl">
+  <li class="scheduleList-listitem">
+    <i class="ico calendar"></i>
+    <p class="content">
+      Todos los
+      <select class="inline dow_select" name="day" id="day">
+        <option value="0">días (diario)</option>
+        <option value="1">días (Lu-Vie)</option>
+        <option selected value="2">Lunes</option>
+        <option value="3">Martes</option>
+        <option value="4">Miércoles</option>
+        <option value="5">Jueves</option>
+        <option value="6">Viernes</option>
+        <option value="7">Sábados</option>
+        <option value="8">Domingos</option>
+      </select>
+      de
+      <select class="inline start_hour_select" name="start_hour">
+        <% (6..22).each do |i| %>
+          <option value="<%= sprintf '%02d', i %>:00"><%= i %>:00</option>
+          <option value="<%= sprintf '%02d', i %>:30"><%= i %>:30</option>
+        <% end %>
+      </select>
+      a
+      <select class="inline end_hour_select" name="end_hour">
+        <% (6..22).each do |i| %>
+          <option value="<%= i %>:00"><%= i %>:00</option>
+          <option value="<%= i %>:30"><%= i %>:30</option>
+        <% end %>
+      </select>
+    </p>
+    <a href="#" title="Eliminar horario" class="deleteBtn">&times;</a>
+  </li>
+</template>
+
+<%= form_for([namespace, page.resource], html: { class: "form" }) do |f| %>
+  <% if page.resource.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= t(
+          "administrate.form.errors",
+          pluralized_errors: pluralize(page.resource.errors.count, t("administrate.form.error")),
+          resource_name: display_resource_name(page.resource_name)
+        ) %>
+      </h2>
+
+      <ul>
+        <% page.resource.errors.full_messages.each do |message| %>
+          <li class="flash-error"><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% page.attributes[0...-2].each do |attribute| -%>
+    <div class="field-unit field-unit--<%= attribute.html_class %>">
+      <% check_attribute attribute %>
+      <%= render_field attribute, f: f %>
+    </div>
+  <% end -%>
+
+  <a href="#" id="new-materials-capabilities-btn" role="button" class="button mb-3 ml-4">Click to create new materials and capabilities</a>
+
+  <div id="new-materials-capabilities" class="hidden">
+    <% page.attributes[4,2].each do |attribute| -%>
+      <div class="field-unit field-unit--<%= attribute.html_class %> create-labels">
+        <% check_attribute attribute  %>
+          <%= render_field attribute, f: f %>
+      </div>
+    <% end -%>
+  </div>
+
+  <% page.attributes[-2,2].each do |attribute| -%>
+    <div class="field-unit field-unit--<%= attribute.html_class %>">
+      <% check_attribute attribute  %>
+        <%= render_field attribute, f: f %>
+    </div>
+  <% end -%>
+
+  <!-- Available hours -->
+  <section class="AvailableHours">
+    <div class="field-unit field-unit--nested-has-many">
+      <fieldset class="field-unit--nested">
+        <legend><label>Available Hours</label></legend>
+        <ul class="scheduleList mt-3">
+        </ul>
+        <a href="#" id="addScheduleBtn" role="button" class="button addSchedule"><span class="plusico">+</span> Add available hour</a>
+      </fieldset>
+    </div>
+  </section>
+
+  <div class="form-actions">
+    <%= f.submit %>
+  </div>
+
+  <% content_for(:javascript) do %>
+    <script>
+      $('#new-materials-capabilities-btn').click(function(e) {
+        $(this).remove();
+        $('#new-materials-capabilities').removeClass('hidden');
+      });
+
+      const horarioTpl = $('#horarioTpl')[0];
+      const $scheduleList = $('.scheduleList');
+      let data = false;
+      const dateMap = {
+        0: "diario",
+        1: "luvi",
+        2: "monday",
+        3: "tuesday",
+        4: "wednesday",
+        5: "thursday",
+        6: "friday",
+        7: "saturday",
+        8: "sunday",
+      };
+      const reverseDM = {
+        "monday": 2,
+        "tuesday": 3,
+        "wednesday": 4,
+        "thursday": 5,
+        "friday": 6,
+        "saturday": 7,
+        "sunday": 8,
+      };
+      $(function() {
+        $('.field-unit.field-unit--nested-has-many').first().remove();
+        $(".field-unit--has-many.create-labels select").each(function(index, elem) {
+          elem.selectize.destroy();
+          $(elem).selectize({create: true});
+        });
+        $('form').on('submit', function(e) {
+          e.preventDefault();
+          checkDOW();
+          $('input.start_time, input.end_time').each(function(index, item) {
+            item.value = item.value + ' CT';
+          });
+          $(this).unbind('submit').submit();
+        });
+        <% if !page.resource.id.blank? # We're editing! %>
+          // Populate the existing available hours
+          data = <%= raw(page.resource.available_hours.to_json) %>;
+          data.forEach(function(ah, index) {
+            generateAH(ah, index);
+          });
+        <% end %>
+      });
+      function generateAH(info, index) {
+        const clone = document.importNode(horarioTpl.content, true);
+        const $clone = $(clone);
+        const id = index === null || index === undefined ? new Date().getTime() : index;
+
+        const start_input = document.createElement('input');
+        start_input.classList.add("start_time");
+        start_input.type = "hidden";
+        start_input.name = `equipment[available_hours_attributes][${id}][start_time]`;
+        start_input.value = "06:00";
+        const end_input = document.createElement('input');
+        end_input.classList.add("end_time");
+        end_input.type = "hidden";
+        end_input.name = `equipment[available_hours_attributes][${id}][end_time]`;
+        end_input.value = "06:00";
+        const dow_input = document.createElement('input');
+        dow_input.classList.add("day_of_week");
+        dow_input.type = "hidden";
+        dow_input.name = `equipment[available_hours_attributes][${id}][day_of_week]`;
+        dow_input.value = "monday";
+
+        if(info) {
+          let stime = new Date(info.start_time).toTimeString().substr(0, 5);
+          let etime = new Date(info.end_time).toTimeString().substr(0, 5);
+          $clone.find('.start_hour_select').val(stime);
+          $clone.find('.end_hour_select').val(etime);
+          start_input.value = stime;
+          end_input.value = etime;
+          dow_input.value = info.day_of_week;
+          const id_input = document.createElement('input');
+          id_input.type = "hidden";
+          id_input.name = `equipment[available_hours_attributes][${id}][id]`;
+          id_input.value = info.id;
+          $clone.find('li').append(id_input);
+          $clone.find('.dow_select').val(reverseDM[info.day_of_week]);
+
+          $clone.find('.deleteBtn').click(function(e) {
+            e.preventDefault();
+            const delinput = document.createElement('input');
+            delinput.type = "hidden";
+            delinput.name = `equipment[available_hours_attributes][${id}][_destroy]`;
+            delinput.value = 1;
+            $(this).parent().append(delinput);
+            $(this).parent().hide();
+          });
+
+        }
+        else {
+          $clone.find('.deleteBtn').click(function(e) {
+            e.preventDefault();
+            $(this).parent().remove();
+          });
+        }
+        $clone.find('.dow_select').on('change', function(e) {
+          let selectedVal = parseInt($(this).val(), 10);
+          $(this).parent().parent().find('input.day_of_week').val(dateMap[selectedVal]);
+        });
+        $clone.find('.start_hour_select').on('change', function(e) {
+          $(this).parent().parent().find('input.start_time').val($(this).val());
+        });
+        $clone.find('.end_hour_select').on('change', function(e) {
+          $(this).parent().parent().find('input.end_time').val($(this).val());
+        });
+        $clone.find('li').append([start_input, end_input, dow_input]);
+        $scheduleList.append($clone);
+      }
+      $('#addScheduleBtn').click(function(e) {
+        e.preventDefault();
+        generateAH();
+      });
+
+      function checkDOW() {
+        $('.scheduleList-listitem').each((index, item) => {
+          const $item = $(item);
+          let $dow = $item.find('input.day_of_week');
+          if($dow.length <= 0) return false;
+          let val = $dow.val();
+          if(val != 'luvi' && val != 'diario') {
+            return true;
+          }
+          let st = $item.find('input.start_time').val();
+          let et = $item.find('input.end_time').val();
+          $item.find('input[type="hidden"]').remove();
+          let top = 0;
+          if(val == "luvi") {
+            top = 5;
+          }
+          else if(val == "diario") {
+            top = 7;
+          }
+          for(let i = 0; i < top; i++) {
+            let id = new Date().getTime();
+            const start_input = document.createElement('input');
+            start_input.classList.add("start_time");
+            start_input.type = "hidden";
+            start_input.name = `equipment[available_hours_attributes][${id}][start_time]`;
+            start_input.value = st;
+
+            const end_input = document.createElement('input');
+            end_input.classList.add("end_time");
+            end_input.type = "hidden";
+            end_input.name = `equipment[available_hours_attributes][${id}][end_time]`;
+            end_input.value = et;
+
+            const dow_input = document.createElement('input');
+            dow_input.classList.add("day_of_week");
+            dow_input.type = "hidden";
+            dow_input.name = `equipment[available_hours_attributes][${id}][day_of_week]`;
+            dow_input.value = dateMap[i+2];
+            $item.append([start_input, dow_input, end_input]);
+          }
+        });
+      }
+    </script>
+  <% end %>
+<% end %>
