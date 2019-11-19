@@ -1,5 +1,6 @@
 # Home controller for static views
 class HomeController < ApplicationController
+  include HomeHelper
   config.cache_store = :null_store
   before_action :authenticate_user!, except: [:landing, :related, :equipment_relation]
 
