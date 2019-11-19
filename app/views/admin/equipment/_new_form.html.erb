@@ -69,22 +69,22 @@ and renders all form fields for a resource's editable attributes.
   <% end %>
 
   <% page.attributes[0...-2].each do |attribute| -%>
+    <% if ['capabilities', 'materials'].include? attribute.name %>
+      <h3 style="margin-left: calc(15% + 2rem)">Select <%= attribute.name %> from the available list</h3>
+    <% end %>
     <div class="field-unit field-unit--<%= attribute.html_class %>">
       <% check_attribute attribute %>
       <%= render_field attribute, f: f %>
     </div>
   <% end -%>
 
-  <a href="#" id="new-materials-capabilities-btn" role="button" class="button mb-3 ml-4">Click to create new materials and capabilities</a>
-
-  <div id="new-materials-capabilities" class="hidden">
-    <% page.attributes[4,2].each do |attribute| -%>
-      <div class="field-unit field-unit--<%= attribute.html_class %> create-labels">
-        <% check_attribute attribute  %>
-        <%= render_field attribute, f: f %>
-      </div>
-    <% end -%>
-  </div>
+  <% page.attributes[4,2].each do |attribute| -%>
+    <h3 style="margin-left: calc(15% + 2rem)">Create new <%= attribute.name %></h3>
+    <div class="field-unit field-unit--<%= attribute.html_class %> create-labels">
+      <% check_attribute attribute  %>
+      <%= render_field attribute, f: f %>
+    </div>
+  <% end -%>
 
   <% page.attributes[-2,2].each do |attribute| -%>
     <div class="field-unit field-unit--<%= attribute.html_class %>">
@@ -111,11 +111,6 @@ and renders all form fields for a resource's editable attributes.
 
   <% content_for(:javascript) do %>
     <script>
-      $('#new-materials-capabilities-btn').click(function(e) {
-        $(this).remove();
-        $('#new-materials-capabilities').removeClass('hidden');
-      });
-
       const horarioTpl = $('#horarioTpl')[0];
       const $scheduleList = $('.scheduleList');
       let data = false;
