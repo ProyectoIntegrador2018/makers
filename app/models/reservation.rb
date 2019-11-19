@@ -23,11 +23,10 @@ class Reservation < ApplicationRecord
   end
 
   def not_overlapped
-    if start_time.present? && end_time.present?
-      remove_overlapped if blocked?
-      if overlapped_reservations.exists?
-        errors.add(:date, I18n.t('activerecord.errors.models.reservation.attributes.date.overlapping'))
-      end
+    return unless start_time.present? && end_time.present?
+    remove_overlapped if blocked?
+    if overlapped_reservations.exists?
+      errors.add(:date, I18n.t('activerecord.errors.models.reservation.attributes.date.overlapping'))
     end
   end
 
@@ -58,7 +57,7 @@ class Reservation < ApplicationRecord
         day = (day + 1) % 7 if bigger(start_time, st) # check for next day, if overnight reservation
       end
       # continue if end_time > first_match.end_time
-    end while bigger(end_time, st)
+    end until !bigger(end_time, st)
   end
 
   def remove_overlapped

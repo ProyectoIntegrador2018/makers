@@ -72,17 +72,15 @@ class LabsController < ApplicationController
   end
 
   def check_if_super_admin
-    unless user_signed_in? && current_user.role == "superadmin"
-      flash[:error] = "You must be a super admin to access this section"
-      redirect_to root_path # halts request cycle
-    end
+    return unless user_signed_in? && current_user.role == 'superadmin'
+    flash[:error] = 'You must be a super admin to access this section'
+    redirect_to root_path # halts request cycle
   end
 
   def check_if_valid_user
-    unless user_signed_in? && ( current_user.role == "superadmin" || ( current_user.role == "lab_admin" && current_user.id == @lab.user.id) )
-      flash[:error] = "You must be a super admin to access this section"
-      redirect_to root_path # halts request cycle
-    end
+    return unless user_signed_in? && (current_user.role == 'superadmin' || (current_user.role == 'lab_admin' && current_user.id == @lab.user.id))
+    flash[:error] = 'You must be a super admin to access this section'
+    redirect_to root_path # halts request cycle
   end
 
   def lab_params
