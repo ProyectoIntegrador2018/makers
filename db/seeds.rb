@@ -35,7 +35,7 @@ lab_space_admin = User.new(
 )
 
 lab_space_admin.skip_confirmation!
-lab_admin.save!
+lab_space_admin.save!
 
 # ## User
 
