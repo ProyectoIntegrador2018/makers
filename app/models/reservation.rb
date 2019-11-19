@@ -57,7 +57,7 @@ class Reservation < ApplicationRecord
         day = (day + 1) % 7 if bigger(start_time, st) # check for next day, if overnight reservation
       end
       # continue if end_time > first_match.end_time
-    end until !bigger(end_time, st)
+    end while bigger(end_time, st)
   end
 
   def remove_overlapped

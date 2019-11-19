@@ -32,30 +32,28 @@ class User < ApplicationRecord
   has_many :directly_managed_lab_administrations, through: :directly_managed_lab_spaces, source: :lab_administrations
 
   def managed_labs
-    return Lab.all if role == 'superadmin'
+    return Lab.all if check_if_super_admin
 
     directly_managed_labs
   end
 
   def managed_lab_spaces
-    return LabSpace.all if check_if_super_admin
-
-    lab_spaces = LabSpace.find_by_sql("(#{directly_managed_lab_spaces.to_sql}) UNION (#{indirectly_managed_lab_spaces.to_sql})")
-    LabSpace.where(id: lab_spaces.map(&:id))
+    managed_resources(LabSpace, directly_managed_lab_spaces, indirectly_managed_lab_spaces)
   end
 
   def managed_equipment
-    return Equipment.all if check_if_super_admin
-
-    equipment = Equipment.find_by_sql("(#{directly_managed_equipment.to_sql}) UNION (#{indirectly_managed_equipment.to_sql})")
-    Equipment.where(id: equipment.map(&:id))
+    managed_resources(Equipment, directly_managed_equipment, indirectly_managed_equipment)
   end
 
   def managed_reservations
-    return Reservation.all if check_if_super_admin
+    managed_resources(Reservation, directly_managed_reservations, indirectly_managed_reservations)
+  end
 
-    reservations = Reservation.find_by_sql("(#{directly_managed_reservations.to_sql}) UNION (#{indirectly_managed_reservations.to_sql})")
-    Reservation.where(id: reservations.map(&:id))
+  def managed_resources(resource, directly_managed_resources, indirectly_managed_resources)
+    return resource.all if check_if_super_admin
+
+    resources = resource.find_by_sql("(#{directly_managed_resources.to_sql}) UNION (#{indirectly_managed_resources.to_sql})")
+    resource.where(id: resources.map(&:id))
   end
 
   def managed_lab_administrations
