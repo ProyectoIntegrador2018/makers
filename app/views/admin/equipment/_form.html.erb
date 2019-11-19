@@ -14,7 +14,6 @@ and renders all form fields for a resource's editable attributes.
 [1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Form
 %>
 
-
 <template id="horarioTpl">
   <li class="scheduleList-listitem">
     <i class="ico calendar"></i>
@@ -49,6 +48,7 @@ and renders all form fields for a resource's editable attributes.
     <a href="#" title="Eliminar horario" class="deleteBtn">&times;</a>
   </li>
 </template>
+
 <%= form_for([namespace, page.resource], html: { class: "form" }) do |f| %>
   <% if page.resource.errors.any? %>
     <div id="error_explanation">
@@ -68,9 +68,27 @@ and renders all form fields for a resource's editable attributes.
     </div>
   <% end %>
 
-  <% page.attributes.each do |attribute| -%>
+  <% page.attributes[0...-2].each do |attribute| -%>
+    <% if ['capabilities', 'materials'].include? attribute.name %>
+      <h3 class="new-caps-mats-label">Select <%= attribute.name %> from the available list</h3>
+    <% end %>
     <div class="field-unit field-unit--<%= attribute.html_class %>">
       <% check_attribute attribute %>
+      <%= render_field attribute, f: f %>
+    </div>
+  <% end -%>
+
+  <% page.attributes[4,2].each do |attribute| -%>
+    <h3 class="new-caps-mats-label">Create new <%= attribute.name %></h3>
+    <div class="field-unit field-unit--<%= attribute.html_class %> create-labels">
+      <% check_attribute attribute  %>
+      <%= render_field attribute, f: f %>
+    </div>
+  <% end -%>
+
+  <% page.attributes[-2,2].each do |attribute| -%>
+    <div class="field-unit field-unit--<%= attribute.html_class %>">
+      <% check_attribute attribute  %>
       <%= render_field attribute, f: f %>
     </div>
   <% end -%>
@@ -93,6 +111,12 @@ and renders all form fields for a resource's editable attributes.
 
   <% content_for(:javascript) do %>
     <script>
+      window.onload = function () {
+        $.each($('.create-labels select'), function (index, value) {
+          $(value).selectize()[0].selectize.clear(true);
+        });
+      };
+
       const horarioTpl = $('#horarioTpl')[0];
       const $scheduleList = $('.scheduleList');
       let data = false;
@@ -118,7 +142,7 @@ and renders all form fields for a resource's editable attributes.
       };
       $(function() {
         $('.field-unit.field-unit--nested-has-many').first().remove();
-        $(".field-unit--has-many select").each(function(index, elem) {
+        $(".field-unit--has-many.create-labels select").each(function(index, elem) {
           elem.selectize.destroy();
           $(elem).selectize({create: true});
         });

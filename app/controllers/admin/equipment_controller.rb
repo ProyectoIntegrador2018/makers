@@ -43,8 +43,8 @@ module Admin
     private
 
     def filter_tags
-      params[:equipment][:material_ids] = Equipment.check_for_new_tags(params[:equipment][:material_ids], :material)
-      params[:equipment][:capability_ids] = Equipment.check_for_new_tags(params[:equipment][:capability_ids], :capability)
+      params[:equipment][:material_ids] = Equipment.check_for_new_tags(params[:equipment][:material_ids], :material).uniq
+      params[:equipment][:capability_ids] = Equipment.check_for_new_tags(params[:equipment][:capability_ids], :capability).uniq
     end
   end
 end
