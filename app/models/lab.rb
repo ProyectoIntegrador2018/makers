@@ -7,5 +7,5 @@ class Lab < ApplicationRecord
 
   has_many :lab_administrations, as: :space
   has_many :admins, through: :lab_administrations
-  belongs_to :user
+  belongs_to :user, optional: true
 end
