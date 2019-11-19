@@ -24,6 +24,7 @@ class LabSpaceDashboard < Administrate::BaseDashboard
     image: Field::Carrierwave.with_options(
       remove: true,
     ),
+    user: Field::BelongsTo.with_options(scope_name: :users)
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -69,6 +70,7 @@ class LabSpaceDashboard < Administrate::BaseDashboard
     :contact_phone,
     :image,
     :lab,
+    :user
   ].freeze
 
   # Overwrite this method to customize how lab spaces are displayed
