@@ -1,9 +1,10 @@
 <main class="LaboratoriosList">
   <div class="container">
     <h1>Laboratorios</h1>
-
     <p id="notice"><%= notice %></p>
-
+    <div class="row d-flex justify-content-end">
+      <%= link_to '+ Nuevo Laboratorio', new_admin_lab_path, class: 'btn highlight small' if policy(Lab.new).new?%>
+    </div>
     <section class="searchBar">
       <!-- <input type="search" name="q" id="query" placeholder="Buscar..." class="txtinput"> -->
     </section>

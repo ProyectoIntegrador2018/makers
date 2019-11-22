@@ -16,9 +16,9 @@
   end
 %>
 <div class="LabDetail EquipmentDetail">
-  <p class="m-0 entitytag"><strong><small>equipo</small></strong></p>
+  <p class="m-0 entitytag"><strong><small>Equipo</small></strong></p>
   <!-- TODO: Not sure if edit should be here; move if necessary-->
-  <h1 class="mt-0" style="display:inline-block;"><%= @equipment.name %></h1> <%= link_to 'Editar', edit_admin_equipment_path(@equipment), class: 'btn highlight small editMoveBtn' if policy(@equipment).update? %>
+  <h1 class="mt-0 displayInBlock"><%= @equipment.name %></h1> <%= link_to 'Editar', edit_admin_equipment_path(@equipment), class: 'btn highlight small editMoveBtn' if policy(@equipment).update? %>
   <section class="Overview">
     <div class="row">
       <div class="col">

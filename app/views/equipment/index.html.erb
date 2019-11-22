@@ -31,10 +31,11 @@
     </div>
     <div class="col-9">
       <div class="main">
-        <h1 class="maintitle"><%= @query.nil? ? "Equipo disponible" : "Resultados para:" %></h1>
-        <h2 class="query"><%= @query %></h2>
-        <p id="notice"><%# notice %></p>
-
+        <h1>Equipos</h1>
+        <p id="notice"><%= notice %></p>
+        <div class="row d-flex justify-content-end">
+          <%= link_to '+ Nuevo Equipo', new_admin_equipment_path, class: 'btn highlight small' if policy(Equipment.new).new?%>
+        </div>
         <div class="resultsContainer">
           <% @equipment_scope.each do |equipment| %>
             <article class="SearchResult">

@@ -1,6 +1,6 @@
 <div class="EquipoGrid">
   <div class="row">
-    <% @equipments.each do |e| %>
+    <% @equipments.visible.each do |e| %>
         <div class="col-4">
           <div class="EquipoCard" data-id="<%= e.id %>" data-lid="<%= e.lab_space.lab.id %>" data-lsid="<%= e.lab_space.id %>">
             <div class="icon printer center-icon"></div>
