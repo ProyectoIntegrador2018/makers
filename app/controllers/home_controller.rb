@@ -3,13 +3,9 @@ class HomeController < ApplicationController
   config.cache_store = :null_store
   before_action :authenticate_user!, except: [:landing, :related, :equipment_relation]
 
-  def equipments_by_popularity
-    Equipment.left_joins(:reservations).group(:id).order('COUNT(reservations.id) DESC')
-  end
-
   def landing
     @body_class = 'Home'
-    @equipments = equipments_by_popularity
+    @equipments = Equipment.by_popularity
     render layout: false
   end
 
