@@ -68,24 +68,38 @@ and renders all form fields for a resource's editable attributes.
     </div>
   <% end %>
 
-  <% page.attributes[0...-2].each do |attribute| -%>
-    <% if ['capabilities', 'materials'].include? attribute.name %>
-      <h3 class="new-caps-mats-label">Select <%= attribute.name %> from the available list</h3>
-    <% end %>
+  <h2 class="section-title">Basic information</h2>
+  <% page.attributes[0...-4].each do |attribute| -%>
     <div class="field-unit field-unit--<%= attribute.html_class %>">
       <% check_attribute attribute %>
       <%= render_field attribute, f: f %>
     </div>
   <% end -%>
 
-  <% page.attributes[4,2].each do |attribute| -%>
-    <h3 class="new-caps-mats-label">Create new <%= attribute.name %></h3>
+  <h2 class="section-title">Materials & Capabilities</h2>
+  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+    when an unknown printer took a galley of type and scrambled it to make a type...</p>
+  <fieldset class="field-unit--nested">
+    <legend><label>Select tags from the avaialble list</label></legend>
+    <% page.attributes[4,2].each do |attribute| -%>
+    <div class="field-unit field-unit--<%= attribute.html_class %>">
+      <% check_attribute attribute  %>
+      <%= render_field attribute, f: f %>
+    </div>
+    <% end -%>
+  </fieldset>
+  <fieldset class="field-unit--nested">
+    <legend><label>Create new tags</label></legend>
+    <% page.attributes[4,2].each do |attribute| -%>
     <div class="field-unit field-unit--<%= attribute.html_class %> create-labels">
       <% check_attribute attribute  %>
       <%= render_field attribute, f: f %>
     </div>
-  <% end -%>
+    <% end -%>
+  </fieldset>
 
+  <h2 class="section-title">Space & Hours</h2>
   <% page.attributes[-2,2].each do |attribute| -%>
     <div class="field-unit field-unit--<%= attribute.html_class %>">
       <% check_attribute attribute  %>
