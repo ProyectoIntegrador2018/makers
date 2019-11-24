@@ -179,6 +179,7 @@
               title: userName,
               start: selInfo.start,
               end: selInfo.end,
+              color: "#bdc3c7"
             };
             $('#tmpEventStartDisplay').html(selInfo.start.toDateString() +" "+ selInfo.start.toLocaleTimeString())
             $('#tmpEventEndDisplay').html(selInfo.end.toDateString() +" "+ selInfo.end.toLocaleTimeString())
@@ -244,6 +245,7 @@
             const eventData = buildEvent(tmpEvent);
             registerEvent(eventData, function(created) {
               if(created) {
+                debugger;
                 calendar.addEvent(tmpEvent);
                 tmpEvent = null;
               }

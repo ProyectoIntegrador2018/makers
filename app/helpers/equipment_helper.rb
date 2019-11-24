@@ -25,7 +25,7 @@ module EquipmentHelper
 
     def set_reservation_color(res)
         if(res.status == "pending")
-            '#f39c12'
+            '#bdc3c7'
         else
             'rgba(68, 93, 252, .77)'
         end
