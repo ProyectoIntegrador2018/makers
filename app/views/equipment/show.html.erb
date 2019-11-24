@@ -2,9 +2,10 @@
   def reservation_title(res)
     if user_signed_in? && current_user.id == res.user_id
       title = "#{current_user.given_name} #{current_user.last_name}"
-      "#{title} (pendiente)" if res.status == 'pending'
+      title += " (pendiente)" if res.status == 'pending'
+      return title
     else
-      'Reservación'
+      return 'Reservación'
     end
   end
 
@@ -20,7 +21,7 @@
 
   res.each do | r |
     res_title = reservation_title(r)
-    res_color = reservation_color(r)
+    res_color = r.status == 'pending' ? '#bdc3c7' : 'rgba(68, 93, 252, .77)'
     reservations.push({
       "id" => r.id,
       "start" => r.start_time,
