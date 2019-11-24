@@ -5,8 +5,8 @@
   res = @equipment.reservations
   res = filter_reservations_for_user(res)
   res.each do | r |
-    res_title = set_reservation_title(r)
-    res_color = set_reservation_color(r)
+    res_title = reservation_title(r)
+    res_color = reservation_color(r)
     reservations.push({
       "id" => r.id,
       "start" => r.start_time,
