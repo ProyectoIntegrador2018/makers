@@ -16,6 +16,7 @@ class ReservationDashboard < Administrate::BaseDashboard
     comment: Field::Text,
     start_time: Field::DateTime,
     end_time: Field::DateTime,
+    help_needed: Field::Boolean,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -30,7 +31,8 @@ class ReservationDashboard < Administrate::BaseDashboard
     :equipment,
     :status,
     :start_time,
-    :end_time
+    :end_time,
+    :help_needed
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -42,7 +44,8 @@ class ReservationDashboard < Administrate::BaseDashboard
     :purpose,
     :comment,
     :start_time,
-    :end_time
+    :end_time,
+    :help_needed
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -56,6 +59,7 @@ class ReservationDashboard < Administrate::BaseDashboard
     :comment,
     :start_time,
     :end_time,
+    :help_needed
   ].freeze
 
   # Overwrite this method to customize how reservations are displayed

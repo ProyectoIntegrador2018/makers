@@ -10,6 +10,7 @@
       <th>Comment</th>
       <th>Start time</th>
       <th>End time</th>
+      <th>Help Needed?</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -22,6 +23,7 @@
         <td><%= reservation.comment %></td>
         <td><%= reservation.start_time %></td>
         <td><%= reservation.end_time %></td>
+        <td><%= reservation.help_needed %></td>
         <td><%= link_to 'Show', reservation %></td>
         <td><%= link_to 'Edit', edit_reservation_path(reservation) %></td>
         <td><%= link_to 'Destroy', reservation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
