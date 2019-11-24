@@ -5,7 +5,7 @@ class HomeController < ApplicationController
 
   def landing
     @body_class = 'Home'
-    @equipments = Equipment.all
+    @equipments = Equipment.by_popularity
     render layout: false
   end
 
