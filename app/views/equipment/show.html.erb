@@ -245,7 +245,6 @@
             const eventData = buildEvent(tmpEvent);
             registerEvent(eventData, function(created) {
               if(created) {
-                debugger;
                 calendar.addEvent(tmpEvent);
                 tmpEvent = null;
               }
