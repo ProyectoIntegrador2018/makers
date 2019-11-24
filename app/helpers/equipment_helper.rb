@@ -1,8 +1,8 @@
 module EquipmentHelper
   def filter_reservations_for_user(reservations)
     viable_reservations = reservations.confirmed.or(reservations.blocked).or(reservations.pending)
-    viable_reservations.select do |res|
-      res.status == 'pending' ? (res.user == current_user) : true
+    viable_reservations.select do |reservation|
+      reservation.status == 'pending' ? (reservation.user == current_user) : true
     end
   end
 
@@ -17,6 +17,5 @@ module EquipmentHelper
 
   def reservation_color(res)
     res.status == 'pending' ? '#bdc3c7' : 'rgba(68, 93, 252, .77)'
-    end
   end
 end
