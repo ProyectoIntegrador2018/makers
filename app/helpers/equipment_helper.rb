@@ -9,9 +9,9 @@ module EquipmentHelper
   def reservation_title(res)
     if user_signed_in? && current_user.id == res.user_id
       title = "#{current_user.given_name} #{current_user.last_name}"
-      title = "#{title} (pendiente)" if res.status == 'pending'
+      "#{title} (pendiente)" if res.status == 'pending'
     else
-      title = 'Reservación'
+      'Reservación'
     end
   end
 
