@@ -240,6 +240,7 @@
         $('.reserveBtn').click(function() {
           if(tmpEvent) {
             const eventData = buildEvent(tmpEvent);
+            console.log(eventData);
             registerEvent(eventData, function(created) {
               if(created) {
                 calendar.addEvent(tmpEvent);
@@ -262,14 +263,10 @@
             data: { authenticity_token: window._token },
             dataType: 'json',
             success: function(data) {
-              console.log('success');
-              console.log(data);
               cb();
             },
             error: function(xhr, status, err) {
               alert('Se ha producido un error. Por favor, intenta más tarde.');
-              console.error(err);
-              console.error(xhr);
             }
           });
         }
@@ -282,9 +279,7 @@
               "start_time": event.start.toISOString(),
               "end_time": event.end.toISOString(),
               'help_needed': $('#help_needed').is(':checked')? true : false,
-              <% if policy(@lab_space.equipment.new).block? %>
-                'status': $('#blockStatus').is(':checked')? 'blocked': 'pending'
-              <% end %>
+              "status": $(':checkbox').is(':checked')? 'blocked': 'pending'
             }
           };
         }
@@ -293,8 +288,6 @@
             cb(data.status && (data.status === "pending" || data.status === "confirmed" || data.status === "blocked"));
           }, 'json')
           .fail(function(xhr, status, err) {
-            // console.error(err);
-            console.log(xhr.responseJSON)
             errMessage = "No se pudo reservar por los siguientes errores: \n"
             Object.keys(xhr.responseJSON).map(function(key) { errMessage += "- " + xhr.responseJSON[key] + "\n"})
             alert(errMessage);
