@@ -1,16 +1,18 @@
 <%
-  # TODO: refactor this
   available_hours = @equipment.available_hours
 
   reservations = []
   res = @equipment.reservations
-  res = res.confirmed.or(res.blocked).or(res.pending)
+  res = filter_reservations_for_user(res)
   res.each do | r |
+    res_title = set_reservation_title(r)
+    res_color = set_reservation_color(r)
     reservations.push({
       "id" => r.id,
       "start" => r.start_time,
       "end" => r.end_time,
-      "title" => (user_signed_in? and current_user.id == r.user_id) ? "#{current_user.given_name} #{current_user.last_name}" : "Reservación",
+      "title" => res_title,
+      "color" => res_color,
       "isUser" => (user_signed_in? and current_user.id == r.user_id)
     })
   end
@@ -240,7 +242,6 @@
         $('.reserveBtn').click(function() {
           if(tmpEvent) {
             const eventData = buildEvent(tmpEvent);
-            console.log(eventData);
             registerEvent(eventData, function(created) {
               if(created) {
                 calendar.addEvent(tmpEvent);

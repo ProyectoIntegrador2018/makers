@@ -19,7 +19,7 @@ class Reservation < ApplicationRecord
     equipment.reservations
              .where.not(id: id)
              .where('start_time < ? AND ? < end_time', end_time, start_time)
-             .where.not('status = ? OR status = ?', statuses[:cancelled], statuses[:rejected])
+             .where.not('status = ? OR status = ? OR status = ?', statuses[:cancelled], statuses[:rejected], statuses[:pending])
   end
 
   def not_overlapped
