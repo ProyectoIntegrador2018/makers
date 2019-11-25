@@ -8,8 +8,8 @@ class ReservationDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    equipment: Field::BelongsToSearch.with_options(searchable: true, searchable_field: 'name'),
-    user: Field::BelongsToSearch.with_options(searchable: true, searchable_field: 'given_name'),
+    equipment: Field::BelongsTo.with_options(class_name: "Equipment"),
+    user: Field::BelongsTo.with_options(class_name: "User"),
     id: Field::Number,
     status: Field::Select.with_options(searchable: false, collection: Reservation.statuses.keys - ['blocked']),
     purpose: Field::Select.with_options(searchable: false, collection: Reservation.purposes.keys),
