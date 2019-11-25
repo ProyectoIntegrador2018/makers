@@ -203,7 +203,7 @@
           eventRender: function(info) {
             if(info.event.extendedProps.isUser) {
               const element = $(info.el);
-              element.append( "<span title='Cancelar reservación class='removebtn'>&times;</span>" );
+              element.append( "<span title='Cancelar reservación' class='removebtn'>&times;</span>" );
               element.find(".removebtn").click(function() {
                 if(confirm('¿Estás seguro de que deseas cancelar esta reservación?')) {
                   cancelEvent(info.event, function() {
