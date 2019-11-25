@@ -1,9 +1,9 @@
 <%- if controller_name != 'sessions' %>
-  <%= link_to raw("Inicia sesi&oacute;n"), new_session_path(resource_name) %><br />
+  <%= link_to raw("Inicia sesión"), new_session_path(resource_name) %><br />
 <% end %>
 
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <%= link_to raw("Reg&iacute;strate"), new_registration_path(resource_name) %><br />
+  <%= link_to raw("Regístrate"), new_registration_path(resource_name) %><br />
 <% end %>
 
 <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
@@ -11,7 +11,7 @@
 <% end %>
 
 <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-  <%= link_to raw("&iquest;No recibiste instrucciones de confirmaci&oacute;n?"), new_confirmation_path(resource_name) %><br />
+  <%= link_to raw("&iquest;No recibiste instrucciones de confirmación?"), new_confirmation_path(resource_name) %><br />
 <% end %>
 
 <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>

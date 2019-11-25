@@ -1,5 +1,5 @@
 <div class="devise">
-  <h2>Inicia sesi&oacute;n</h2>
+  <h2>Inicia sesión</h2>
 
   <%= content_tag(:div, flash[:error], class: "flash_error") if flash[:error] %>
   <%= content_tag(:div, flash[:notice], class: "alert alert-primary") if flash[:notice] %>
@@ -8,7 +8,7 @@
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="field has-ico email-container">
       <%= f.label :email, class: 'sr-only' %>
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: raw('Correo electr&oacute;nico'), class: 'email txt-input' %>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: raw('Correo electrónico'), class: 'email txt-input' %>
     </div>
 
     <div class="field has-ico password-container">
@@ -19,12 +19,12 @@
     <% if devise_mapping.rememberable? %>
       <div class="field">
         <%= f.check_box :remember_me %>
-        <%= f.label :remember_me, raw("Recu&eacute;rdame") %>
+        <%= f.label :remember_me, raw("Recuérdame") %>
       </div>
     <% end %>
 
     <div class="actions">
-      <%= f.submit raw("Iniciar sesi&oacute;n"), class: 'submit highlight btn white' %>
+      <%= f.submit raw("Iniciar sesión"), class: 'submit highlight btn white' %>
     </div>
   <% end %>
 

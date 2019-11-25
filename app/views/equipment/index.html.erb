@@ -4,7 +4,7 @@
   <div class="row">
     <div class="col-3">
       <div class="sidebar">
-        <h3>Refinar b&uacute;squeda</h3>
+        <h3>Refinar búsqueda</h3>
         <hr>
         <div>
           <label><input type="checkbox" checked name="showtags" id="showtags"> <small>mostrar tags</small></label>
@@ -31,10 +31,11 @@
     </div>
     <div class="col-9">
       <div class="main">
-        <h1 class="maintitle"><%= @query.nil? ? "Equipo disponible" : "Resultados para:" %></h1>
-        <h2 class="query"><%= @query %></h2>
-        <p id="notice"><%# notice %></p>
-
+        <h1>Equipos</h1>
+        <p id="notice"><%= notice %></p>
+        <div class="row d-flex justify-content-end">
+          <%= link_to '+ Nuevo Equipo', new_admin_equipment_path, class: 'btn highlight small' if policy(Equipment.new).new?%>
+        </div>
         <div class="resultsContainer">
           <% @equipment_scope.each do |equipment| %>
             <article class="SearchResult">
@@ -49,7 +50,7 @@
                     <td><a href="#"><%= link_to equipment.lab_space.name, lab_lab_space_path(lab_id: equipment.lab_space.lab.id, id: equipment.lab_space.id)  %></a></td>
                   </tr>
                   <tr>
-                    <td><strong class="primary">Ubicaci&oacute;n:</strong></td>
+                    <td><strong class="primary">Ubicación:</strong></td>
                     <td><%= equipment.lab_space.location %></td>
                   </tr>
                   <tr>
@@ -58,7 +59,7 @@
                   </tr>
                   <!--<tr>
                     <td><strong class="primary">Capacitaciones:</strong></td>
-                    <td><a href="#">Capacitaci&oacute;n 1</a></td>
+                    <td><a href="#">Capacitación 1</a></td>
                   </tr>-->
                 </tbody>
               </table>

@@ -1,16 +1,16 @@
 <div class="devise">
-	<h2>&iquest;No recibiste instrucciones de confirmaci&oacute;n?</h2>
+	<h2>&iquest;No recibiste instrucciones de confirmación?</h2>
 
 	<%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
 	  <%= render "devise/shared/error_messages", resource: resource %>
 
 	  <div class="field has-ico email-container">
 	    <%= f.label :email, class: 'sr-only' %>
-	    <%= f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), placeholder: raw('Correo electr&oacute;nico'), class: 'email txt-input' %>
+	    <%= f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), placeholder: raw('Correo electrónico'), class: 'email txt-input' %>
 	  </div>
 
 	  <div class="actions">
-	    <%= f.submit raw("Reenviar instrucciones de confirmaci&oacute;n"), class: 'submit highlight btn' %>
+	    <%= f.submit raw("Reenviar instrucciones de confirmación"), class: 'submit highlight btn' %>
 	  </div>
 	<% end %>
 

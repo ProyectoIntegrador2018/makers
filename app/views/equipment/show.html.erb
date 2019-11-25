@@ -16,9 +16,9 @@
   end
 %>
 <div class="LabDetail EquipmentDetail">
-  <p class="m-0 entitytag"><strong><small>equipo</small></strong></p>
+  <p class="m-0 entitytag"><strong><small>Equipo</small></strong></p>
   <!-- TODO: Not sure if edit should be here; move if necessary-->
-  <h1 class="mt-0" style="display:inline-block;"><%= @equipment.name %></h1> <%= link_to 'Editar', edit_admin_equipment_path(@equipment), class: 'btn highlight small editMoveBtn' if policy(@equipment).update? %>
+  <h1 class="mt-0 displayInBlock"><%= @equipment.name %></h1> <%= link_to 'Editar', edit_admin_equipment_path(@equipment), class: 'btn highlight small editMoveBtn' if policy(@equipment).update? %>
   <section class="Overview">
     <div class="row">
       <div class="col">
@@ -70,7 +70,7 @@
   </section>
   <section class="Horario">
     <h2>Horario <%= image_tag "icons/calendar.svg", class: 'ico ico-cal' %></h2>
-    <p class="mb-5 mt-1">Selecciona en el calendario un rango de tiempo para utilizar el equipo. Posteriormente se te pedir&aacute;n algunos datos adicionales.</p>
+    <p class="mb-5 mt-1">Selecciona en el calendario un rango de tiempo para utilizar el equipo. Posteriormente se te pedirán algunos datos adicionales.</p>
     <div id="calendar"></div>
   </section>
 </div>
@@ -81,7 +81,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Nueva reservación</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Solicitud de Reservación</h5>
           </div>
           <div class="modal-body">
             <div class="form-group">
@@ -185,7 +185,7 @@
           eventRender: function(info) {
             if(info.event.extendedProps.isUser) {
               const element = $(info.el);
-              element.append( "<span title='Cancelar reservaci&oacute;n' class='removebtn'>&times;</span>" );
+              element.append( "<span title='Cancelar reservación class='removebtn'>&times;</span>" );
               element.find(".removebtn").click(function() {
                 if(confirm('¿Estás seguro de que deseas cancelar esta reservación?')) {
                   cancelEvent(info.event, function() {
