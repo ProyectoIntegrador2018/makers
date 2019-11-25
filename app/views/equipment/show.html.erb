@@ -1,16 +1,33 @@
 <%
-  # TODO: refactor this
+  def reservation_title(res)
+    if user_signed_in? && current_user.id == res.user_id
+      title = "#{current_user.given_name} #{current_user.last_name}"
+      title += " (pendiente)" if res.status == 'pending'
+      return title
+    else
+      return 'Reservación'
+    end
+  end
+
   available_hours = @equipment.available_hours
 
   reservations = []
   res = @equipment.reservations
-  res = res.confirmed.or(res.blocked).or(res.pending)
+  viable_reservations = res.confirmed.or(res.blocked).or(res.pending)
+
+  res = viable_reservations.select do |reservation|
+    reservation.status == 'pending' ? (reservation.user == current_user) : true
+  end
+
   res.each do | r |
+    res_title = reservation_title(r)
+    res_color = r.status == 'pending' ? '#bdc3c7' : 'rgba(68, 93, 252, .77)'
     reservations.push({
       "id" => r.id,
       "start" => r.start_time,
       "end" => r.end_time,
-      "title" => (user_signed_in? and current_user.id == r.user_id) ? "#{current_user.given_name} #{current_user.last_name}" : "Reservación",
+      "title" => res_title,
+      "color" => r.status == 'pending' ? '#bdc3c7' : 'rgba(68, 93, 252, .77)',
       "isUser" => (user_signed_in? and current_user.id == r.user_id)
     })
   end
@@ -177,6 +194,7 @@
               title: userName,
               start: selInfo.start,
               end: selInfo.end,
+              color: "#bdc3c7"
             };
             $('#tmpEventStartDisplay').html(selInfo.start.toDateString() +" "+ selInfo.start.toLocaleTimeString())
             $('#tmpEventEndDisplay').html(selInfo.end.toDateString() +" "+ selInfo.end.toLocaleTimeString())
@@ -262,14 +280,10 @@
             data: { authenticity_token: window._token },
             dataType: 'json',
             success: function(data) {
-              console.log('success');
-              console.log(data);
               cb();
             },
             error: function(xhr, status, err) {
               alert('Se ha producido un error. Por favor, intenta más tarde.');
-              console.error(err);
-              console.error(xhr);
             }
           });
         }
@@ -282,9 +296,7 @@
               "start_time": event.start.toISOString(),
               "end_time": event.end.toISOString(),
               'help_needed': $('#help_needed').is(':checked')? true : false,
-              <% if policy(@lab_space.equipment.new).block? %>
-                'status': $('#blockStatus').is(':checked')? 'blocked': 'pending'
-              <% end %>
+              "status": $(':checkbox').is(':checked')? 'blocked': 'pending'
             }
           };
         }
@@ -293,8 +305,6 @@
             cb(data.status && (data.status === "pending" || data.status === "confirmed" || data.status === "blocked"));
           }, 'json')
           .fail(function(xhr, status, err) {
-            // console.error(err);
-            console.log(xhr.responseJSON)
             errMessage = "No se pudo reservar por los siguientes errores: \n"
             Object.keys(xhr.responseJSON).map(function(key) { errMessage += "- " + xhr.responseJSON[key] + "\n"})
             alert(errMessage);
