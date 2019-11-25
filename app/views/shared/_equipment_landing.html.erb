@@ -4,7 +4,7 @@
         <div class="col-4">
           <div class="EquipoCard" data-id="<%= e.id %>" data-lid="<%= e.lab_space.lab.id %>" data-lsid="<%= e.lab_space.id %>">
             <div class="icon printer center-icon"></div>
-            <p class="name"><%= link_to e.name, lab_lab_space_equipment_path(e.id, e.lab_space.id, e.lab_space.lab.id) %></p>
+            <p class="name"><%= link_to e.name, lab_lab_space_equipment_path(e.lab_space.lab.id, e.lab_space.id, e.id) %></p>
             <p class="labOrigin"><%= e.lab_space.name %></p>
           </div>
         </div>

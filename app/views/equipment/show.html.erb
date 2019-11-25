@@ -70,7 +70,7 @@
   </section>
   <section class="Horario">
     <h2>Horario <%= image_tag "icons/calendar.svg", class: 'ico ico-cal' %></h2>
-    <p class="mb-5 mt-1">Selecciona en el calendario un rango de tiempo para utilizar el equipo. Posteriormente se te pedir&aacute;n algunos datos adicionales.</p>
+    <p class="mb-5 mt-1">Selecciona en el calendario un rango de tiempo para utilizar el equipo. Posteriormente se te pedirán algunos datos adicionales.</p>
     <div id="calendar"></div>
   </section>
 </div>
@@ -81,25 +81,29 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Nueva reservaci&oacute;n</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Solicitud de Reservación</h5>
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <p>Horario de reservaci&oacute;n:</br>
+              <p>Horario de reservación:</br>
                 <small id="tmpEventStartDisplay"></small></br>
                 <small id="tmpEventEndDisplay"></small>
               </p>
-              <label class="ttu" for="purpose"><strong>Prop&oacute;sito del proyecto <small>(Requerido)</small></strong></label>
+              <label class="ttu" for="purpose"><strong>Propósito del proyecto <small>(Requerido)</small></strong></label>
               <select name="purpose" class="form-control" id="purpose">
                 <option value="academic">Académico</option>
                 <option value="entrepreneurship">Emprendimiento</option>
-                <option value="research">Investigaci&oacute;n</option>
+                <option value="research">Investigación</option>
                 <option value="personal">Personal</option>
               </select>
             </div>
             <div class="form-group">
               <label for="comment" class="ttu"><strong>Comentarios adicionales <small>(Opcional)</small></strong></label>
-              <textarea name="comment" id="comment" rows="2" class="form-control" placeholder="Agrega aqu&iacute; comentarios adicionales para el laboratorista"></textarea>
+              <textarea name="comment" id="comment" rows="2" class="form-control" placeholder="Agrega aquí; comentarios adicionales para el laboratorista"></textarea>
+            </div>
+            <div class="form-group">
+              <input type="checkbox" id="help_needed" name="help_needed">
+              <label class="" for="help_needed"><small>¿Necesitarás ayuda de algun asesor al utilizar éste equipo?</small></label>
             </div>
             <% if policy(@lab_space.equipment.new).block? %>
               <div class="form-group">
@@ -181,7 +185,7 @@
           eventRender: function(info) {
             if(info.event.extendedProps.isUser) {
               const element = $(info.el);
-              element.append( "<span title='Cancelar reservaci&oacute;n' class='removebtn'>&times;</span>" );
+              element.append( "<span title='Cancelar reservación class='removebtn'>&times;</span>" );
               element.find(".removebtn").click(function() {
                 if(confirm('¿Estás seguro de que deseas cancelar esta reservación?')) {
                   cancelEvent(info.event, function() {
@@ -277,8 +281,9 @@
               "comment": $modal.find('textarea').val(),
               "start_time": event.start.toISOString(),
               "end_time": event.end.toISOString(),
+              'help_needed': $('#help_needed').is(':checked')? true : false,
               <% if policy(@lab_space.equipment.new).block? %>
-                'status': $(':checkbox').is(':checked')? 'blocked': 'pending'
+                'status': $('#blockStatus').is(':checked')? 'blocked': 'pending'
               <% end %>
             }
           };

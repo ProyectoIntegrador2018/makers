@@ -15,7 +15,7 @@
                       <td><%= "#{current_user.given_name} #{current_user.last_name}"  %></td>
                     </tr>
                     <tr>
-                      <td>Correo electr&oacute;nico:</td>
+                      <td>Correo electrónico:</td>
                       <td><%= current_user.email %></td>
                     </tr>
                     <tr>
@@ -40,10 +40,11 @@
         <tr>
           <th>#</th>
           <th>Equipo</th>
-          <th>Fecha inicio</th>
-          <th>Fecha fin</th>
-          <th>Prop&oacute;sito</th>
-          <th>Status</th>
+          <th>Fecha de inicio</th>
+          <th>Fecha de fin</th>
+          <th>Propósito</th>
+          <th>Estatus</th>
+          <th>Necesita ayuda?</th>
           <th>Creado</th>
           <th>Cancelar</th>
         </tr>
@@ -58,6 +59,7 @@
               <td><%= r.end_time.in_time_zone('America/Monterrey').strftime("%d-%m-%Y %I:%M %p")  %></td>
               <td><%= r.purpose %></td>
               <td><%= r.status %></td>
+              <td><%= help_needed_spanish?(r.help_needed) %></td>
               <td><%= r.created_at.in_time_zone('America/Monterrey').strftime("%d-%m-%Y %I:%M %p") %></td>
               <td>
                 <% if r.status != "rejected" %>

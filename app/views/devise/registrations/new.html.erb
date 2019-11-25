@@ -1,5 +1,5 @@
 <div class="devise">
-  <h2>Reg&iacute;strate</h2>
+  <h2>Regístrate</h2>
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
 
@@ -18,18 +18,18 @@
       </div>
     </div>
     <div class="field">
-      <%= f.label :institutional_id, raw("Matr&iacute;cula o n&uacute;mero de empleado"), class: "sr-only" %>
-      <%= f.text_field :institutional_id, placeholder: raw("Matr&iacute;cula o n&uacute;mero de empleado"), class: "txt-input" %>
+      <%= f.label :institutional_id, raw("Matrícula o número de empleado"), class: "sr-only" %>
+      <%= f.text_field :institutional_id, placeholder: raw("Matrícula o número de empleado"), class: "txt-input" %>
     </div>
     <div class="field email-container has-ico">
-      <%= f.label :email, raw("Correo electr&oacute;nico"), class: "sr-only" %>
-      <%= f.email_field :email, autocomplete: "email", placeholder: raw("Correo electr&oacute;nico (itesm.mx &oacute; tec.mx)"), class: "email txt-input" %>
+      <%= f.label :email, raw("Correo electrónico"), class: "sr-only" %>
+      <%= f.email_field :email, autocomplete: "email", placeholder: raw("Correo electrónico (itesm.mx ó tec.mx)"), class: "email txt-input" %>
     </div>
     <div class="field password-container has-ico">
       <%= f.label :password, "Contraseña", class: "sr-only" %>
       <%= f.password_field :password, autocomplete: "new-password", placeholder: "Contraseña", class: "password txt-input" %>
       <% if @minimum_password_length %>
-        <em class="min-length">(<%= @minimum_password_length %> caracteres raw(m&iacute;nimo))</em>
+        <em class="min-length">(<%= @minimum_password_length %> caracteres raw(mínimo))</em>
       <% end %>
     </div>
 

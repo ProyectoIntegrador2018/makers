@@ -92,7 +92,7 @@ class ReservationsController < ApplicationController
   end
 
   def reservation_params
-    params.require(:reservation).permit(:status, :purpose, :comment, :start_time, :end_time)
+    params.require(:reservation).permit(:status, :purpose, :comment, :start_time, :end_time, :help_needed)
   end
 
   def set_day_query
