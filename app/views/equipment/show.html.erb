@@ -3,7 +3,7 @@
     if user_signed_in? && current_user.id == res.user_id
       title = "#{current_user.given_name} #{current_user.last_name}"
       if res.status == 'pending'
-        title += '(pendiente)'
+        title += ' (pendiente)'
       elsif res.status == 'blocked'
         title +=  ' (bloqueado)'
       end
