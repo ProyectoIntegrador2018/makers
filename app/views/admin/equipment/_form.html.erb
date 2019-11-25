@@ -77,9 +77,14 @@ and renders all form fields for a resource's editable attributes.
   <% end -%>
 
   <h2 class="section-title">Materials & Capabilities</h2>
-  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-    when an unknown printer took a galley of type and scrambled it to make a type...</p>
+  <p>Esta sección es para definir las capacidades y matariales de equipo.
+    Utiliza el primer conjunto de campos para elegir capacidades y matariales de
+    las listas previamente definidas, empieza a escribir y lista mostrará los
+    elementos que se parezcan a lo que has escrito.</p>
+  <p>Si deseas utilizar un material o capacidad que aún no existe lo puedes crear
+    en el segundo conjunto de campos. En estos campos todavía te mostraremos los
+    que ya existen.</p>
+  <p>Evita crear uno muy parecido a otro que ya existe.</p>
   <fieldset class="field-unit--nested">
     <legend><label>Select tags from the avaialble list</label></legend>
     <% page.attributes[4,2].each do |attribute| -%>
