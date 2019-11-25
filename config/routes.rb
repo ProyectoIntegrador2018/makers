@@ -3,7 +3,7 @@ Rails.application.routes.draw do
       resources :labs
       resources :lab_spaces
       resources :equipment
-      resources :reservations
+      resources :reservations, except: [:index]
       resources :users
       resources :lab_administrations
 
@@ -33,7 +33,7 @@ Rails.application.routes.draw do
   resources :lab_spaces, only: [:index]
 
   authenticate :user do
-    resources :reservations, except: [:new, :create]
+    resources :reservations, except: [:new, :create, :index]
   end
 
   get '/users', to: redirect('users/sign_up')
