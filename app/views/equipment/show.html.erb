@@ -2,10 +2,25 @@
   def reservation_title(res)
     if user_signed_in? && current_user.id == res.user_id
       title = "#{current_user.given_name} #{current_user.last_name}"
-      title += " (pendiente)" if res.status == 'pending'
+      if res.status == 'pending'
+        title += '(pendiente)'
+      elsif res.status == 'blocked'
+        title +=  ' (bloqueado)'
+      end
       return title
     else
       return 'Reservación'
+    end
+  end
+
+  def reservation_color(reservation_status)
+    case reservation_status
+    when 'confirmed'
+      'rgba(68, 93, 252, .77)'
+    when 'pending'
+      '#bdc3c7'
+    when 'blocked'
+      '#e74c3c'
     end
   end
 
@@ -16,18 +31,18 @@
   viable_reservations = res.confirmed.or(res.blocked).or(res.pending)
 
   res = viable_reservations.select do |reservation|
-    reservation.status == 'pending' ? (reservation.user == current_user) : true
+    (reservation.status == 'pending' || reservation.status == 'blocked') ? (reservation.user == current_user) : true
   end
 
   res.each do | r |
     res_title = reservation_title(r)
-    res_color = r.status == 'pending' ? '#bdc3c7' : 'rgba(68, 93, 252, .77)'
+    res_color = reservation_color(r.status)
     reservations.push({
       "id" => r.id,
       "start" => r.start_time,
       "end" => r.end_time,
       "title" => res_title,
-      "color" => r.status == 'pending' ? '#bdc3c7' : 'rgba(68, 93, 252, .77)',
+      "color" => res_color,
       "isUser" => (user_signed_in? and current_user.id == r.user_id)
     })
   end
@@ -296,7 +311,7 @@
               "start_time": event.start.toISOString(),
               "end_time": event.end.toISOString(),
               'help_needed': $('#help_needed').is(':checked')? true : false,
-              "status": $(':checkbox').is(':checked')? 'blocked': 'pending'
+              "status": $('#blockStatus').is(':checked')? 'blocked': 'pending'
             }
           };
         }
