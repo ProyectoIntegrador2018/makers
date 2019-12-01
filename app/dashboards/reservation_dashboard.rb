@@ -30,9 +30,10 @@ class ReservationDashboard < Administrate::BaseDashboard
     :user,
     :equipment,
     :status,
+    :purpose,
+    :help_needed,
     :start_time,
-    :end_time,
-    :help_needed
+    :end_time
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -43,9 +44,9 @@ class ReservationDashboard < Administrate::BaseDashboard
     :status,
     :purpose,
     :comment,
+    :help_needed,
     :start_time,
-    :end_time,
-    :help_needed
+    :end_time
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -57,9 +58,9 @@ class ReservationDashboard < Administrate::BaseDashboard
     :status,
     :purpose,
     :comment,
+    :help_needed,
     :start_time,
-    :end_time,
-    :help_needed
+    :end_time
   ].freeze
 
   # Overwrite this method to customize how reservations are displayed
