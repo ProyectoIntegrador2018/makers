@@ -6,7 +6,7 @@ class HomeController < ApplicationController
 
   def landing
     @body_class = 'Home'
-    @equipments = Equipment.all
+    @equipments = Equipment.by_popularity
     render layout: false
   end
 
@@ -15,22 +15,16 @@ class HomeController < ApplicationController
     @reservations = @all_reservations.rejected.future + @all_reservations.pending.future + @all_reservations.confirmed.future
   end
 
-  def queried_items
-    if params[:type] == 'capabilities'
-      apply_query(type_table: Capability, equipment_type_table: EquipmentCapability, other_equipment_type_table: EquipmentMaterial, other_type_id: 'material_id')
-    else
-      apply_query(type_table: Material, equipment_type_table: EquipmentMaterial, other_equipment_type_table: EquipmentCapability, other_type_id: 'capability_id')
-    end
-  end
-
   def related
     type = params[:type]
-
-    if type != 'capabilities' && type != 'materials'
+    if type == 'all'
       capabilities = Capability.select(:id, :name).as_json
       materials = Material.select(:id, :name).as_json
-    else
-      results = queried_items
+    elsif type == 'both'
+      capabilities = apply_caps_mats_query('capabilities', params[:selectedMat])
+      materials = apply_caps_mats_query('materials', params[:selectedCap])
+    else # capabilities or materials
+      results = apply_caps_mats_query(type, params[:selectedItem])
       query = params[:query]
       if query.present?
         # Filter results by query written
@@ -44,18 +38,6 @@ class HomeController < ApplicationController
           results: results,
           capabilities: capabilities,
           materials: materials
-        }
-      end
-    end
-  end
-
-  def equipment_relation
-    equipments_capabilities = EquipmentCapability.select(:equipment_id).where(capability_id: params[:capability]).map(&:equipment_id)
-    equipments_materials = EquipmentMaterial.select(:equipment_id).where(material_id: params[:material]).map(&:equipment_id)
-    respond_to do |format|
-      format.json do
-        render json: {
-          are_related: !(equipments_capabilities & equipments_materials).empty?
         }
       end
     end

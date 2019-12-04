@@ -9,13 +9,13 @@
           <p>
             <strong><%= link_to "#{current_user.given_name} #{current_user.last_name}", profile_path, class: 'uname-link primary'  %></strong>
           </p>
-          <p><small><%= link_to raw("Cerrar sesi&oacute;n"), destroy_user_session_path, method: :delete, class: "signout-link" %></small></p>
+          <p><small><%= link_to raw("Cerrar sesión"), destroy_user_session_path, method: :delete, class: "signout-link" %></small></p>
         </div>
       </div>
     </nav>
   <% else %>
     <nav class="userNav">
-      <%= link_to raw("Iniciar sesi&oacute;n"), new_user_session_path %>
+      <%= link_to raw("Iniciar sesión"), new_user_session_path %>
     </nav>
   <% end %>
   <nav class="mainNav">

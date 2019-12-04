@@ -8,14 +8,15 @@ class ReservationDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    equipment: Field::BelongsToSearch.with_options(searchable: true, searchable_field: 'name'),
-    user: Field::BelongsToSearch.with_options(searchable: true, searchable_field: 'given_name'),
+    equipment: Field::BelongsTo.with_options(class_name: "Equipment"),
+    user: Field::BelongsTo.with_options(class_name: "User"),
     id: Field::Number,
     status: Field::Select.with_options(searchable: false, collection: Reservation.statuses.keys - ['blocked']),
     purpose: Field::Select.with_options(searchable: false, collection: Reservation.purposes.keys),
     comment: Field::Text,
     start_time: Field::DateTime,
     end_time: Field::DateTime,
+    help_needed: Field::Boolean,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -29,6 +30,8 @@ class ReservationDashboard < Administrate::BaseDashboard
     :user,
     :equipment,
     :status,
+    :purpose,
+    :help_needed,
     :start_time,
     :end_time
   ].freeze
@@ -41,6 +44,7 @@ class ReservationDashboard < Administrate::BaseDashboard
     :status,
     :purpose,
     :comment,
+    :help_needed,
     :start_time,
     :end_time
   ].freeze
@@ -54,8 +58,9 @@ class ReservationDashboard < Administrate::BaseDashboard
     :status,
     :purpose,
     :comment,
+    :help_needed,
     :start_time,
-    :end_time,
+    :end_time
   ].freeze
 
   # Overwrite this method to customize how reservations are displayed

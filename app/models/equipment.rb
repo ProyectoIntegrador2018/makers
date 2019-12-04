@@ -46,6 +46,10 @@ class Equipment < ApplicationRecord
     reservations.future.count
   end
 
+  def self.by_popularity
+    left_joins(:reservations).group(:id).order('COUNT(reservations.id) DESC')
+  end
+
   def self.check_for_new_tags(tags, tag_class)
     tags = check_for_array(tags)
 

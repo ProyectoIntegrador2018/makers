@@ -14,7 +14,6 @@ and renders all form fields for a resource's editable attributes.
 [1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Form
 %>
 
-
 <template id="horarioTpl">
   <li class="scheduleList-listitem">
     <i class="ico calendar"></i>
@@ -49,6 +48,7 @@ and renders all form fields for a resource's editable attributes.
     <a href="#" title="Eliminar horario" class="deleteBtn">&times;</a>
   </li>
 </template>
+
 <%= form_for([namespace, page.resource], html: { class: "form" }) do |f| %>
   <% if page.resource.errors.any? %>
     <div id="error_explanation">
@@ -68,9 +68,46 @@ and renders all form fields for a resource's editable attributes.
     </div>
   <% end %>
 
-  <% page.attributes.each do |attribute| -%>
+  <h2 class="section-title">Basic information</h2>
+  <% page.attributes[0...-4].each do |attribute| -%>
     <div class="field-unit field-unit--<%= attribute.html_class %>">
       <% check_attribute attribute %>
+      <%= render_field attribute, f: f %>
+    </div>
+  <% end -%>
+
+  <h2 class="section-title">Materials & Capabilities</h2>
+  <p>Esta sección es para definir las capacidades y matariales de equipo.
+    Utiliza el primer conjunto de campos para elegir capacidades y matariales de
+    las listas previamente definidas, empieza a escribir y lista mostrará los
+    elementos que se parezcan a lo que has escrito.</p>
+  <p>Si deseas utilizar un material o capacidad que aún no existe lo puedes crear
+    en el segundo conjunto de campos. En estos campos todavía te mostraremos los
+    que ya existen.</p>
+  <p>Evita crear uno muy parecido a otro que ya existe.</p>
+  <fieldset class="field-unit--nested">
+    <legend><label>Select tags from the avaialble list</label></legend>
+    <% page.attributes[4,2].each do |attribute| -%>
+    <div class="field-unit field-unit--<%= attribute.html_class %>">
+      <% check_attribute attribute  %>
+      <%= render_field attribute, f: f %>
+    </div>
+    <% end -%>
+  </fieldset>
+  <fieldset class="field-unit--nested">
+    <legend><label>Create new tags</label></legend>
+    <% page.attributes[4,2].each do |attribute| -%>
+    <div class="field-unit field-unit--<%= attribute.html_class %> create-labels">
+      <% check_attribute attribute  %>
+      <%= render_field attribute, f: f %>
+    </div>
+    <% end -%>
+  </fieldset>
+
+  <h2 class="section-title">Space & Hours</h2>
+  <% page.attributes[-2,2].each do |attribute| -%>
+    <div class="field-unit field-unit--<%= attribute.html_class %>">
+      <% check_attribute attribute  %>
       <%= render_field attribute, f: f %>
     </div>
   <% end -%>
@@ -93,6 +130,12 @@ and renders all form fields for a resource's editable attributes.
 
   <% content_for(:javascript) do %>
     <script>
+      window.onload = function () {
+        $.each($('.create-labels select'), function (index, value) {
+          $(value).selectize()[0].selectize.clear(true);
+        });
+      };
+
       const horarioTpl = $('#horarioTpl')[0];
       const $scheduleList = $('.scheduleList');
       let data = false;
@@ -118,7 +161,7 @@ and renders all form fields for a resource's editable attributes.
       };
       $(function() {
         $('.field-unit.field-unit--nested-has-many').first().remove();
-        $(".field-unit--has-many select").each(function(index, elem) {
+        $(".field-unit--has-many.create-labels select").each(function(index, elem) {
           elem.selectize.destroy();
           $(elem).selectize({create: true});
         });
