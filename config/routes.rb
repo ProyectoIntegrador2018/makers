@@ -3,7 +3,7 @@ Rails.application.routes.draw do
       resources :labs
       resources :lab_spaces
       resources :equipment
-      resources :reservations, except: [:index]
+      resources :reservations
       resources :users
       resources :lab_administrations
 
