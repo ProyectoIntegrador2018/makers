@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  include UserHelper
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -38,24 +39,15 @@ class User < ApplicationRecord
   end
 
   def managed_lab_spaces
-    return LabSpace.all if role == 'superadmin'
-
-    lab_spaces = LabSpace.find_by_sql("(#{directly_managed_lab_spaces.to_sql}) UNION (#{indirectly_managed_lab_spaces.to_sql})")
-    LabSpace.where(id: lab_spaces.map(&:id))
+    managed_resources(LabSpace, directly_managed_lab_spaces, indirectly_managed_lab_spaces)
   end
 
   def managed_equipment
-    return Equipment.all if role == 'superadmin'
-
-    equipment = Equipment.find_by_sql("(#{directly_managed_equipment.to_sql}) UNION (#{indirectly_managed_equipment.to_sql})")
-    Equipment.where(id: equipment.map(&:id))
+    managed_resources(Equipment, directly_managed_equipment, indirectly_managed_equipment)
   end
 
   def managed_reservations
-    return Reservation.all if role == 'superadmin'
-
-    reservations = Reservation.find_by_sql("(#{directly_managed_reservations.to_sql}) UNION (#{indirectly_managed_reservations.to_sql})")
-    Reservation.where(id: reservations.map(&:id))
+    managed_resources(Reservation, directly_managed_reservations, indirectly_managed_reservations)
   end
 
   def managed_lab_administrations

@@ -1,5 +1,5 @@
 class ReservationsController < ApplicationController
-  #skip_before_action :verify_authenticity_token
+  # skip_before_action :verify_authenticity_token
   before_action :authenticate_user!, except: [:index]
   before_action :set_reservations_scope
   before_action :set_reservation, only: [:show, :edit, :update, :destroy]
@@ -80,8 +80,9 @@ class ReservationsController < ApplicationController
   private
 
   def set_reservations_scope
-    if params[:equipment_id]
-      @reservations_scope = Equipment.find(params[:equipment_id]).reservations
+    equipment_id = params[:equipment_id]
+    if equipment_id
+      @reservations_scope = Equipment.find(equipment_id).reservations
     else
       @reservations_scope = policy_scope(Reservation)
     end

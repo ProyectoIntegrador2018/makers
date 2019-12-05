@@ -23,11 +23,10 @@ class Reservation < ApplicationRecord
   end
 
   def not_overlapped
-    if start_time.present? && end_time.present?
-      remove_overlapped if blocked?
-      if overlapped_reservations.exists?
-        errors.add(:date, I18n.t('activerecord.errors.models.reservation.attributes.date.overlapping'))
-      end
+    return unless start_time.present? && end_time.present?
+    remove_overlapped if blocked?
+    if overlapped_reservations.exists?
+      errors.add(:date, I18n.t('activerecord.errors.models.reservation.attributes.date.overlapping'))
     end
   end
 
