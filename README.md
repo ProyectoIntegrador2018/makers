@@ -68,7 +68,7 @@ After installing, you can follow this simple steps:
 1. Clone this repository into your local machine
 
 ```bash
-$ git clone git@github.com:ProyectoIntegrador2018/makers.git
+$ git clone https://github.com/ProyectoIntegrador2018/makers.git
 ```
 
 2. Add Needed Ruby Enviormental variables
@@ -145,4 +145,18 @@ Or for a specific file:
 
 ```
 $ rspec spec/models/user_spec.rb
+```
+
+### Windows Set-up
+
+The [project might break](https://github.com/rails/sprockets/issues/283) if you don't have a Linux Subsystem installed, since Windows by default doesn't differentiate folders by with different case. In order to fix this you first have to run this command in `Windows PowerShell (Admin)`
+
+```
+$ Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+```
+
+After restarting, you'll need to run the following command with a normal Command Prompt (under the base project path):
+
+```
+$ fsutil.exe file SetCaseSensitiveInfo tmp enable
 ```
