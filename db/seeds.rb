@@ -37,16 +37,31 @@ lab_space_admin = User.new(
 lab_space_admin.skip_confirmation!
 lab_space_admin.save!
 
-# ## User
+ ## User
 
  test_user = User.create!(
-   email: "test@itesm.mx",
-   password: "test123",
+   email: "test1@itesm.mx",
+   password: "test1234",
    given_name: "Test",
    last_name: "User",
    institutional_id: "A00000001"
  )
+
  test_user.confirm
+ test_user.skip_confirmation!
+ test_user.save!
+
+ test_user2 = User.create!(
+   email: "test2@itesm.mx",
+   password: "test12345",
+   given_name: "Test",
+   last_name: "User2",
+   institutional_id: "A00000002"
+ )
+
+ 
+ test_user2.skip_confirmation!
+ test_user2.save!
 
 ## Seed capabilities
 Capability.create!(name: "Construye")     #0
