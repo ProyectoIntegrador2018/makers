@@ -39,14 +39,14 @@ lab_space_admin.save!
 
 # ## User
 
-# test_user = User.create!(
-#   email: "test@itesm.mx",
-#   password: "test123",
-#   given_name: "Test",
-#   last_name: "User",
-#   institutional_id: "A00000001"
-# )
-# test_user.confirm
+ test_user = User.create!(
+   email: "test@itesm.mx",
+   password: "test123",
+   given_name: "Test",
+   last_name: "User",
+   institutional_id: "A00000001"
+ )
+ test_user.confirm
 
 ## Seed capabilities
 Capability.create!(name: "Construye")     #0
