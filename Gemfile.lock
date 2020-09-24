@@ -295,7 +295,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  administrate (= 0.11.0)
+  administrate (~> 0.11.0)
   administrate-field-belongs_to_search
   administrate-field-carrierwave (~> 0.4.1)
   administrate-field-nested_has_many
