@@ -41,10 +41,10 @@ RSpec.describe ReservationPolicy, type: :policy do
     it { should permit_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
   end
 
-  context 'for an admin of that lab' do
+  context 'for a lab space admin of that lab' do
     let(:reservation_user) { other_user }
     let(:user) do
-      admin = create(:user, role: :admin)
+      admin = create(:user, role: :lab_space_admin)
       admin.managed_labs << lab
       admin
     end
@@ -63,9 +63,9 @@ RSpec.describe ReservationPolicy, type: :policy do
     it { should permit_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
   end
 
-  context 'for an admin of another lab' do
+  context 'for a lab space admin of another lab' do
     let(:reservation_user) { other_user }
-    let(:user) { create(:user, role: :admin) }
+    let(:user) { create(:user, role: :lab_space_admin) }
     let(:new_lab) do
       new_lab = create(:lab)
       user.managed_labs << new_lab

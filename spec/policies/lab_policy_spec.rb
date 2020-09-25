@@ -22,14 +22,15 @@ RSpec.describe LabPolicy, type: :policy do
     it { should permit_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
   end
 
-  context 'for an admin of that lab' do
+  context 'for a lab space admin of that lab' do
     let(:user) do
-      admin = create :user, role: :admin
+      admin = create :user, role: :lab_space_admin
       lab.admins << admin
       admin
     end
 
-    it { should permit_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
+    it { should permit_actions([:index, :show, :edit, :update, :destroy]) }
+    it { should forbid_actions([:new, :create]) }
   end
 
   context 'for a lab admin' do
@@ -44,8 +45,8 @@ RSpec.describe LabPolicy, type: :policy do
     it { should forbid_actions([:new, :create, :edit, :update, :destroy]) }
   end
 
-  context 'for an admin of another lab' do
-    let(:user) { create(:user, role: :admin) }
+  context 'for a lab space admin of another lab' do
+    let(:user) { create(:user, role: :lab_space_admin) }
     let(:new_lab) do
       new_lab = create(:lab)
       new_lab.admins << user
