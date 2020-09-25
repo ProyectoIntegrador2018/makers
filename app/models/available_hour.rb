@@ -11,12 +11,4 @@ class AvailableHour < ApplicationRecord
 
     errors.add(:end_time, "can't be before start time") if end_time.present? && end_time < start_time
   end
-
-  def formatted_start_time
-    TimeUtils.extract_time(start_time)
-  end
-
-  def formatted_end_time
-    TimeUtils.extract_time(end_time)
-  end
 end
