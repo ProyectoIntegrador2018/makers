@@ -1,11 +1,11 @@
 require 'rails_helper'
 require 'faker'
 
-# Helper to ensure reservation is in the future, otherwise :date_range_valid fails
-def future_monday()
+# To ensure reservation is in the future, otherwise :date_range_valid fails
+def future_monday
   now = Time.current + 7.day
-  toAdd = (1 - now.wday + 7) % 7
-  return now + toAdd.day
+  to_add = (1 - now.wday + 7) % 7
+  now + to_add.day
 end
 
 RSpec.describe Reservation, type: :model do
@@ -19,7 +19,12 @@ RSpec.describe Reservation, type: :model do
   end
 
   it 'accepts reservations inside an available block' do
-    a = create(:available_hour, day_of_week: 1, start_time: '08:30 CT', end_time: '17:30 CT', equipment: equipment)
+    create(:available_hour,
+           day_of_week: 1,
+           start_time: '08:30 CT',
+           end_time: '17:30 CT',
+           equipment: equipment
+    )
 
     res = build(:reservation,
                 start_time: future_monday.at_noon,
@@ -31,8 +36,18 @@ RSpec.describe Reservation, type: :model do
   end
 
   it 'accepts reservations that cover two consecutive available blocks' do
-    create(:available_hour, day_of_week: 1, start_time: '08:30 CT', end_time: '17:30 CT', equipment: equipment)
-    create(:available_hour, day_of_week: 1, start_time: '17:30 CT', end_time: '20:30 CT', equipment: equipment)
+    create(:available_hour,
+           day_of_week: 1,
+           start_time: '08:30 CT',
+           end_time: '17:30 CT',
+           equipment: equipment
+    )
+    create(:available_hour,
+           day_of_week: 1,
+           start_time: '17:30 CT',
+           end_time: '20:30 CT',
+           equipment: equipment
+    )
 
     res = build(:reservation,
                 start_time: future_monday.at_noon,
@@ -45,8 +60,18 @@ RSpec.describe Reservation, type: :model do
   end
 
   it 'accepts overnight reservations that cover two consecutive available blocks' do
-    a1 = create(:available_hour, day_of_week: 1, start_time: '20:30 CT', end_time: '23:59 CT', equipment: equipment)
-    a2 = create(:available_hour, day_of_week: 2, start_time: '00:00 CT', end_time: '7:30 CT', equipment: equipment)
+    create(:available_hour,
+           day_of_week: 1,
+           start_time: '20:30 CT',
+           end_time: '23:59 CT',
+           equipment: equipment
+    )
+    create(:available_hour,
+           day_of_week: 2,
+           start_time: '00:00 CT',
+           end_time: '7:30 CT',
+           equipment: equipment
+    )
 
     res = build(:reservation,
                 start_time: future_monday.at_noon + 10.hour, # 22:00
@@ -58,9 +83,19 @@ RSpec.describe Reservation, type: :model do
   end
 
   it 'does not accept reservations that cover two non consecutive avail blocks' do
-    create(:available_hour, day_of_week: 1, start_time: '10:30 CT', end_time: '11:00 CT', equipment: equipment)
+    create(:available_hour,
+           day_of_week: 1,
+           start_time: '10:30 CT',
+           end_time: '11:00 CT',
+           equipment: equipment
+    )
     # 10 minute gap between blocks
-    create(:available_hour, day_of_week: 1, start_time: '11:10 CT', end_time: '12:00 CT', equipment: equipment)
+    create(:available_hour,
+           day_of_week: 1,
+           start_time: '11:10 CT',
+           end_time: '12:00 CT',
+           equipment: equipment
+    )
 
     res = build(:reservation,
                 start_time: future_monday.at_noon - 1.hour - 10.minute, # 10:50
@@ -72,7 +107,12 @@ RSpec.describe Reservation, type: :model do
   end
 
   it 'does not accept reservations partially inside avail blocks' do
-    create(:available_hour, day_of_week: 1, start_time: '10:00 CT', end_time: '11:30 CT', equipment: equipment)
+    create(:available_hour,
+           day_of_week: 1,
+           start_time: '10:00 CT',
+           end_time: '11:30 CT',
+           equipment: equipment
+    )
 
     res = build(:reservation,
                 start_time: future_monday.at_noon - 1.hour, # 11:00
@@ -92,7 +132,12 @@ RSpec.describe Reservation, type: :model do
   end
 
   it 'does not accept reservations outside avail blocks' do
-    create(:available_hour, day_of_week: 1, start_time: '10:30 CT', end_time: '11:00 CT', equipment: equipment)
+    create(:available_hour,
+           day_of_week: 1,
+           start_time: '10:30 CT',
+           end_time: '11:00 CT',
+           equipment: equipment
+    )
 
     res = build(:reservation,
                 start_time: future_monday.at_noon,

@@ -19,8 +19,8 @@ RSpec.describe CapabilityPolicy, type: :policy do
     it { should forbid_actions([:edit, :update, :destroy]) }
   end
 
-  context 'for an admin of that equipment' do
-    let(:user) { create(:user, role: :admin) }
+  context 'for a lab space admin of that equipment' do
+    let(:user) { create(:user, role: :lab_space_admin) }
 
     it { should permit_actions([:index, :show, :new, :create]) }
     it { should forbid_actions([:edit, :update, :destroy]) }

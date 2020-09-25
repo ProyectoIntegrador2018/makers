@@ -13,8 +13,8 @@ RSpec.describe UserPolicy, type: :policy do
 
   context 'for regular user' do
     let(:user) { accessed_user }
-    it { should forbid_actions([:index, :new, :create]) }
-    it { should permit_actions([:show, :edit, :update, :destroy]) }
+    it { should forbid_actions([:index, :new, :create, :destroy]) }
+    it { should permit_actions([:show, :edit, :update]) }
   end
 
   context 'for another user' do
@@ -24,19 +24,19 @@ RSpec.describe UserPolicy, type: :policy do
 
   context 'for a superadmin' do
     let(:user) { create(:user, role: :superadmin) }
-    it { should forbid_actions([:new, :create]) }
-    it { should permit_actions([:index, :show, :edit, :update, :destroy]) }
-  end
-
-  context 'for an admin' do
-    let(:user) { create(:user, role: :admin) }
     it { should forbid_actions([:new, :create, :destroy]) }
     it { should permit_actions([:index, :show, :edit, :update]) }
   end
 
+  context 'for a lab space admin' do
+    let(:user) { create(:user, role: :lab_space_admin) }
+    it { should forbid_actions([:new, :create, :edit, :update, :destroy]) }
+    it { should permit_actions(`[index show]`) }
+  end
+
   context 'for a lab admin' do
     let(:user) { create(:user, role: :lab_admin) }
-    it { should forbid_actions([:new, :create,:edit, :update, :destroy]) }
-    it { should permit_actions([:index, :show]) }
+    it { should forbid_actions(`[new create destroy]`) }
+    it { should permit_actions([:index, :show, :edit, :update]) }
   end
 end
