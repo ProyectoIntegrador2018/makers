@@ -64,7 +64,7 @@ es:
   activerecord:
     errors:
       messages:
-        record_invalid: 'El recurso es inválido.'
+        record_invalid: 'El recurso es inválido: %{errors}'
       models:
         user:
           attributes:
