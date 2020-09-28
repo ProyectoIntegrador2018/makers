@@ -22,9 +22,9 @@ RSpec.describe EquipmentCapabilityPolicy, type: :policy do
     it { should permit_actions([:new, :create, :destroy]) }
   end
 
-  context 'for an admin of that equipment' do
+  context 'for a lab space admin of that equipment' do
     let(:user) do
-      admin = create :user, role: :admin
+      admin = create :user, role: :lab_space_admin
       lab.admins << admin
       admin
     end
@@ -44,8 +44,8 @@ RSpec.describe EquipmentCapabilityPolicy, type: :policy do
     it { should permit_actions([:new, :create, :destroy]) }
   end
 
-  context 'for an admin of another lab' do
-    let(:user) { create(:user, role: :admin) }
+  context 'for a lab space admin of another lab' do
+    let(:user) { create(:user, role: :lab_space_admin) }
     let(:new_lab) do
       new_lab = create(:lab)
       new_lab.admins << user
