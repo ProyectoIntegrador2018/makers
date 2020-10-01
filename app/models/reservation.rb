@@ -97,6 +97,6 @@ class Reservation < ApplicationRecord
   end
 
   def check_cancellation
-    MakersMailer.cancellation_email(self).deliver if rejected?
+    MakersMailer.cancellation_email(self).deliver_now if rejected?
   end
 end
