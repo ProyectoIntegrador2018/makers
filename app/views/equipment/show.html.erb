@@ -13,14 +13,39 @@
     end
   end
 
-  def reservation_color(reservation_status)
+  def reservation_opacity(reservation_status)
     case reservation_status
     when 'confirmed'
-      'rgba(68, 93, 252, .77)'
+      ' .75)'
     when 'pending'
-      '#bdc3c7'
-    when 'blocked'
+      ' .25)'
+    end
+  end
+
+  def reservation_color(reservation_purpose, reservation_status)
+    if reservation_status == 'blocked'
       '#e74c3c'
+    end
+    case reservation_purpose
+    when 'academic'
+      'rgba(17, 225, 177,' + reservation_opacity(reservation_status)
+    when 'entrepreneurship'
+      'rgba(73, 17, 225,' + reservation_opacity(reservation_status)
+    when 'research'
+      'rgba(225, 17, 65,' + reservation_opacity(reservation_status)
+    when 'personal'
+      'rgba(169, 225, 17,' + reservation_opacity(reservation_status)
+    end
+  end
+
+  def reservation_text(reservation_purpose)
+    case reservation_purpose
+    when 'confirmed'
+      '#fefefe'
+    when 'pending'
+      '#000000'
+    when 'blocked'
+      '#000000'
     end
   end
 
@@ -36,14 +61,16 @@
 
   res.each do | r |
     res_title = reservation_title(r)
-    res_color = reservation_color(r.status)
+    res_color = reservation_color(r.purpose, r.status)
+    txt_color = reservation_text(r.status)
     reservations.push({
       "id" => r.id,
       "start" => r.start_time,
       "end" => r.end_time,
       "title" => res_title,
       "color" => res_color,
-      "isUser" => (user_signed_in? and current_user.id == r.user_id)
+      "isUser" => (user_signed_in? and current_user.id == r.user_id),
+      "textColor" => txt_color
     })
   end
 %>
