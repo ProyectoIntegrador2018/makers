@@ -23,14 +23,15 @@ RSpec.describe LabSpacePolicy, type: :policy do
     it { should permit_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
   end
 
-  context 'for an admin of that lab' do
+  context 'for a lab space admin of that lab' do
     let(:user) do
-      admin = create :user, role: :admin
+      admin = create :user, role: :lab_space_admin
       lab.admins << admin
       admin
     end
 
-    it { should permit_actions([:index, :show, :new, :create, :edit, :update, :destroy]) }
+    it { should forbid_actions([:new]) }
+    it { should permit_actions([:index, :show, :create, :edit, :update, :destroy]) }
   end
 
   context 'for a lab admin of that lab space' do
@@ -40,20 +41,20 @@ RSpec.describe LabSpacePolicy, type: :policy do
       lab_admin
     end
 
-    it { should forbid_actions([:new, :create]) }
-    it { should permit_actions([:index, :show, :edit, :update, :destroy]) }
+    it { should forbid_actions([:create]) }
+    it { should permit_actions([:index, :show, :new, :edit, :update, :destroy]) }
   end
 
-  context 'for an admin of another lab' do
-    let(:user) { create(:user, role: :admin) }
+  context 'for a lab space admin of another lab' do
+    let(:user) { create(:user, role: :lab_space_admin) }
     let(:new_lab) do
       new_lab = create(:lab)
       new_lab.admins << user
       new_lab
     end
 
-    it { should permit_actions([:show, :index, :new]) }
-    it { should forbid_actions([:create, :edit, :update, :destroy]) }
+    it { should permit_actions([:show, :index]) }
+    it { should forbid_actions([:new, :create, :edit, :update, :destroy]) }
   end
 
   context 'for a lab admin of another lab space' do
@@ -64,7 +65,7 @@ RSpec.describe LabSpacePolicy, type: :policy do
       new_lab_space
     end
 
-    it { should permit_actions([:show, :index]) }
-    it { should forbid_actions([:new, :create, :edit, :update, :destroy]) }
+    it { should permit_actions([:new, :show, :index]) }
+    it { should forbid_actions([:create, :edit, :update, :destroy]) }
   end
 end

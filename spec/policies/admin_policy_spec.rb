@@ -13,8 +13,8 @@ RSpec.describe AdminPolicy, type: :policy do
     it { should permit_action :show }
   end
 
-  context 'for an admin' do
-    let(:user) { create(:user, role: :admin) }
+  context 'for an lab space admin' do
+    let(:user) { create(:user, role: :lab_space_admin) }
     it { should permit_action :show }
   end
 
