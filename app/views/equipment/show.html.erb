@@ -28,13 +28,13 @@
     end
     case reservation_purpose
     when 'academic'
-      'rgba(17, 225, 177,' + reservation_opacity(reservation_status)
+      'rgba(220, 57, 18,' + reservation_opacity(reservation_status)
     when 'entrepreneurship'
-      'rgba(73, 17, 225,' + reservation_opacity(reservation_status)
+      'rgba(255, 153, 0,' + reservation_opacity(reservation_status)
     when 'research'
-      'rgba(225, 17, 65,' + reservation_opacity(reservation_status)
+      'rgba(16, 150, 24,' + reservation_opacity(reservation_status)
     when 'personal'
-      'rgba(169, 225, 17,' + reservation_opacity(reservation_status)
+      'rgba(153, 0, 153,' + reservation_opacity(reservation_status)
     end
   end
 
@@ -131,6 +131,40 @@
     <h2>Horario <%= image_tag "icons/calendar.svg", class: 'ico ico-cal' %></h2>
     <p class="mb-5 mt-1">Selecciona en el calendario un rango de tiempo para utilizar el equipo. Posteriormente se te pedirán algunos datos adicionales.</p>
     <div id="calendar"></div>
+    <div class="row" style="padding:10px 15px 0px">
+      <div class="col-3">
+        <div class="row">
+          <div class="col-1" style="background-color:rgb(220 57 18 / 75%)"></div>
+          <div class="col">
+            Academic
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="row">
+          <div class="col-1" style="background-color:rgb(16 150 24 / 75%)"></div>
+          <div class="col">
+            Research
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="row">
+          <div class="col-1" style="background-color:rgb(212 64 179)"></div>
+          <div class="col">
+            Personal
+          </div>
+        </div>
+      </div>
+      <div calss="col">
+        <div class="row">
+          <div class="col-1" style="background-color:rgb(255 153 0 / 75%)"></div>
+          <div class="col">
+            Entrepreneurship
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 </div>
 
