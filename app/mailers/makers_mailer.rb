@@ -1,5 +1,5 @@
 class MakersMailer < ApplicationMailer
-  default from: 'Plataforma Makers <makersprogram-noreply@tec.mx>'
+  default from: 'Plataforma Makers <Makers.iag@servicios.tec.mx>'
 
   def cancellation_email(reservation)
     @reservation = reservation
