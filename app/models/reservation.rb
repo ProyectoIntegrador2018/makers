@@ -7,7 +7,7 @@ class Reservation < ApplicationRecord
 
   validates :status, :purpose, :start_time, :end_time, presence: true
   validate :date_range_valid, :not_overlapped, if: -> { start_time_changed? || end_time_changed? }
-  validate :is_available, on: :create
+  validate :available?, on: :create
 
   scope :upcoming, ->(limit) { where('start_time > ?', Time.current).order(:start_time).limit(limit) }
   scope :future, -> { where('start_time > ?', Time.current).order(:start_time) }
@@ -35,19 +35,19 @@ class Reservation < ApplicationRecord
 
   # Checks if all available blocks that the reservation spans are consecutive
   # and encompass the reservation itself
-  def is_available
+  def available?
     return unless start_time.present? && end_time.present?
 
     reservation_hours = (end_time - start_time) / 1.hour
     day = start_time.wday
     st = start_time
     et = reservation_hours > 24 ? end_time.end_of_day : end_time
-    while reservation_hours > 0 do
-      if !available_at(st, et, day)
+    while reservation_hours.positive? do
+      unless available_at(st, et, day)
         errors.add(:start_time, I18n.t('activerecord.errors.models.reservation.attributes.date.available_hours'))
         return
       end
-      if self.overnight?
+      if overnight?
         st = start_time.beginning_of_day
       end
       et = reservation_hours > 24 ? end_time.end_of_day : end_time
@@ -58,16 +58,18 @@ class Reservation < ApplicationRecord
 
   def date_range_valid
     return unless start_time.present? && end_time.present?
+
     errors.add(:start_time, I18n.t('activerecord.errors.models.reservation.attributes.date.past')) if start_time < Time.current
     errors.add(:end_time, I18n.t('activerecord.errors.models.reservation.attributes.date.start_time')) if end_time <= start_time
   end
 
   def not_overlapped
     return unless start_time.present? && end_time.present?
+
     remove_overlapped if blocked?
-    if overlapped_reservations.exists?
-      errors.add(:date, I18n.t('activerecord.errors.models.reservation.attributes.date.overlapping'))
-    end
+    return unless overlapped_reservations.exists?
+
+    errors.add(:date, I18n.t('activerecord.errors.models.reservation.attributes.date.overlapping'))
   end
 
   def remove_overlapped

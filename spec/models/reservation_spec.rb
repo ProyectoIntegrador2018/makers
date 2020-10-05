@@ -147,4 +147,31 @@ RSpec.describe Reservation, type: :model do
 
     expect(res.valid?).to eq false
   end
+
+  it 'accepts reservations in the same block one was previously created' do
+    create(:available_hour,
+           day_of_week: 1,
+           start_time: '08:30 CT',
+           end_time: '17:30 CT',
+           equipment: equipment
+    )
+
+    old_res = build(:reservation,
+                    start_time: future_monday.at_noon,
+                    end_time: future_monday.at_noon + 2.hour, # Ends at 14:00
+                    equipment: equipment,
+                    user: user
+    )
+    expect(old_res.valid?).to eq true
+
+    Timecop.travel(old_res.start_time + 1.day)
+
+    new_res = build(:reservation,
+                    start_time: future_monday.at_noon,
+                    end_time: future_monday.at_noon + 2.hour, # Ends at 14:00
+                    equipment: equipment,
+                    user: user
+    )
+    expect(new_res.valid?).to eq true
+  end
 end

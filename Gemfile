@@ -73,6 +73,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # For seeding the DB
 gem 'faker'
 
+# For changing time in tests
+gem 'timecop'
+
 # Admin dashboard
 gem 'administrate', '~> 0.11.0'
 gem 'administrate-field-belongs_to_search'
