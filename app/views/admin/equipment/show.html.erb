@@ -122,6 +122,42 @@ as well as a link to its edit page.
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <h4 class="card-title">Weekly Usage</h4>
+              </div>
+            </div>
+            <%= javascript_include_tag 'application' %>
+            <div id="WeeklyUsage">
+              <%= line_chart [{name:"Total", data:page.resource.reservations.complete.group_by_day_of_week(:start_time, format: "%a").count},
+                              {name:"Academic", data:page.resource.reservations.complete.academic.group_by_day_of_week(:start_time, format: "%a").count},
+                              {name:"Entrepreneurship", data:page.resource.reservations.complete.entrepreneurship.group_by_day_of_week(:start_time, format: "%a").count},
+                              {name:"Research", data:page.resource.reservations.complete.research.group_by_day_of_week(:start_time, format: "%a").count},
+                              {name:"Personal", data:page.resource.reservations.complete.personal.group_by_day_of_week(:start_time, format: "%a").count}] %>
+            </div>
+            <div class="row">
+              <div class="col">
+                <h4 class="card-title">Hourly Usage</h4>
+              </div>
+            </div>
+            <div id="HourlyUsageDetail">
+              <%# Group the reservations by the week day they correspond to and then create graph using the resulting hash %>
+              <% weeklyStats = page.resource.reservations.complete.group_by{ | res | res.start_time.wday } %>
+              <% completeStats = {'7': page.resource.reservations.complete}.merge(weeklyStats) %>
+              <%# Array used to display the name of the data in the graph %>
+              <% weekDays = ['Sunday', 'Monday', 'Tuseday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Total'] %>
+              <%= area_chart completeStats.map { | day |
+                {name: weekDays[day[0].to_s.to_i], data: day[1].group_by_hour_of_day(format: "%l%P", series: true){ |u| u.start_time }.map { |k, v| [k, v.count] }.to_h}
+              } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -155,7 +191,7 @@ as well as a link to its edit page.
     let calendar;
     const reservations = <%= raw(reservations.to_json) %>;
     const available_hours = <%= raw(available_hours.to_json) %>;
-   
+
     // Map business (available) hours
 
     const dateMap = {
@@ -167,7 +203,7 @@ as well as a link to its edit page.
         "friday": 5,
         "saturday": 6,
       };
-    
+
     let bhours = available_hours.map(ah => {
         return {
           daysOfWeek: [dateMap[ah.day_of_week]],
