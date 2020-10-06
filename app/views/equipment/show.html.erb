@@ -88,7 +88,7 @@
       <div class="col offset-1">
         <div class="row">
           <section class="equipment-image">
-              <%= image_tag @equipment.image.url unless @equipment.image.url.nil? %>
+              <%= image_tag @equipment.image unless @equipment.image.empty? %>
           </section>
         </div>
       </div>

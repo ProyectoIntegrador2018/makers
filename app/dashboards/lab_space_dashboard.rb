@@ -1,5 +1,4 @@
 require "administrate/base_dashboard"
-require "administrate/field/carrierwave"
 
 class LabSpaceDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
@@ -21,9 +20,7 @@ class LabSpaceDashboard < Administrate::BaseDashboard
     contact_phone: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    image: Field::Carrierwave.with_options(
-      remove: true,
-    ),
+    image: Field::String,
   }.freeze
 
   # COLLECTION_ATTRIBUTES

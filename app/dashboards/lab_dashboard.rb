@@ -15,9 +15,7 @@ class LabDashboard < Administrate::BaseDashboard
     location: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    image: Field::Carrierwave.with_options(
-      remove: true,
-      ),
+    image: Field::String,
   }.freeze
 
   # COLLECTION_ATTRIBUTES

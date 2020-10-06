@@ -34,7 +34,6 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'carrierwave', '~> 1.0'
 gem 'devise', '~> 4.2'
 gem 'pundit', '~> 2.0'
 
@@ -76,12 +75,11 @@ gem 'faker'
 # Admin dashboard
 gem 'administrate', '~> 0.11.0'
 gem 'administrate-field-belongs_to_search'
-gem 'administrate-field-carrierwave', '~> 0.4.1'
 gem 'administrate-field-nested_has_many'
 
 # Keeping track of audits (extension that logs all changes to your models)
 gem 'audited', '~> 4.7'
 
 # Used to display graphs and charts fromt he data of the models
-gem "chartkick"
+gem 'chartkick'
 gem 'groupdate'

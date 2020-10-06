@@ -93,7 +93,7 @@ lab = Lab.create!(
   name: "InnovactionGYM",
   description: "El INNOVaction GYM es un gimnasio de innovación y un “makerspace” del Instituto Tecnológico de Monterrey creado con el fin de fomentar la cultura interdisciplinaria de innovación entre los estudiantes, facultad del TEC de Monterrey y la comunidad externa, poniendo a disposición de sus colaboradores un área de 1,100 metros cuadrados de espacio co-work, makerspace, área de juntas, y una área de exposiciones, donde el juego-acción es la base para dar origen a la creación de ideas y proyectos innovadores.",
   location: "CETEC piso 2",
-  remote_image_url: "http://lorempixel.com/600/440",
+  image: "http://lorempixel.com/600/440",
   user_id: lab_admin.id
 )
 
@@ -104,14 +104,14 @@ ls = lab.lab_spaces.create!(
   location: "Innovaction Gym",
   contact_email: "azael.capetillo@tec.mx",
   contact_phone: "81830020",
-  remote_image_url: "http://lorempixel.com/600/440",
+  image: "http://lorempixel.com/600/440",
   user_id: lab_space_admin.id
 )
 
 eq = ls.equipment.create!(
   name: "Escáner 3D Go!Scan",
   description: "Escáner 3D portable, capaz de realizar mediciones rápidas y confiables en 3D y a todo color.",
-  remote_image_url: "http://lorempixel.com/600/440",
+  image: "http://lorempixel.com/600/440",
   technical_description: "Presición de 0.100 mm, área de escaneo de 143 x 108 mm, fuente de luz blanca y métodos de posición por geometría y/o color y/o objetivo.",
   capability_ids: [],
   material_ids: []
@@ -126,7 +126,7 @@ eq.available_hours.create!(
 eq = ls.equipment.create!(
   name: "Impresora",
   description: "Imprime",
-  remote_image_url: "http://lorempixel.com/600/440",
+  image: "http://lorempixel.com/600/440",
   technical_description: "",
   capability_ids: [Capabilities[0]],
   material_ids: [Materials[0]]
@@ -147,7 +147,7 @@ eq.available_hours.create!(
 eq = ls.equipment.create!(
   name: "Impresora 3D Zotrax M200 - 1",
   description: "Materializa tus diseños 3D de manera fácil y precisa, creando piezas o maquetas volumétricas hechas a partir de tus modelos digitales.",
-  remote_image_url: "http://lorempixel.com/600/440",
+  image: "http://lorempixel.com/600/440",
   technical_description: "asdfadfasdfasdf",
   capability_ids: [Capabilities[1]],
   material_ids: [Materials[1],Materials[2],Materials[3],Materials[4],Materials[6]]
@@ -168,7 +168,7 @@ eq.available_hours.create!(
 eq = ls.equipment.create!(
   name: "Impresora 3D SLA FormLabs",
   description: "Imprime partes con alta definición en resina.",
-  remote_image_url: "http://lorempixel.com/600/440",
+  image: "http://lorempixel.com/600/440",
   technical_description: "",
   capability_ids: [Capabilities[2]],
   material_ids: [Materials[5]]
@@ -183,7 +183,7 @@ eq.available_hours.create!(
 eq = ls.equipment.create!(
   name: "Impresora 3D Rostock 1",
   description: "Materializa tus diseños 3D creando piezas o maquetas volumétricas hechas a partir de tus modelos digitales.",
-  remote_image_url: "http://lorempixel.com/600/440",
+  image: "http://lorempixel.com/600/440",
   technical_description: "Impresora 3D de modelado por deposición fundida (Fused Deposition Modeling) para filamentos de 1.75mm de diámetro. Cuenta con un área de impresión de base circular de 26cm de diámetro por 38cm de altura. Su extrusor es de 0.5mm. Tiene una resolución de 0.1mm a 0.4mm. Programa de impresión: Cura Ultimaker o Slic3r.",
   capability_ids: [Capabilities[1]],
   material_ids: []
@@ -210,7 +210,7 @@ eq.available_hours.create!(
 eq = ls.equipment.create!(
   name: "Impresora Zortrax M-300",
   description: "adfasdf",
-  remote_image_url: "http://lorempixel.com/600/440",
+  image: "http://lorempixel.com/600/440",
   technical_description: "asdfasdf",
   capability_ids: [Capabilities[1]],
   material_ids: [Materials[2], Materials[3], Materials[4]]
@@ -231,7 +231,7 @@ eq.available_hours.create!(
 eq = ls.equipment.create!(
   name: "Impresora 3D Rostock Delta Max",
   description: "Materializa tus diseños 3D de manera fácil y precisa, creando piezas o maquetas volumétricas hechas a partir de tus modelos digitales.",
-  remote_image_url: "http://lorempixel.com/600/440",
+  image: "http://lorempixel.com/600/440",
   technical_description: "Impresora 3D de tecnología layered plastic deposition con volumen de impresión de 300mmx300mmx300mm. Resolución de 90 a 400 micras para filamento de 1.75mm de diámetro y boquilla de 0.4mm de diámetro. Cama caliente. Programa para impresión: Z-Suite.",
   capability_ids: [],
   material_ids: [Materials[2], Materials[4],  Materials[7]]
@@ -258,7 +258,7 @@ eq.available_hours.create!(
 eq = ls.equipment.create!(
   name: "Cortadora láser",
   description: "Graba, corta o marca tus diseño sobre múltiples materiales de forma precisa y rápida.",
-  remote_image_url: "http://lorempixel.com/600/440",
+  image: "http://lorempixel.com/600/440",
   technical_description: "Cortadora Láser de tubo sellado de CO2 modelo STM-6090, área de trabajo de 60cm X 90cm y potencia de 80 watts.",
   capability_ids: [Capabilities[3], Capabilities[4]],
   material_ids: [Materials[8], Materials[9], Materials[10], Materials[11], Materials[12]]
@@ -285,7 +285,7 @@ eq.available_hours.create!(
 eq = ls.equipment.create!(
   name: "Impresora 3D",
   description: "Imprime",
-  remote_image_url: "http://lorempixel.com/600/440",
+  image: "http://lorempixel.com/600/440",
   technical_description: "Imprime",
   capability_ids: [Capabilities[5]],
   material_ids: [Materials[1], Materials[6], Materials[12]]
@@ -314,7 +314,7 @@ lab = Lab.create!(
   name: "Laboratorio de Mecatronica",
   description: "Laboratorio de Mecatronica abierto a todas las carreras, util para crear e inovar.",
   location: "Aulas 7 3er Piso",
-  remote_image_url: "http://lorempixel.com/600/440",
+  image: "http://lorempixel.com/600/440",
   user_id: lab_admin.id
 )
 
@@ -325,14 +325,14 @@ ls = lab.lab_spaces.create!(
   location: "Aulas 7 3er Piso",
   contact_email: "mecatronica@itesm.mx",
   contact_phone: "8111342200",
-  remote_image_url: "http://lorempixel.com/600/440",
+  image: "http://lorempixel.com/600/440",
   user_id: lab_space_admin.id
 )
 
 eq = ls.equipment.create!(
   name: "Mecatronica Escaner",
   description: "Escáner 3D portable, capaz de realizar mediciones rápidas y confiables en 3D y a todo color.",
-  remote_image_url: "http://lorempixel.com/600/440",
+  image: "http://lorempixel.com/600/440",
   technical_description: "Presición de 0.100 mm, área de escaneo de 143 x 108 mm, fuente de luz blanca y métodos de posición por geometría y/o color y/o objetivo.",
   capability_ids: [Capabilities[4]],
   material_ids: [Materials[3]]
@@ -347,7 +347,7 @@ eq.available_hours.create!(
 eq = ls.equipment.create!(
   name: "Impresora 3D 4000 Serie A",
   description: "Materializa tus diseños 3D de manera fácil y precisa, creando piezas o maquetas volumétricas hechas a partir de tus modelos digitales.",
-  remote_image_url: "http://lorempixel.com/600/440",
+  image: "http://lorempixel.com/600/440",
   technical_description: "Presición de 0.100 mm, área de escaneo de 143 x 108 mm, fuente de luz blanca y métodos de posición por geometría y/o color y/o objetivo.",
   capability_ids: [Capabilities[2]],
   material_ids: [Materials[3], Materials[4]]
@@ -368,7 +368,7 @@ eq.available_hours.create!(
 eq = ls.equipment.create!(
   name: "Mecatronica Cortadora láser",
   description: "Graba, corta o marca tus diseño sobre múltiples materiales de forma precisa y rápida.",
-  remote_image_url: "http://lorempixel.com/600/440",
+  image: "http://lorempixel.com/600/440",
   technical_description: "Cortadora Láser de tubo sellado de CO2 modelo STM-6090, área de trabajo de 60cm X 90cm y potencia de 80 watts.",
   capability_ids: [Capabilities[3], Capabilities[4]],
   material_ids: [Materials[3], Materials[4], Materials[5]]

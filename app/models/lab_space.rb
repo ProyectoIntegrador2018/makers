@@ -1,6 +1,5 @@
 class LabSpace < ApplicationRecord
   audited
-  mount_uploader :image, ImageUploader
   validates :name, :description, :location, :lab, presence: true
 
   belongs_to :lab
