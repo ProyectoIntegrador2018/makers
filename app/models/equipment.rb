@@ -1,8 +1,6 @@
 class Equipment < ApplicationRecord
   audited
 
-  mount_uploader :image, ImageUploader
-
   has_many :equipment_materials, dependent: :destroy
   has_many :materials, through: :equipment_materials, after_remove: :destroy_orphans
   has_many :equipment_capabilities, dependent: :destroy

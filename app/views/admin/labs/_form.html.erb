@@ -35,13 +35,10 @@ and renders all form fields for a resource's editable attributes.
   <% end %>
 
   <div class="row firstrow">
-    <div class="col-5">
-      <div class="uploadPhoto va-p">
-        <p class="text valign"><span class="large">+</span> <br> Agrega una imagen</p>
-      </div>
-      <%= f.file_field :image, :class => 'hidden', :id=>'imginput' %>
-    </div>
     <div class="col-7">
+      <div>
+        <%= f.text_field :image, placeholder: "URL de Imagen", :class => 'txtinput large'%>
+      </div>
       <div>
         <%= f.text_field :name, placeholder: "Nombre del laboratorio", :class => 'txtinput large'%>
       </div>
@@ -61,44 +58,4 @@ and renders all form fields for a resource's editable attributes.
     <%= f.submit 'Guardar'%>
   </div>
 
-<% end %>
-
-<% content_for(:javascript) do %>
-  <script>
-    $('.uploadPhoto').click(function() {
-      $('#imginput').click();
-    });
-
-    $('#imginput').on('change', function(e) {
-      if(e.target.files.length <= 0) {
-        console.log('failed files');
-        return false;
-      }
-      let file = e.target.files[0];
-      if(!(file.type === "image/jpeg" || file.type === "image/png")) {
-        console.log('Failed type');
-        return false;
-      }
-      if(file.size > 1024*1024) { // max file size: 1 MiB
-        console.log('Failed size');
-        alert('File is too big. Please choose a smaller file. Max. file size allowed: 1 MB.');
-        return false;
-      }
-      const fr = new FileReader();
-      fr.onload = function(e) {
-        let img = document.createElement('img');
-        img.file = file;
-        img.src = e.target.result;
-        img.classList.add('valign');
-        img.width = 120;
-        $uploadPhoto = $('.uploadPhoto');
-        $uploadPhoto.find('img').remove();
-        $uploadPhoto.addClass('with-photo').append(img);
-      };
-      fr.onerror = function(e) {
-        console.error(e);
-      };
-      fr.readAsDataURL(file);
-    });
-  </script>
 <% end %>
