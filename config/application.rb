@@ -20,7 +20,7 @@ module Makersprogram
     config.i18n.fallbacks = [:en]
     config.i18n.default_locale = :en
     config.time_zone = 'America/Monterrey'
-    config.active_record.default_timezone = :local
+    config.active_record.default_timezone = :utc
     # config.assets.enabled = false
 
     # Settings in config/environments/* take precedence over those specified here.

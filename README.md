@@ -32,9 +32,13 @@ This is the repository for "Makers Program" for Tec de Monterrey. This project w
 
 | Name                              | Email              | Rol        |
 | --------------------------------- | ------------------ | ---------- |
-| Alejandro Lara             | A00820153@itesm.mx | Desarrollo |
-| Diego Treviño | A00819313@itesm.mx | Desarrollo |
-| Jorge Ramirez         | A01088601@itesm.mx | Desarrollo |
+| Aldo Cervantes                    | A01039261@itesm.mx | Desarrollo |
+| Diego Astiazarán                  | A01243969@itesm.mx | Desarrollo |
+| Erik Torres                       | A01196362@itesm.mx | Desarrollo |
+| Héctor Morales                    | A01193139@itesm.mx | Desarrollo |
+| Alejandro Lara                    | A00820153@itesm.mx | Desarrollo |
+| Diego Treviño                     | A00819313@itesm.mx | Desarrollo |
+| Jorge Ramirez                     | A01088601@itesm.mx | Desarrollo |
 
 ### Technology Stack
 | Technology    | Version      |

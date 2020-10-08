@@ -14,3 +14,5 @@
 //= require rails-ujs
 //= require activestorage
 //= require home
+//= require chartkick
+//= require Chart.bundle

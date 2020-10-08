@@ -81,3 +81,7 @@ gem 'administrate-field-nested_has_many'
 
 # Keeping track of audits (extension that logs all changes to your models)
 gem 'audited', '~> 4.7'
+
+# Used to display graphs and charts fromt he data of the models
+gem "chartkick"
+gem 'groupdate'
