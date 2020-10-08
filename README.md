@@ -71,13 +71,21 @@ After installing, you can follow this simple steps:
 $ git clone git@github.com:ProyectoIntegrador2018/makers.git
 ```
 
-2. Navigate to the `makers/` directory and run:
+2. Add Needed Ruby Enviormental variables
+
+They should be added into a file `config/local_env.yml` or be setup into your enviorment including the following variables:
+```bash
+TEC_USERNAME="email_address"
+TEC_PASSWORD="password"
+```
+
+3. Navigate to the `makers/` directory and run:
 
 ```bash
 $ docker-compose build
 ```
 
-3. Once the Docker image is built:
+4. Once the Docker image is built:
 
 ```bash
 $ docker-compose run web bash
@@ -85,7 +93,7 @@ $ docker-compose run web bash
 
 This command will open a bash session inside the container, from which you can interact directly with the rails application.
 
-4. Set up the database inside the web container
+5. Set up the database inside the web container
 
 ```bash
 $ rails db:create
