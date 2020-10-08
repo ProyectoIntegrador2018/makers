@@ -73,7 +73,11 @@ $ git clone git@github.com:ProyectoIntegrador2018/makers.git
 
 2. Add Needed Ruby Enviormental variables
 
-They should be added into a the file 'config/local_env.yml' or be setup into your enviorment
+They should be added into a file `config/local_env.yml` or be setup into your enviorment including the following variables:
+```bash
+TEC_USERNAME="email_address"
+TEC_PASSWORD="password"
+```
 
 3. Navigate to the `makers/` directory and run:
 
