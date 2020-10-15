@@ -247,6 +247,21 @@
         "friday": 5,
         "saturday": 6,
       };
+
+      const colorMap = {
+        "academic": 'rgba(220, 57, 18,',
+        "entrepreneurship": 'rgba(255, 153, 0,',
+        "research": 'rgba(16, 150, 24,',
+        "personal": 'rgba(153, 0, 153,'
+      };
+      const textMap = {
+        "confirmed": '#fefefe',
+        "pending": '#000000'
+      };
+      const alphaMap = {
+        "confirmed": ' .75)',
+        "pending": ' .25)'
+      };
       // Map hours
       let bhours = available_hours.map(ah => {
         return {
@@ -334,9 +349,15 @@
         $('.reserveBtn').click(function() {
           if(tmpEvent) {
             const eventData = buildEvent(tmpEvent);
-            registerEvent(eventData, function(created) {
-              if(created) {
-                calendar.addEvent(tmpEvent);
+            registerEvent(eventData, function(data) {
+              if(data.status && (data.status === "pending" || data.status === "confirmed" || data.status === "blocked")) {
+                tmpEvent["id"] = data.id;
+                tmpEvent["title"] = tmpEvent["title"] + ((data.status == "pending") ? ' (pendiente)' : '');
+                tmpEvent["color"] = colorMap[data.purpose] + alphaMap[data.status];
+                tmpEvent['textColor'] = textMap[data.status];
+                let event = calendar.addEvent(tmpEvent);
+                event.setExtendedProp("isUser", true);
+                calendar.rerenderEvents();
                 tmpEvent = null;
               }
             });
@@ -378,7 +399,7 @@
         }
         function registerEvent(eventData, cb) {
           $.post(`/equipment/${eqid}/reservations.json`, eventData, function(data, status, xhr) {
-            cb(data.status && (data.status === "pending" || data.status === "confirmed" || data.status === "blocked"));
+            cb(data);
           }, 'json')
           .fail(function(xhr, status, err) {
             errMessage = "No se pudo reservar por los siguientes errores: \n"
