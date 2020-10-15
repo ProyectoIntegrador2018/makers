@@ -20,7 +20,9 @@
             </div>
             <div class="row">
               <div class="col-3"><strong>Ubicación:</strong></div>
-              <div class="col"><p><%= @lab.location %></p></div>
+              <div class="icon location"></div>
+              <div class="col"><td><%= link_to @lab.location, @lab.location_link, :target => "_blank" %></td></div>
+
             </div>
             <div class="row">
               <div class="col">
@@ -73,4 +75,3 @@
     </div>
   </section>
 </div>
-
