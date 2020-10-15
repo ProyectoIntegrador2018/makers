@@ -14,6 +14,18 @@ module Admin
 
     helper all_helpers_from_path 'app/helpers'
 
+    def order
+      @order ||= Administrate::Order.new(
+        params.fetch(resource_name, {}).fetch(:order, default_sort[:order]),
+        params.fetch(resource_name, {}).fetch(:direction, default_sort[:direction])
+      )
+    end
+
+    # override this in specific controllers as needed
+    def default_sort
+      { order: :created_at, direction: :desc }
+    end
+
     def set_locale
       I18n.locale = :en || I18n.default_locale
     end
