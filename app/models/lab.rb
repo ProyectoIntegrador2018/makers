@@ -1,6 +1,6 @@
 class Lab < ApplicationRecord
   audited
-  validates :name, :description, :location, presence: true
+  validates :name, :description, :location, :location_link, presence: true
 
   has_many :lab_spaces
 

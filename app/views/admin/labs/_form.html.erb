@@ -37,16 +37,19 @@ and renders all form fields for a resource's editable attributes.
   <div class="row firstrow">
     <div class="col-7">
       <div>
-        <%= f.text_field :image, placeholder: "URL de Imagen", :class => 'txtinput large'%>
+        <%= f.text_field :name, placeholder: "Nombre del laboratorio", :class => 'txtinput large'%>
       </div>
       <div>
-        <%= f.text_field :name, placeholder: "Nombre del laboratorio", :class => 'txtinput large'%>
+        <%= f.text_field :image, placeholder: "URL de Imagen", :class => 'txtinput'%>
       </div>
       <div>
         <%= f.text_field :description, placeholder: "Descripción", :class => 'txtinput', :id=>"desc" %>
       </div>
       <div>
         <%= f.text_field :location, placeholder: "Ubicación",  :class => 'txtinput' %>
+      </div>
+      <div>
+        <%= f.text_field :location_link, placeholder: "URL de Ubicación", :class => 'txtinput'%>
       </div>
       <div>
         <%= f.select :user_id, User.all.collect { |p| [p.given_name, p.id] }, include_blank: true,  :class => 'txtinput' %>

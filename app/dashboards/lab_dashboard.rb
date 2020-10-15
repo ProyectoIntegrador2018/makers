@@ -13,6 +13,7 @@ class LabDashboard < Administrate::BaseDashboard
     name: Field::String,
     description: Field::Text,
     location: Field::String,
+    location_link: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     image: Field::String,
@@ -50,6 +51,7 @@ class LabDashboard < Administrate::BaseDashboard
     :name,
     :description,
     :location,
+    :location_link,
     :image,
   ].freeze
 
