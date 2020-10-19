@@ -69,7 +69,7 @@ and renders all form fields for a resource's editable attributes.
   <% end %>
 
   <h2 class="section-title">Basic information</h2>
-  <% page.attributes[0...-4].each do |attribute| -%>
+  <% page.attributes[0...-6].each do |attribute| -%>
     <div class="field-unit field-unit--<%= attribute.html_class %>">
       <% check_attribute attribute %>
       <%= render_field attribute, f: f %>
@@ -105,7 +105,7 @@ and renders all form fields for a resource's editable attributes.
   </fieldset>
 
   <h2 class="section-title">Space & Hours</h2>
-  <% page.attributes[-2,2].each do |attribute| -%>
+  <% page.attributes[-4,4].each do |attribute| -%>
     <div class="field-unit field-unit--<%= attribute.html_class %>">
       <% check_attribute attribute  %>
       <%= render_field attribute, f: f %>

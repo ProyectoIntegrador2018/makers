@@ -86,7 +86,7 @@ class EquipmentController < ApplicationController
   def equipment_params
     params[:equipment][:material_ids] = Equipment.check_for_new_tags(params[:equipment][:material_ids] || [], :material)
     params[:equipment][:capability_ids] = Equipment.check_for_new_tags(params[:equipment][:capability_ids] || [], :capability)
-    params.require(:equipment).permit(:name, :description, :image, :technical_description, capability_ids: [], material_ids: [])
+    params.require(:equipment).permit(:name, :description, :image, :technical_description, :max_usage, :rest_time, capability_ids: [], material_ids: [])
   end
 
   def schedule_params(schedule)

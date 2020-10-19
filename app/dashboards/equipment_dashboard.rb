@@ -19,6 +19,8 @@ class EquipmentDashboard < Administrate::BaseDashboard
     reservations: Field::NestedHasMany,
     updated_at: Field::DateTime,
     technical_description: Field::Text,
+    max_usage: Field::Number,
+    rest_time: Field::Number,
     upcoming_reservations: Field::Number,
   }.freeze
 
@@ -41,6 +43,8 @@ class EquipmentDashboard < Administrate::BaseDashboard
     :name,
     :description,
     :technical_description,
+    :max_usage,
+    :rest_time,
     :available_hours,
     :image,
     :materials,
@@ -62,6 +66,8 @@ class EquipmentDashboard < Administrate::BaseDashboard
     :materials,
     :capabilities,
     :lab_space,
+    :max_usage,
+    :rest_time,
     :available_hours,
   ].freeze
 
