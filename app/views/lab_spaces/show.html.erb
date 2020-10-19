@@ -27,7 +27,7 @@
             </div>
             <div class="row">
               <div class="col-3"><strong>Ubicación:</strong></div>
-              <div class="col"><p class="mb-1"><%= @lab_space.location %></p></div>
+              <td><%= link_to @lab_space.lab.name, lab_path(@lab_space.lab.id) %></td>
             </div>
             <div class="row">
               <div class="col">

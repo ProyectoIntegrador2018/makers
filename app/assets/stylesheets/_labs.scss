@@ -100,6 +100,16 @@
       margin: 5px 0;
     }
   }
+  .icon {
+    margin-bottom: 25px;
+    background-repeat: no-repeat;
+    &.location {
+      background-image: url(image-path("icons/location.svg"));
+      background-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
 }
 
 .EquipoGrid {
