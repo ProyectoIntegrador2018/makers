@@ -8,12 +8,16 @@ class LabSpacesController < ApplicationController
   # GET /lab/1/lab_spaces
   # GET /lab/1/lab_spaces.json
   def index
+    add_breadcrumb I18n.t("breadcrumbs.lab_spaces.index"), :lab_spaces_path
     # @lab_spaces defined in before actions
   end
 
   # GET /lab/1/lab_spaces/1
   # GET /lab/1/lab_spaces/1.json
   def show
+    add_breadcrumb I18n.t("breadcrumbs.labs.index"), :labs_path
+    add_breadcrumb @lab_space.lab.name, lab_path(@lab_space.lab)
+    add_breadcrumb @lab_space.name, :lab_lab_space_path
     @capabilities = Capability.all
     @materials = Material.all
   end

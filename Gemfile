@@ -83,3 +83,6 @@ gem 'audited', '~> 4.7'
 # Used to display graphs and charts fromt he data of the models
 gem 'chartkick'
 gem 'groupdate'
+
+# Self-explanatory
+gem 'breadcrumbs_on_rails'

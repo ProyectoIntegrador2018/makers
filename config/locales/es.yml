@@ -1,6 +1,16 @@
 # Additional translations at http://github.com/plataformatec/devise/wiki/I18n
 
 es:
+  breadcrumbs:
+    home: 'Inicio'
+    profile: 'Profile'
+    labs:
+      index: 'Laboratorios'
+    lab_spaces:
+      index: 'Espacios de Laboratorio'
+    equipment:
+      index: 'Lista de equipos'
+
   errors:
     messages:
       expired: "ha expirado, por favor pide uno nuevo"
