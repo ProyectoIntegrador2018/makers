@@ -194,128 +194,34 @@ as well as a link to its edit page.
     </div>
   </div>
 </section>
+<% @lab_space = @equipment.lab_space # Need to set this so reservation_modal works properly %>
+<%= render partial: 'shared/reservation_modal' %>
+<%= render partial: 'shared/reservation_detail' %>
 
 <%
-  # TODO: refactor this
-  def reservation_opacity(reservation_status)
-    case reservation_status
-    when 'confirmed'
-      ' .75)'
-    when 'pending'
-      ' .25)'
-    end
-  end
+  # Only show reservations in the last year to not overload Calendar
+  res = @equipment.reservations.where("created_at >= ?", Time.current - 2.year)
+  res = res.select { |r| reservation_visible?(r) }
 
-  def reservation_color(reservation_purpose, reservation_status)
-    if reservation_status == 'blocked'
-      '#e74c3c'
-    end
-    case reservation_purpose
-    when 'academic'
-      'rgba(220, 57, 18,' + reservation_opacity(reservation_status)
-    when 'entrepreneurship'
-      'rgba(255, 153, 0,' + reservation_opacity(reservation_status)
-    when 'research'
-      'rgba(16, 150, 24,' + reservation_opacity(reservation_status)
-    when 'personal'
-      'rgba(153, 0, 153,' + reservation_opacity(reservation_status)
-    end
-  end
-
-  def reservation_text(reservation_purpose)
-    case reservation_purpose
-    when 'confirmed'
-      '#fefefe'
-    when 'pending'
-      '#000000'
-    when 'blocked'
-      '#000000'
-    end
-  end
-
-  available_hours = @equipment.available_hours
   reservations = []
-  res = @equipment.reservations
-  res = res.confirmed.or(res.blocked)
   res.each do | r |
-    res_title = reservation_title(r)
-    res_color = reservation_color(r.purpose, r.status)
-    txt_color = reservation_text(r.status)
     reservations.push({
       "id" => r.id,
       "start" => r.start_time,
       "end" => r.end_time,
-      "title" => res_title,
-      "color" => res_color,
-      "isUser" => (user_signed_in? and current_user.id == r.user_id),
-      "textColor" => txt_color
+      "title" => reservation_title(r),
+      "color" => reservation_color(r.purpose, r.status),
+      "textColor" => reservation_text(r.status)
     })
   end
 %>
 
 <% content_for(:javascript) do %>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/main.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.0.1/main.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.0.1/main.min.css">
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"> -->
-  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/main.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.0.1/main.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.0.1/main.min.js"></script>
-  <!-- <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.0.1/main.min.js"></script> -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.min.js"></script>
+
+  <%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
   <script>
-    let calendar;
-    const reservations = <%= raw(reservations.to_json) %>;
-    const available_hours = <%= raw(available_hours.to_json) %>;
-
-    // Map business (available) hours
-
-    const dateMap = {
-        "sunday": 0,
-        "monday": 1,
-        "tuesday": 2,
-        "wednesday": 3,
-        "thursday": 4,
-        "friday": 5,
-        "saturday": 6,
-      };
-
-    let bhours = available_hours.map(ah => {
-        return {
-          daysOfWeek: [dateMap[ah.day_of_week]],
-          startTime: new Date(ah.start_time).toTimeString().substr(0, 5),
-          endTime: new Date(ah.end_time).toTimeString().substr(0, 5),
-        };
-      });
-
-    document.addEventListener('DOMContentLoaded', function() {
-      var calendarEl = document.getElementById('calendar');
-
-      calendar = new FullCalendar.Calendar(calendarEl, {
-      plugins: [ 'dayGrid', 'timeGrid', 'interaction' ],
-      defaultView: 'timeGridWeek',
-      events: reservations,
-      // selectable: true,
-      selectOverlap: false,
-      // select: function(selInfo) {
-      //   $modal.modal('show');
-      //   // console.log(`Start time: ${selInfo.start.toLocaleString()} \nEnd time: ${selInfo.end.toLocaleString()}`);
-      //   // calendar.addEvent();
-      //   tmpEvent = {
-      //     title: userName,
-      //     start: selInfo.start,
-      //     end: selInfo.end,
-      //   };
-      // },
-      allDaySlot: false,
-      weekends: false,
-      eventTextColor: 'white',
-      eventBackgroundColor: 'rgba(68, 93, 252, .77)',
-      minTime: "06:00:00",
-      maxTime: "22:00:00",
-      businessHours: bhours
-      });
-
-      calendar.render();
-    });
+    <%= render partial: 'shared/calendar.js', locals: { equipment: @equipment, lab_space: @lab_space, reservations: reservations } %>
   </script>
 <% end %>

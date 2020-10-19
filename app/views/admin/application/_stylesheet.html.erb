@@ -9,8 +9,7 @@ by providing a `content_for(:stylesheet)` block.
 
 <% Administrate::Engine.stylesheets.each do |css_path| %>
   <%= stylesheet_link_tag css_path %>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-grid.min.css">
-  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
   <%= stylesheet_link_tag 'admin', media: 'all' %>
 <% end %>
 

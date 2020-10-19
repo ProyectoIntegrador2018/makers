@@ -34,6 +34,14 @@ class ApplicationPolicy
     default_authorization
   end
 
+  def confirm?
+    default_authorization
+  end
+
+  def reject?
+    default_authorization
+  end
+
   def default_authorization
     false
   end

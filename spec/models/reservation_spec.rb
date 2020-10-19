@@ -18,6 +18,22 @@ RSpec.describe Reservation, type: :model do
     expect(Reservation.count).to eq 0
   end
 
+  it 'accepts reservations that cover the whole available block' do
+    create(:available_hour,
+           day_of_week: 1,
+           start_time: '12:00 CT',
+           end_time: '14:00 CT',
+           equipment: equipment
+    )
+    res = build(:reservation,
+                start_time: future_monday.at_noon,
+                end_time: future_monday.at_noon + 2.hour, # Ends at 14:00
+                equipment: equipment,
+                user: user
+    )
+    expect(res.valid?).to eq true
+  end
+
   it 'accepts reservations inside an available block' do
     create(:available_hour,
            day_of_week: 1,

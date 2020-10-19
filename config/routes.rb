@@ -27,13 +27,16 @@ Rails.application.routes.draw do
   end
 
   resources :equipment, only: [:index] do
-    resources :reservations, except: [:show, :edit, :update, :destroy]
+    resources :reservations, except: [:edit]
   end
 
   resources :lab_spaces, only: [:index]
 
   authenticate :user do
-    resources :reservations, except: [:new, :create, :index]
+    resources :reservations, except: [:new, :create, :index] do
+      post 'confirm'
+      post 'reject'
+    end
   end
 
   get '/users', to: redirect('users/sign_up')
