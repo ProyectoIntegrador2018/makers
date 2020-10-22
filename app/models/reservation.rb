@@ -13,6 +13,7 @@ class Reservation < ApplicationRecord
   scope :upcoming, ->(limit) { where('start_time > ?', Time.current).order(:start_time).limit(limit) }
   scope :future, -> { where('start_time > ?', Time.current).order(:start_time) }
 
+  after_create :rest_time_reservation, unless: Proc.new { self.status == "blocked"}
   after_save :check_cancellation, if: -> { previous_changes.include?(:status) }
 
   def available_at(st, et, day)
@@ -113,11 +114,23 @@ class Reservation < ApplicationRecord
     duration = ((self.end_time - self.start_time) / 3600)
     used_time = max_usage_time(self.start_time, self.equipment.max_usage)
     if ((duration + used_time) > self.equipment.max_usage.to_f)
-      puts "HELLO THIS SHOULD RAISE AN ERROR"
       errors.add(:end_time, I18n.t('activerecord.errors.models.reservation.attributes.date.max_usage'))
       false
     end
     true
+  end
+
+  def rest_time_reservation
+    # Creates a blocked reservation in case max usage has been reached
+    duration = ((self.end_time - self.start_time) / 3600)
+    used_time = max_usage_time(self.start_time, self.equipment.max_usage)
+    if((duration + used_time) >= self.equipment.max_usage.to_f)
+      end_rest = (self.end_time + self.equipment.rest_time.hours).to_datetime
+      new_reservation = Reservation.new(status: 5, purpose: 0, comment: "Bloquear reservas del equipo para evitar perdida en rendimiento",
+                                        start_time: self.end_time, end_time: end_rest, equipment_id: self.equipment.id,
+                                        updated_at: Time.now, user_id: self.equipment.lab_space.user.id)
+      new_reservation.save(validate:false)
+    end
   end
 
   def check_cancellation

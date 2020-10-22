@@ -24,17 +24,19 @@
 
   def reservation_color(reservation_purpose, reservation_status)
     if reservation_status == 'blocked'
-      '#e74c3c'
-    end
-    case reservation_purpose
-    when 'academic'
-      'rgba(220, 57, 18,' + reservation_opacity(reservation_status)
-    when 'entrepreneurship'
-      'rgba(255, 153, 0,' + reservation_opacity(reservation_status)
-    when 'research'
-      'rgba(16, 150, 24,' + reservation_opacity(reservation_status)
-    when 'personal'
-      'rgba(153, 0, 153,' + reservation_opacity(reservation_status)
+      puts "This sould be blocked"
+      ' #7B7B7B '
+    else
+      case reservation_purpose
+      when 'academic'
+        'rgba(220, 57, 18,' + reservation_opacity(reservation_status)
+      when 'entrepreneurship'
+        'rgba(255, 153, 0,' + reservation_opacity(reservation_status)
+      when 'research'
+        'rgba(16, 150, 24,' + reservation_opacity(reservation_status)
+      when 'personal'
+        'rgba(153, 0, 153,' + reservation_opacity(reservation_status)
+      end
     end
   end
 
@@ -56,7 +58,7 @@
   viable_reservations = res.confirmed.or(res.blocked).or(res.pending)
 
   res = viable_reservations.select do |reservation|
-    (reservation.status == 'pending' || reservation.status == 'blocked') ? (reservation.user == current_user) : true
+    (reservation.status == 'pending') ? (reservation.user == current_user) : true
   end
 
   res.each do | r |
