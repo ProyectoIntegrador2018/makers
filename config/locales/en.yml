@@ -62,6 +62,16 @@ en:
               past: 'Cannot reserve a space in the past.'
               start_time: 'End time cannot be before start time.'
               overlapping: 'Reservation overlaps with another one.'
+    models:
+      reservations:
+        attributes:
+          status:
+            one: 'Status'
+            confirmed: 'Confirmed'
+            rejected: 'Rejected'
+            pending: 'Pending'
+            cancelled: 'Cancelled'
+            complete: 'Completed'
   administrate:
     actions:
       show_resource: "%{name}"
@@ -75,7 +85,7 @@ en:
     - Fri
     - Sat
     abbr_month_names:
-    - 
+    -
     - Jan
     - Feb
     - Mar
@@ -101,7 +111,7 @@ en:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - January
     - February
     - March

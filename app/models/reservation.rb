@@ -12,7 +12,7 @@ class Reservation < ApplicationRecord
   scope :upcoming, ->(limit) { where('start_time > ?', Time.current).order(:start_time).limit(limit) }
   scope :future, -> { where('start_time > ?', Time.current).order(:start_time) }
 
-  after_save :check_cancellation, if: -> { previous_changes.include?(:status) }
+  after_save :check_status, if: -> { previous_changes.include?(:status) }
 
   def available_at(st, et, day)
     slots = equipment.available_hours
@@ -96,7 +96,7 @@ class Reservation < ApplicationRecord
     time_a.strftime("%H%M") == time_b.strftime("%H%M")
   end
 
-  def check_cancellation
-    MakersMailer.cancellation_email(self).deliver_now if rejected?
+  def check_status
+    MakersMailer.status_email(self).deliver_now if not blocked?
   end
 end
