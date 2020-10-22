@@ -8,7 +8,7 @@ FactoryBot.define do
     end
     image {}
     technical_description {}
-    max_usage { 4 }
+    max_usage { 10 }
     rest_time { 1 }
     lab_space { nil }
 
