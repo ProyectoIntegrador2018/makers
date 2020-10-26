@@ -59,7 +59,7 @@ lab_space_admin.save!
    institutional_id: "A00000002"
  )
 
- 
+
  test_user2.skip_confirmation!
  test_user2.save!
 
@@ -93,6 +93,7 @@ lab = Lab.create!(
   name: "InnovactionGYM",
   description: "El INNOVaction GYM es un gimnasio de innovación y un “makerspace” del Instituto Tecnológico de Monterrey creado con el fin de fomentar la cultura interdisciplinaria de innovación entre los estudiantes, facultad del TEC de Monterrey y la comunidad externa, poniendo a disposición de sus colaboradores un área de 1,100 metros cuadrados de espacio co-work, makerspace, área de juntas, y una área de exposiciones, donde el juego-acción es la base para dar origen a la creación de ideas y proyectos innovadores.",
   location: "CETEC piso 2",
+  location_link: "https://goo.gl/maps/h2YaeeCMNDdxDPAD6",
   image: "http://lorempixel.com/600/440",
   user_id: lab_admin.id
 )
@@ -113,6 +114,8 @@ eq = ls.equipment.create!(
   description: "Escáner 3D portable, capaz de realizar mediciones rápidas y confiables en 3D y a todo color.",
   image: "http://lorempixel.com/600/440",
   technical_description: "Presición de 0.100 mm, área de escaneo de 143 x 108 mm, fuente de luz blanca y métodos de posición por geometría y/o color y/o objetivo.",
+  max_usage: 4,
+  rest_time: 1,
   capability_ids: [],
   material_ids: []
 )
@@ -128,6 +131,8 @@ eq = ls.equipment.create!(
   description: "Imprime",
   image: "http://lorempixel.com/600/440",
   technical_description: "",
+  max_usage: 4,
+  rest_time: 1,
   capability_ids: [Capabilities[0]],
   material_ids: [Materials[0]]
 )
@@ -149,6 +154,8 @@ eq = ls.equipment.create!(
   description: "Materializa tus diseños 3D de manera fácil y precisa, creando piezas o maquetas volumétricas hechas a partir de tus modelos digitales.",
   image: "http://lorempixel.com/600/440",
   technical_description: "asdfadfasdfasdf",
+  max_usage: 4,
+  rest_time: 1,
   capability_ids: [Capabilities[1]],
   material_ids: [Materials[1],Materials[2],Materials[3],Materials[4],Materials[6]]
 )
@@ -170,6 +177,8 @@ eq = ls.equipment.create!(
   description: "Imprime partes con alta definición en resina.",
   image: "http://lorempixel.com/600/440",
   technical_description: "",
+  max_usage: 4,
+  rest_time: 1,
   capability_ids: [Capabilities[2]],
   material_ids: [Materials[5]]
 )
@@ -185,6 +194,8 @@ eq = ls.equipment.create!(
   description: "Materializa tus diseños 3D creando piezas o maquetas volumétricas hechas a partir de tus modelos digitales.",
   image: "http://lorempixel.com/600/440",
   technical_description: "Impresora 3D de modelado por deposición fundida (Fused Deposition Modeling) para filamentos de 1.75mm de diámetro. Cuenta con un área de impresión de base circular de 26cm de diámetro por 38cm de altura. Su extrusor es de 0.5mm. Tiene una resolución de 0.1mm a 0.4mm. Programa de impresión: Cura Ultimaker o Slic3r.",
+  max_usage: 4,
+  rest_time: 1,
   capability_ids: [Capabilities[1]],
   material_ids: []
 )
@@ -212,6 +223,8 @@ eq = ls.equipment.create!(
   description: "adfasdf",
   image: "http://lorempixel.com/600/440",
   technical_description: "asdfasdf",
+  max_usage: 4,
+  rest_time: 1,
   capability_ids: [Capabilities[1]],
   material_ids: [Materials[2], Materials[3], Materials[4]]
 )
@@ -233,6 +246,8 @@ eq = ls.equipment.create!(
   description: "Materializa tus diseños 3D de manera fácil y precisa, creando piezas o maquetas volumétricas hechas a partir de tus modelos digitales.",
   image: "http://lorempixel.com/600/440",
   technical_description: "Impresora 3D de tecnología layered plastic deposition con volumen de impresión de 300mmx300mmx300mm. Resolución de 90 a 400 micras para filamento de 1.75mm de diámetro y boquilla de 0.4mm de diámetro. Cama caliente. Programa para impresión: Z-Suite.",
+  max_usage: 4,
+  rest_time: 1,
   capability_ids: [],
   material_ids: [Materials[2], Materials[4],  Materials[7]]
 )
@@ -260,6 +275,8 @@ eq = ls.equipment.create!(
   description: "Graba, corta o marca tus diseño sobre múltiples materiales de forma precisa y rápida.",
   image: "http://lorempixel.com/600/440",
   technical_description: "Cortadora Láser de tubo sellado de CO2 modelo STM-6090, área de trabajo de 60cm X 90cm y potencia de 80 watts.",
+  max_usage: 4,
+  rest_time: 1,
   capability_ids: [Capabilities[3], Capabilities[4]],
   material_ids: [Materials[8], Materials[9], Materials[10], Materials[11], Materials[12]]
 )
@@ -287,6 +304,8 @@ eq = ls.equipment.create!(
   description: "Imprime",
   image: "http://lorempixel.com/600/440",
   technical_description: "Imprime",
+  max_usage: 4,
+  rest_time: 1,
   capability_ids: [Capabilities[5]],
   material_ids: [Materials[1], Materials[6], Materials[12]]
 )
@@ -314,6 +333,7 @@ lab = Lab.create!(
   name: "Laboratorio de Mecatronica",
   description: "Laboratorio de Mecatronica abierto a todas las carreras, util para crear e inovar.",
   location: "Aulas 7 3er Piso",
+  location_link: "https://goo.gl/maps/h2YaeeCMNDdxDPAD6",
   image: "http://lorempixel.com/600/440",
   user_id: lab_admin.id
 )
@@ -334,6 +354,8 @@ eq = ls.equipment.create!(
   description: "Escáner 3D portable, capaz de realizar mediciones rápidas y confiables en 3D y a todo color.",
   image: "http://lorempixel.com/600/440",
   technical_description: "Presición de 0.100 mm, área de escaneo de 143 x 108 mm, fuente de luz blanca y métodos de posición por geometría y/o color y/o objetivo.",
+  max_usage: 4,
+  rest_time: 1,
   capability_ids: [Capabilities[4]],
   material_ids: [Materials[3]]
 )
@@ -349,6 +371,8 @@ eq = ls.equipment.create!(
   description: "Materializa tus diseños 3D de manera fácil y precisa, creando piezas o maquetas volumétricas hechas a partir de tus modelos digitales.",
   image: "http://lorempixel.com/600/440",
   technical_description: "Presición de 0.100 mm, área de escaneo de 143 x 108 mm, fuente de luz blanca y métodos de posición por geometría y/o color y/o objetivo.",
+  max_usage: 4,
+  rest_time: 1,
   capability_ids: [Capabilities[2]],
   material_ids: [Materials[3], Materials[4]]
 )
@@ -370,6 +394,8 @@ eq = ls.equipment.create!(
   description: "Graba, corta o marca tus diseño sobre múltiples materiales de forma precisa y rápida.",
   image: "http://lorempixel.com/600/440",
   technical_description: "Cortadora Láser de tubo sellado de CO2 modelo STM-6090, área de trabajo de 60cm X 90cm y potencia de 80 watts.",
+  max_usage: 4,
+  rest_time: 1,
   capability_ids: [Capabilities[3], Capabilities[4]],
   material_ids: [Materials[3], Materials[4], Materials[5]]
 )
