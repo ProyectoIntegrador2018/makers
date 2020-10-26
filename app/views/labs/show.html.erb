@@ -1,5 +1,4 @@
 <div class="LabDetail">
-  <%= link_to '&larr; Regresar a los resultados'.html_safe, labs_path %>
   <%
     caps = @capabilities.map { |c| {"text" => c.name, "value" => c.name} }
     mats = @materials.map { |c| {"text" => c.name, "value" => c.name} }

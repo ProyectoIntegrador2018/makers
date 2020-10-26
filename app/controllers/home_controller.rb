@@ -4,6 +4,8 @@ class HomeController < ApplicationController
   config.cache_store = :null_store
   before_action :authenticate_user!, except: [:landing, :related, :equipment_relation]
 
+  add_breadcrumb I18n.t("breadcrumbs.profile"), :profile_path
+
   def landing
     @body_class = 'Home'
     @equipments = Equipment.by_popularity

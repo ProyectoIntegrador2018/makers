@@ -30,6 +30,15 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  breadcrumbs:
+    home: 'Home'
+    profile: 'Profile'
+    labs:
+      index: 'Labs'
+    lab_spaces:
+      index: 'Lab Spaces'
+    equipment:
+      index: 'Equipment list'
   activerecord:
     errors:
       messages:
