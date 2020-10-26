@@ -1,0 +1,47 @@
+<% if user_signed_in? %>
+  <div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="reservationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="reservationModalLabel">Solicitud de Reservación</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <p>Horario de reservación:</br>
+              <small id="tmpEventStartDisplay"></small></br>
+              <small id="tmpEventEndDisplay"></small>
+            </p>
+            <label class="ttu" for="purpose"><strong>Propósito del proyecto <small>(Requerido)</small></strong></label>
+            <select name="purpose" class="form-control" id="purpose">
+              <option value="academic">Académico</option>
+              <option value="entrepreneurship">Emprendimiento</option>
+              <option value="research">Investigación</option>
+              <option value="personal">Personal</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="comment" class="ttu"><strong>Comentarios adicionales <small>(Opcional)</small></strong></label>
+            <textarea name="comment" id="comment" rows="2" class="form-control" placeholder="Agrega aquí; comentarios adicionales para el laboratorista"></textarea>
+          </div>
+          <div class="form-group">
+            <input type="checkbox" id="help_needed" name="help_needed">
+            <label class="" for="help_needed"><small>¿Necesitarás ayuda de algun asesor al utilizar éste equipo?</small></label>
+          </div>
+          <% if current_user_admin? %>
+            <div class="form-group">
+              <input type="checkbox" id="blockStatus" name="status">
+              <label class="" for="status"><small>¿Desea cancelar y bloquear reservaciones en este rango de tiempo?</small></label>
+            </div>
+          <% end %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn highlight reserveBtn">Reservar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

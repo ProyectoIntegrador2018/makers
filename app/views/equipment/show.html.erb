@@ -1,79 +1,3 @@
-<%
-  def reservation_title(res)
-    if user_signed_in? && current_user.id == res.user_id
-      title = "#{current_user.given_name} #{current_user.last_name}"
-      if res.status == 'pending'
-        title += ' (pendiente)'
-      elsif res.status == 'blocked'
-        title +=  ' (bloqueado)'
-      end
-      return title
-    else
-      return 'Reservación'
-    end
-  end
-
-  def reservation_opacity(reservation_status)
-    case reservation_status
-    when 'confirmed'
-      ' .75)'
-    when 'pending'
-      ' .25)'
-    end
-  end
-
-  def reservation_color(reservation_purpose, reservation_status)
-    if reservation_status == 'blocked'
-      '#e74c3c'
-    end
-    case reservation_purpose
-    when 'academic'
-      'rgba(220, 57, 18,' + reservation_opacity(reservation_status)
-    when 'entrepreneurship'
-      'rgba(255, 153, 0,' + reservation_opacity(reservation_status)
-    when 'research'
-      'rgba(16, 150, 24,' + reservation_opacity(reservation_status)
-    when 'personal'
-      'rgba(153, 0, 153,' + reservation_opacity(reservation_status)
-    end
-  end
-
-  def reservation_text(reservation_purpose)
-    case reservation_purpose
-    when 'confirmed'
-      '#fefefe'
-    when 'pending'
-      '#000000'
-    when 'blocked'
-      '#000000'
-    end
-  end
-
-  available_hours = @equipment.available_hours
-
-  reservations = []
-  res = @equipment.reservations
-  viable_reservations = res.confirmed.or(res.blocked).or(res.pending)
-
-  res = viable_reservations.select do |reservation|
-    (reservation.status == 'pending' || reservation.status == 'blocked') ? (reservation.user == current_user) : true
-  end
-
-  res.each do | r |
-    res_title = reservation_title(r)
-    res_color = reservation_color(r.purpose, r.status)
-    txt_color = reservation_text(r.status)
-    reservations.push({
-      "id" => r.id,
-      "start" => r.start_time,
-      "end" => r.end_time,
-      "title" => res_title,
-      "color" => res_color,
-      "isUser" => (user_signed_in? and current_user.id == r.user_id),
-      "textColor" => txt_color
-    })
-  end
-%>
 <div class="LabDetail EquipmentDetail">
   <p class="m-0 entitytag"><strong><small>Equipo</small></strong></p>
   <!-- TODO: Not sure if edit should be here; move if necessary-->
@@ -168,245 +92,35 @@
   </section>
 </div>
 
-  <% if user_signed_in? %>
-  <!-- Modal for reservations -->
-    <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display: none">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Solicitud de Reservación</h5>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <p>Horario de reservación:</br>
-                <small id="tmpEventStartDisplay"></small></br>
-                <small id="tmpEventEndDisplay"></small>
-              </p>
-              <label class="ttu" for="purpose"><strong>Propósito del proyecto <small>(Requerido)</small></strong></label>
-              <select name="purpose" class="form-control" id="purpose">
-                <option value="academic">Académico</option>
-                <option value="entrepreneurship">Emprendimiento</option>
-                <option value="research">Investigación</option>
-                <option value="personal">Personal</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="comment" class="ttu"><strong>Comentarios adicionales <small>(Opcional)</small></strong></label>
-              <textarea name="comment" id="comment" rows="2" class="form-control" placeholder="Agrega aquí; comentarios adicionales para el laboratorista"></textarea>
-            </div>
-            <div class="form-group">
-              <input type="checkbox" id="help_needed" name="help_needed">
-              <label class="" for="help_needed"><small>¿Necesitarás ayuda de algun asesor al utilizar éste equipo?</small></label>
-            </div>
-            <% if policy(@lab_space.equipment.new).block? %>
-              <div class="form-group">
-                <input type="checkbox" id="blockStatus" name="status">
-                <label class="" for="status"><small>¿Desea cancelar y bloquear reservaciones en este rango de tiempo?</small></label>
-              </div>
-            <% end %>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn highlight reserveBtn">Reservar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  <% end %>
+<%= render partial: 'shared/reservation_modal' %>
+<%= render partial: 'shared/reservation_detail' %>
 
-  <% content_for(:scripts) do %>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/main.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.0.1/main.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.0.1/main.min.css">
+<%
+  # Only show reservations in the last year to not overload Calendar
+  res = @equipment.reservations.where("created_at >= ?", Time.current - 1.year)
+  res = res.select { |r| reservation_visible?(r) }
 
+  reservations = []
+  res.each do | r |
+    reservations.push({
+      "id" => r.id,
+      "start" => r.start_time,
+      "end" => r.end_time,
+      "title" => reservation_title(r),
+      "color" => reservation_color(r.purpose, r.status),
+      "textColor" => reservation_text(r.status)
+    })
+  end
+%>
 
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.0.1/main.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.0.1/main.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.0.1/main.min.js"></script>
+<% content_for(:scripts) do %>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.3.2/main.min.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.0.1/main.min.js"></script>
-
-    <%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
-
-    <script>
-      const eqid = '<%= @equipment.id %>';
-      const reservations = <%= raw(reservations.to_json) %>;
-      const available_hours = <%= raw(available_hours.to_json) %>;
-      let tmpEvent = null;
-        let calendar;
-
-      const dateMap = {
-        "sunday": 0,
-        "monday": 1,
-        "tuesday": 2,
-        "wednesday": 3,
-        "thursday": 4,
-        "friday": 5,
-        "saturday": 6,
-      };
-
-      const colorMap = {
-        "academic": 'rgba(220, 57, 18,',
-        "entrepreneurship": 'rgba(255, 153, 0,',
-        "research": 'rgba(16, 150, 24,',
-        "personal": 'rgba(153, 0, 153,'
-      };
-      const textMap = {
-        "confirmed": '#fefefe',
-        "pending": '#000000'
-      };
-      const alphaMap = {
-        "confirmed": ' .75)',
-        "pending": ' .25)'
-      };
-      // Map hours
-      let bhours = available_hours.map(ah => {
-        return {
-          daysOfWeek: [dateMap[ah.day_of_week]],
-          startTime: new Date(ah.start_time).toTimeString().substr(0, 5),
-          endTime: new Date(ah.end_time).toTimeString().substr(0, 5),
-        };
-      });
-
-      <% if user_signed_in? %>
-        const signedInOptions = {
-          selectable: true,
-          <% if policy(@lab_space.equipment.new).block? %>
-          selectOverlap: true,
-          <% else %>
-          selectOverlap: false,
-          <% end %>
-          select: function(selInfo) {
-            $modal.modal('show');
-            tmpEvent = {
-              title: userName,
-              start: selInfo.start,
-              end: selInfo.end,
-              color: "#bdc3c7"
-            };
-            $('#tmpEventStartDisplay').html(selInfo.start.toDateString() +" "+ selInfo.start.toLocaleTimeString())
-            $('#tmpEventEndDisplay').html(selInfo.end.toDateString() +" "+ selInfo.end.toLocaleTimeString())
-          },
-          businessHours: bhours,
-          eventRender: function(info) {
-            if(info.event.extendedProps.isUser) {
-              const element = $(info.el);
-              element.append( "<span title='Cancelar reservación' class='removebtn'>&times;</span>" );
-              element.find(".removebtn").click(function() {
-                if(confirm('¿Estás seguro de que deseas cancelar esta reservación?')) {
-                  cancelEvent(info.event, function() {
-                    alert('Reservación cancelada exitosamente.');
-                    info.event.remove();
-                  });
-                }
-              });
-            }
-          }
-        };
-      <% else %>
-        const visitor_options = {
-          selectable: true,
-          select: function(selInfo) {
-            alert('Tienes que iniciar sesión para reservar.');
-          },
-        };
-      <% end %>
-
-      document.addEventListener('DOMContentLoaded', function() {
-        let calendarEl = document.getElementById('calendar');
-
-
-        calendar = new FullCalendar.Calendar(calendarEl, {
-          plugins: [ 'dayGrid', 'timeGrid', 'interaction' ],
-          defaultView: 'timeGridWeek',
-          events: reservations,
-          allDaySlot: false,
-          eventTextColor: 'white',
-          eventBackgroundColor: 'rgba(68, 93, 252, .77)',
-          minTime: "06:00:00",
-          maxTime: "22:00:00",
-
-          <% if user_signed_in? %>
-            ...signedInOptions
-          <% else %>
-            ...visitor_options
-          <% end %>
-        });
-
-        calendar.render();
-      });
-
-    </script>
-
-    <% if user_signed_in? %>
-      <script>
-        const $modal = $('#exampleModal').modal({keyboard: false, backdrop: 'static', show: false});
-        const userName = '<%= "#{current_user.given_name} #{current_user.last_name}" %>';
-
-        $('.reserveBtn').click(function() {
-          if(tmpEvent) {
-            const eventData = buildEvent(tmpEvent);
-            registerEvent(eventData, function(data) {
-              if(data.status && (data.status === "pending" || data.status === "confirmed" || data.status === "blocked")) {
-                tmpEvent["id"] = data.id;
-                tmpEvent["title"] = tmpEvent["title"] + ((data.status == "pending") ? ' (pendiente)' : '');
-                tmpEvent["color"] = colorMap[data.purpose] + alphaMap[data.status];
-                tmpEvent['textColor'] = textMap[data.status];
-                let event = calendar.addEvent(tmpEvent);
-                event.setExtendedProp("isUser", true);
-                calendar.rerenderEvents();
-                tmpEvent = null;
-              }
-            });
-          }
-          else {
-            alert('An error was produced. Please try again');
-          }
-          // Reset modal fields
-          $modal.find('textarea').val('');
-          $modal.find('select').val('academic');
-          $modal.modal('hide');
-        });
-        function cancelEvent(event, cb) {
-          $.ajax({
-            url: `/reservations/${event.id}.json`,
-            method: 'DELETE',
-            data: { authenticity_token: window._token },
-            dataType: 'json',
-            success: function(data) {
-              cb();
-            },
-            error: function(xhr, status, err) {
-              alert('Se ha producido un error. Por favor, intenta más tarde.');
-            }
-          });
-        }
-        function buildEvent(event) {
-          return {
-            authenticity_token: window._token,
-            "reservation": {
-              "purpose": $modal.find('select').val(),
-              "comment": $modal.find('textarea').val(),
-              "start_time": event.start.toISOString(),
-              "end_time": event.end.toISOString(),
-              'help_needed': $('#help_needed').is(':checked')? true : false,
-              "status": $('#blockStatus').is(':checked')? 'blocked': 'pending'
-            }
-          };
-        }
-        function registerEvent(eventData, cb) {
-          $.post(`/equipment/${eqid}/reservations.json`, eventData, function(data, status, xhr) {
-            cb(data);
-          }, 'json')
-          .fail(function(xhr, status, err) {
-            errMessage = "No se pudo reservar por los siguientes errores: \n"
-            Object.keys(xhr.responseJSON).map(function(key) { errMessage += "- " + xhr.responseJSON[key] + "\n"})
-            alert(errMessage);
-          });
-        }
-      </script>
-    <% end %>
-  <% end %>
+  <%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
+  <script>
+    <%= render partial: 'shared/calendar.js', locals: { equipment: @equipment, lab_space: @lab_space, reservations: reservations } %>
+  </script>
+<% end %>
