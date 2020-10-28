@@ -14,7 +14,7 @@ class Reservation < ApplicationRecord
   scope :future, -> { where('start_time > ?', Time.current).order(:start_time) }
 
   after_create :rest_time_reservation, unless: Proc.new { self.status == "blocked"}
-  after_save :check_cancellation, if: -> { previous_changes.include?(:status) }
+  after_save :check_status, if: -> { previous_changes.include?(:status) }
 
   def available_at(st, et, day)
     slots = equipment.available_hours
@@ -25,14 +25,14 @@ class Reservation < ApplicationRecord
     last_start = nil
     last_end = slots.first.start_time
     slots.each do |slot|
-      return false if !eq(last_end, slot.start_time)
+      return false unless eq(last_end, slot.start_time)
 
       last_start = slot.start_time
       last_end = slot.end_time
       break if bigger(slot.end_time, et)
     end
 
-    return bigger(st, slots.first.start_time) && !bigger(et, last_end)
+    (bigger(st, slots.first.start_time) || eq(st, slots.first.start_time)) && !bigger(et, last_end)
   end
 
   # Checks if all available blocks that the reservation spans are consecutive
@@ -45,11 +45,11 @@ class Reservation < ApplicationRecord
     st = start_time
     et = reservation_hours > 24 ? end_time.end_of_day : end_time
     while reservation_hours > 0 do
-      if !available_at(st, et, day)
+      unless available_at(st, et, day)
         errors.add(:start_time, I18n.t('activerecord.errors.models.reservation.attributes.date.available_hours'))
         return
       end
-      if self.overnight?
+      if overnight?
         st = start_time.beginning_of_day
       end
       et = reservation_hours > 24 ? end_time.end_of_day : end_time
@@ -60,12 +60,14 @@ class Reservation < ApplicationRecord
 
   def date_range_valid
     return unless start_time.present? && end_time.present?
+
     errors.add(:start_time, I18n.t('activerecord.errors.models.reservation.attributes.date.past')) if start_time < Time.current
     errors.add(:end_time, I18n.t('activerecord.errors.models.reservation.attributes.date.start_time')) if end_time <= start_time
   end
 
   def not_overlapped
     return unless start_time.present? && end_time.present?
+
     remove_overlapped if blocked?
     if overlapped_reservations.exists?
       errors.add(:date, I18n.t('activerecord.errors.models.reservation.attributes.date.overlapping'))
@@ -86,6 +88,9 @@ class Reservation < ApplicationRecord
 
   def overnight?
     end_time.to_date > start_time.to_date
+  end
+
+  def accept
   end
 
   private
@@ -133,7 +138,7 @@ class Reservation < ApplicationRecord
     end
   end
 
-  def check_cancellation
-    MakersMailer.cancellation_email(self).deliver_now if rejected?
+  def check_status
+    MakersMailer.status_email(self).deliver_now if not blocked?
   end
 end

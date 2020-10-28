@@ -2,8 +2,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_locale
+
   include Pundit
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
+  add_breadcrumb I18n.t("breadcrumbs.home"), :root_path
 
   protected
 

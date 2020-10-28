@@ -1,11 +1,9 @@
 class ReservationsController < ApplicationController
   # skip_before_action :verify_authenticity_token
-  before_action :authenticate_user!, except: [:index]
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_reservations_scope
-  before_action :set_reservation, only: [:show, :edit, :update, :destroy]
-  before_action do
-    authorize @reservation || Reservation.new(user: current_user)
-  end
+  before_action :set_reservation, only: [:show, :edit, :update, :destroy, :confirm, :reject]
+  before_action :authorize_reservation, except: [:show]
 
   # GET /reservations
   # GET /equipment/1/reservations
@@ -72,8 +70,24 @@ class ReservationsController < ApplicationController
   def destroy
     @reservation.cancelled! # Cancel, not destroy
     respond_to do |format|
-      format.html { redirect_to profile_url, notice: 'Reservation was successfully destroyed.' }
+      format.html { redirect_to profile_url, notice: 'Reservation was successfully cancelled.' }
       format.json { head :no_content }
+    end
+  end
+
+  def confirm
+    @reservation.confirmed!
+    respond_to do |format|
+      format.html { redirect_to profile_url, notice: 'Reservation was successfully confirmed.' }
+      format.json { render @reservation }
+    end
+  end
+
+  def reject
+    @reservation.rejected!
+    respond_to do |format|
+      format.html { redirect_to profile_url, notice: 'Reservation was successfully rejected.' }
+      format.json { render @reservation }
     end
   end
 
@@ -89,7 +103,7 @@ class ReservationsController < ApplicationController
   end
 
   def set_reservation
-    @reservation = @reservations_scope.find(params[:id])
+    @reservation = @reservations_scope.find(params[:id] || params[:reservation_id])
   end
 
   def reservation_params
@@ -105,5 +119,9 @@ class ReservationsController < ApplicationController
     start_date = Date.parse(params[:start_date])
     end_date = Date.parse(params[:end_date])
     @reservations = @reservations.where(start_time: start_date..end_date)
+  end
+
+  def authorize_reservation
+    authorize @reservation || Reservation.new(user: current_user)
   end
 end

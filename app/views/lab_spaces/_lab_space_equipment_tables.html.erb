@@ -1,5 +1,5 @@
 <% @lab_space.equipment.visible.each do |e| %>
-    <div class="col-4">
+    <div class="col-4" onclick="location.href='<%= lab_lab_space_equipment_path(@lab, @lab_space, e) %>';">
       <div class="EquipoCard" data-id="<%= e.id %>" data-lid="<%= @lab_space.lab.id %>" data-lsid="<%= @lab_space.id %>">
         <div class="icon printer"></div>
         <p class="name"><%= link_to e.name, lab_lab_space_equipment_path(e.lab_space.lab.id, e.lab_space.id, e.id) %></p>

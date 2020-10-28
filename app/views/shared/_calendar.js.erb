@@ -1,0 +1,301 @@
+function reservationColor(purpose, status) {
+  if (status == 'blocked')
+    return '#e74c3c';
+
+  const opacityMap = { 'confirmed': '.75', 'pending': '.25' };
+  switch(purpose) {
+    case 'academic':
+      return `rgba(220, 57, 18, ${opacityMap[status]})`;
+    case 'entrepreneurship':
+      return `rgba(255, 153, 0, ${opacityMap[status]})`;
+    case 'research':
+      return `rgba(16, 150, 24, ${opacityMap[status]})`;
+    case 'personal':
+      return `rgba(153, 0, 153, ${opacityMap[status]})`;
+  }
+}
+
+function removeStatusFromTitle(title) {
+  return title.indexOf("(") == -1 ? title : title.substr(0, title.indexOf("(") - 1);
+}
+
+function ajaxCall(method, url, cb) {
+  $.ajax({
+    url: url,
+    method: method,
+    data: { authenticity_token: window._token },
+    dataType: 'json',
+    success: (data) => { cb(data); },
+    error: function(xhr, status, err) {
+      console.log(xhr, status, err)
+      alert('Se ha producido un error. Por favor, intenta más tarde.');
+    }
+  });
+}
+
+function buildEvent(event) {
+  return {
+    authenticity_token: window._token,
+    "reservation": {
+      "purpose": $modal.find('select').val(),
+      "comment": $modal.find('textarea').val(),
+      "start_time": event.start.toISOString(),
+      "end_time": event.end.toISOString(),
+      'help_needed': $('#help_needed').is(':checked')? true : false,
+      "status": $('#blockStatus').is(':checked')? 'blocked': 'pending'
+    }
+  };
+}
+
+function buildDateString(date, ignoreDate = false) {
+  let minutes = date.getMinutes();
+  return `${ignoreDate ? "" : date.toDateString() + " "}${date.getHours()}:${minutes == 0 ? "00" : minutes}`;
+}
+
+function populateStatusField(status) {
+  const icon = $('#statusIcon');
+  const field = $('#detailStatusField');
+  switch (status) {
+    case "confirmed":
+      icon.html('<%= j inline_svg_tag "checkmark-filled.svg", class: 'text-success', size: '1.3em' %>');
+      field.html('Confirmada');
+      field.popover('disable');
+      break;
+    case "pending":
+      icon.html('<%= j inline_svg_tag "warning.svg", class: 'text-warning', size: '1.3em' %>');
+      field.html('Pendiente');
+      if (!currentUserAdmin) {
+        field.attr('data-content', 'La reservación debe ser aprobada por un administrador.');
+        field.popover('enable');
+      } else {
+        field.popover('disable');
+      }
+      break;
+    case "rejected":
+      icon.html('<%= j inline_svg_tag "rejected.svg", class: 'text-danger', size: '1.3em' %>');
+      field.html('Rechazada');
+      field.attr('data-content', 'Reservación rechazada por administrador.');
+      field.popover('enable');
+      break;
+    case "complete":
+      icon.html('<%= j inline_svg_tag "checkmark-filled.svg", class: 'text-success', size: '1.3em' %>');
+      field.html('Completada');
+      field.popover('disable');
+      break;
+    case "cancelled":
+      // Cancelled functions are filtered, so do nothing here
+      break;
+    case "blocked":
+      icon.html('<%= j inline_svg_tag "octagon-warning.svg", class: 'text-danger', size: '1.3em' %>');
+      field.html('Bloqueado');
+      field.attr('data-content', 'Acción realizada automaticamente por el sistema');
+      field.popover('enable');
+      break;
+  }
+}
+
+function registerEvent(eventData, cb) {
+  $.post(
+    `/equipment/${eqid}/reservations.json`,
+    eventData,
+    (data, status, xhr) => { cb(data); },
+    'json'
+  )
+  .fail((xhr, status, err) => {
+    errMessage = "No se pudo reservar por los siguientes errores: \n"
+    Object.keys(xhr.responseJSON).map((key) => errMessage += "- " + xhr.responseJSON[key] + "\n")
+    alert(errMessage);
+  });
+}
+
+// CONSTANTS
+const currentUserAdmin = <%= current_user_admin? %>; 
+const currentUserId = <%= user_signed_in? ? current_user.id : nil %>;
+const eqid = '<%= equipment.id %>';
+const reservations = <%= raw(reservations.to_json) %>;
+const available_hours = <%= raw(equipment.available_hours.to_json) %>;
+const dateMap = {
+  "sunday": 0,
+  "monday": 1,
+  "tuesday": 2,
+  "wednesday": 3,
+  "thursday": 4,
+  "friday": 5,
+  "saturday": 6,
+};
+const textMap = {
+  "confirmed": '#fefefe',
+  "pending": '#000000'
+};
+
+// Business Hours for calendar
+let bhours = available_hours.map(ah => {
+  return {
+    daysOfWeek: [dateMap[ah.day_of_week]],
+    startTime: new Date(ah.start_time).toTimeString().substr(0, 5),
+    endTime: new Date(ah.end_time).toTimeString().substr(0, 5),
+  };
+});
+let tmpEvent = null;
+let calendar;
+
+$(document).ready(() => {
+  $('[data-toggle="popover"]').popover({ trigger : 'hover' });
+});
+
+<% if user_signed_in? %>
+  const signedInOptions = {
+    selectable: true,
+    selectConstraint: "businessHours",
+    selectOverlap: currentUserAdmin,
+    select: (selInfo) => {
+      $modal.modal('show');
+      tmpEvent = {
+        title: userName,
+        start: selInfo.start,
+        end: selInfo.end,
+        color: "#bdc3c7"
+      };
+      $('#tmpEventStartDisplay').html(buildDateString(selInfo.start))
+      $('#tmpEventEndDisplay').html(buildDateString(selInfo.end))
+    }
+  };
+<% else %>
+  const visitor_options = {
+    selectable: true,
+    select: (selInfo) => {
+      alert('Tienes que iniciar sesión para reservar.');
+    },
+  };
+<% end %>
+
+document.addEventListener('DOMContentLoaded', () => {
+  let calendarEl = document.getElementById('calendar');
+
+  calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'timeGridWeek',
+    events: reservations,
+    allDaySlot: false,
+    nowIndicator: true,
+    eventTextColor: 'white',
+    eventBackgroundColor: 'rgba(68, 93, 252, .77)',
+    slotMinTime: "06:00:00",
+    slotMaxTime: "22:00:00",
+    businessHours: bhours,
+    eventMouseEnter: (info) => { info.el.style.cursor = 'pointer'; },
+    eventClick: (info) => {
+      ajaxCall('GET', `/equipment/${eqid}/reservations/${info.event.id}.json`, (res) => {
+        console.log(res);
+        // Date
+        let startDate = new Date(res.start_time);
+        let endDate = new Date(res.end_time);
+        let dateString = buildDateString(startDate) + " - ";
+        dateString += buildDateString(endDate, startDate.toDateString() == endDate.toDateString());
+        $('#detailDateField').html(dateString);
+        
+        // User
+        $('#detailUserField').html(removeStatusFromTitle(info.event.title));
+
+        // Status
+        populateStatusField(res.status);
+
+        // Purpose
+        $('#detailPurposeField').html(res.purpose.replace(/^\w/, (c) => c.toUpperCase()));
+
+        // Comment
+        if (res.comment == "") {
+          $('#commentIcon').hide();
+          $('#detailCommentField').hide();
+        } else {
+          $('#commentIcon').show();
+          $('#detailCommentField').show().html(res.comment.replace(/^\w/, (c) => c.toUpperCase()));
+        }
+
+
+        let modal = $('#detailModal');
+
+        // Action buttons
+        if (res.status == "pending" && currentUserAdmin) {
+          const acceptBtn = $("#acceptBtn").show();
+          acceptBtn.off('click');
+          acceptBtn.click(() => {
+            ajaxCall('POST', `/reservations/${info.event.id}/confirm.json`, (data) => {
+              info.event.setProp('title', removeStatusFromTitle(info.event.title));
+              info.event.setProp('color', reservationColor(data.purpose, data.status));
+              info.event.setProp('textColor', textMap[data.status]);
+              modal.modal('hide');
+            });
+          });
+
+          const rejectBtn = $("#rejectBtn").show();
+          rejectBtn.off('click');
+          rejectBtn.click(() => {
+            modal.modal('hide');
+            info.event.remove();
+            ajaxCall('POST', `/reservations/${info.event.id}/reject.json`, () => {});
+          });
+        } else {
+          $("#acceptBtn").hide();
+          $("#rejectBtn").hide();
+        }
+        
+        if (res.user_id == currentUserId || currentUserAdmin) {
+          const cancelBtn = $("#cancelBtn").show();
+          cancelBtn.off('click');
+          cancelBtn.click(() => {
+            if(confirm('¿Estás seguro de que deseas cancelar esta reservación?')) {
+              ajaxCall('DELETE', `/reservations/${info.event.id}.json`, () => {
+                info.event.remove();
+                modal.modal('hide');
+              });
+            }
+          });
+          if ($('#acceptBtn').css('display') == 'none')
+            cancelBtn.html('Cancelar Reservación');
+          else
+            cancelBtn.html('Cancelar');
+        } else {
+          $("#cancelBtn").hide();
+        }
+
+        modal.modal();
+      });
+    },
+
+    <% if user_signed_in? %>
+      ...signedInOptions
+    <% else %>
+      ...visitor_options
+    <% end %>
+  });
+
+  calendar.render();
+});
+
+<% if user_signed_in? %>
+  const $modal = $('#reservationModal');
+  const userName = '<%= "#{current_user.given_name} #{current_user.last_name}" %>';
+
+  $('.reserveBtn').click(() => {
+    if(tmpEvent) {
+      const eventData = buildEvent(tmpEvent);
+      registerEvent(eventData, (data) => {
+        if(data.status && (data.status === "pending" || data.status === "confirmed" || data.status === "blocked")) {
+          tmpEvent["id"] = data.id;
+          tmpEvent["title"] = tmpEvent["title"] + ((data.status == "pending") ? ' (pendiente)' : '');
+          tmpEvent["color"] = reservationColor(data.purpose, data.status);
+          tmpEvent['textColor'] = textMap[data.status];
+          let event = calendar.addEvent(tmpEvent);
+          tmpEvent = null;
+        }
+      });
+    }
+    else {
+      alert('An error was produced. Please try again');
+    }
+    // Reset modal fields
+    $modal.find('textarea').val('');
+    $modal.find('select').val('academic');
+    $modal.modal('hide');
+  });
+<% end %>
