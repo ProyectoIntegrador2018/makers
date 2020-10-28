@@ -80,7 +80,6 @@ en:
             rejected: 'Rejected'
             pending: 'Pending'
             cancelled: 'Cancelled'
-            complete: 'Completed'
   administrate:
     actions:
       show_resource: "%{name}"
