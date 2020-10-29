@@ -9,7 +9,7 @@ class Equipment < ApplicationRecord
   has_many :reservations
   belongs_to :lab_space
 
-  validates :name, :description, :lab_space, presence: true
+  validates :name, :description, :lab_space, :max_usage, :rest_time, presence: true
 
   accepts_nested_attributes_for :available_hours
 

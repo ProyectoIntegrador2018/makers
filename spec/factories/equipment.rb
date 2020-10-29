@@ -8,6 +8,8 @@ FactoryBot.define do
     end
     image {}
     technical_description {}
+    max_usage { 10 }
+    rest_time { 1 }
     lab_space { nil }
 
     trait :with_image do

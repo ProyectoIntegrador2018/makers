@@ -100,6 +100,7 @@ es:
               past: 'La reservación no puede estar en el pasado.'
               start_time: 'La hora de terminación no puede ser antes que la hora de inicio.'
               overlapping: 'La reservación traslapa con otra reservación.'
+              max_usage: 'El equipo necesita un tiempo de descanso después de uso continuo.'
     models:
       reservations:
         attributes:

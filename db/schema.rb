@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 2020_10_28_175102) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +64,8 @@ ActiveRecord::Schema.define(version: 2020_10_28_175102) do
     t.bigint "lab_space_id"
     t.text "technical_description"
     t.boolean "hidden", default: false
+    t.integer "max_usage"
+    t.integer "rest_time"
     t.index ["lab_space_id"], name: "index_equipment_on_lab_space_id"
   end
 
