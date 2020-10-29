@@ -171,11 +171,11 @@ as well as a link to its edit page.
             </div>
             <%= javascript_include_tag 'application' %>
             <div id="WeeklyUsage">
-              <%= line_chart [{name:"Total", data:page.resource.reservations.complete.group_by_day_of_week(:start_time, format: "%a").count},
-                              {name:"Academic", data:page.resource.reservations.complete.academic.group_by_day_of_week(:start_time, format: "%a").count},
-                              {name:"Entrepreneurship", data:page.resource.reservations.complete.entrepreneurship.group_by_day_of_week(:start_time, format: "%a").count},
-                              {name:"Research", data:page.resource.reservations.complete.research.group_by_day_of_week(:start_time, format: "%a").count},
-                              {name:"Personal", data:page.resource.reservations.complete.personal.group_by_day_of_week(:start_time, format: "%a").count}] %>
+              <%= line_chart [{name:"Total", data:page.resource.reservations.confirmed.group_by_day_of_week(:start_time, format: "%a").count},
+                              {name:"Academic", data:page.resource.reservations.confirmed.academic.group_by_day_of_week(:start_time, format: "%a").count},
+                              {name:"Entrepreneurship", data:page.resource.reservations.confirmed.entrepreneurship.group_by_day_of_week(:start_time, format: "%a").count},
+                              {name:"Research", data:page.resource.reservations.confirmed.research.group_by_day_of_week(:start_time, format: "%a").count},
+                              {name:"Personal", data:page.resource.reservations.confirmed.personal.group_by_day_of_week(:start_time, format: "%a").count}] %>
             </div>
             <div class="row">
               <div class="col">
@@ -184,8 +184,8 @@ as well as a link to its edit page.
             </div>
             <div id="HourlyUsageDetail">
               <%# Group the reservations by the week day they correspond to and then create graph using the resulting hash %>
-              <% weeklyStats = page.resource.reservations.complete.group_by{ | res | res.start_time.wday } %>
-              <% completeStats = {'7': page.resource.reservations.complete}.merge(weeklyStats) %>
+              <% weeklyStats = page.resource.reservations.confirmed.group_by{ | res | res.start_time.wday } %>
+              <% completeStats = {'7': page.resource.reservations.confirmed}.merge(weeklyStats) %>
               <%# Array used to display the name of the data in the graph %>
               <% weekDays = ['Sunday', 'Monday', 'Tuseday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Total'] %>
               <%= area_chart completeStats.map { | day |

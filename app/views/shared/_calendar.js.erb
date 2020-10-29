@@ -64,26 +64,14 @@ function populateStatusField(status) {
     case "pending":
       icon.html('<%= j inline_svg_tag "warning.svg", class: 'text-warning', size: '1.3em' %>');
       field.html('Pendiente');
-      if (!currentUserAdmin) {
-        field.attr('data-content', 'La reservación debe ser aprobada por un administrador.');
-        field.popover('enable');
-      } else {
-        field.popover('disable');
-      }
-      break;
-    case "rejected":
-      icon.html('<%= j inline_svg_tag "rejected.svg", class: 'text-danger', size: '1.3em' %>');
-      field.html('Rechazada');
-      field.attr('data-content', 'Reservación rechazada por administrador.');
+      field.attr('data-content', 'La reservación debe ser aprobada por un administrador.');
       field.popover('enable');
       break;
-    case "complete":
-      icon.html('<%= j inline_svg_tag "checkmark-filled.svg", class: 'text-success', size: '1.3em' %>');
-      field.html('Completada');
-      field.popover('disable');
+    case "rejected":
+      // Never displayed by calendar, nor does it block other reservations
       break;
     case "cancelled":
-      // Cancelled functions are filtered, so do nothing here
+      // Cancelled functions are also filtered, so do nothing here
       break;
     case "blocked":
       icon.html('<%= j inline_svg_tag "octagon-warning.svg", class: 'text-danger', size: '1.3em' %>');
