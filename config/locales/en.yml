@@ -30,15 +30,6 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  breadcrumbs:
-    home: 'Home'
-    profile: 'Profile'
-    labs:
-      index: 'Labs'
-    lab_spaces:
-      index: 'Lab Spaces'
-    equipment:
-      index: 'Equipment list'
   activerecord:
     errors:
       messages:
@@ -71,15 +62,6 @@ en:
               past: 'Cannot reserve a space in the past.'
               start_time: 'End time cannot be before start time.'
               overlapping: 'Reservation overlaps with another one.'
-    models:
-      reservations:
-        attributes:
-          status:
-            one: 'Status'
-            confirmed: 'Confirmed'
-            rejected: 'Rejected'
-            pending: 'Pending'
-            cancelled: 'Cancelled'
   administrate:
     actions:
       show_resource: "%{name}"
@@ -93,7 +75,7 @@ en:
     - Fri
     - Sat
     abbr_month_names:
-    -
+    - 
     - Jan
     - Feb
     - Mar
@@ -119,7 +101,7 @@ en:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    -
+    - 
     - January
     - February
     - March

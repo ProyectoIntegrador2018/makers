@@ -1,16 +1,6 @@
 # Additional translations at http://github.com/plataformatec/devise/wiki/I18n
 
 es:
-  breadcrumbs:
-    home: 'Inicio'
-    profile: 'Profile'
-    labs:
-      index: 'Laboratorios'
-    lab_spaces:
-      index: 'Espacios de Laboratorio'
-    equipment:
-      index: 'Lista de equipos'
-
   errors:
     messages:
       expired: "ha expirado, por favor pide uno nuevo"
@@ -100,13 +90,5 @@ es:
               past: 'La reservación no puede estar en el pasado.'
               start_time: 'La hora de terminación no puede ser antes que la hora de inicio.'
               overlapping: 'La reservación traslapa con otra reservación.'
-              max_usage: 'El equipo necesita un tiempo de descanso después de uso continuo.'
-    models:
-      reservations:
-        attributes:
-          status:
-            one: 'Status'
-            confirmed: 'Confirmada'
-            rejected: 'Rechazada'
-            pending: 'puesta en Pendiente'
-            cancelled: 'Cancelada'
+
+
