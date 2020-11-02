@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-grid.min.css">
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script><%= render partial: 'pills.js' %></script>
   </head>
 
   <body class="<%= @body_class %>">
@@ -23,28 +24,28 @@
         <p class="tecbrand">sponsored by Innovaction Gym</p>
       </a>
       <h2 class="tagline">¿Qué quieres crear hoy?</h2>
-      <div class="QueryBuilder">
-        <div class="row no-gutters">
-          <div class="col">
-            <p class="stmt">Quiero</p>
+        <%= form_tag(equipment_index_path, method: :get, class: 'search-form') do %>
+          <div class="QueryBuilder">
+            <div class="row no-gutters">
+              <p class="col stmt">Quiero</p>
+              <div class="col">
+                <div class="tagBox" id="capabilities"></div>
+                <%= text_field_tag :capabilities_query, params[:capabilities_query], class: 'fuzzy-input', placeholder: 'capacidad' %>
+              </div>
+              <div class="col">
+                <p class="stmt">usando</p>
+              </div>
+              <div class="col">
+                <div class="tagBox" id="materials"></div>
+                <%= text_field_tag :materials_query, params[:materials_query], class: 'fuzzy-input', placeholder: 'material' %>
+              </div>
+              <div class="col" style="display: flex; align-items: center; justify-content: center;">
+                <%= submit_tag 'Buscar', class: 'highlight large btn searchBtn' %>
+              </div>
+            </div>
           </div>
-          <div class="col">
-            <div class="tagBox" id="capabilities"></div>
-            <input type="text" name="capacidad" placeholder="capacidad" id="query-capacidades" class="fuzzy-input">
-          </div>
-          <div class="col">
-            <p class="stmt">usando</p>
-          </div>
-          <div class="col">
-            <div class="tagBox" id="materials"></div>
-            <input type="text" name="material" placeholder="material" id="query-materials" class="fuzzy-input">
-          </div>
-          <div class="col">
-            <a href="#" class="highlight large btn searchBtn" role="button">Buscar</a>
-          </div>
-        </div>
-      </div>
-      <section class="queryOptionsContainer" id="results"> </section>
+        <% end %>
+      <section class="pillBox"> </section>
       <footer class="homeFooter">
         <p>
           consulta el <%= link_to equipment_index_path do %>
@@ -53,7 +54,6 @@
           o puedes ver nuestros equipos justo aquí!
         </p>
       </footer>
-      <%= render partial: 'shared/search' %>
       <%= render partial: 'shared/equipment_landing', equipments: @equipments %>
     </div>
     <%= yield(:scripts) if content_for?(:scripts)  %> </body>
