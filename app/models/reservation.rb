@@ -8,12 +8,12 @@ class Reservation < ApplicationRecord
   validates :status, :purpose, :start_time, :end_time, presence: true
   validate :date_range_valid, :not_overlapped, if: -> { start_time_changed? || end_time_changed? }
   validate :is_available, on: :create
-  validate :equipment_rules, on: :create
+  validate :equipment_rules, on: :create, unless: Proc.new { self.status == "blocked"}
 
   scope :upcoming, ->(limit) { where('start_time > ?', Time.current).order(:start_time).limit(limit) }
   scope :future, -> { where('start_time > ?', Time.current).order(:start_time) }
 
-  after_create :rest_time_reservation, unless: Proc.new { self.status == "blocked"}
+  after_save :rest_time_reservation, unless: Proc.new { self.status == "blocked"}
   after_save :check_status, if: -> { previous_changes.include?(:status) }
 
   def available_at(st, et, day)
@@ -83,7 +83,7 @@ class Reservation < ApplicationRecord
     equipment.reservations
              .where.not(id: id)
              .where('start_time < ? AND ? < end_time', end_time, start_time)
-             .where.not('status = ? OR status = ? OR status = ?', statuses[:cancelled], statuses[:rejected], statuses[:pending])
+             .where.not('status = ? OR status = ?', statuses[:cancelled], statuses[:rejected])
   end
 
   def overnight?
@@ -109,7 +109,7 @@ class Reservation < ApplicationRecord
     start_time = (current_time.to_time - max_usage.hours).to_datetime
     active_reservations = equipment.reservations
                                     .where('start_time BETWEEN ? AND ?', start_time, current_time)
-                                    .where.not('status = ? OR status = ? OR status = ?', statuses[:cancelled], statuses[:rejected]  , statuses[:blocked])
+                                    .where('status = ?', statuses[:confirmed])
     used_time = active_reservations.sum { |res| ((res.end_time - res.start_time) / 3600) }
     used_time
   end
@@ -127,14 +127,17 @@ class Reservation < ApplicationRecord
 
   def rest_time_reservation
     # Creates a blocked reservation in case max usage has been reached
-    duration = ((self.end_time - self.start_time) / 3600)
+    duration = (self.status == "confirmed"? ((self.end_time - self.start_time) / 3600) : 0.0)
+    puts "YO WHaduppp niGAAA"
+    puts (self.status == "confirmed")
     used_time = max_usage_time(self.start_time, self.equipment.max_usage)
+    puts((duration + used_time) >= self.equipment.max_usage.to_f)
     if((duration + used_time) >= self.equipment.max_usage.to_f)
       end_rest = (self.end_time + self.equipment.rest_time.hours).to_datetime
-      new_reservation = Reservation.new(status: 5, purpose: 0, comment: "Bloquear reservas del equipo para evitar perdida en rendimiento",
+      new_reservation = Reservation.new(status: "blocked", purpose: 0, comment: "Bloquear reservas del equipo para evitar perdida en rendimiento",
                                         start_time: self.end_time, end_time: end_rest, equipment_id: self.equipment.id,
                                         updated_at: Time.now, user_id: self.equipment.lab_space.user.id)
-      new_reservation.save(validate:false)
+      new_reservation.save
     end
   end
 
