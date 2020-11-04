@@ -62,6 +62,24 @@ en:
               past: 'Cannot reserve a space in the past.'
               start_time: 'End time cannot be before start time.'
               overlapping: 'Reservation overlaps with another one.'
+    notices:
+      equipment:
+        create: "Equipment was successfully updated"
+        update: "Equipment was successfully updated"
+        destroy: "Equipment was successfully deleted"
+      lab_space:
+        create: "Lab Space was successfully updated"
+        update: "Lab Space was successfully updated"
+        destroy: "Lab Space was successfully deleted"
+        admin: "You must be a lab admin to access this section"
+      lab:
+        create: "Lab was successfully updated"
+        update: "Lab was successfully updated"
+        destroy: "Lab was successfully deleted"
+      reservation:
+        create: "Reservation was successfully updated"
+        update: "Reservation was successfully updated"
+        destroy: "Reservation was successfully deleted"
   administrate:
     actions:
       show_resource: "%{name}"
@@ -75,7 +93,7 @@ en:
     - Fri
     - Sat
     abbr_month_names:
-    - 
+    -
     - Jan
     - Feb
     - Mar
@@ -101,7 +119,7 @@ en:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - January
     - February
     - March

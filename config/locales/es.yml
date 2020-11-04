@@ -90,5 +90,21 @@ es:
               past: 'La reservación no puede estar en el pasado.'
               start_time: 'La hora de terminación no puede ser antes que la hora de inicio.'
               overlapping: 'La reservación traslapa con otra reservación.'
-
-
+    notices:
+      equipment:
+        create: "Equipment was successfully updated"
+        update: "Equipment was successfully updated"
+        destroy: "Equipment was successfully deleted"
+      lab_space:
+        create: "Lab Space was successfully updated"
+        update: "Lab Space was successfully updated"
+        destroy: "Lab Space was successfully deleted"
+        admin: "You must be a lab admin to access this section"
+      lab:
+        create: "Lab was successfully updated"
+        update: "Lab was successfully updated"
+        destroy: "Lab was successfully deleted"
+      reservation:
+        create: "Reservation was successfully updated"
+        update: "Reservation was successfully updated"
+        destroy: "Reservation was successfully deleted"
