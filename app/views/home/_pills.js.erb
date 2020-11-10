@@ -1,0 +1,91 @@
+const center_css = {
+  "display": "flex",
+  "align-items": "center",
+  "justify-content": "center"
+}
+
+function getOtherPill() {
+  const matPill = $('.tagBox#materials .pill');
+  const capPill = $('.tagBox#capabilities .pill');
+  if (matPill.length)
+    return matPill;
+  if (capPill.length)
+    return capPill;
+
+  return null;
+}
+
+function drawPills(list, color) {
+    let pillsHTML = [];
+    for (const elem of list) {
+        pillsHTML.push(`<div class="pill ${color}">${elem}</div>`);
+    }
+    $('.pillBox').append(pillsHTML);
+
+    $('.pill').click(function() {
+      const pill = $(this).remove();
+
+      let queryField, tagBox;
+      $('.pillBox').empty();
+      if (pill.hasClass('white')) { // Is material
+        queryField = $('#materials_query');
+        tagBox = $('.tagBox#materials');
+        if ($('.tagBox#capabilities').is(':empty'))
+          drawPills(materials[pill.text()], 'blue');
+      }
+      else {
+        queryField = $('#capabilities_query');
+        tagBox = $('.tagBox#capabilities');
+        if ($('.tagBox#materials').is(':empty'))
+          drawPills(capabilities[pill.text()], 'white');
+      }
+      queryField.hide();
+      tagBox.html(pill.addClass('p-3 px-5'));
+      tagBox.parent().css(center_css);
+    });
+}
+
+let [materials, capabilities] = <%== materials_and_capabilities_relations.to_json %>;
+
+$(document).on('ready', () => {
+  drawPills(Object.keys(capabilities), "blue");
+  drawPills(Object.keys(materials), "white");
+  console.log(capabilities, materials)
+
+  $('.tagBox').click(function() {
+    $(this).next('input').val('').show();
+    $(this).parent('.col').removeAttr("style");
+    
+    $(this).empty();
+    const otherPill = getOtherPill();
+    // Re-add filtered pills from pillBox
+    if (otherPill == null) {
+      $('.pillBox').empty();
+      drawPills(Object.keys(capabilities), "blue");
+      drawPills(Object.keys(materials), "white");
+    }
+    else if (otherPill.hasClass('blue'))
+      drawPills(capabilities[otherPill.text()], "white");
+    else
+      drawPills(materials[otherPill.text()], "blue");
+  });
+
+  $('.fuzzy-input').on('input', function() {
+    function filterPills() {
+      if ($(this).text().toLowerCase().includes(filter))
+        $(this).show();
+      else
+        $(this).hide();
+    }
+    var filter = $(this).val().toLowerCase();
+    if ($(this).attr('id') == 'capabilities_query')
+      $('.pill.blue').each(filterPills);
+    else
+      $('.pill.white').each(filterPills);
+  });
+
+  $('.search-form').submit(() => {
+    $('#capabilities_query').val($('#capabilities').text()).val('');
+    $('#materials_query').val($('#materials').text()).val('');
+  });
+});

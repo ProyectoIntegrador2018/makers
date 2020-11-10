@@ -3,7 +3,7 @@
 es:
   breadcrumbs:
     home: 'Inicio'
-    profile: 'Profile'
+    profile: 'Perfil'
     labs:
       index: 'Laboratorios'
     lab_spaces:

@@ -7,7 +7,6 @@ class EquipmentController < ApplicationController
   # GET /lab/1/lab_spaces/1/equipment
   # GET /equipment.json
   def index
-    @equipment_scope = @equipment_scope.search(params[:equipment_query])
     @equipment_scope = @equipment_scope.search_by(:materials, params[:materials_query])
     @equipment_scope = @equipment_scope.search_by(:capabilities, params[:capabilities_query])
   end

@@ -46,12 +46,8 @@
       }
 
     }
-    .large.btn {
-      position: relative;
-      top: 20px;
-    }
   }
-  .queryOptionsContainer {
+  .pillBox {
     width: 60%;
     margin: 4% auto;
 
@@ -66,17 +62,17 @@
   .tagBox {
     text-align: center;
     .pill {
-      margin: 0 4px 4px;
+      font-size: 1.4rem;
     }
   }
   .pill {
-    &[data-type="capabilities"] {
-      background-color: #4e69fd;
-      color: white;
-    }
-    &[data-type="materials"] {
+    &.white {
       background-color: white;
       color: #4e69fd;
+    }
+    &.blue {
+      background-color: #4e69fd;
+      color: white;
     }
   }
   .homeFooter p {
@@ -88,9 +84,6 @@
     &:hover {
       box-shadow: 0 0 30px rgba($highlight, .4);
     }
-  }
-  .search-form {
-    display: none;
   }
 }
 .ProfilePage {

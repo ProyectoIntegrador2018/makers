@@ -26,4 +26,21 @@ module HomeHelper
     end
     results
   end
+
+  def materials_and_capabilities_relations
+    materials = {}
+    capabilities = {}
+    Material.all.each do |mat|
+      mat_caps = mat.equipment.capabilities.pluck(:name).uniq
+      materials[mat.name] = mat_caps
+      mat_caps.each do |cap|
+        if capabilities.has_key? cap
+          capabilities[cap] |= [mat.name]
+        else
+          capabilities[cap] = [mat.name]
+        end
+      end
+    end
+    return materials, capabilities
+  end
 end
