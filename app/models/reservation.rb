@@ -2,7 +2,7 @@ class Reservation < ApplicationRecord
   enum status: [:confirmed, :pending, :rejected, :cancelled, :blocked]
   enum purpose: [:academic, :entrepreneurship, :research, :personal]
 
-  belongs_to :equipment
+  belongs_to :equipment, counter_cache: true
   belongs_to :user
 
   validates :status, :purpose, :start_time, :end_time, presence: true
