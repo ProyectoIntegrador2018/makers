@@ -27,6 +27,7 @@ class Equipment < ApplicationRecord
   def self.search_by(relation, query)
     if query.present?
       names = query.split(/[,]+/).collect(&:strip)
+      joins(relation).where("#{relation}.name ILIKE ANY ( array[?] )", names).distinct.inspect
       joins(relation).where("#{relation}.name ILIKE ANY ( array[?] )", names).distinct
     else
       all

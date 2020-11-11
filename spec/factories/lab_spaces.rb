@@ -6,11 +6,7 @@ FactoryBot.define do
     location {"Innovaction Gym"}
     contact_email {}
     contact_phone {}
-    image {}
+    image { Faker::LoremPixel.image(size: "300x260") }
     lab {nil}
-
-    trait :with_image do
-      image { Faker::LoremPixel.image(size: "300x260") }
-    end
   end
 end

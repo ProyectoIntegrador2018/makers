@@ -1,13 +1,6 @@
 require 'rails_helper'
 require 'faker'
 
-# To ensure reservation is in the future, otherwise :date_range_valid fails
-def future_monday
-  now = Time.current + 7.day
-  to_add = (1 - now.wday + 7) % 7
-  now + to_add.day
-end
-
 RSpec.describe Reservation, type: :model do
   let(:user) { create :user }
   let(:lab) { create :lab }
