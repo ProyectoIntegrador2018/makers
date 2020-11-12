@@ -1,5 +1,5 @@
 class MakersMailer < ApplicationMailer
-  default from: 'Plataforma Makers <Makers.iag@servicios.tec.mx>'
+  default from: 'Plataforma Makers <' + ENV['TEC_USERNAME'] + '>'
 
   def status_email(reservation)
     @reservation = reservation
