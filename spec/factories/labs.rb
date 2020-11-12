@@ -5,6 +5,7 @@ FactoryBot.define do
     location { "CIAP 628-F" }
     location_link { "place_holder" }
     image { }
+    user
 
     trait :with_image do
       image { Faker::LoremPixel.image(size: "300x260") }
