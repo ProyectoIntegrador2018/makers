@@ -16,3 +16,4 @@
 //= require activestorage
 //= require chartkick
 //= require Chart.bundle
+//= require helpers

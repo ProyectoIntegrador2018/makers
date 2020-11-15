@@ -2,8 +2,8 @@ class Reservation < ApplicationRecord
   enum status: [:confirmed, :pending, :rejected, :cancelled, :blocked]
   enum purpose: [:academic, :entrepreneurship, :research, :personal]
 
-  belongs_to :equipment
-  belongs_to :user
+  belongs_to :equipment, counter_cache: true
+  belongs_to :user, optional: true
 
   validates :status, :purpose, :start_time, :end_time, presence: true
   validate :date_range_valid, :not_overlapped, if: -> { start_time_changed? || end_time_changed? }

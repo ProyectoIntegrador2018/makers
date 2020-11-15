@@ -9,5 +9,18 @@ FactoryBot.define do
     trait :with_image do
       image { Faker::LoremPixel.image(size: "300x260") }
     end
+
+    trait :with_lab_space do
+      after(:create) do |lab|
+        create :lab_space, lab: lab
+      end
+    end
+
+    trait :with_equipment do
+      after(:create) do |lab|
+        ls = create :lab_space, lab: lab
+        e = create :equipment, :with_available_hour, lab_space: ls 
+      end
+    end
   end
 end

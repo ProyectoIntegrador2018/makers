@@ -32,6 +32,12 @@ class User < ApplicationRecord
   has_many :directly_managed_reservations, through: :directly_managed_equipment, source: :reservations
   has_many :directly_managed_lab_administrations, through: :directly_managed_lab_spaces, source: :lab_administrations
 
+  def name
+    return given_name if last_name.empty?
+
+    "#{given_name} #{last_name}"
+  end
+
   def managed_labs
     return Lab.all if role == 'superadmin'
 

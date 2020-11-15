@@ -14,6 +14,7 @@ class Equipment < ApplicationRecord
   accepts_nested_attributes_for :available_hours
 
   scope :visible, -> { where(hidden: false) }
+  scope :by_popularity, -> { order('reservations_count DESC') }
 
   def self.search(name)
     if name.present?
@@ -26,6 +27,7 @@ class Equipment < ApplicationRecord
   def self.search_by(relation, query)
     if query.present?
       names = query.split(/[,]+/).collect(&:strip)
+      joins(relation).where("#{relation}.name ILIKE ANY ( array[?] )", names).distinct.inspect
       joins(relation).where("#{relation}.name ILIKE ANY ( array[?] )", names).distinct
     else
       all
@@ -42,10 +44,6 @@ class Equipment < ApplicationRecord
 
   def upcoming_reservations
     reservations.future.count
-  end
-
-  def self.by_popularity
-    left_joins(:reservations).group(:id).order('COUNT(reservations.id) DESC')
   end
 
   def self.check_for_new_tags(tags, tag_class)

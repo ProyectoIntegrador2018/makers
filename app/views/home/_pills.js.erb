@@ -50,7 +50,6 @@ let [materials, capabilities] = <%== materials_and_capabilities_relations.to_jso
 $(document).on('ready', () => {
   drawPills(Object.keys(capabilities), "blue");
   drawPills(Object.keys(materials), "white");
-  console.log(capabilities, materials)
 
   $('.tagBox').click(function() {
     $(this).next('input').val('').show();
@@ -85,7 +84,9 @@ $(document).on('ready', () => {
   });
 
   $('.search-form').submit(() => {
-    $('#capabilities_query').val($('#capabilities').text()).val('');
-    $('#materials_query').val($('#materials').text()).val('');
+    if (!$('#capabilities').is(':empty'))
+      $('#capabilities_query').val($('#capabilities').text());
+    if (!$('#materials').is(':empty'))
+      $('#materials_query').val($('#materials').text());
   });
 });

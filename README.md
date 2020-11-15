@@ -135,17 +135,23 @@ $ docker-compose stop
 
 ### Running specs
 
-To run specs, you can enter the web container with `docker-compose run web bash` and then:
+To run **all** specs run `docker-compose up test`.
+
+Or if you want to run a specific spec you can enter the test container with `docker-compose run test bash` and then:
 
 ```bash
-$ rspec
-```
-
-Or for a specific file:
-
-```
 $ rspec spec/models/user_spec.rb
 ```
+
+**Sidenote:** When you open a bash shell, docker doesn't always run the `firefox` instance (needed for running js-relying tests) so make sure you have it running with `docker-compose up browser`.
+
+#### Debugging
+
+When debugging tests, you might benefit of viewing the selenium browser, to do so you need to download a [VNC viewer](https://www.realvnc.com/es/connect/download/viewer/). Once downloaded simply go to `vnc://localhost:4444` and input the password `secret` (**Note:** the firefox instance needs to be running for this to work).
+
+You can also use capybara helpers such as `save_and_open_screenshot` to take a screenshot at any given time. For more info on capybara go [here](https://github.com/teamcapybara/capybara).
+
+
 
 ### Windows Set-up
 
