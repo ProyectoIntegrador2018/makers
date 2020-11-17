@@ -1,6 +1,15 @@
 # Additional translations at http://github.com/plataformatec/devise/wiki/I18n
 
 es:
+   breadcrumbs:
+    home: 'Inicio'
+    profile: 'Profile'
+    labs:
+      index: 'Laboratorios'
+    lab_spaces:
+      index: 'Espacios de Laboratorio'
+    equipment:
+      index: 'Lista de equipos'
   errors:
     messages:
       expired: "ha expirado, por favor pide uno nuevo"
@@ -92,19 +101,19 @@ es:
               overlapping: 'La reservación traslapa con otra reservación.'
     notices:
       equipment:
-        create: "Equipment was successfully updated"
-        update: "Equipment was successfully updated"
-        destroy: "Equipment was successfully deleted"
+        create: "El equipo fue creado exitosamente"
+        update: "El equipo fue actualizado exitosamente"
+        destroy: "El equipo fue borrado exitosamente"
       lab_space:
-        create: "Lab Space was successfully updated"
-        update: "Lab Space was successfully updated"
-        destroy: "Lab Space was successfully deleted"
+        create: "El espacio de laboratorio fue creado exitosamente"
+        update: "El espacio de laboratorio fue actualizado exitosamente"
+        destroy: "El espacio de laboratorio fue borrado exitosamente"
         admin: "You must be a lab admin to access this section"
       lab:
-        create: "Lab was successfully updated"
-        update: "Lab was successfully updated"
-        destroy: "Lab was successfully deleted"
+        create: "Laboratorio creado exitosamente"
+        update: "Laboratorio actualizado exitosamente"
+        destroy: "Laboratorio borrado exitosamente"
       reservation:
-        create: "Reservation was successfully updated"
-        update: "Reservation was successfully updated"
-        destroy: "Reservation was successfully deleted"
+        create: "La reservacion fue creada exitosamente"
+        update: "La reservacion fue actualizada exitosamente"
+        destroy: "La reservacion fue borrada exitosamente"
