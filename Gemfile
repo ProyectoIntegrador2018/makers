@@ -45,6 +45,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'factory_bot_rails'
   gem 'rspec-rails'
+  gem 'shoulda-matchers'
 end
 
 group :development do
@@ -55,6 +56,7 @@ group :development do
   gem 'rb-readline'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'shoulda-matchers'
 end
 
 group :test do
@@ -65,6 +67,7 @@ group :test do
   gem 'database_cleaner-active_record'
   gem 'timecop'
   gem 'rspec-retry'
+  gem 'shoulda-matchers'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

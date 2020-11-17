@@ -10,7 +10,7 @@ FactoryBot.define do
     technical_description {}
     max_usage { 5 }
     rest_time { 1 }
-    lab_space { nil }
+    lab_space
 
     transient do
       caps_amount { 3 }

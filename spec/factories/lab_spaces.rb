@@ -7,6 +7,7 @@ FactoryBot.define do
     contact_email {}
     contact_phone {}
     image { Faker::LoremPixel.image(size: "300x260") }
-    lab {nil}
+    lab
+    user
   end
 end
