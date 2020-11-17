@@ -76,7 +76,7 @@ to display a collection of resources in an HTML table.
           <td><%= link_to(
             "Confirm",
             admin_reservation_confirm_path(resource),
-            class: "action-edit",:style=>"color:green;"
+            class: "action-edit",:style=>"color:orange;"
           ) %></td>
         <% end %>
 
@@ -84,7 +84,7 @@ to display a collection of resources in an HTML table.
           <td><%= link_to(
             "Complete",
             admin_reservation_complete_path(resource),
-            class: "action-edit",:style=>"color:green;"
+            class: "action-edit",:style=>"color:blue;"
           ) %></td>
         <% end %>
 
@@ -93,7 +93,7 @@ to display a collection of resources in an HTML table.
           <td><%= link_to(
             "Rejected",
             admin_reservation_reject_path(resource),
-            class: "action-edit",:style=>"color:green;"
+            class: "action-edit",:style=>"color:pink;"
           ) %></td>
         <% end %>
 
