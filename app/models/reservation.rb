@@ -120,9 +120,7 @@ class Reservation < ApplicationRecord
     used_time = max_usage_time(self.start_time, self.equipment.max_usage)
     if ((duration + used_time) > self.equipment.max_usage.to_f)
       errors.add(:end_time, I18n.t('activerecord.errors.models.reservation.attributes.date.max_usage'))
-      false
     end
-    true
   end
 
   def rest_time_reservation
