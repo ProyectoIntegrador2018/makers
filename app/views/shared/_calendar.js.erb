@@ -19,11 +19,12 @@ function removeStatusFromTitle(title) {
   return title.indexOf("(") == -1 ? title : title.substr(0, title.indexOf("(") - 1);
 }
 
-function ajaxCall(method, url, cb) {
+function ajaxCall(method, url, cb, payload = {}) {
+  payload['authenticity_token'] = window._token;
   $.ajax({
     url: url,
     method: method,
-    data: { authenticity_token: window._token },
+    data: payload,
     dataType: 'json',
     success: (data) => { cb(data); },
     error: function(xhr, status, err) {
@@ -31,6 +32,16 @@ function ajaxCall(method, url, cb) {
       alert('Se ha producido un error. Por favor, intenta más tarde.');
     }
   });
+}
+
+function updateEventAjax(info) {
+  let payload = {
+    reservation: {
+      start_time: info.event.start.toISOString(),
+      end_time: info.event.end.toISOString()
+    }
+  };
+  ajaxCall('PATCH', `/equipment/${eqid}/reservations/${info.event.id}.json`, () => {}, payload);
 }
 
 function buildEvent(event) {
@@ -133,7 +144,6 @@ $(document).ready(() => {
 
 <% if user_signed_in? %>
   const signedInOptions = {
-    selectable: true,
     selectConstraint: "businessHours",
     selectOverlap: currentUserAdmin,
     select: (selInfo) => {
@@ -146,11 +156,19 @@ $(document).ready(() => {
       };
       $('#tmpEventStartDisplay').html(buildDateString(selInfo.start))
       $('#tmpEventEndDisplay').html(buildDateString(selInfo.end))
+    },
+    editable: currentUserAdmin,
+    eventResizableFromStart: true,
+    eventOverlap: false,
+    eventConstraint: "businessHours",
+    eventDrop: updateEventAjax,
+    eventResize: updateEventAjax,
+    validRange: currentUserAdmin ? {} : function(nowDate) {
+      return { start: nowDate };
     }
   };
 <% else %>
   const visitor_options = {
-    selectable: true,
     select: (selInfo) => {
       alert('Tienes que iniciar sesión para reservar.');
     },
@@ -167,6 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
     nowIndicator: true,
     eventTextColor: 'white',
     eventBackgroundColor: 'rgba(68, 93, 252, .77)',
+    selectable: true,
     slotMinTime: "06:00:00",
     slotMaxTime: "22:00:00",
     businessHours: bhours,

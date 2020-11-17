@@ -59,8 +59,8 @@ RSpec.describe Reservation, type: :model do
     )
 
     res = build(:reservation,
-                start_time: future_monday.at_noon,
-                end_time: future_monday.at_noon + 8.hour, # Ends at 20:00
+                start_time: future_monday.at_noon + 5.hours, # 17:00
+                end_time: future_monday.at_noon + 6.hours, # 18:00
                 equipment: equipment,
                 user: user
     )
@@ -83,8 +83,8 @@ RSpec.describe Reservation, type: :model do
     )
 
     res = build(:reservation,
-                start_time: future_monday.at_noon + 10.hour, # 22:00
-                end_time: future_monday.at_end_of_day + 4.hour, # Tuesday, 3:59
+                start_time: future_monday.at_end_of_day - 1.hour, # Monday, 22:59
+                end_time: future_monday.at_end_of_day + 1.hour, # Tuesday, 0:59
                 equipment: equipment,
                 user: user)
 
