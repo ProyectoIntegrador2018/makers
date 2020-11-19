@@ -99,6 +99,16 @@ es:
               past: 'La reservación no puede estar en el pasado.'
               start_time: 'La hora de terminación no puede ser antes que la hora de inicio.'
               overlapping: 'La reservación traslapa con otra reservación.'
+              max_usage: 'El equipo necesita un tiempo de descanso después de uso continuo.'
+  models:
+      reservations:
+        attributes:
+          status:
+            one: 'Status'
+            confirmed: 'Confirmada'
+            rejected: 'Rechazada'
+            pending: 'puesta en Pendiente'
+            cancelled: 'Cancelada'
     notices:
       equipment:
         create: "El equipo fue creado exitosamente"
@@ -108,7 +118,7 @@ es:
         create: "El espacio de laboratorio fue creado exitosamente"
         update: "El espacio de laboratorio fue actualizado exitosamente"
         destroy: "El espacio de laboratorio fue borrado exitosamente"
-        admin: "You must be a lab admin to access this section"
+        admin: "Necesitas ser admin de laboratorio para accesar a esta seccion"
       lab:
         create: "Laboratorio creado exitosamente"
         update: "Laboratorio actualizado exitosamente"
