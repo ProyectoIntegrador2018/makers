@@ -28,7 +28,6 @@
 #
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
-
 en:
   breadcrumbs:
     home: 'Home'
@@ -39,6 +38,7 @@ en:
       index: 'Lab Spaces'
     equipment:
       index: 'Equipment list'
+
   activerecord:
     errors:
       messages:
@@ -71,7 +71,7 @@ en:
               past: 'Cannot reserve a space in the past.'
               start_time: 'End time cannot be before start time.'
               overlapping: 'Reservation overlaps with another one.'
-    models:
+      models:
       reservations:
         attributes:
           status:
@@ -80,6 +80,24 @@ en:
             rejected: 'Rejected'
             pending: 'Pending'
             cancelled: 'Cancelled'
+  notices:
+    equipment:
+      create: "The equipment was successfully created"
+      update: "The equipment was successfully updated"
+      destroy: "The equipment was successfully deleted"
+    lab_space:
+      create: "The lab space was successfully created"
+      update: "The lab space was successfully updated"
+      destroy: "The lab space was successfully deleted"
+      admin: "You must be a lab admin to access this section"
+    lab:
+      create: "Lab successfully created"
+      update: "Lab successfully updated"
+      destroy: "Lab successfully deleted"
+    reservation:
+      create: "Reservation successfully created"
+      update: "Reservation successfully updated"
+      destroy: "Reservation successfully deleted"
   administrate:
     actions:
       show_resource: "%{name}"

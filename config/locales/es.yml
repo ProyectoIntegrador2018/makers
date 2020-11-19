@@ -1,7 +1,7 @@
 # Additional translations at http://github.com/plataformatec/devise/wiki/I18n
 
 es:
-  breadcrumbs:
+   breadcrumbs:
     home: 'Inicio'
     profile: 'Perfil'
     labs:
@@ -10,7 +10,6 @@ es:
       index: 'Espacios de Laboratorio'
     equipment:
       index: 'Lista de equipos'
-
   errors:
     messages:
       expired: "ha expirado, por favor pide uno nuevo"
@@ -101,7 +100,7 @@ es:
               start_time: 'La hora de terminación no puede ser antes que la hora de inicio.'
               overlapping: 'La reservación traslapa con otra reservación.'
               max_usage: 'El equipo necesita un tiempo de descanso después de uso continuo.'
-    models:
+  models:
       reservations:
         attributes:
           status:
@@ -110,3 +109,21 @@ es:
             rejected: 'Rechazada'
             pending: 'puesta en Pendiente'
             cancelled: 'Cancelada'
+    notices:
+      equipment:
+        create: "El equipo fue creado exitosamente"
+        update: "El equipo fue actualizado exitosamente"
+        destroy: "El equipo fue borrado exitosamente"
+      lab_space:
+        create: "El espacio de laboratorio fue creado exitosamente"
+        update: "El espacio de laboratorio fue actualizado exitosamente"
+        destroy: "El espacio de laboratorio fue borrado exitosamente"
+        admin: "Necesitas ser admin de laboratorio para accesar a esta seccion"
+      lab:
+        create: "Laboratorio creado exitosamente"
+        update: "Laboratorio actualizado exitosamente"
+        destroy: "Laboratorio borrado exitosamente"
+      reservation:
+        create: "La reservacion fue creada exitosamente"
+        update: "La reservacion fue actualizada exitosamente"
+        destroy: "La reservacion fue borrada exitosamente"
