@@ -4,7 +4,15 @@
   <h1 class="mt-0 displayInBlock"><%= @equipment.name %></h1> <%= link_to 'Editar', edit_admin_equipment_path(@equipment), class: 'btn highlight small editMoveBtn' if policy(@equipment).update? %>
   <section class="Overview">
     <div class="row">
+
       <div class="col">
+        <div class="row">
+          <section class="equipment-image">
+              <%= image_tag @equipment.image,:style=>"max-height: 300px;" unless @equipment.image.empty? %>
+          </section>
+        </div>
+      </div>
+      <div class="col offset-1">
         <section class="Detalles">
           <h2 class="mb-3">Detalles</h2>
           <div class="section-body">
@@ -35,13 +43,6 @@
             </div>
           </div>
         </section>
-      </div>
-      <div class="col offset-1">
-        <div class="row">
-          <section class="equipment-image">
-              <%= image_tag @equipment.image unless @equipment.image.empty? %>
-          </section>
-        </div>
       </div>
     </div>
     <div class="row">
