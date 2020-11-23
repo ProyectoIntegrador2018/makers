@@ -24,12 +24,6 @@ module Admin
       redirect_to admin_reservations_path
     end
 
-    def complete
-      reservation = Reservation.find_by_id(params[:reservation_id])
-      reservation.update_attributes(:status=>"complete")
-      redirect_to admin_reservations_path
-    end
-
     def reject
       reservation = Reservation.find_by_id(params[:reservation_id])
       reservation.update_attributes(:status=>"rejected")

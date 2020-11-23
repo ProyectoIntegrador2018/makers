@@ -2,11 +2,6 @@ Rails.application.routes.draw do
   namespace :admin do
       resources :labs
       resources :lab_spaces
-      resources :equipment do
-        member do
-          get 'hide'
-        end
-      end
       resources :reservations do
         get 'confirm'
         get 'complete'

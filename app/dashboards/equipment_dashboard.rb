@@ -15,13 +15,11 @@ class EquipmentDashboard < Administrate::BaseDashboard
     name: Field::String,
     description: Field::Text,
     image: Field::String,
-    #image: Field::Carrierwave.with_options(remove: true,),
     created_at: Field::DateTime,
     reservations: Field::NestedHasMany,
     updated_at: Field::DateTime,
     technical_description: Field::Text,
     upcoming_reservations: Field::Number,
-    #auto_confirm: Field::Boolean
   }.freeze
 
   # COLLECTION_ATTRIBUTES
