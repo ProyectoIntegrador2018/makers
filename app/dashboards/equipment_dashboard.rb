@@ -22,6 +22,7 @@ class EquipmentDashboard < Administrate::BaseDashboard
     max_usage: Field::Number,
     rest_time: Field::Number,
     upcoming_reservations: Field::Number,
+    auto_confirm: Field::Boolean
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -53,6 +54,7 @@ class EquipmentDashboard < Administrate::BaseDashboard
     :lab_space,
     :created_at,
     :updated_at,
+    :auto_confirm
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -69,6 +71,7 @@ class EquipmentDashboard < Administrate::BaseDashboard
     :max_usage,
     :rest_time,
     :available_hours,
+    :auto_confirm
   ].freeze
 
   # Overwrite this method to customize how equipment are displayed

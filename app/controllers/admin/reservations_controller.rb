@@ -17,5 +17,23 @@ module Admin
 
     # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
     # for more information
+
+    def confirm
+      reservation = Reservation.find_by_id(params[:reservation_id])
+      reservation.update_attributes(:status=>"confirmed")
+      redirect_to admin_reservations_path
+    end
+
+    def complete
+      reservation = Reservation.find_by_id(params[:reservation_id])
+      reservation.update_attributes(:status=>"complete")
+      redirect_to admin_reservations_path
+    end
+
+    def reject
+      reservation = Reservation.find_by_id(params[:reservation_id])
+      reservation.update_attributes(:status=>"rejected")
+      redirect_to admin_reservations_path
+    end
   end
 end

@@ -39,7 +39,7 @@ lab_space_admin.save!
 
  ## User
 
- test_user = User.create!(
+test_user = User.create!(
    email: "test1@itesm.mx",
    password: "test1234",
    given_name: "Test",

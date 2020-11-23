@@ -6,15 +6,14 @@
 #
 default: &default
   adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: localhost
+  username: bayt
+  password: 
+  pool: 5
   timeout: 5000
+  port: 5432
 
 development:
   <<: *default
+  database: makers
 
-test:
-  <<: *default
-
-production:
-  <<: *default

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_11_042609) do
+ActiveRecord::Schema.define(version: 2020_11_23_074845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 2020_11_11_042609) do
     t.integer "max_usage"
     t.integer "rest_time"
     t.integer "reservations_count", default: 0
+    t.boolean "auto_confirm", default: false
     t.index ["lab_space_id"], name: "index_equipment_on_lab_space_id"
   end
 

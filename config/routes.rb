@@ -3,7 +3,11 @@ Rails.application.routes.draw do
       resources :labs
       resources :lab_spaces
       resources :equipment
-      resources :reservations
+      resources :reservations do
+        get 'confirm'
+        get 'complete'
+        get 'reject'
+      end
       resources :users
       resources :lab_administrations
 

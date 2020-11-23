@@ -42,6 +42,9 @@ class ReservationsController < ApplicationController
 
     respond_to do |format|
       if @reservation.save
+        if @reservation.equipment.auto_confirm == true
+          @reservation.update_column(:status,"confirmed")
+        end
         format.html { redirect_to @reservation, notice: 'Reservation was successfully created.' }
         format.json { render :show, status: :created, location: @reservation }
       else
