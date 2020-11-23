@@ -108,7 +108,7 @@ class Reservation < ApplicationRecord
     statuses = Reservation.statuses
     start_time = (current_time.to_time - max_usage.hours).to_datetime
     active_reservations = equipment.reservations
-                                    .where('start_time BETWEEN ? AND ?', start_time, current_time)
+                                    .where('start_time >= ? AND start_time < ?', start_time, current_time)
                                     .where('status = ?', statuses[:confirmed])
     used_time = active_reservations.sum { |res| ((res.end_time - res.start_time) / 3600) }
     used_time
@@ -117,7 +117,7 @@ class Reservation < ApplicationRecord
   def equipment_rules
     # Checks equiment rules and reject the creation in case it breaks them
     duration = ((self.end_time - self.start_time) / 3600)
-    used_time = max_usage_time(self.start_time, self.equipment.max_usage)
+    used_time = max_usage_time(self.start_time, self.equipment.rest_time)
     if ((duration + used_time) > self.equipment.max_usage.to_f)
       errors.add(:end_time, I18n.t('activerecord.errors.models.reservation.attributes.date.max_usage'))
     end
