@@ -108,8 +108,8 @@ function registerEvent(eventData, cb) {
 }
 
 // CONSTANTS
-const currentUserAdmin = <%= current_user_admin? %>; 
-const currentUserId = <%= user_signed_in? ? current_user.id : nil %>;
+const currentUserAdmin = <%= current_user_admin? %>;
+const currentUserId = <%= user_signed_in? ? current_user.id : 0 %>;
 const eqid = '<%= equipment.id %>';
 const reservations = <%= raw(reservations.to_json) %>;
 const available_hours = <%= raw(equipment.available_hours.to_json) %>;
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let dateString = buildDateString(startDate) + " - ";
         dateString += buildDateString(endDate, startDate.toDateString() == endDate.toDateString());
         $('#detailDateField').html(dateString);
-        
+
         // User
         $('#detailUserField').html(removeStatusFromTitle(info.event.title));
 
@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
           $("#acceptBtn").hide();
           $("#rejectBtn").hide();
         }
-        
+
         if (res.user_id == currentUserId || currentUserAdmin) {
           const cancelBtn = $("#cancelBtn").show();
           cancelBtn.off('click');
