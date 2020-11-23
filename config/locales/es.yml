@@ -1,7 +1,7 @@
 # Additional translations at http://github.com/plataformatec/devise/wiki/I18n
 
 es:
-   breadcrumbs:
+  breadcrumbs:
     home: 'Inicio'
     profile: 'Perfil'
     labs:
@@ -101,14 +101,14 @@ es:
               overlapping: 'La reservación traslapa con otra reservación.'
               max_usage: 'El equipo necesita un tiempo de descanso después de uso continuo.'
   models:
-      reservations:
-        attributes:
-          status:
-            one: 'Status'
-            confirmed: 'Confirmada'
-            rejected: 'Rechazada'
-            pending: 'puesta en Pendiente'
-            cancelled: 'Cancelada'
+    reservations:
+      attributes:
+        status:
+          one: 'Status'
+          confirmed: 'Confirmada'
+          rejected: 'Rechazada'
+          pending: 'puesta en Pendiente'
+          cancelled: 'Cancelada'
     notices:
       equipment:
         create: "El equipo fue creado exitosamente"
