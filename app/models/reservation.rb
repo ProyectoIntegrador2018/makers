@@ -16,6 +16,11 @@ class Reservation < ApplicationRecord
   after_save :rest_time_reservation, unless: Proc.new { self.status == "blocked"}
   after_save :check_status, if: -> { previous_changes.include?(:status) }
 
+  def before_save
+  if @reservation.equipment.auto_confirm == true
+    @reservation.update_column(:status,"confirmed")
+  end
+
   def available_at(st, et, day)
     slots = equipment.available_hours
                                .where(day_of_week: day)

@@ -80,18 +80,9 @@ to display a collection of resources in an HTML table.
           ) %></td>
         <% end %>
 
-        <% if resource.status == "confirmed" %>
-          <td><%= link_to(
-            "Complete",
-            admin_reservation_complete_path(resource),
-            class: "action-edit",:style=>"color:blue;"
-          ) %></td>
-        <% end %>
-
-
         <% if resource.status == "pending" %>
           <td><%= link_to(
-            "Rejected",
+            "Reject",
             admin_reservation_reject_path(resource),
             class: "action-edit",:style=>"color:pink;"
           ) %></td>
@@ -118,5 +109,3 @@ to display a collection of resources in an HTML table.
     <% end %>
   </tbody>
 </table>
-
- 
