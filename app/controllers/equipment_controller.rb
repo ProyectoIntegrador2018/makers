@@ -14,6 +14,10 @@ class EquipmentController < ApplicationController
   # GET /lab/1/lab_spaces/1/equipment/1
   # GET /lab/1/lab_spaces/1/equipment/1.json
   def show
+    add_breadcrumb I18n.t("breadcrumbs.labs.index"), :labs_path
+    add_breadcrumb @lab_space.lab.name, lab_path(@lab_space.lab)
+    add_breadcrumb @lab_space.name, :lab_lab_space_path
+    add_breadcrumb @equipment.name, :lab_lab_space_equipment_path
     redirect_to root_path if @equipment.hidden
   end
 
