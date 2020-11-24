@@ -54,7 +54,7 @@ $ heroku run rake db:migrate
 ```
 
 ### Environment Variables
-Makersprogram was initially setup with Sendgrid as email provider, if you want to use the same provider, just make sure to include the environment variables `SENDGRID_USERNAME` and `SENDGRID_PSW` in your production environment.
+Makersprogram was setup using Outlooks SMTP to send email, if you want to use the same provider, just make sure to include the environment variables `TEC_USERNAME` and `TEC_PASSWORD` in your production environment.
 <br>
 If you want to review the mailer configuration or wish to change the provider head to [production.rb](config/environments/production.rb) and update `config.action_mailer.smtp_settings` to match your own configuration.
 
