@@ -108,7 +108,7 @@ es:
             confirmed: 'Confirmada'
             rejected: 'Rechazada'
             pending: 'puesta en Pendiente'
-        cancelled: 'Cancelada'
+            cancelled: 'Cancelada'
     notices:
       equipment:
         create: "El equipo fue creado exitosamente"
