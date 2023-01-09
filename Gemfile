@@ -92,7 +92,7 @@ gem 'groupdate'
 gem 'breadcrumbs_on_rails'
 
 # Used to inline svg files in HTML
-gem 'inline_svg', '~> 1.7.1'
+gem 'inline_svg', '~> 1.7.2'
 
 # Used to show popovers from Bootstrap
 gem 'popper_js', '~> 1.14.5'
